@@ -871,6 +871,409 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 @media print{.release-version-btn,.release-version-modal,.beta-live,.beta-system-jump,.beta-build-strip{display:none!important}}
 </style>
 
+
+<style id="beta-01-header-fix">
+/* Beta 0.1 header correction:
+   version is shown only in Version Info dialog;
+   mobile brand + controls share one compact header row with no overlap. */
+.release-web-version,.release-game-version{display:none!important}
+.release-version-panel{max-width:460px!important}
+.release-version-rows{margin-top:8px!important}
+.release-version-rows .release-help-step{grid-template-columns:minmax(120px,.8fr) minmax(0,1fr)!important;align-items:center!important}
+
+@media screen and (max-width:620px){
+  .top{
+    padding:0!important;
+    overflow:visible!important;
+  }
+  .brand{
+    display:grid!important;
+    grid-template-columns:44px minmax(82px,1fr) repeat(3,minmax(38px,auto))!important;
+    grid-template-rows:22px 22px!important;
+    grid-template-areas:none!important;
+    column-gap:4px!important;
+    row-gap:4px!important;
+    align-items:center!important;
+    min-height:60px!important;
+    padding:7px 7px 6px!important;
+  }
+  .brand:before,.brand:after{display:none!important}
+  .brand-crest{
+    display:block!important;
+    grid-column:1!important;
+    grid-row:1 / 3!important;
+    width:42px!important;
+    height:42px!important;
+    border-radius:11px!important;
+    align-self:center!important;
+  }
+  .brand-stack{
+    grid-column:2!important;
+    grid-row:1 / 3!important;
+    min-width:0!important;
+    width:auto!important;
+    overflow:hidden!important;
+    align-self:center!important;
+  }
+  .brand-lab{
+    display:block!important;
+    font-size:6.3px!important;
+    line-height:1.05!important;
+    letter-spacing:.075em!important;
+    margin:0 0 2px!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  .brand-stack h1{
+    font-size:15px!important;
+    line-height:1.02!important;
+    margin:0!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  .brand-function{
+    display:block!important;
+    font-size:6.5px!important;
+    line-height:1.05!important;
+    margin-top:3px!important;
+    letter-spacing:.065em!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+
+  .release-help-btn,.release-report-btn,.release-version-btn{
+    position:static!important;
+    transform:none!important;
+    margin:0!important;
+    min-width:0!important;
+    width:auto!important;
+    min-height:22px!important;
+    height:22px!important;
+    padding:2px 5px!important;
+    border-radius:7px!important;
+    font-size:6.8px!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+    align-self:stretch!important;
+    justify-self:stretch!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+  }
+  .release-help-btn{grid-column:3!important;grid-row:1!important}
+  .release-report-btn{grid-column:4!important;grid-row:1!important}
+  .release-version-btn{grid-column:5!important;grid-row:1!important}
+
+  .language-switch{
+    position:static!important;
+    transform:none!important;
+    margin:0!important;
+    grid-column:3 / 6!important;
+    grid-row:2!important;
+    width:100%!important;
+    height:22px!important;
+    min-height:22px!important;
+    padding:1px 3px!important;
+    border-radius:999px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    align-self:stretch!important;
+    justify-self:stretch!important;
+  }
+  .lang-btn{
+    min-width:0!important;
+    height:18px!important;
+    padding:2px 7px!important;
+    font-size:6.8px!important;
+    line-height:1!important;
+  }
+  .lang-divider{font-size:6.5px!important;margin:0 1px!important}
+
+  .steps{
+    position:relative!important;
+    z-index:2!important;
+    margin:0!important;
+    padding:6px 7px 7px!important;
+    gap:5px!important;
+    overflow-x:auto!important;
+    background:rgba(4,13,19,.96)!important;
+    border-top:1px solid rgba(109,157,179,.10)!important;
+  }
+  .step{
+    min-width:0!important;
+    width:auto!important;
+    flex:1 0 calc(25% - 4px)!important;
+    height:42px!important;
+    min-height:42px!important;
+    padding:5px 3px!important;
+    border-radius:9px!important;
+    font-size:8px!important;
+    line-height:1.15!important;
+    white-space:normal!important;
+    text-align:center!important;
+  }
+}
+
+@media screen and (max-width:360px){
+  .brand{
+    grid-template-columns:40px minmax(70px,1fr) repeat(3,minmax(35px,auto))!important;
+    column-gap:3px!important;
+    padding-left:5px!important;
+    padding-right:5px!important;
+  }
+  .brand-crest{width:38px!important;height:38px!important}
+  .brand-stack h1{font-size:13.5px!important}
+  .brand-lab{font-size:5.8px!important}
+  .brand-function{font-size:5.8px!important}
+  .release-help-btn,.release-report-btn,.release-version-btn{font-size:6.2px!important;padding:2px 3px!important}
+  .lang-btn{font-size:6.2px!important;padding:2px 5px!important}
+  .steps{gap:3px!important;padding-left:5px!important;padding-right:5px!important}
+  .step{font-size:7.3px!important}
+}
+</style>
+
+
+<style id="beta-01-brand-height-fix">
+/* Header height follows the logo height; text/controls must fit inside it instead of expanding it. */
+.brand{
+  min-height:54px!important;
+  padding-top:5px!important;
+  padding-bottom:5px!important;
+  align-items:center!important;
+}
+.brand-crest{
+  width:46px!important;
+  height:46px!important;
+  align-self:center!important;
+}
+.brand-stack{
+  align-self:center!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  min-height:46px!important;
+}
+.brand-lab{margin:0 0 2px!important;line-height:1!important}
+.brand-stack h1{margin:0!important;line-height:1!important}
+.brand-function{margin-top:3px!important;line-height:1!important}
+.release-help-btn,.release-report-btn,.release-version-btn,.language-switch{
+  align-self:center!important;
+}
+
+/* Keep desktop controls within the same visual height as the logo. */
+@media screen and (min-width:621px){
+  .brand{
+    min-height:56px!important;
+    padding-top:5px!important;
+    padding-bottom:5px!important;
+  }
+  .brand-crest{width:46px!important;height:46px!important}
+  .brand-stack{min-height:46px!important}
+  .release-help-btn,.release-report-btn,.release-version-btn{
+    min-height:32px!important;
+    padding-top:6px!important;
+    padding-bottom:6px!important;
+  }
+  .language-switch{min-height:32px!important}
+}
+
+/* Mobile: logo + whole right control stack must occupy the same overall height. */
+@media screen and (max-width:620px){
+  .top{padding-bottom:0!important}
+  .brand{
+    min-height:50px!important;
+    height:50px!important;
+    grid-template-columns:40px minmax(76px,1fr) repeat(3,minmax(34px,auto))!important;
+    grid-template-rows:21px 21px!important;
+    padding:4px 5px!important;
+    row-gap:2px!important;
+    column-gap:3px!important;
+  }
+  .brand-crest{
+    width:40px!important;
+    height:40px!important;
+    border-radius:10px!important;
+  }
+  .brand-stack{
+    min-height:40px!important;
+    height:40px!important;
+    justify-content:center!important;
+  }
+  .brand-lab{font-size:5.8px!important;margin-bottom:2px!important}
+  .brand-stack h1{font-size:13.5px!important;line-height:1!important}
+  .brand-function{font-size:5.8px!important;margin-top:2px!important;line-height:1!important}
+  .release-help-btn,.release-report-btn,.release-version-btn{
+    min-height:20px!important;
+    height:20px!important;
+    padding:1px 3px!important;
+    font-size:6.2px!important;
+  }
+  .language-switch{
+    min-height:20px!important;
+    height:20px!important;
+    padding:1px 2px!important;
+  }
+  .lang-btn{
+    height:16px!important;
+    min-height:16px!important;
+    padding:1px 5px!important;
+    font-size:6.2px!important;
+  }
+  .steps{
+    margin-top:0!important;
+  }
+}
+
+@media screen and (max-width:360px){
+  .brand{
+    min-height:46px!important;
+    height:46px!important;
+    grid-template-columns:36px minmax(66px,1fr) repeat(3,minmax(31px,auto))!important;
+    grid-template-rows:19px 19px!important;
+    padding:4px!important;
+  }
+  .brand-crest{width:36px!important;height:36px!important}
+  .brand-stack{height:36px!important;min-height:36px!important}
+  .brand-stack h1{font-size:12.5px!important}
+  .brand-lab,.brand-function{font-size:5.3px!important}
+  .release-help-btn,.release-report-btn,.release-version-btn{height:18px!important;min-height:18px!important;font-size:5.8px!important}
+  .language-switch{height:18px!important;min-height:18px!important}
+  .lang-btn{height:14px!important;min-height:14px!important;font-size:5.8px!important}
+}
+</style>
+
+
+<style id="beta-01-header-real-compact">
+/* Real compact header: outer .top padding was the remaining source of excess height. */
+.top{
+  padding:4px 8px 6px!important;
+  margin-bottom:10px!important;
+}
+.brand{
+  height:52px!important;
+  min-height:52px!important;
+  padding:1px 4px!important;
+  gap:10px!important;
+  overflow:visible!important;
+}
+.brand-crest{
+  width:50px!important;
+  height:50px!important;
+  flex:0 0 50px!important;
+  border-radius:13px!important;
+}
+.brand-stack{
+  height:50px!important;
+  min-height:50px!important;
+  justify-content:center!important;
+}
+.brand-lab{
+  font-size:7px!important;
+  line-height:1!important;
+  margin:0 0 3px!important;
+}
+.brand-stack h1{
+  font-size:24px!important;
+  line-height:.95!important;
+  margin:0!important;
+}
+.brand-function{
+  font-size:7.5px!important;
+  line-height:1!important;
+  margin:4px 0 0!important;
+}
+.release-help-btn,.release-report-btn,.release-version-btn{
+  min-height:30px!important;
+  height:30px!important;
+  padding:5px 11px!important;
+  font-size:10px!important;
+}
+.language-switch{
+  min-height:30px!important;
+  height:30px!important;
+  padding:2px 5px!important;
+}
+.lang-btn{
+  min-height:24px!important;
+  height:24px!important;
+  padding:3px 8px!important;
+  font-size:9px!important;
+}
+
+/* Navigation remains its own row and no longer adds padding above the brand. */
+.steps{
+  margin-top:4px!important;
+  padding-top:5px!important;
+  padding-bottom:0!important;
+}
+.step{
+  min-height:42px!important;
+  height:42px!important;
+  padding:6px 8px!important;
+}
+
+@media screen and (max-width:620px){
+  .top{
+    padding:3px 4px 5px!important;
+    margin-bottom:7px!important;
+  }
+  .brand{
+    height:44px!important;
+    min-height:44px!important;
+    padding:1px 2px!important;
+    grid-template-columns:38px minmax(70px,1fr) repeat(3,minmax(32px,auto))!important;
+    grid-template-rows:19px 19px!important;
+    gap:2px 3px!important;
+  }
+  .brand-crest{
+    width:38px!important;
+    height:38px!important;
+    flex-basis:38px!important;
+    border-radius:10px!important;
+  }
+  .brand-stack{
+    height:38px!important;
+    min-height:38px!important;
+  }
+  .brand-lab{font-size:5.2px!important;margin-bottom:2px!important}
+  .brand-stack h1{font-size:12.5px!important;line-height:.96!important}
+  .brand-function{font-size:5.2px!important;margin-top:2px!important}
+  .release-help-btn,.release-report-btn,.release-version-btn{
+    height:18px!important;
+    min-height:18px!important;
+    padding:1px 3px!important;
+    font-size:5.8px!important;
+    border-radius:6px!important;
+  }
+  .language-switch{
+    height:18px!important;
+    min-height:18px!important;
+    padding:1px 2px!important;
+  }
+  .lang-btn{
+    height:14px!important;
+    min-height:14px!important;
+    padding:1px 4px!important;
+    font-size:5.8px!important;
+  }
+  .steps{
+    margin-top:3px!important;
+    padding:4px 2px 0!important;
+    gap:3px!important;
+  }
+  .step{
+    height:36px!important;
+    min-height:36px!important;
+    padding:4px 2px!important;
+    font-size:7.2px!important;
+  }
+}
+</style>
+
 </head>
 <body>
 <script>
@@ -890,12 +1293,10 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <div class="app">
 <header class="top">
   <div class="brand">
-    <div class="brand-crest" aria-hidden="true"><img src="assets/img/0404e1bb61043bbc.png" alt=""></div><div class="brand-stack">
+    <div class="brand-crest" aria-hidden="true"><img src="data:image/png;base64,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" alt=""></div><div class="brand-stack">
       <span class="brand-lab">APviEwer 建置實驗室</span>
       <h1>Tower &amp; Swords</h1>
       <span class="brand-function">Build &amp; Damage Analysis</span>
-      <span class="release-web-version">模擬器版本：Beta 0.1</span>
-      <span class="release-game-version">適用遊戲版本：V.2.554</span>
     </div>
     <button type="button" class="release-help-btn no-print" aria-haspopup="dialog" aria-expanded="false">操作說明</button>
     <button type="button" class="release-report-btn no-print" aria-haspopup="dialog" aria-expanded="false">問題回報</button>
@@ -942,16 +1343,12 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </div>
 
 <div class="release-help-modal release-version-modal no-print" role="dialog" aria-modal="true" aria-label="版本資訊">
-  <div class="release-help-panel">
-    <div class="release-help-head"><h2>版本資訊</h2><button type="button" class="release-version-close release-help-close" aria-label="關閉">×</button></div>
-    <p class="release-help-intro"><strong>Tower &amp; Swords Build &amp; Damage Analysis</strong></p>
-    <div class="release-help-steps">
-      <div class="release-help-step"><strong>目前版本</strong><span>Beta 0.1</span></div>
-      <div class="release-help-step"><strong>適用遊戲版本</strong><span>V.2.554</span></div>
-      <div class="release-help-step"><strong>核心基準</strong><span>沿用 Release 1.x／DebugFix13 已驗證計算公式、資料規則、傷害模型與最佳化邏輯。</span></div>
-      <div class="release-help-step"><strong>Beta 0.1</strong><span>重構四頁 UX、桌面／手機流程、導航、即時結果與美術 UI；核心計算不變。</span></div>
+  <div class="release-help-panel release-version-panel">
+    <div class="release-help-head"><h2 id="releaseVersionTitle">版本資訊</h2><button type="button" class="release-version-close release-help-close" aria-label="關閉">×</button></div>
+    <div class="release-help-steps release-version-rows">
+      <div class="release-help-step"><strong id="releaseVersionSimulatorLabel">模擬器版本</strong><span>Beta 0.1</span></div>
+      <div class="release-help-step"><strong id="releaseVersionGameLabel">適用遊戲版本</strong><span>V.2.554</span></div>
     </div>
-    <div class="release-help-tip">待完整回歸測試全部通過後，版本再升級為 1.0。</div>
   </div>
 </div>
 
@@ -2902,25 +3299,31 @@ window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98df
       help:'Guide',report:'Issue Report',version:'Version Info',
       steps:['01 Character Setup','02 System Effects','03 Equipment','04 Analysis'],
       live:'LIVE RESULT',modeManual:'Manual Build',modeAuto:'Auto Optimize',
-      bkeys:['Character','Main ATK','Weapon Skill','CD','MP','System']
+      bkeys:['Character','Main ATK','Weapon Skill','CD','MP','System'],
+      versionTitle:'Version Info',simVersion:'Simulator Version',gameVersion:'Game Version'
     },
     ko:{
       help:'사용 안내',report:'문제 신고',version:'버전 정보',
       steps:['01 캐릭터 설정','02 시스템 효과','03 장비 설정','04 분석 리포트'],
       live:'실시간 결과',modeManual:'수동 빌드',modeAuto:'자동 최적화',
-      bkeys:['캐릭터','주무기 ATK','무기 스킬','CD','MP','시스템']
+      bkeys:['캐릭터','주무기 ATK','무기 스킬','CD','MP','시스템'],
+      versionTitle:'버전 정보',simVersion:'시뮬레이터 버전',gameVersion:'적용 게임 버전'
     },
     'zh-Hant':{
       help:'操作說明',report:'問題回報',version:'版本資訊',
       steps:['01 角色設定','02 系統效果','03 裝備配置','04 分析報告'],
       live:'即時結果',modeManual:'手動實裝',modeAuto:'自動最佳化',
-      bkeys:['角色','主武 ATK','武器技能','CD','MP','系統效果']
+      bkeys:['角色','主武 ATK','武器技能','CD','MP','系統效果'],
+      versionTitle:'版本資訊',simVersion:'模擬器版本',gameVersion:'適用遊戲版本'
     }
   };
   const BT=betaT[lang]||betaT['zh-Hant'];
   if($('.release-help-btn'))$('.release-help-btn').textContent=BT.help;
   if($('.release-report-btn'))$('.release-report-btn').textContent=BT.report;
   if(vBtn)vBtn.textContent=BT.version;
+  if($('#releaseVersionTitle'))$('#releaseVersionTitle').textContent=BT.versionTitle;
+  if($('#releaseVersionSimulatorLabel'))$('#releaseVersionSimulatorLabel').textContent=BT.simVersion;
+  if($('#releaseVersionGameLabel'))$('#releaseVersionGameLabel').textContent=BT.gameVersion;
   $$('.step').forEach((x,i)=>{if(BT.steps[i])x.textContent=BT.steps[i]});
   if($('.beta-live-label'))$('.beta-live-label').textContent=BT.live;
 
