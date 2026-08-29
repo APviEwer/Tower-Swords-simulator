@@ -1,10 +1,9 @@
 {
-  "release": "DebugFix23-DC-R2",
+  "release": "Web Release 1.0",
   "game_version": "V.2.554",
-  "index_size_bytes": 660483,
-  "index_sha256": "6b79dab70fd13dda79c912a6e96b2b358fe6d7889d544e5daa93178d9b0e5472",
-  "image_uri_occurrences_externalized": 197,
-  "unique_image_files": 182,
-  "external_image_bytes": 10350142,
-  "remaining_data_image_uris": 0
+  "html_size": 663566,
+  "script_blocks": 14,
+  "script_syntax_pass": true,
+  "missing_asset_refs": [],
+  "sha256_index": "9c167ef1c36f2eb5c424913663ca0718e1a983332d61b93f995406093760ab4d"
 }

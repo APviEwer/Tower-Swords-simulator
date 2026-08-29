@@ -2,8 +2,8 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Tower & Swords｜Build & Damage Analysis</title>
-<meta name="description" content="Tower & Swords Build & Damage Analysis｜APviEwer 建置實驗室">
+<title>Tower & Swords｜Build & Damage Analysis｜Web Release 1.0</title>
+<meta name="description" content="Tower & Swords Build & Damage Analysis｜Web Release 1.0｜APviEwer 建置實驗室">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#0b0f14">
 <meta property="og:type" content="website">
@@ -588,23 +588,24 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 }
 
 
+.release-web-version{display:inline-flex;align-items:center;width:max-content;margin-top:4px;padding:3px 8px;border:1px solid rgba(119,215,239,.34);border-radius:999px;background:rgba(119,215,239,.06);color:#9fd5e2;font-size:10px;letter-spacing:.06em;line-height:1.4}
 .release-game-version{display:inline-flex;align-items:center;width:max-content;margin-top:4px;padding:3px 8px;border:1px solid rgba(217,184,111,.38);border-radius:999px;background:rgba(217,184,111,.07);color:#d8c693;font-size:10px;letter-spacing:.06em;line-height:1.4}
-@media(max-width:620px){.release-game-version{font-size:9px;padding:2px 7px;margin-top:3px}}
+@media(max-width:620px){.release-web-version,.release-game-version{font-size:9px;padding:2px 7px;margin-top:3px}}
 </style>
 
 <style id="release-help-style">
 /* Release R1.1 — compact operation guide */
-.release-help-btn{appearance:none;border:1px solid rgba(217,184,111,.48);background:linear-gradient(180deg,rgba(32,43,51,.96),rgba(13,22,28,.96));color:#f1dfb4;border-radius:10px;padding:7px 11px;font:800 11px/1 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.04em;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,.2);white-space:nowrap}
-.release-help-btn:hover{border-color:rgba(119,215,239,.5);color:#fff}.release-help-btn:focus-visible{outline:2px solid #8fcfe0;outline-offset:2px}
+.release-help-btn,.release-report-btn{appearance:none;border:1px solid rgba(217,184,111,.48);background:linear-gradient(180deg,rgba(32,43,51,.96),rgba(13,22,28,.96));color:#f1dfb4;border-radius:10px;padding:7px 11px;font:800 11px/1 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.04em;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,.2);white-space:nowrap}
+.release-help-btn:hover,.release-report-btn:hover{border-color:rgba(119,215,239,.5);color:#fff}.release-help-btn:focus-visible,.release-report-btn:focus-visible{outline:2px solid #8fcfe0;outline-offset:2px}
 .release-help-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,7,10,.76);backdrop-filter:blur(5px)}
 .release-help-modal.open{display:flex}.release-help-panel{width:min(680px,100%);max-height:min(78vh,760px);overflow:auto;border:1px solid rgba(217,184,111,.38);border-radius:18px;background:linear-gradient(180deg,#16232b 0%,#0b141a 100%);box-shadow:0 28px 70px rgba(0,0,0,.5);padding:18px}
 .release-help-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
 .release-help-head h2{margin:0;color:#f3dfae;font-size:20px}.release-help-close{appearance:none;border:1px solid rgba(255,255,255,.14);background:#111d24;color:#dce8ed;width:34px;height:34px;border-radius:9px;font-size:20px;cursor:pointer}
 .release-help-intro{margin:14px 0 12px;color:#aebdc5;font-size:13px;line-height:1.7}.release-help-steps{display:grid;gap:9px}.release-help-step{padding:12px 13px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.025)}
 .release-help-step strong{display:block;color:#8fd2e3;font-size:13px;margin-bottom:4px}.release-help-step span{display:block;color:#d2dde2;font-size:12px;line-height:1.65}.release-help-tip{margin-top:12px;padding:10px 12px;border-left:3px solid #d9b86f;background:rgba(217,184,111,.07);color:#c8d3d8;font-size:11.5px;line-height:1.65}
-@media(max-width:620px){.release-help-btn{padding:6px 8px;font-size:10px}.release-help-modal{padding:10px}.release-help-panel{max-height:86vh;border-radius:14px;padding:14px}.release-help-head h2{font-size:17px}}
-@media(max-width:430px){.brand{grid-template-columns:minmax(0,1fr) auto auto!important}.release-help-btn{padding:6px 7px;font-size:9px}.language-switch{grid-column:auto!important}.brand-stack{grid-column:1!important}}
-@media print{.release-help-btn,.release-help-modal{display:none!important}}
+@media(max-width:620px){.release-help-btn,.release-report-btn{padding:6px 8px;font-size:10px}.release-help-modal{padding:10px}.release-help-panel{max-height:86vh;border-radius:14px;padding:14px}.release-help-head h2{font-size:17px}}
+@media(max-width:430px){.brand{grid-template-columns:minmax(0,1fr) auto auto auto!important}.release-help-btn,.release-report-btn{padding:6px 7px;font-size:9px}.language-switch{grid-column:auto!important}.brand-stack{grid-column:1!important}}
+@media print{.release-help-btn,.release-report-btn,.release-help-modal{display:none!important}}
 </style>
 
 </head>
@@ -630,9 +631,11 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
       <span class="brand-lab">APviEwer 建置實驗室</span>
       <h1>Tower &amp; Swords</h1>
       <span class="brand-function">Build &amp; Damage Analysis</span>
+      <span class="release-web-version">模擬器版本：Web Release 1.0</span>
       <span class="release-game-version">適用遊戲版本：V.2.554</span>
     </div>
     <button type="button" class="release-help-btn no-print" aria-haspopup="dialog" aria-expanded="false">操作說明</button>
+    <button type="button" class="release-report-btn no-print" aria-haspopup="dialog" aria-expanded="false">問題回報</button>
     <div class="language-switch no-print" role="group" aria-label="Language / 語言">
       <button type="button" class="lang-btn active" data-lang="zh-Hant" aria-pressed="true">繁中</button>
       <span class="lang-divider" aria-hidden="true">/</span>
@@ -657,6 +660,20 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
       <div class="release-help-step"><strong>4｜角色總覽與配裝報告</strong><span>確認目前技能、系統效果、裝備配置與最終傷害。這一頁適合用來檢查整體 Build。</span></div>
     </div>
     <div class="release-help-tip">提示：請盡量照遊戲面板顯示值輸入；不同裝置若曾儲存過不同設定，可先重置後再進行同條件比較。</div>
+  </div>
+</div>
+
+<div class="release-help-modal release-report-modal no-print" role="dialog" aria-modal="true" aria-label="問題回報">
+  <div class="release-help-panel">
+    <div class="release-help-head"><h2>問題回報</h2><button type="button" class="release-report-close release-help-close" aria-label="關閉">×</button></div>
+    <p class="release-help-intro">若發現模擬結果或操作異常，請在發布本模擬器的 Discord 頻道回報。為了方便快速重現問題，建議附上以下資訊。</p>
+    <div class="release-help-steps">
+      <div class="release-help-step"><strong>① 角色條件</strong><span>角色等級、主武 ATK、主武 Lv、武器技能。</span></div>
+      <div class="release-help-step"><strong>② 使用模式</strong><span>手動實裝或自動最佳化，以及暴擊率／冷卻條件。</span></div>
+      <div class="release-help-step"><strong>③ 問題內容</strong><span>預期結果、實際顯示結果，以及問題發生在哪一頁。</span></div>
+      <div class="release-help-step"><strong>④ 截圖與裝置</strong><span>請附畫面截圖，並註明手機／桌面與瀏覽器。</span></div>
+    </div>
+    <div class="release-help-tip">回報範例：Lv 500｜主武 ATK 178｜冰月斬｜手動實裝｜第 3 頁最終傷害顯示異常｜iPhone Safari｜附截圖。</div>
   </div>
 </div>
 
@@ -2523,6 +2540,24 @@ window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98df
   const openBtn=document.querySelector('.release-help-btn');
   const modal=document.querySelector('.release-help-modal');
   const closeBtn=document.querySelector('.release-help-close');
+  if(!openBtn||!modal||!closeBtn) return;
+  let previousFocus=null;
+  const open=()=>{previousFocus=document.activeElement;modal.classList.add('open');openBtn.setAttribute('aria-expanded','true');document.documentElement.style.overflow='hidden';closeBtn.focus();};
+  const close=()=>{modal.classList.remove('open');openBtn.setAttribute('aria-expanded','false');document.documentElement.style.overflow='';if(previousFocus&&previousFocus.focus) previousFocus.focus();};
+  openBtn.addEventListener('click',open);
+  closeBtn.addEventListener('click',close);
+  modal.addEventListener('click',e=>{if(e.target===modal) close();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open')) close();});
+})();
+</script>
+
+<script>
+/* Web Release 1.0 — issue report controller (presentation only). */
+(()=>{
+  'use strict';
+  const openBtn=document.querySelector('.release-report-btn');
+  const modal=document.querySelector('.release-report-modal');
+  const closeBtn=modal?.querySelector('.release-report-close');
   if(!openBtn||!modal||!closeBtn) return;
   let previousFocus=null;
   const open=()=>{previousFocus=document.activeElement;modal.classList.add('open');openBtn.setAttribute('aria-expanded','true');document.documentElement.style.overflow='hidden';closeBtn.focus();};

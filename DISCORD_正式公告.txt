@@ -1,0 +1,21 @@
+【Tower & Swords｜Build & Damage Analysis】
+APviEwer 建置實驗室
+
+Web Release 1.0 正式發布
+適用遊戲版本：V.2.554
+
+功能：
+・角色／主武／武器技能設定
+・人工製品／魔法樹／時裝／寵物系統效果
+・手動實裝與即時傷害
+・自動最佳化配裝
+・角色總覽與配裝報告
+・繁中／English／한국어
+・手機與桌面版支援
+
+模擬器網址：
+【請在這裡貼上你的 GitHub Pages 網址】
+
+使用前請先確認角色與遊戲內數值一致。若發現異常，可使用網頁右上角「問題回報」查看建議回報格式。
+
+Copyright © APviEwer. All Rights Reserved.
