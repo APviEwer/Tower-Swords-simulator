@@ -2850,81 +2850,115 @@ function legacyMakeAutoEquipment(){
    This prevents Auto from returning lower damage than an already-valid
    player build under identical constraints. */
 
-function betaManualAutoCandidate({minCrit=0,minCooldown=0}={}){
+
+function betaEquipmentTotalsFromEq(eq){
+  const out={atk:0n,spell:0,crit:0,cooldown:0,mpReduce:0,skillLv:0,fire:0,ice:0,lightning:0,normal:0,items:[]};
+  for(const [gear,slots] of Object.entries(eq||{})){
+    for(const [slot,pair] of Object.entries(slots||{})){
+      if(!Array.isArray(pair)||!pair[0])continue;
+      const type=pair[0],value=Number(pair[1]||0);
+      out.items.push({gear,slot,type,value});
+      if(type==='ATK')out.atk+=BigInt(Math.max(0,Math.round(value)));
+      else if(type==='法術傷害')out.spell+=value;
+      else if(type==='暴擊率')out.crit+=value;
+      else if(type==='冷卻時間')out.cooldown+=value;
+      else if(type==='MP消耗降低')out.mpReduce+=value;
+      else if(type==='所有魔法等級')out.skillLv+=value;
+      else if(type==='火焰法術傷害')out.fire+=value;
+      else if(type==='冰系法術傷害')out.ice+=value;
+      else if(type==='閃電法術傷害')out.lightning+=value;
+      else if(type==='普通法術傷害')out.normal+=value;
+    }
+  }
+  return out;
+}
+
+function betaEvaluateEquipmentEq(eq,{minCrit=0,minCooldown=0}={}){
   const targetCrit=Math.max(0,Math.min(100,Number(minCrit||0)));
   const targetCd=Math.max(0,Math.min(100,Number(minCooldown||0)));
-  const dmg=manualDamageResult();
-  if(!dmg?.valid)return null;
+  const sys=systemSelectionSummary(),sk=activeSkill(),elemKey=skillElementKey(sk);
+  const t=betaEquipmentTotalsFromEq(eq);
 
-  const sys=systemSelectionSummary();
-  const mt=manualTotals();
-  const sk=activeSkill();
-  const elemKey=skillElementKey(sk);
+  const rawCrit=Number(sys.stats.crit||0)+t.crit;
+  const cd=Number(sys.stats.cooldown||0)+t.cooldown;
+  if(rawCrit+1e-9<targetCrit||cd+1e-9<targetCd)return null;
 
-  const crit=Math.min(100,Number(sys.stats.crit||0)+Number(mt.crit||0));
-  const cd=Number(sys.stats.cooldown||0)+Number(mt.cooldown||0);
-  if(crit+1e-9<targetCrit || cd+1e-9<targetCd)return null;
+  const baseSkill=weaponBaseSkillLv();
+  const skillLv=Math.max(1,Math.min(139,Math.round(baseSkill+Number(sys.stats.skillLv||0)+t.skillLv)));
+  const skillAtk=skillAtkAtLevel(sk.id,skillLv);
+  if(!Number.isFinite(skillAtk))return null;
 
-  const elem=Number(sys.stats[elemKey]||0)+Number(mt[elemKey]||0);
-  const spell=Number(sys.stats.spell||0)+Number(mt.spell||0);
-  const skillLv=dmg.skillLv;
+  const atkResult=effectiveAtkResult(t.atk);
+  if(!atkResult.valid)return null;
+
+  const elem=Number(sys.stats[elemKey]||0)+Number(t[elemKey]||0);
+  const spell=Number(sys.stats.spell||0)+t.spell;
   const critDamagePct=150+Number(sys.stats.critDamage||0);
+  const bossMultiplier=state.player?.boss?1+Number(sys.stats.boss||0)/100:1;
+  const otherMultiplier=manualOtherDamageMultiplier();
 
-  const eq={};
-  for(const sp of specs)eq[sp.name]={};
+  const nonCritDamage=Math.floor(
+    atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*bossMultiplier*otherMultiplier
+  );
+  const critDamage=Math.floor(nonCritDamage*(critDamagePct/100));
 
+  return {
+    status:'dynamic',crit:Math.min(100,rawCrit),rawCrit,cd,elem,spell,
+    critDamage,nonCritDamage,critDamagePct,skillLv,skillAtk,
+    effectiveAtk:atkResult.effectiveAtk,eq,totals:t
+  };
+}
+
+function betaManualEq(){
+  const eq={};for(const sp of specs)eq[sp.name]={};
   for(const [key,item] of Object.entries(state.manual.equipment||{})){
     if(!item?.type)continue;
     const [gear,rawSlot]=key.split('.');
     if(!eq[gear])continue;
     const slot=rawSlot?.startsWith('B')?`Basic${rawSlot.slice(1)}`:
                rawSlot?.startsWith('P')?`Plus${rawSlot.slice(1)}`:rawSlot;
-    const v=manualValue(item);
-    if(!v?.valid)continue;
-    eq[gear][slot]=[
-      item.type,
-      item.type==='ATK' ? Number(v.atk) : Number(v.num)
-    ];
+    const v=manualValue(item);if(!v?.valid)continue;
+    eq[gear][slot]=[item.type,item.type==='ATK'?Number(v.atk):Number(v.num)];
   }
+  return eq;
+}
 
-  return {
-    status:'dynamic',
-    source:'manual-valid-floor',
-    crit,
-    cd,
-    elem,
-    spell,
-    critDamage:dmg.crit,
-    nonCritDamage:dmg.nonCrit,
-    critDamagePct,
-    skillLv,
-    skillAtk:dmg.skillAtk,
-    effectiveAtk:dmg.effectiveAtk,
-    eq
-  };
+function betaManualAutoCandidate(args={}){
+  const eq=betaManualEq();
+  const r=betaEvaluateEquipmentEq(eq,args);
+  if(!r)return null;
+  r.source='manual-valid-floor';
+  return r;
 }
 
 function optimizeMax(args={}){
-  const fast=legacyOptimizeMax(args);
+  const legacyRaw=legacyOptimizeMax(args);
+  let legacyExact=null;
+  if(legacyRaw?.status==='dynamic'){
+    const legacyEq=legacyMakeAutoEquipment();
+    if(legacyEq){
+      legacyExact=betaEvaluateEquipmentEq(legacyEq,args);
+      if(legacyExact)legacyExact.source='legacy-exact';
+    }
+  }
+
   const manual=betaManualAutoCandidate(args);
 
-  /* Existing fast optimizer remains the primary automatic search.
-     If the player's legal manual build is stronger under identical targets,
-     it becomes the returned floor instead of allowing an inferior Auto result. */
-  if(manual && (
-      fast?.status!=='dynamic' ||
-      fast?.critDamage==null ||
-      Number(manual.critDamage)>Number(fast.critDamage)
-  )){
-    return manual;
-  }
-  return fast;
+  if(manual&&(!legacyExact||manual.critDamage>legacyExact.critDamage))return manual;
+  if(legacyExact)return legacyExact;
+  if(manual)return manual;
+
+  return {
+    status:'infeasible',
+    crit:Number(systemSelectionSummary().stats.crit||0),
+    cd:Number(systemSelectionSummary().stats.cooldown||0),
+    elem:null,spell:null,critDamage:null,eq:null,source:'none'
+  };
 }
 
 function makeAutoEquipment(){
   const r=optimizeMax(state.auto);
-  if(r?.source==='manual-valid-floor')return r.eq;
-  return legacyMakeAutoEquipment();
+  return r?.status==='dynamic'&&r.eq?r.eq:null;
 }
 
 function renderAutoBreakdown(r){
@@ -3227,17 +3261,18 @@ function manualDamageResult(){
 }
 function weaponBaseSkillLv(){return Math.min(139,Math.max(1,Math.floor(Number(state.weapon.equipmentLevel||0)/10)+1));}
 function autoEquipmentTotals(){
-  const r=optimizeMax(state.auto),eq=r.status==='dynamic'?makeAutoEquipment():null;
+  const r=optimizeMax(state.auto),eq=r.status==='dynamic'?r.eq:null;
+  const t=eq?betaEquipmentTotalsFromEq(eq):null;
   const out={available:!!eq,atk:0n,spell:0,crit:0,cooldown:0,mpReduce:0,skillLv:0,element:0,items:[],result:r};
-  if(!eq)return out;
-  for(const [gear,slots] of Object.entries(eq))for(const [slot,[type,value]] of Object.entries(slots)){
-    out.items.push({gear,slot,type,value:Number(value||0)});
-    if(type==='法術傷害')out.spell+=Number(value||0);
-    else if(type==='暴擊率')out.crit+=Number(value||0);
-    else if(type==='冷卻時間')out.cooldown+=Number(value||0);
-    else if(type==='所有魔法等級')out.skillLv+=Number(value||0);
-    else if(/法術傷害$/.test(type)&&type!=='法術傷害')out.element+=Number(value||0);
-  }
+  if(!t)return out;
+  out.atk=t.atk;
+  out.spell=t.spell;
+  out.crit=t.crit;
+  out.cooldown=t.cooldown;
+  out.mpReduce=t.mpReduce;
+  out.skillLv=t.skillLv;
+  out.element=t[skillElementKey(activeSkill())]||0;
+  out.items=t.items;
   return out;
 }
 function signedNumber(n,unit='%'){
@@ -3288,17 +3323,17 @@ function refreshReport(){
   $('#reportModeBadge').textContent=state.mode==='auto'?'目前模式：自動最佳化':'目前模式：手動實裝';
   $('#reportConditions').innerHTML=[reportCondition('角色 Lv',state.player.level),reportCondition('主武裝備 Lv',state.weapon.equipmentLevel),reportCondition('武器技能',`${sk.name} [ID ${sk.id}]`),reportCondition('技能元素',sk.element),reportCondition('暴擊條件',state.auto.minCrit?`≥ ${state.auto.minCrit}%`:'不限'),reportCondition('冷卻條件',state.auto.minCooldown?`≥ ${state.auto.minCooldown}%`:'不限')].join('');
   const atkResolved=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
-  const totals=[reportStat('最終 Skill Lv',`Lv ${roundStat(current.skillLv)}`,`武器基礎 ${baseSkill}＋系統＋裝備`),reportStat(`${sk.element}元素法傷`,plainNumber(current.element),`目前技能採用元素`),reportStat('法術傷害',plainNumber(current.spell)),reportStat('暴擊率',plainNumber(current.crit),`目前系統暴擊率已含角色初始 5%｜上限 100%`),reportStat('暴擊傷害',plainNumber(current.critDamage),`角色初始 150% 已計入`),reportStat('冷卻',plainNumber(current.cooldown)),reportStat('MP 減耗',plainNumber(current.mpReduce)),reportStat('系統 ATK %',plainNumber(sys.stats.atk),`另有固定 ATK +${roundStat(sys.stats.flatAtk)}`),reportStat('主武 ATK 解析',atkResolved.raw?formatGameBigInt(BigInt(atkResolved.raw)):'—',atkResolved.mode==='nativeExact'?'Native 精確':'目前解析模式'),reportStat('最終 ATK',manualDmg.valid?formatGameBigInt(BigInt(Math.max(0,Math.floor(manualDmg.effectiveAtk)))):'—',mt.atk===0n?'手動無 ATK 詞條時＝自動共用 ATK 核心':'已含手動裝備 ATK'),reportStat('裝備固定 ATK',state.mode==='manual'?formatGameBigInt(mt.atk):'0',state.mode==='manual'?'手動詞條合計':'自動最佳化目前不納入 ATK 詞條')];
+  const totals=[reportStat('最終 Skill Lv',`Lv ${roundStat(current.skillLv)}`,`武器基礎 ${baseSkill}＋系統＋裝備`),reportStat(`${sk.element}元素法傷`,plainNumber(current.element),`目前技能採用元素`),reportStat('法術傷害',plainNumber(current.spell)),reportStat('暴擊率',plainNumber(current.crit),`目前系統暴擊率已含角色初始 5%｜上限 100%`),reportStat('暴擊傷害',plainNumber(current.critDamage),`角色初始 150% 已計入`),reportStat('冷卻',plainNumber(current.cooldown)),reportStat('MP 減耗',plainNumber(current.mpReduce)),reportStat('系統 ATK %',plainNumber(sys.stats.atk),`另有固定 ATK +${roundStat(sys.stats.flatAtk)}`),reportStat('主武 ATK 解析',atkResolved.raw?formatGameBigInt(BigInt(atkResolved.raw)):'—',atkResolved.mode==='nativeExact'?'Native 精確':'目前解析模式'),reportStat('最終 ATK',state.mode==='auto'&&at.result?.effectiveAtk!=null?formatGameBigInt(BigInt(Math.max(0,Math.floor(at.result.effectiveAtk)))):manualDmg.valid?formatGameBigInt(BigInt(Math.max(0,Math.floor(manualDmg.effectiveAtk)))):'—',state.mode==='auto'?'已含自動裝備 ATK':'已含手動裝備 ATK'),reportStat('裝備固定 ATK',state.mode==='manual'?formatGameBigInt(mt.atk):formatGameBigInt(at.atk),state.mode==='manual'?'手動詞條合計':'自動詞條合計')];
   if(state.mode==='manual'&&manualDmg.valid){totals.push(reportStat('手動未暴擊傷害',formatDamageR(manualDmg.nonCrit),'依目前手動實裝即時計算'));totals.push(reportStat('手動最終暴擊傷害',formatDamageR(manualDmg.crit),'依目前暴擊傷害倍率計算'));}
   if(state.mode==='auto'&&at.result?.critDamage!=null)totals.push(reportStat('自動最佳化暴擊傷害',formatDamageR(at.result.critDamage),'固定目前角色／系統狀態，只最佳化裝備'));
   $('#reportTotals').innerHTML=totals.join('');
   const src=systemSourceStats();$('#reportSystemSources').innerHTML=Object.entries(src).map(([name,val])=>`<div class="source-row"><b>${name}</b><span>${escHtml(sourceSummaryText(val))}</span></div>`).join('');
-  const rows=[['裝備元素法傷',manualElem,at.available?at.element:null,'%'],['裝備法術傷害',mt.spell,at.available?at.spell:null,'%'],['裝備暴擊率',mt.crit,at.available?at.crit:null,'%'],['裝備冷卻',mt.cooldown,at.available?at.cooldown:null,'%'],['裝備所有魔法等級',mt.skillLv,at.available?at.skillLv:null,' Lv'],['最終 Skill Lv',manualFinal.skillLv,autoFinal?.skillLv??null,''],['目前技能元素總合',manualFinal.element,autoFinal?.element??null,'%'],['目前法術傷害總合',manualFinal.spell,autoFinal?.spell??null,'%'],['目前暴擊率總合',manualFinal.crit,autoFinal?.crit??null,'%'],['目前冷卻總合',manualFinal.cooldown,autoFinal?.cooldown??null,'%']];
+  const rows=[['裝備 ATK',Number(mt.atk),at.available?Number(at.atk):null,''],['裝備元素法傷',manualElem,at.available?at.element:null,'%'],['裝備法術傷害',mt.spell,at.available?at.spell:null,'%'],['裝備暴擊率',mt.crit,at.available?at.crit:null,'%'],['裝備冷卻',mt.cooldown,at.available?at.cooldown:null,'%'],['裝備所有魔法等級',mt.skillLv,at.available?at.skillLv:null,' Lv'],['最終 Skill Lv',manualFinal.skillLv,autoFinal?.skillLv??null,''],['目前技能元素總合',manualFinal.element,autoFinal?.element??null,'%'],['目前法術傷害總合',manualFinal.spell,autoFinal?.spell??null,'%'],['目前暴擊率總合',manualFinal.crit,autoFinal?.crit??null,'%'],['目前冷卻總合',manualFinal.cooldown,autoFinal?.cooldown??null,'%']];
   $('#reportCompareBody').innerHTML=rows.map(([name,m,a,u])=>{const diff=a===null?'—':signedNumber(Number(a)-Number(m),u);return `<tr><th>${escHtml(name)}</th><td>${plainNumber(m,u)}</td><td>${a===null?'—':plainNumber(a,u)}</td><td>${escHtml(diff)}</td></tr>`}).join('')+(manualDmg.valid||at.result?.critDamage!=null?`<tr class="em"><th>最終暴擊傷害</th><td>${manualDmg.valid?formatDamageR(manualDmg.crit):'—'}</td><td>${at.result?.critDamage!=null?formatDamageR(at.result.critDamage):'—'}</td><td>—</td></tr>`:'');
   renderReportGear($('#reportManualGear'),null,true);renderReportGear($('#reportAutoGear'),at.available?makeAutoEquipment():null,false);
   const manualItems=manualEquipmentItems(),manualTypes=[['ATK','ATK'],['法術傷害','法術傷害'],['暴擊率','暴擊率'],['冷卻時間','冷卻時間'],['所有魔法等級','所有魔法等級'],['火焰法術傷害','火元素'],['冰系法術傷害','冰元素'],['閃電法術傷害','雷元素'],['普通法術傷害','普通元素'],['MP消耗降低','MP減耗']];
   renderSummaryRows($('#reportManualStats'),manualTypes.map(([type,name])=>{const g=manualItems.filter(x=>x.type===type);return {name,count:g.length,total:formatManualTotal(type,g)}}));
-  const autoGroups=at.available?[{name:'元素法術傷害',count:at.items.filter(x=>x.type.startsWith('元素法術傷害')).length,total:`${at.element}%`},{name:'法術傷害',count:at.items.filter(x=>x.type==='法術傷害').length,total:`${at.spell}%`},{name:'暴擊率',count:at.items.filter(x=>x.type==='暴擊率').length,total:`${at.crit}%`},{name:'冷卻時間',count:at.items.filter(x=>x.type==='冷卻時間').length,total:`${at.cooldown}%`},{name:'所有魔法等級',count:at.items.filter(x=>x.type==='所有魔法等級').length,total:`${at.skillLv} Lv`}]:[];
+  const autoGroups=at.available?[{name:'ATK',count:at.items.filter(x=>x.type==='ATK').length,total:formatGameBigInt(at.atk)},{name:'元素法術傷害',count:at.items.filter(x=>x.type.startsWith('元素法術傷害')).length,total:`${at.element}%`},{name:'法術傷害',count:at.items.filter(x=>x.type==='法術傷害').length,total:`${at.spell}%`},{name:'暴擊率',count:at.items.filter(x=>x.type==='暴擊率').length,total:`${at.crit}%`},{name:'冷卻時間',count:at.items.filter(x=>x.type==='冷卻時間').length,total:`${at.cooldown}%`},{name:'所有魔法等級',count:at.items.filter(x=>x.type==='所有魔法等級').length,total:`${at.skillLv} Lv`}]:[];
   renderSummaryRows($('#reportAutoStats'),autoGroups);$('#reportAutoNote').textContent=at.available?'此方案固定第一頁與第二頁目前狀態，只由裝備詞條滿足暴擊／冷卻條件並追求最高傷害。':'目前條件下沒有可行的合法裝備配置。';
   const now=new Date();$('#reportMeta').innerHTML=[reportCondition('模擬器版本','Web V1 DebugFix12'),reportCondition('資料來源','V3.X Reference / APK 2.55400'),reportCondition('目前模式',state.mode==='auto'?'自動最佳化':'手動實裝'),reportCondition('匯出時間',now.toLocaleString('zh-TW')),reportCondition('Copyright','© APviEwer. All Rights Reserved.')].join('');
 }
