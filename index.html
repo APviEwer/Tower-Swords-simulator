@@ -2932,33 +2932,410 @@ function betaManualAutoCandidate(args={}){
   return r;
 }
 
-function optimizeMax(args={}){
-  /*
-    Genuine automatic optimization only.
-    Recomputed from the current Page 1 + Page 2 state every call.
-    Manual Build is NEVER substituted as an automatic answer.
-  */
-  const legacyRaw=legacyOptimizeMax(args);
-  if(legacyRaw?.status!=='dynamic'){
-    return legacyRaw||{
+
+/* =========================================================
+   Beta 0.1 AUTO OPTIMIZER REBUILD
+   - Page 1 / Page 2 are fixed.
+   - Only Page 3 legal equipment slots are searched.
+   - Crit / CD are minimum constraints.
+   - Objective: maximum current-skill critical damage.
+   - Re-runs for every Skill / Crit target / CD target.
+   - Does NOT use Manual Build as the returned answer.
+   ========================================================= */
+
+function betaAutoElemType(){
+  const e=activeSkill()?.element;
+  return e==='火'?'火焰法術傷害':e==='冰'?'冰系法術傷害':e==='雷'?'閃電法術傷害':'普通法術傷害';
+}
+
+function betaAutoOpt(type,value){
+  const o={type,value:Number(value),atk:0,elem:0,spell:0,crit:0,cd:0};
+  if(type==='ATK')o.atk=Number(value);
+  else if(type===betaAutoElemType())o.elem=Number(value);
+  else if(type==='法術傷害')o.spell=Number(value);
+  else if(type==='暴擊率')o.crit=Number(value);
+  else if(type==='冷卻時間')o.cd=Number(value);
+  return o;
+}
+
+function betaAutoSlotDefs(){
+  const E=betaAutoElemType(),defs=[];
+  const add=(gear,slot,opts)=>defs.push({gear,slot,key:`${gear}|${slot}`,opts});
+
+  // Weapon Basic2-3: Crit / current skill element
+  for(const gear of ['主武','武2','武3'])
+    for(const slot of ['Basic2','Basic3'])
+      add(gear,slot,[betaAutoOpt(E,39),betaAutoOpt('暴擊率',11)]);
+
+  // Helmet Basic2-3: CD / current skill element
+  for(const slot of ['Basic2','Basic3'])
+    add('頭盔',slot,[betaAutoOpt(E,39),betaAutoOpt('冷卻時間',8)]);
+
+  // Rings Basic2-4: ATK / Spell / Crit / CD
+  for(const gear of ['戒1','戒2'])
+    for(const slot of ['Basic2','Basic3','Basic4'])
+      add(gear,slot,[
+        betaAutoOpt('ATK',20083720144218),
+        betaAutoOpt('法術傷害',30),
+        betaAutoOpt('暴擊率',11),
+        betaAutoOpt('冷卻時間',8)
+      ]);
+
+  // Necklace / Earring Basic2-4
+  for(const gear of ['項鍊','耳環'])
+    for(const slot of ['Basic2','Basic3','Basic4'])
+      add(gear,slot,[
+        betaAutoOpt('ATK',10041860072109),
+        betaAutoOpt('法術傷害',15),
+        betaAutoOpt('暴擊率',5),
+        betaAutoOpt('冷卻時間',4)
+      ]);
+
+  // Standard Plus: 24 slots
+  for(const gear of ['主武','武2','武3','頭盔','盔甲','鞋子','戒1','戒2'])
+    for(const slot of ['Plus1','Plus2','Plus3'])
+      add(gear,slot,[
+        betaAutoOpt('ATK',10041860072109),
+        betaAutoOpt(E,19),
+        betaAutoOpt('法術傷害',14),
+        betaAutoOpt('暴擊率',5),
+        betaAutoOpt('冷卻時間',3)
+      ]);
+
+  // Necklace / Earring Plus: 6 slots
+  for(const gear of ['項鍊','耳環'])
+    for(const slot of ['Plus1','Plus2','Plus3'])
+      add(gear,slot,[
+        betaAutoOpt('ATK',5020930036054),
+        betaAutoOpt(E,9),
+        betaAutoOpt('法術傷害',7),
+        betaAutoOpt('暴擊率',2),
+        betaAutoOpt('冷卻時間',1)
+      ]);
+
+  return defs;
+}
+
+function betaAutoFixedEq(){
+  return {
+    主武:{Basic1:['所有魔法等級',7]},
+    武2:{Basic1:['所有魔法等級',7]},
+    武3:{Basic1:['所有魔法等級',7]},
+    頭盔:{Basic1:['所有魔法等級',7]},
+    戒1:{Basic1:['所有魔法等級',7]},
+    戒2:{Basic1:['所有魔法等級',7]},
+    項鍊:{Basic1:['所有魔法等級',4]},
+    耳環:{Basic1:['所有魔法等級',4]},
+    盔甲:{},鞋子:{}
+  };
+}
+
+function betaAutoTotals(defs,assign){
+  const t={atk:0,elem:0,spell:0,crit:0,cd:0};
+  for(let i=0;i<defs.length;i++){
+    const o=defs[i].opts[assign[i]];
+    t.atk+=o.atk;t.elem+=o.elem;t.spell+=o.spell;t.crit+=o.crit;t.cd+=o.cd;
+  }
+  return t;
+}
+
+function betaAutoEvalTotals(t,targetCrit,targetCd){
+  const sys=systemSelectionSummary(),sk=activeSkill(),elemKey=skillElementKey(sk);
+  const rawCrit=Number(sys.stats.crit||0)+t.crit;
+  const cd=Number(sys.stats.cooldown||0)+t.cd;
+  if(rawCrit+1e-9<targetCrit || cd+1e-9<targetCd)return null;
+
+  const skillLv=Math.max(1,Math.min(139,Math.round(
+    weaponBaseSkillLv()+Number(sys.stats.skillLv||0)+50
+  )));
+  const skillAtk=skillAtkAtLevel(sk.id,skillLv);
+  if(!Number.isFinite(skillAtk))return null;
+
+  const atkResult=effectiveAtkResult(BigInt(Math.max(0,Math.round(t.atk))));
+  if(!atkResult.valid)return null;
+
+  const elem=Number(sys.stats[elemKey]||0)+t.elem;
+  const spell=Number(sys.stats.spell||0)+t.spell;
+  const critDamagePct=150+Number(sys.stats.critDamage||0);
+  const bossMultiplier=state.player?.boss?1+Number(sys.stats.boss||0)/100:1;
+  const otherMultiplier=manualOtherDamageMultiplier();
+
+  const nonCritDamage=Math.floor(
+    atkResult.effectiveAtk*skillAtk*
+    (1+elem/100)*(1+spell/100)*
+    bossMultiplier*otherMultiplier
+  );
+  const critDamage=Math.floor(nonCritDamage*(critDamagePct/100));
+
+  return {
+    status:'dynamic',
+    crit:Math.min(100,rawCrit),rawCrit,cd,elem,spell,
+    critDamage,nonCritDamage,critDamagePct,
+    skillLv,skillAtk,effectiveAtk:atkResult.effectiveAtk
+  };
+}
+
+function betaAutoDamageScore(t){
+  // Score without Crit/CD feasibility, used only for damage-only seed/search.
+  const sys=systemSelectionSummary(),sk=activeSkill(),elemKey=skillElementKey(sk);
+  const skillLv=Math.max(1,Math.min(139,Math.round(
+    weaponBaseSkillLv()+Number(sys.stats.skillLv||0)+50
+  )));
+  const skillAtk=skillAtkAtLevel(sk.id,skillLv);
+  const atkResult=effectiveAtkResult(BigInt(Math.max(0,Math.round(t.atk))));
+  if(!atkResult.valid||!Number.isFinite(skillAtk))return -Infinity;
+  const elem=Number(sys.stats[elemKey]||0)+t.elem;
+  const spell=Number(sys.stats.spell||0)+t.spell;
+  return atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100);
+}
+
+function betaAutoMakeDamageSeed(defs,mode='mixed'){
+  const a=[];
+  for(const d of defs){
+    const damage=d.opts.map((o,i)=>({o,i})).filter(x=>x.o.crit===0&&x.o.cd===0);
+    let pick=damage[0]?.i??0;
+    if(mode==='atk'){
+      const x=damage.find(x=>x.o.atk>0); if(x)pick=x.i;
+    }else if(mode==='elem'){
+      const x=damage.find(x=>x.o.elem>0); if(x)pick=x.i;
+    }else if(mode==='spell'){
+      const x=damage.find(x=>x.o.spell>0); if(x)pick=x.i;
+    }
+    a.push(pick);
+  }
+
+  // Coordinate-ascent the unconstrained damage seed.
+  for(let pass=0;pass<5;pass++){
+    let changed=false;
+    let t=betaAutoTotals(defs,a),bestScore=betaAutoDamageScore(t);
+    for(let i=0;i<defs.length;i++){
+      const old=a[i];
+      for(let j=0;j<defs[i].opts.length;j++){
+        const o=defs[i].opts[j];
+        if(j===old||o.crit||o.cd)continue;
+        const oldO=defs[i].opts[old];
+        const nt={
+          atk:t.atk-oldO.atk+o.atk,
+          elem:t.elem-oldO.elem+o.elem,
+          spell:t.spell-oldO.spell+o.spell,
+          crit:t.crit-oldO.crit+o.crit,
+          cd:t.cd-oldO.cd+o.cd
+        };
+        const sc=betaAutoDamageScore(nt);
+        if(sc>bestScore*(1+1e-14)){
+          a[i]=j;t=nt;bestScore=sc;changed=true;
+        }
+      }
+    }
+    if(!changed)break;
+  }
+  return a;
+}
+
+function betaAutoManualTypeSeed(defs){
+  const a=betaAutoMakeDamageSeed(defs,'mixed');
+  const map=state.manual?.equipment||{};
+  for(let i=0;i<defs.length;i++){
+    const d=defs[i];
+    const short=d.slot.startsWith('Basic')?`B${d.slot.slice(5)}`:`P${d.slot.slice(4)}`;
+    const type=map[`${d.gear}.${short}`]?.type;
+    if(!type)continue;
+    const j=d.opts.findIndex(o=>o.type===type);
+    if(j>=0)a[i]=j;
+  }
+  return a;
+}
+
+function betaAutoLegacySeed(defs){
+  try{
+    const eq=legacyMakeAutoEquipment();
+    if(!eq)return null;
+    const a=betaAutoMakeDamageSeed(defs,'mixed');
+    for(let i=0;i<defs.length;i++){
+      const d=defs[i],pair=eq?.[d.gear]?.[d.slot];
+      if(!pair)continue;
+      const j=d.opts.findIndex(o=>o.type===pair[0]);
+      if(j>=0)a[i]=j;
+    }
+    return a;
+  }catch{return null;}
+}
+
+function betaAutoMeetConstraints(defs,seed,targetCrit,targetCd){
+  const sys=systemSelectionSummary();
+  const baseCrit=Number(sys.stats.crit||0),baseCd=Number(sys.stats.cooldown||0);
+  const a=seed.slice();
+
+  for(let guard=0;guard<80;guard++){
+    const t=betaAutoTotals(defs,a);
+    const curCrit=baseCrit+t.crit,curCd=baseCd+t.cd;
+    if(curCrit+1e-9>=targetCrit&&curCd+1e-9>=targetCd)return a;
+
+    const curCapC=Math.min(targetCrit,curCrit),curCapD=Math.min(targetCd,curCd);
+    const curScore=betaAutoDamageScore(t);
+    let best=null;
+
+    for(let i=0;i<defs.length;i++){
+      const old=a[i],oldO=defs[i].opts[old];
+      for(let j=0;j<defs[i].opts.length;j++){
+        if(j===old)continue;
+        const o=defs[i].opts[j];
+        if(!o.crit&&!o.cd)continue;
+
+        const nt={
+          atk:t.atk-oldO.atk+o.atk,
+          elem:t.elem-oldO.elem+o.elem,
+          spell:t.spell-oldO.spell+o.spell,
+          crit:t.crit-oldO.crit+o.crit,
+          cd:t.cd-oldO.cd+o.cd
+        };
+        const nc=baseCrit+nt.crit,nd=baseCd+nt.cd;
+        const capC=Math.min(targetCrit,nc),capD=Math.min(targetCd,nd);
+
+        // Never lose already-achieved progress in either constraint.
+        if(capC+1e-9<curCapC||capD+1e-9<curCapD)continue;
+        const impC=capC-curCapC,impD=capD-curCapD;
+        if(impC<=1e-9&&impD<=1e-9)continue;
+
+        const newScore=betaAutoDamageScore(nt);
+        const needC=Math.max(1,targetCrit-baseCrit),needD=Math.max(1,targetCd-baseCd);
+        const progress=impC/needC+impD/needD;
+        const loss=Math.max(0,curScore-newScore);
+        const metric=loss/Math.max(progress,1e-12);
+
+        if(!best||metric<best.metric-1e-9||
+           (Math.abs(metric-best.metric)<1e-9&&newScore>best.score)){
+          best={metric,score:newScore,i,j};
+        }
+      }
+    }
+    if(!best)return null;
+    a[best.i]=best.j;
+  }
+  return null;
+}
+
+function betaAutoHillClimb(defs,seed,targetCrit,targetCd){
+  let a=seed.slice(),t=betaAutoTotals(defs,a);
+  let cur=betaAutoEvalTotals(t,targetCrit,targetCd);
+  if(!cur)return null;
+
+  // Singles + pair swaps. Pair swaps are important: they can move Crit/CD
+  // to a cheaper slot while freeing a stronger damage slot.
+  for(let pass=0;pass<12;pass++){
+    let bestGain=0,bestMove=null;
+
+    // Single-slot moves
+    for(let i=0;i<defs.length;i++){
+      const old=a[i],oldO=defs[i].opts[old];
+      for(let j=0;j<defs[i].opts.length;j++){
+        if(j===old)continue;
+        const o=defs[i].opts[j];
+        const nt={
+          atk:t.atk-oldO.atk+o.atk,
+          elem:t.elem-oldO.elem+o.elem,
+          spell:t.spell-oldO.spell+o.spell,
+          crit:t.crit-oldO.crit+o.crit,
+          cd:t.cd-oldO.cd+o.cd
+        };
+        const ev=betaAutoEvalTotals(nt,targetCrit,targetCd);
+        if(!ev)continue;
+        const gain=ev.critDamage-cur.critDamage;
+        if(gain>bestGain){bestGain=gain;bestMove={i,j,nt,ev};}
+      }
+    }
+
+    // Pair swaps
+    for(let i=0;i<defs.length;i++){
+      const oi=a[i],oldI=defs[i].opts[oi];
+      for(let k=i+1;k<defs.length;k++){
+        const ok=a[k],oldK=defs[k].opts[ok];
+        for(let ji=0;ji<defs[i].opts.length;ji++){
+          if(ji===oi)continue;
+          const ni=defs[i].opts[ji];
+          for(let jk=0;jk<defs[k].opts.length;jk++){
+            if(jk===ok)continue;
+            const nk=defs[k].opts[jk];
+            const nt={
+              atk:t.atk-oldI.atk-oldK.atk+ni.atk+nk.atk,
+              elem:t.elem-oldI.elem-oldK.elem+ni.elem+nk.elem,
+              spell:t.spell-oldI.spell-oldK.spell+ni.spell+nk.spell,
+              crit:t.crit-oldI.crit-oldK.crit+ni.crit+nk.crit,
+              cd:t.cd-oldI.cd-oldK.cd+ni.cd+nk.cd
+            };
+            const ev=betaAutoEvalTotals(nt,targetCrit,targetCd);
+            if(!ev)continue;
+            const gain=ev.critDamage-cur.critDamage;
+            if(gain>bestGain){bestGain=gain;bestMove={i,j:ji,k,jk,nt,ev};}
+          }
+        }
+      }
+    }
+
+    if(!bestMove||bestGain<=0)break;
+    a[bestMove.i]=bestMove.j;
+    if(bestMove.k!==undefined)a[bestMove.k]=bestMove.jk;
+    t=bestMove.nt;cur=bestMove.ev;
+  }
+  return {assign:a,totals:t,result:cur};
+}
+
+function betaAutoAssignmentToEq(defs,assign){
+  const eq=betaAutoFixedEq();
+  for(let i=0;i<defs.length;i++){
+    const d=defs[i],o=d.opts[assign[i]];
+    (eq[d.gear]??={})[d.slot]=[o.type,o.value];
+  }
+  return eq;
+}
+
+function betaAutoSearch({minCrit=0,minCooldown=0}={}){
+  const targetCrit=Math.max(0,Math.min(100,Number(minCrit||0)));
+  const targetCd=Math.max(0,Math.min(100,Number(minCooldown||0)));
+  const defs=betaAutoSlotDefs();
+
+  // Multiple independent seeds reduce local-optimum risk.
+  const seeds=[
+    betaAutoMakeDamageSeed(defs,'mixed'),
+    betaAutoMakeDamageSeed(defs,'atk'),
+    betaAutoMakeDamageSeed(defs,'elem'),
+    betaAutoMakeDamageSeed(defs,'spell'),
+    betaAutoManualTypeSeed(defs),
+    betaAutoLegacySeed(defs)
+  ].filter(Boolean);
+
+  let best=null;
+  for(const seed of seeds){
+    const feasible=betaAutoMeetConstraints(defs,seed,targetCrit,targetCd);
+    if(!feasible)continue;
+    const opt=betaAutoHillClimb(defs,feasible,targetCrit,targetCd);
+    if(!opt)continue;
+    if(!best||opt.result.critDamage>best.result.critDamage)best=opt;
+  }
+
+  if(!best){
+    const sys=systemSelectionSummary();
+    return {
       status:'infeasible',
-      crit:Number(systemSelectionSummary().stats.crit||0),
-      cd:Number(systemSelectionSummary().stats.cooldown||0),
-      elem:null,spell:null,critDamage:null,eq:null
+      crit:Number(sys.stats.crit||0),
+      cd:Number(sys.stats.cooldown||0),
+      elem:Number(sys.stats[skillElementKey(activeSkill())]||0),
+      spell:Number(sys.stats.spell||0),
+      critDamage:null,eq:null,source:'rebuilt-search'
     };
   }
 
-  const eq=legacyMakeAutoEquipment();
-  if(!eq)return legacyRaw;
+  const eq=betaAutoAssignmentToEq(defs,best.assign);
+  return {
+    ...best.result,
+    eq,
+    source:'rebuilt-search',
+    searchKey:`skill:${activeSkill().id}|lv:${best.result.skillLv}|crit:${targetCrit}|cd:${targetCd}`
+  };
+}
 
-  /* Re-evaluate the produced gear with the same current skill/state damage core. */
-  const exact=betaEvaluateEquipmentEq(eq,args);
-  if(!exact)return legacyRaw;
-  exact.source='automatic-current-skill';
-  exact.candidateId=legacyRaw.candidateId;
-  exact.allocation=legacyRaw.allocation;
-  exact.candidate=legacyRaw.candidate;
-  return exact;
+function optimizeMax(args={}){
+  return betaAutoSearch(args);
 }
 
 function makeAutoEquipment(){
@@ -2975,11 +3352,11 @@ function renderAutoBreakdown(r){
     return;
   }
   const eq=makeAutoEquipment(),order=['主武','武2','武3','頭盔','盔甲','鞋子','戒1','戒2','項鍊','耳環'],slotOrder=['Basic1','Basic2','Basic3','Basic4','Plus1','Plus2','Plus3'];
-  host.innerHTML=order.map(e=>{const cells=slotOrder.filter(k=>eq?.[e]?.[k]).map(k=>{const [t,v]=eq[e][k];return `<div class="auto-slot"><b>${k}</b><span>${escHtml(t)} ${v}${t==='所有魔法等級'?' Lv':'%'}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${e}</div><div class="auto-slots">${cells||'<span class="small">無攻擊向候選</span>'}</div></div>`}).join('');
+  host.innerHTML=order.map(e=>{const cells=slotOrder.filter(k=>eq?.[e]?.[k]).map(k=>{const [t,v]=eq[e][k];return `<div class="auto-slot"><b>${k}</b><span>${escHtml(t)} ${t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(Number(v||0))))):`${v}${t==='所有魔法等級'?' Lv':'%'}`}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${e}</div><div class="auto-slots">${cells||'<span class="small">無攻擊向候選</span>'}</div></div>`}).join('');
   const items=[];for(const e of order)for(const k of slotOrder)if(eq?.[e]?.[k])items.push({type:eq[e][k][0],value:eq[e][k][1]});
   const types=[...new Set(items.map(x=>x.type))];
-  sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${total}${unit}</div></div>`}).join('');
-  note.textContent=`${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
+  sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';const totalText=t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(total)))):`${total}${unit}`;return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${totalText}</div></div>`}).join('');
+  note.textContent=`${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜獨立重新搜尋｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
 let betaAutoRefreshing=false;
@@ -2990,7 +3367,7 @@ function refreshAuto(){
   state.auto.minCrit=Number($('#critTarget').value||0);
   state.auto.minCooldown=Number($('#cdTarget').value||0);
   const r=optimizeMax(state.auto); saveState(state);
-  $('#autoStatus').textContent=r.status==='dynamic'?'已依目前 Build 完成最佳化':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
+  $('#autoStatus').textContent=r.status==='dynamic'?'已重新搜尋目前條件最大傷害':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
   $('#autoStatus').className=r.status==='dynamic'?'pass':'warn';
   $('#autoCrit').textContent=r.crit??'—';
   $('#autoCd').textContent=r.cd??'—';
@@ -3315,7 +3692,7 @@ function renderReportGear(host,eq,manual=false){
     host.innerHTML=order.map(gear=>{const slots=map[gear]||{},cells=slotOrder.filter(k=>slots[k]).map(k=>{const it=slots[k],val=String(it.value??'').trim();return `<div class="auto-slot"><b>${k}</b><span>${escHtml(it.type)}${val?` ${escHtml(val)}`:''}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${gear}</div><div class="auto-slots">${cells||'<span class="small">未配置</span>'}</div></div>`}).join('');return;
   }
   if(!eq){host.innerHTML='<div class="small">目前條件沒有已驗證的逐格自動配置。</div>';return;}
-  host.innerHTML=order.map(gear=>{const slots=eq[gear]||{},cells=slotOrder.filter(k=>slots[k]).map(k=>{const [t,v]=slots[k];return `<div class="auto-slot"><b>${k}</b><span>${escHtml(t)} ${v}${t==='所有魔法等級'?' Lv':'%'}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${gear}</div><div class="auto-slots">${cells||'<span class="small">無攻擊向候選</span>'}</div></div>`}).join('');
+  host.innerHTML=order.map(gear=>{const slots=eq[gear]||{},cells=slotOrder.filter(k=>slots[k]).map(k=>{const [t,v]=slots[k];return `<div class="auto-slot"><b>${k}</b><span>${escHtml(t)} ${t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(Number(v||0))))):`${v}${t==='所有魔法等級'?' Lv':'%'}`}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${gear}</div><div class="auto-slots">${cells||'<span class="small">無攻擊向候選</span>'}</div></div>`}).join('');
 }
 function renderSummaryRows(host,groups){
   if(!host)return; const rows=groups.filter(x=>x.count||x.always);host.innerHTML=rows.length?rows.map(x=>`<div class="summary-row"><div class="name">${escHtml(x.name)}</div><div class="count">${x.count} 格</div><div class="total">合計 ${escHtml(x.total)}</div></div>`).join(''):'<div class="small">尚無詞條。</div>';
