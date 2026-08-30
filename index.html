@@ -2212,7 +2212,7 @@ window.TOWER_SWORD_SKILL_LEVEL_ATK = {"1":{"1":2.6,"2":2.755999851226807,"3":2.9
        .replace(/^魔法樹已投入：(\d+) 點$/,'Magic Tree Allocated: $1 points').replace(/^角色 Lv (\d+)：可用技能點 (\d+)(.*)$/,'Character Lv $1: $2 available skill points$3')
        .replace(/^最高 Lv /,'Max Lv ').replace(/^角色 Lv /,'Character Lv ').replace(/目前上限 Lv/g,'Current Cap Lv').replace(/資料最高 Lv/g,'Data Max Lv').replace(/最高 Lv/g,'Max Lv')
        .replace(/^目前模式：自動最佳化$/,'Current Mode: Auto Optimize').replace(/^目前模式：手動實裝$/,'Current Mode: Manual Build')
-       .replace(/角色初始 5% 已計入/g,'Base 5% Crit included').replace(/角色初始 150% 已計入/g,'Base 150% Critical Damage included')
+       .replace(/目前系統暴擊率已含角色初始 5%/g,'Base 5% Crit included').replace(/角色初始 150% 已計入/g,'Base 150% Critical Damage included')
        .replace(/武器基礎/g,'Weapon Base').replace(/＋系統＋裝備/g,' + System + Equipment').replace(/目前技能採用元素/g,'Element used by current skill')
        .replace(/另有固定 ATK/g,'plus Fixed ATK').replace(/目前解析模式/g,'Current resolution mode').replace(/手動無 ATK 詞條時＝自動共用 ATK 核心/g,'With no manual ATK affix, Manual and Auto share the ATK core').replace(/已含手動裝備 ATK/g,'Includes manual equipment ATK')
        .replace(/手動詞條合計/g,'Manual affix total').replace(/自動最佳化目前不納入 ATK 詞條/g,'Current Auto benchmark excludes ATK affixes')
@@ -2223,7 +2223,7 @@ window.TOWER_SWORD_SKILL_LEVEL_ATK = {"1":{"1":2.6,"2":2.755999851226807,"3":2.9
        .replace(/^魔法樹已投入：(\d+) 點$/,'마법 트리 투자: $1 포인트').replace(/^角色 Lv (\d+)：可用技能點 (\d+)(.*)$/,'캐릭터 Lv $1: 사용 가능 스킬 포인트 $2$3')
        .replace(/^最高 Lv /,'최대 Lv ').replace(/^角色 Lv /,'캐릭터 Lv ').replace(/目前上限 Lv/g,'현재 상한 Lv').replace(/資料最高 Lv/g,'데이터 최대 Lv').replace(/最高 Lv/g,'최대 Lv')
        .replace(/^目前模式：自動最佳化$/,'현재 모드: 자동 최적화').replace(/^目前模式：手動實裝$/,'현재 모드: 수동 빌드')
-       .replace(/角色初始 5% 已計入/g,'기본 치명타 5% 포함').replace(/角色初始 150% 已計入/g,'기본 치명타 피해 150% 포함')
+       .replace(/目前系統暴擊率已含角色初始 5%/g,'기본 치명타 5% 포함').replace(/角色初始 150% 已計入/g,'기본 치명타 피해 150% 포함')
        .replace(/武器基礎/g,'무기 기본').replace(/＋系統＋裝備/g,' + 시스템 + 장비').replace(/目前技能採用元素/g,'현재 스킬 적용 원소')
        .replace(/另有固定 ATK/g,'추가 고정 ATK').replace(/目前解析模式/g,'현재 해석 모드').replace(/手動無 ATK 詞條時＝自動共用 ATK 核心/g,'수동 ATK 옵션이 없으면 수동/자동이 동일 ATK 코어 사용').replace(/已含手動裝備 ATK/g,'수동 장비 ATK 포함')
        .replace(/手動詞條合計/g,'수동 옵션 합계').replace(/自動最佳化目前不納入 ATK 詞條/g,'현재 자동 benchmark에는 ATK 옵션 미포함')
@@ -2511,7 +2511,7 @@ function optimizeMax({minCrit=0,minCooldown=0}={}){
   const elemKey=skillElementKey(sk);
 
   /* Page 1 + Page 2 are the fixed current baseline. */
-  const baseCrit=5+Number(sys.stats.crit||0);
+  const baseCrit=Number(sys.stats.crit||0);
   const baseCd=Number(sys.stats.cooldown||0);
   const baseElem=Number(sys.stats[elemKey]||0);
   const baseSpell=Number(sys.stats.spell||0);
@@ -3198,13 +3198,13 @@ function refreshReport(){
   if($('#manualNonCritDamage'))$('#manualNonCritDamage').textContent=manualDmg.valid?formatDamageR(manualDmg.nonCrit):'—';
   if($('#manualCritDamage'))$('#manualCritDamage').textContent=manualDmg.valid?formatDamageR(manualDmg.crit):'—';
   if($('#manualDamageNote'))$('#manualDamageNote').textContent=manualDmg.valid?`Skill Lv ${manualDmg.skillLv}｜Skill ATK ${Math.round(manualDmg.skillAtk*1000)/1000}｜有效 ATK ${formatGameBigInt(BigInt(Math.max(0,Math.floor(manualDmg.effectiveAtk))))}`:`無法計算：${manualDmg.reason||'輸入不完整'}`;
-  const manualFinal={skillLv:manualDmg.valid?manualDmg.skillLv:Math.min(139,Math.max(1,Math.round(baseSkill+sys.stats.skillLv+mt.skillLv))),element:sysElem+manualElem,spell:sys.stats.spell+mt.spell,crit:5+sys.stats.crit+mt.crit,critDamage:150+sys.stats.critDamage,cooldown:sys.stats.cooldown+mt.cooldown,mpReduce:sys.stats.mpReduce+mt.mpReduce};
+  const manualFinal={skillLv:manualDmg.valid?manualDmg.skillLv:Math.min(139,Math.max(1,Math.round(baseSkill+sys.stats.skillLv+mt.skillLv))),element:sysElem+manualElem,spell:sys.stats.spell+mt.spell,crit:Math.min(100,sys.stats.crit+mt.crit),critDamage:150+sys.stats.critDamage,cooldown:sys.stats.cooldown+mt.cooldown,mpReduce:sys.stats.mpReduce+mt.mpReduce};
   const autoFinal=at.available?{skillLv:at.result.skillLv,element:at.result.elem,spell:at.result.spell,crit:at.result.crit,critDamage:at.result.critDamagePct,cooldown:at.result.cd,mpReduce:sys.stats.mpReduce}:null;
   const current=state.mode==='auto'&&autoFinal?autoFinal:manualFinal;
   $('#reportModeBadge').textContent=state.mode==='auto'?'目前模式：自動最佳化':'目前模式：手動實裝';
   $('#reportConditions').innerHTML=[reportCondition('角色 Lv',state.player.level),reportCondition('主武裝備 Lv',state.weapon.equipmentLevel),reportCondition('武器技能',`${sk.name} [ID ${sk.id}]`),reportCondition('技能元素',sk.element),reportCondition('暴擊條件',state.auto.minCrit?`≥ ${state.auto.minCrit}%`:'不限'),reportCondition('冷卻條件',state.auto.minCooldown?`≥ ${state.auto.minCooldown}%`:'不限')].join('');
   const atkResolved=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
-  const totals=[reportStat('最終 Skill Lv',`Lv ${roundStat(current.skillLv)}`,`武器基礎 ${baseSkill}＋系統＋裝備`),reportStat(`${sk.element}元素法傷`,plainNumber(current.element),`目前技能採用元素`),reportStat('法術傷害',plainNumber(current.spell)),reportStat('暴擊率',plainNumber(current.crit),`角色初始 5% 已計入`),reportStat('暴擊傷害',plainNumber(current.critDamage),`角色初始 150% 已計入`),reportStat('冷卻',plainNumber(current.cooldown)),reportStat('MP 減耗',plainNumber(current.mpReduce)),reportStat('系統 ATK %',plainNumber(sys.stats.atk),`另有固定 ATK +${roundStat(sys.stats.flatAtk)}`),reportStat('主武 ATK 解析',atkResolved.raw?formatGameBigInt(BigInt(atkResolved.raw)):'—',atkResolved.mode==='nativeExact'?'Native 精確':'目前解析模式'),reportStat('最終 ATK',manualDmg.valid?formatGameBigInt(BigInt(Math.max(0,Math.floor(manualDmg.effectiveAtk)))):'—',mt.atk===0n?'手動無 ATK 詞條時＝自動共用 ATK 核心':'已含手動裝備 ATK'),reportStat('裝備固定 ATK',state.mode==='manual'?formatGameBigInt(mt.atk):'0',state.mode==='manual'?'手動詞條合計':'自動最佳化目前不納入 ATK 詞條')];
+  const totals=[reportStat('最終 Skill Lv',`Lv ${roundStat(current.skillLv)}`,`武器基礎 ${baseSkill}＋系統＋裝備`),reportStat(`${sk.element}元素法傷`,plainNumber(current.element),`目前技能採用元素`),reportStat('法術傷害',plainNumber(current.spell)),reportStat('暴擊率',plainNumber(current.crit),`目前系統暴擊率已含角色初始 5%｜上限 100%`),reportStat('暴擊傷害',plainNumber(current.critDamage),`角色初始 150% 已計入`),reportStat('冷卻',plainNumber(current.cooldown)),reportStat('MP 減耗',plainNumber(current.mpReduce)),reportStat('系統 ATK %',plainNumber(sys.stats.atk),`另有固定 ATK +${roundStat(sys.stats.flatAtk)}`),reportStat('主武 ATK 解析',atkResolved.raw?formatGameBigInt(BigInt(atkResolved.raw)):'—',atkResolved.mode==='nativeExact'?'Native 精確':'目前解析模式'),reportStat('最終 ATK',manualDmg.valid?formatGameBigInt(BigInt(Math.max(0,Math.floor(manualDmg.effectiveAtk)))):'—',mt.atk===0n?'手動無 ATK 詞條時＝自動共用 ATK 核心':'已含手動裝備 ATK'),reportStat('裝備固定 ATK',state.mode==='manual'?formatGameBigInt(mt.atk):'0',state.mode==='manual'?'手動詞條合計':'自動最佳化目前不納入 ATK 詞條')];
   if(state.mode==='manual'&&manualDmg.valid){totals.push(reportStat('手動未暴擊傷害',formatDamageR(manualDmg.nonCrit),'依目前手動實裝即時計算'));totals.push(reportStat('手動最終暴擊傷害',formatDamageR(manualDmg.crit),'依目前暴擊傷害倍率計算'));}
   if(state.mode==='auto'&&at.result?.critDamage!=null)totals.push(reportStat('自動最佳化暴擊傷害',formatDamageR(at.result.critDamage),'固定目前角色／系統狀態，只最佳化裝備'));
   $('#reportTotals').innerHTML=totals.join('');
