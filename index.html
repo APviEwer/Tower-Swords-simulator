@@ -2699,6 +2699,7 @@ function resolverRefresh(){
   $('#nativeRaw').value=r.raw??'';
   $('#resolverConfidence').textContent={exact:'精確',estimated:'估算',none:'無'}[r.confidence]||'—';
   saveState(state);
+  refreshAuto();
   refreshOverview();
 }
 
@@ -2932,28 +2933,32 @@ function betaManualAutoCandidate(args={}){
 }
 
 function optimizeMax(args={}){
+  /*
+    Genuine automatic optimization only.
+    Recomputed from the current Page 1 + Page 2 state every call.
+    Manual Build is NEVER substituted as an automatic answer.
+  */
   const legacyRaw=legacyOptimizeMax(args);
-  let legacyExact=null;
-  if(legacyRaw?.status==='dynamic'){
-    const legacyEq=legacyMakeAutoEquipment();
-    if(legacyEq){
-      legacyExact=betaEvaluateEquipmentEq(legacyEq,args);
-      if(legacyExact)legacyExact.source='legacy-exact';
-    }
+  if(legacyRaw?.status!=='dynamic'){
+    return legacyRaw||{
+      status:'infeasible',
+      crit:Number(systemSelectionSummary().stats.crit||0),
+      cd:Number(systemSelectionSummary().stats.cooldown||0),
+      elem:null,spell:null,critDamage:null,eq:null
+    };
   }
 
-  const manual=betaManualAutoCandidate(args);
+  const eq=legacyMakeAutoEquipment();
+  if(!eq)return legacyRaw;
 
-  if(manual&&(!legacyExact||manual.critDamage>legacyExact.critDamage))return manual;
-  if(legacyExact)return legacyExact;
-  if(manual)return manual;
-
-  return {
-    status:'infeasible',
-    crit:Number(systemSelectionSummary().stats.crit||0),
-    cd:Number(systemSelectionSummary().stats.cooldown||0),
-    elem:null,spell:null,critDamage:null,eq:null,source:'none'
-  };
+  /* Re-evaluate the produced gear with the same current skill/state damage core. */
+  const exact=betaEvaluateEquipmentEq(eq,args);
+  if(!exact)return legacyRaw;
+  exact.source='automatic-current-skill';
+  exact.candidateId=legacyRaw.candidateId;
+  exact.allocation=legacyRaw.allocation;
+  exact.candidate=legacyRaw.candidate;
+  return exact;
 }
 
 function makeAutoEquipment(){
@@ -2974,10 +2979,14 @@ function renderAutoBreakdown(r){
   const items=[];for(const e of order)for(const k of slotOrder)if(eq?.[e]?.[k])items.push({type:eq[e][k][0],value:eq[e][k][1]});
   const types=[...new Set(items.map(x=>x.type))];
   sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${total}${unit}</div></div>`}).join('');
-  note.textContent=`固定目前角色／技能／系統效果。裝備最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
+  note.textContent=`${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
+let betaAutoRefreshing=false;
 function refreshAuto(){
+  if(betaAutoRefreshing)return;
+  betaAutoRefreshing=true;
+  try{
   state.auto.minCrit=Number($('#critTarget').value||0);
   state.auto.minCooldown=Number($('#cdTarget').value||0);
   const r=optimizeMax(state.auto); saveState(state);
@@ -2990,6 +2999,7 @@ function refreshAuto(){
   $('#autoDamage').textContent=r.critDamage!=null?formatDamageR(r.critDamage):'—';
   renderAutoBreakdown(r);
   refreshReport();
+  }finally{betaAutoRefreshing=false;}
 }
 
 function escHtml(v){return String(v??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
@@ -3079,6 +3089,7 @@ function refreshSystemSummary(message=''){
   }
   if($('#treePointRule')) $('#treePointRule').textContent=`角色 Lv ${state.player.level}：可用技能點 ${treeAvailable}（角色 Lv − 1）`;
   $('#sysWarning').textContent=message;
+  refreshAuto();
   refreshReport();
 }
 function magicEnhanceMaxByPlayerLevel(level){
@@ -3340,9 +3351,9 @@ function refreshReport(){
 function refreshOverview(){refreshReport();}
 $('#level').value=state.player.level; $('#displayAtk').value=state.weapon.displayAtk; $('#weaponLv').value=state.weapon.equipmentLevel;
 $('#critTarget').value=state.auto.minCrit; $('#cdTarget').value=state.auto.minCooldown;
-$('#level').oninput=e=>{state.player.level=Math.max(1,Math.min(500,Number(e.target.value||1)));e.target.value=state.player.level;saveState(state);renderTree($('#treeSearch')?.value||'');refreshSystemSummary();};
+$('#level').oninput=e=>{state.player.level=Math.max(1,Math.min(500,Number(e.target.value||1)));e.target.value=state.player.level;saveState(state);renderTree($('#treeSearch')?.value||'');refreshSystemSummary();refreshAuto();};
 $('#displayAtk').oninput=resolverRefresh; $('#weaponLv').oninput=resolverRefresh;
-$('#skill').onchange=e=>{state.skill.id=Number(e.target.value);saveState(state);refreshOverview()};
+$('#skill').onchange=e=>{state.skill.id=Number(e.target.value);saveState(state);refreshAuto();refreshOverview()};
 $('#critTarget').oninput=refreshAuto; $('#cdTarget').oninput=refreshAuto;
 $('#reset').onclick=()=>{localStorage.removeItem('tower-sword-v1');location.reload()};
 
