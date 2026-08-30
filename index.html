@@ -2682,7 +2682,7 @@ function setMode(mode){
   $$('.mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
   $('#manualPane').hidden=mode!=='manual';
   $('#autoPane').hidden=mode!=='auto';
-  refreshReport();
+  if(mode==='auto')refreshAuto(true);else refreshReport();
 }
 $$('.mode').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 
@@ -2699,7 +2699,7 @@ function resolverRefresh(){
   $('#nativeRaw').value=r.raw??'';
   $('#resolverConfidence').textContent={exact:'精確',estimated:'估算',none:'無'}[r.confidence]||'—';
   saveState(state);
-  refreshAuto();
+  if(state.mode==='auto')refreshAuto(true);
   refreshOverview();
 }
 
@@ -3222,7 +3222,7 @@ function betaAutoHillClimb(defs,seed,targetCrit,targetCd){
 
   // Singles + pair swaps. Pair swaps are important: they can move Crit/CD
   // to a cheaper slot while freeing a stronger damage slot.
-  for(let pass=0;pass<12;pass++){
+  for(let pass=0;pass<5;pass++){
     let bestGain=0,bestMove=null;
 
     // Single-slot moves
@@ -3245,11 +3245,16 @@ function betaAutoHillClimb(defs,seed,targetCrit,targetCd){
       }
     }
 
-    // Pair swaps
+    // Bounded pair swaps: focus on slots that can redistribute Crit/CD.
+    const swapIdx=[];
     for(let i=0;i<defs.length;i++){
-      const oi=a[i],oldI=defs[i].opts[oi];
-      for(let k=i+1;k<defs.length;k++){
-        const ok=a[k],oldK=defs[k].opts[ok];
+      if(defs[i].opts.some(o=>o.crit>0||o.cd>0))swapIdx.push(i);
+      if(swapIdx.length>=16)break;
+    }
+    for(let ai=0;ai<swapIdx.length;ai++){
+      const i=swapIdx[ai],oi=a[i],oldI=defs[i].opts[oi];
+      for(let ak=ai+1;ak<swapIdx.length;ak++){
+        const k=swapIdx[ak],ok=a[k],oldK=defs[k].opts[ok];
         for(let ji=0;ji<defs[i].opts.length;ji++){
           if(ji===oi)continue;
           const ni=defs[i].opts[ji];
@@ -3289,7 +3294,24 @@ function betaAutoAssignmentToEq(defs,assign){
   return eq;
 }
 
+
+const betaAutoCache=new Map();
+function betaAutoCacheKey({minCrit=0,minCooldown=0}={}){
+  const sys=systemSelectionSummary(),sk=activeSkill(),elemKey=skillElementKey(sk);
+  return JSON.stringify({
+    skillId:sk.id,level:state.player.level,weaponAtk:state.weapon.displayAtk,
+    weaponLv:state.weapon.equipmentLevel,boss:!!state.player?.boss,
+    minCrit:Number(minCrit||0),minCooldown:Number(minCooldown||0),
+    sysAtk:Number(sys.stats.atk||0),sysFlat:Number(sys.stats.flatAtk||0),
+    sysSpell:Number(sys.stats.spell||0),sysCrit:Number(sys.stats.crit||0),
+    sysCd:Number(sys.stats.cooldown||0),sysCritDmg:Number(sys.stats.critDamage||0),
+    sysElem:Number(sys.stats[elemKey]||0),sysSkill:Number(sys.stats.skillLv||0)
+  });
+}
 function betaAutoSearch({minCrit=0,minCooldown=0}={}){
+  const args={minCrit,minCooldown};
+  const cacheKey=betaAutoCacheKey(args);
+  if(betaAutoCache.has(cacheKey))return betaAutoCache.get(cacheKey);
   const targetCrit=Math.max(0,Math.min(100,Number(minCrit||0)));
   const targetCd=Math.max(0,Math.min(100,Number(minCooldown||0)));
   const defs=betaAutoSlotDefs();
@@ -3315,7 +3337,7 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
 
   if(!best){
     const sys=systemSelectionSummary();
-    return {
+    const miss={
       status:'infeasible',
       crit:Number(sys.stats.crit||0),
       cd:Number(sys.stats.cooldown||0),
@@ -3323,15 +3345,19 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
       spell:Number(sys.stats.spell||0),
       critDamage:null,eq:null,source:'rebuilt-search'
     };
+    betaAutoCache.set(cacheKey,miss);
+    return miss;
   }
 
   const eq=betaAutoAssignmentToEq(defs,best.assign);
-  return {
+  const solved={
     ...best.result,
     eq,
     source:'rebuilt-search',
     searchKey:`skill:${activeSkill().id}|lv:${best.result.skillLv}|crit:${targetCrit}|cd:${targetCd}`
   };
+  betaAutoCache.set(cacheKey,solved);
+  return solved;
 }
 
 function optimizeMax(args={}){
@@ -3360,12 +3386,14 @@ function renderAutoBreakdown(r){
 }
 
 let betaAutoRefreshing=false;
-function refreshAuto(){
+function refreshAuto(force=false){
   if(betaAutoRefreshing)return;
+  state.auto.minCrit=Number($('#critTarget')?.value||state.auto.minCrit||0);
+  state.auto.minCooldown=Number($('#cdTarget')?.value||state.auto.minCooldown||0);
+  const autoVisible=state.mode==='auto' && !$('#autoPane')?.hidden;
+  if(!force && !autoVisible){saveState(state);return;}
   betaAutoRefreshing=true;
   try{
-  state.auto.minCrit=Number($('#critTarget').value||0);
-  state.auto.minCooldown=Number($('#cdTarget').value||0);
   const r=optimizeMax(state.auto); saveState(state);
   $('#autoStatus').textContent=r.status==='dynamic'?'已重新搜尋目前條件最大傷害':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
   $('#autoStatus').className=r.status==='dynamic'?'pass':'warn';
@@ -3466,7 +3494,7 @@ function refreshSystemSummary(message=''){
   }
   if($('#treePointRule')) $('#treePointRule').textContent=`角色 Lv ${state.player.level}：可用技能點 ${treeAvailable}（角色 Lv − 1）`;
   $('#sysWarning').textContent=message;
-  refreshAuto();
+  if(state.mode==='auto')refreshAuto(true);
   refreshReport();
 }
 function magicEnhanceMaxByPlayerLevel(level){
@@ -3649,6 +3677,9 @@ function manualDamageResult(){
 }
 function weaponBaseSkillLv(){return Math.min(139,Math.max(1,Math.floor(Number(state.weapon.equipmentLevel||0)/10)+1));}
 function autoEquipmentTotals(){
+  if(state.mode!=='auto'){
+    return {available:false,atk:0n,spell:0,crit:0,cooldown:0,mpReduce:0,skillLv:0,element:0,items:[],result:null};
+  }
   const r=optimizeMax(state.auto),eq=r.status==='dynamic'?r.eq:null;
   const t=eq?betaEquipmentTotalsFromEq(eq):null;
   const out={available:!!eq,atk:0n,spell:0,crit:0,cooldown:0,mpReduce:0,skillLv:0,element:0,items:[],result:r};
@@ -3706,7 +3737,7 @@ function refreshReport(){
   if($('#manualCritDamage'))$('#manualCritDamage').textContent=manualDmg.valid?formatDamageR(manualDmg.crit):'—';
   if($('#manualDamageNote'))$('#manualDamageNote').textContent=manualDmg.valid?`Skill Lv ${manualDmg.skillLv}｜Skill ATK ${Math.round(manualDmg.skillAtk*1000)/1000}｜有效 ATK ${formatGameBigInt(BigInt(Math.max(0,Math.floor(manualDmg.effectiveAtk))))}`:`無法計算：${manualDmg.reason||'輸入不完整'}`;
   const manualFinal={skillLv:manualDmg.valid?manualDmg.skillLv:Math.min(139,Math.max(1,Math.round(baseSkill+sys.stats.skillLv+mt.skillLv))),element:sysElem+manualElem,spell:sys.stats.spell+mt.spell,crit:Math.min(100,sys.stats.crit+mt.crit),critDamage:150+sys.stats.critDamage,cooldown:sys.stats.cooldown+mt.cooldown,mpReduce:sys.stats.mpReduce+mt.mpReduce};
-  const autoFinal=at.available?{skillLv:at.result.skillLv,element:at.result.elem,spell:at.result.spell,crit:at.result.crit,critDamage:at.result.critDamagePct,cooldown:at.result.cd,mpReduce:sys.stats.mpReduce}:null;
+  const autoFinal=at.available&&at.result?{skillLv:at.result.skillLv,element:at.result.elem,spell:at.result.spell,crit:at.result.crit,critDamage:at.result.critDamagePct,cooldown:at.result.cd,mpReduce:sys.stats.mpReduce}:null;
   const current=state.mode==='auto'&&autoFinal?autoFinal:manualFinal;
   $('#reportModeBadge').textContent=state.mode==='auto'?'目前模式：自動最佳化':'目前模式：手動實裝';
   $('#reportConditions').innerHTML=[reportCondition('角色 Lv',state.player.level),reportCondition('主武裝備 Lv',state.weapon.equipmentLevel),reportCondition('武器技能',`${sk.name} [ID ${sk.id}]`),reportCondition('技能元素',sk.element),reportCondition('暴擊條件',state.auto.minCrit?`≥ ${state.auto.minCrit}%`:'不限'),reportCondition('冷卻條件',state.auto.minCooldown?`≥ ${state.auto.minCooldown}%`:'不限')].join('');
@@ -3728,10 +3759,10 @@ function refreshReport(){
 function refreshOverview(){refreshReport();}
 $('#level').value=state.player.level; $('#displayAtk').value=state.weapon.displayAtk; $('#weaponLv').value=state.weapon.equipmentLevel;
 $('#critTarget').value=state.auto.minCrit; $('#cdTarget').value=state.auto.minCooldown;
-$('#level').oninput=e=>{state.player.level=Math.max(1,Math.min(500,Number(e.target.value||1)));e.target.value=state.player.level;saveState(state);renderTree($('#treeSearch')?.value||'');refreshSystemSummary();refreshAuto();};
+$('#level').oninput=e=>{state.player.level=Math.max(1,Math.min(500,Number(e.target.value||1)));e.target.value=state.player.level;saveState(state);renderTree($('#treeSearch')?.value||'');refreshSystemSummary();if(state.mode==='auto')refreshAuto(true);};
 $('#displayAtk').oninput=resolverRefresh; $('#weaponLv').oninput=resolverRefresh;
-$('#skill').onchange=e=>{state.skill.id=Number(e.target.value);saveState(state);refreshAuto();refreshOverview()};
-$('#critTarget').oninput=refreshAuto; $('#cdTarget').oninput=refreshAuto;
+$('#skill').onchange=e=>{state.skill.id=Number(e.target.value);saveState(state);if(state.mode==='auto')refreshAuto(true);else refreshOverview()};
+$('#critTarget').oninput=()=>refreshAuto(true); $('#cdTarget').oninput=()=>refreshAuto(true);
 $('#reset').onclick=()=>{localStorage.removeItem('tower-sword-v1');location.reload()};
 
 if($('#exportPdf')) $('#exportPdf').onclick=()=>{refreshReport();window.print();};
