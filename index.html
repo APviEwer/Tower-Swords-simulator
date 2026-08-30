@@ -2503,7 +2503,7 @@ window.TOWER_SWORD_AUTO_CANDIDATES=[["9492",0.0,28.0,90.0,73.0,0.0,2.0,6.0,0.0,6
 /* --- src/core/optimizer.js --- */
 
 
-function optimizeMax({minCrit=0,minCooldown=0}={}){
+function legacyOptimizeMax({minCrit=0,minCooldown=0}={}){
   const targetCrit=Math.max(0,Math.min(100,Number(minCrit||0)));
   const targetCd=Math.max(0,Math.min(100,Number(minCooldown||0)));
   const sys=systemSelectionSummary();
@@ -2821,8 +2821,8 @@ const autoBenchmarkCounts={
   99:[2,4,0,2,4,0,2,5,0,1,24,0,0,0,0,5,0,1],
   100:[2,4,0,2,4,0,2,5,0,1,24,0,0,0,0,4,0,2]
 };
-function makeAutoEquipment(){
-  const r=optimizeMax(state.auto);
+function legacyMakeAutoEquipment(args=state.auto){
+  const r=legacyOptimizeMax(args);
   if(r.status!=='dynamic'||!r.candidate)return null;
   const c=r.candidate,a=r.allocation;
   const elemType=activeSkill()?.element==='火'?'火焰法術傷害':activeSkill()?.element==='冰'?'冰系法術傷害':activeSkill()?.element==='雷'?'閃電法術傷害':'普通法術傷害';
@@ -2843,6 +2843,194 @@ function makeAutoEquipment(){
   assign(jp,[[elemType,c.jpE,9],['法術傷害',c.jpS,7],['暴擊率',c.jpC,2],['冷卻時間',c.jpD,1]]);
   return eq;
 }
+
+/* Beta 0.1 corrected auto optimizer
+   Rule: Page 1 + Page 2 are fixed. Only Page 3 equipment is optimized.
+   Crit/CD are minimum constraints. All remaining legal damage affixes compete
+   for maximum single-hit critical damage. The current legal Manual Build is
+   also used as a hard lower-bound candidate, so Auto can never return lower
+   damage than an already-legal manual configuration under the same targets. */
+
+function autoActiveElementType(){
+  const e=activeSkill()?.element;
+  return e==='火'?'火焰法術傷害':e==='冰'?'冰系法術傷害':e==='雷'?'閃電法術傷害':'普通法術傷害';
+}
+function autoSlotKind(gear,slot){
+  if(/^Plus/.test(slot))return (gear==='項鍊'||gear==='耳環')?'jplus':'plus';
+  if(slot==='Basic1')return (gear==='項鍊'||gear==='耳環')?'jprimary':'primary';
+  return (gear==='項鍊'||gear==='耳環')?'jbasic':'basic';
+}
+function autoMaxValue(gear,slot,type){
+  const k=autoSlotKind(gear,slot);
+  const elem=autoActiveElementType();
+  const table={
+    primary:{'所有魔法等級':7,'ATK':30125580216328,'法術傷害':45,'暴擊率':16,'冷卻時間':12,[elem]:58},
+    jprimary:{'所有魔法等級':4,'ATK':15062790108164,'法術傷害':22,'暴擊率':8,'冷卻時間':6,[elem]:29},
+    basic:{'ATK':20083720144218,'法術傷害':30,'暴擊率':11,'冷卻時間':8,[elem]:39},
+    jbasic:{'ATK':10041860072109,'法術傷害':15,'暴擊率':5,'冷卻時間':4,[elem]:19},
+    plus:{'ATK':10041860072109,'法術傷害':14,'暴擊率':5,'冷卻時間':3,[elem]:19},
+    jplus:{'ATK':5020930036054,'法術傷害':7,'暴擊率':2,'冷卻時間':1,[elem]:9}
+  };
+  return table[k]?.[type] ?? null;
+}
+function autoSlotDefs(){
+  const elem=autoActiveElementType();
+  const relevant=new Set(['ATK','法術傷害','暴擊率','冷卻時間','所有魔法等級',elem]);
+  const defs=[];
+  for(const sp of specs){
+    for(let b=1;b<=sp.basicCount;b++){
+      const slot=`Basic${b}`;
+      const source=b===1?basic1ListFor(sp.basic):manualListFor(sp.basic);
+      const opts=source.filter(x=>relevant.has(x)).map(type=>({type,value:autoMaxValue(sp.name,slot,type)})).filter(x=>x.value!=null);
+      defs.push({gear:sp.name,slot,opts});
+    }
+    for(let p=1;p<=sp.plusCount;p++){
+      const slot=`Plus${p}`;
+      const opts=manualListFor(sp.plus).filter(x=>relevant.has(x)).map(type=>({type,value:autoMaxValue(sp.name,slot,type)})).filter(x=>x.value!=null);
+      defs.push({gear:sp.name,slot,opts});
+    }
+  }
+  return defs;
+}
+function autoContribution(type,value){
+  const elem=autoActiveElementType();
+  return {
+    atk:type==='ATK'?Number(value):0,
+    elem:type===elem?Number(value):0,
+    spell:type==='法術傷害'?Number(value):0,
+    crit:type==='暴擊率'?Number(value):0,
+    cd:type==='冷卻時間'?Number(value):0,
+    skill:type==='所有魔法等級'?Number(value):0
+  };
+}
+function autoEvaluateTotals(totals,targetCrit,targetCd){
+  const sys=systemSelectionSummary(),sk=activeSkill(),elemKey=skillElementKey(sk);
+  const finalCrit=Number(sys.stats.crit||0)+totals.crit;
+  const finalCd=Number(sys.stats.cooldown||0)+totals.cd;
+  if(finalCrit+1e-9<targetCrit||finalCd+1e-9<targetCd)return null;
+  const finalSkillLv=Math.max(1,Math.min(139,Math.round(weaponBaseSkillLv()+Number(sys.stats.skillLv||0)+totals.skill)));
+  const skillAtk=skillAtkAtLevel(sk.id,finalSkillLv);
+  if(!Number.isFinite(skillAtk))return null;
+  const atkResult=effectiveAtkResult(BigInt(Math.max(0,Math.round(totals.atk))));
+  if(!atkResult.valid)return null;
+  const element=Number(sys.stats[elemKey]||0)+totals.elem;
+  const spell=Number(sys.stats.spell||0)+totals.spell;
+  const critDamagePct=150+Number(sys.stats.critDamage||0);
+  const bossMultiplier=state.player?.boss?1+Number(sys.stats.boss||0)/100:1;
+  const otherMultiplier=manualOtherDamageMultiplier();
+  const nonCritDamage=Math.floor(atkResult.effectiveAtk*skillAtk*(1+element/100)*(1+spell/100)*bossMultiplier*otherMultiplier);
+  const critDamage=Math.floor(nonCritDamage*(critDamagePct/100));
+  return {critDamage,nonCritDamage,crit:Math.min(100,finalCrit),rawCrit:finalCrit,cd:finalCd,elem:element,spell,skillLv:finalSkillLv,skillAtk,effectiveAtk:atkResult.effectiveAtk,critDamagePct};
+}
+function autoEqFromManual(){
+  const eq={};
+  for(const sp of specs)eq[sp.name]={};
+  for(const [key,item] of Object.entries(state.manual.equipment||{})){
+    if(!item?.type)continue;
+    const [gear,rawSlot]=key.split('.');
+    const slot=rawSlot?.startsWith('B')?`Basic${rawSlot.slice(1)}`:rawSlot?.startsWith('P')?`Plus${rawSlot.slice(1)}`:rawSlot;
+    const v=manualValue(item); if(!v?.valid||!eq[gear]||!slot)continue;
+    eq[gear][slot]=[item.type,item.type==='ATK'?Number(v.atk):Number(v.num)];
+  }
+  return eq;
+}
+function autoTotalsFromEq(eq){
+  const t={atk:0,elem:0,spell:0,crit:0,cd:0,skill:0};
+  for(const slots of Object.values(eq||{}))for(const [type,value] of Object.values(slots||{})){
+    const c=autoContribution(type,value);
+    t.atk+=c.atk;t.elem+=c.elem;t.spell+=c.spell;t.crit+=c.crit;t.cd+=c.cd;t.skill+=c.skill;
+  }
+  return t;
+}
+function autoBeamOptimize({minCrit=0,minCooldown=0}={}){
+  const targetCrit=Math.max(0,Math.min(100,Number(minCrit||0)));
+  const targetCd=Math.max(0,Math.min(100,Number(minCooldown||0)));
+  const sys=systemSelectionSummary();
+  const baseCrit=Number(sys.stats.crit||0),baseCd=Number(sys.stats.cooldown||0);
+  const defs=autoSlotDefs();
+  let beam=[{atk:0,elem:0,spell:0,crit:0,cd:0,skill:0,eq:{}}];
+  const LIMIT=2200;
+
+  const proxy=x=>{
+    const crit=Math.min(targetCrit,baseCrit+x.crit),cd=Math.min(targetCd,baseCd+x.cd);
+    const constraint=(targetCrit?crit/targetCrit:1)+(targetCd?cd/targetCd:1);
+    const atkBase=effectiveAtkResult(BigInt(Math.max(0,Math.round(x.atk))));
+    const sk=activeSkill();
+    const sl=Math.max(1,Math.min(139,Math.round(weaponBaseSkillLv()+Number(sys.stats.skillLv||0)+x.skill)));
+    const sa=skillAtkAtLevel(sk.id,sl)||1;
+    const elemKey=skillElementKey(sk);
+    const dmg=Math.log(Math.max(1,atkBase.valid?atkBase.effectiveAtk:1))+Math.log(Math.max(1,sa))+
+      Math.log(1+(Number(sys.stats[elemKey]||0)+x.elem)/100)+Math.log(1+(Number(sys.stats.spell||0)+x.spell)/100);
+    return dmg+constraint*8;
+  };
+
+  for(const def of defs){
+    const next=[];
+    for(const st of beam){
+      for(const opt of def.opts){
+        const c=autoContribution(opt.type,opt.value);
+        const eq={...st.eq,[`${def.gear}|${def.slot}`]:[opt.type,opt.value]};
+        next.push({atk:st.atk+c.atk,elem:st.elem+c.elem,spell:st.spell+c.spell,crit:st.crit+c.crit,cd:st.cd+c.cd,skill:st.skill+c.skill,eq});
+      }
+    }
+    next.sort((a,b)=>proxy(b)-proxy(a));
+    const keep=[],seen=new Map();
+    for(const st of next){
+      const key=`${Math.min(100,Math.round(baseCrit+st.crit))}|${Math.min(100,Math.round(baseCd+st.cd))}|${Math.min(139,Math.round(st.skill))}`;
+      const n=seen.get(key)||0;
+      if(n>=3)continue;
+      seen.set(key,n+1);keep.push(st);
+      if(keep.length>=LIMIT)break;
+    }
+    beam=keep;
+  }
+
+  let best=null;
+  for(const st of beam){
+    const ev=autoEvaluateTotals(st,targetCrit,targetCd);
+    if(!ev)continue;
+    if(!best||ev.critDamage>best.ev.critDamage)best={st,ev};
+  }
+  if(!best)return null;
+
+  const eq={};for(const sp of specs)eq[sp.name]={};
+  for(const [key,val] of Object.entries(best.st.eq)){
+    const [gear,slot]=key.split('|');eq[gear][slot]=val;
+  }
+  return {...best.ev,status:'dynamic',source:'full-legal-beam',eq};
+}
+function optimizeMax(args={}){
+  const targetCrit=Math.max(0,Math.min(100,Number(args.minCrit||0)));
+  const targetCd=Math.max(0,Math.min(100,Number(args.minCooldown||0)));
+  let best=autoBeamOptimize(args);
+
+  /* Manual build is a mandatory lower-bound candidate if it satisfies the same limits. */
+  const manualEq=autoEqFromManual();
+  const manualTotals=autoTotalsFromEq(manualEq);
+  const manualEval=autoEvaluateTotals(manualTotals,targetCrit,targetCd);
+  if(manualEval&&(!best||manualEval.critDamage>best.critDamage)){
+    best={...manualEval,status:'dynamic',source:'manual-lower-bound',eq:manualEq};
+  }
+
+  /* Keep the older V1.5Q result as another candidate, never as the sole optimizer. */
+  const legacy=legacyOptimizeMax(args);
+  if(legacy?.status==='dynamic'){
+    const legacyEq=legacyMakeAutoEquipment(args);
+    const legacyTotals=autoTotalsFromEq(legacyEq);
+    const legacyEval=autoEvaluateTotals(legacyTotals,targetCrit,targetCd);
+    if(legacyEval&&(!best||legacyEval.critDamage>best.critDamage)){
+      best={...legacyEval,status:'dynamic',source:'legacy-seed',eq:legacyEq};
+    }
+  }
+
+  if(best)return best;
+  return {status:'infeasible',crit:Number(systemSelectionSummary().stats.crit||0),cd:Number(systemSelectionSummary().stats.cooldown||0),elem:0,spell:0,critDamage:null,eq:null};
+}
+function makeAutoEquipment(){
+  const r=optimizeMax(state.auto);
+  return r?.status==='dynamic'?r.eq:null;
+}
+
 function renderAutoBreakdown(r){
   const host=$('#autoEquipmentGrid'),sum=$('#autoSummaryList'),note=$('#autoBreakdownNote');if(!host||!sum||!note)return;
   if(r.status!=='dynamic'){
@@ -2856,14 +3044,14 @@ function renderAutoBreakdown(r){
   const items=[];for(const e of order)for(const k of slotOrder)if(eq?.[e]?.[k])items.push({type:eq[e][k][0],value:eq[e][k][1]});
   const types=[...new Set(items.map(x=>x.type))];
   sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${total}${unit}</div></div>`}).join('');
-  note.textContent=`固定目前角色／技能／系統效果。裝備最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
+  note.textContent=`固定目前角色／技能／系統效果；暴擊／冷卻達標後，以所有合法傷害詞條搜尋最大傷害。最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
 function refreshAuto(){
   state.auto.minCrit=Number($('#critTarget').value||0);
   state.auto.minCooldown=Number($('#cdTarget').value||0);
   const r=optimizeMax(state.auto); saveState(state);
-  $('#autoStatus').textContent=r.status==='dynamic'?'已依目前 Build 完成最佳化':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
+  $('#autoStatus').textContent=r.status==='dynamic'?'已依目前 Build 搜尋合法最大傷害':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
   $('#autoStatus').className=r.status==='dynamic'?'pass':'warn';
   $('#autoCrit').textContent=r.crit??'—';
   $('#autoCd').textContent=r.cd??'—';
@@ -3143,12 +3331,13 @@ function manualDamageResult(){
 }
 function weaponBaseSkillLv(){return Math.min(139,Math.max(1,Math.floor(Number(state.weapon.equipmentLevel||0)/10)+1));}
 function autoEquipmentTotals(){
-  const r=optimizeMax(state.auto),eq=r.status==='dynamic'?makeAutoEquipment():null;
+  const r=optimizeMax(state.auto),eq=r.status==='dynamic'?r.eq:null;
   const out={available:!!eq,atk:0n,spell:0,crit:0,cooldown:0,mpReduce:0,skillLv:0,element:0,items:[],result:r};
   if(!eq)return out;
-  for(const [gear,slots] of Object.entries(eq))for(const [slot,[type,value]] of Object.entries(slots)){
+  for(const [gear,slots] of Object.entries(eq))for(const [slot,[type,value]] of Object.entries(slots||{})){
     out.items.push({gear,slot,type,value:Number(value||0)});
-    if(type==='法術傷害')out.spell+=Number(value||0);
+    if(type==='ATK')out.atk+=BigInt(Math.max(0,Math.round(Number(value||0))));
+    else if(type==='法術傷害')out.spell+=Number(value||0);
     else if(type==='暴擊率')out.crit+=Number(value||0);
     else if(type==='冷卻時間')out.cooldown+=Number(value||0);
     else if(type==='所有魔法等級')out.skillLv+=Number(value||0);
