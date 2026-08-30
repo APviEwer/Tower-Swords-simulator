@@ -1324,6 +1324,160 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 @media(max-width:620px){.site-footer{padding:12px 7px 13px!important}.footer-social{gap:5px!important;margin-bottom:7px!important}.footer-social-link{min-height:27px!important;padding:4px 8px!important;font-size:8px!important}.footer-social-icon{min-width:17px!important;width:17px!important;height:17px!important}.footer-social-icon svg{width:11px!important;height:11px!important}.footer-social-icon-youtube svg{width:12px!important;height:12px!important}.footer-social-icon-share svg{width:10px!important;height:10px!important}.footer-copyright{font-size:7.2px!important}}
 @media print{.footer-social{display:none!important}}
 </style>
+
+<style id="beta-01-damage-card-flow">
+/* Bottom live-damage cards: wider, centered, white/red flowing highlight. */
+.beta-live{
+  width:min(100%,760px)!important;
+  padding:13px 15px 12px!important;
+}
+.beta-live-grid{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:12px!important;
+}
+.beta-live-cell{
+  position:relative!important;
+  overflow:hidden!important;
+  min-height:72px!important;
+  padding:10px 14px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  border-color:rgba(235,241,244,.25)!important;
+}
+.beta-live-cell.crit{
+  border-color:rgba(224,68,68,.42)!important;
+  background:linear-gradient(180deg,rgba(45,18,18,.34),rgba(25,12,13,.34))!important;
+}
+.beta-live-k{
+  width:100%!important;
+  text-align:center!important;
+  margin:0 0 7px!important;
+  font-size:9px!important;
+}
+.beta-live-v{
+  width:100%!important;
+  text-align:center!important;
+  font-size:23px!important;
+  line-height:1!important;
+  font-variant-numeric:tabular-nums!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+.beta-live-cell:not(.crit) .beta-live-v{color:#f2f6f8!important;text-shadow:0 0 10px rgba(255,255,255,.10)}
+.beta-live-cell.crit .beta-live-v{color:#ff7777!important;text-shadow:0 0 12px rgba(255,70,70,.18)}
+
+.beta-live-cell::after{
+  content:"";
+  position:absolute;
+  top:0;bottom:0;
+  left:-46%;
+  width:34%;
+  pointer-events:none;
+  transform:skewX(-18deg);
+}
+.beta-live-cell:not(.crit)::after{
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),rgba(255,255,255,.30),rgba(255,255,255,.06),transparent);
+  animation:betaWhiteDamageFlow 3.8s ease-in-out infinite;
+}
+.beta-live-cell.crit::after{
+  background:linear-gradient(90deg,transparent,rgba(255,54,54,.05),rgba(255,72,72,.36),rgba(255,54,54,.08),transparent);
+  animation:betaRedDamageFlow 3.2s ease-in-out infinite;
+}
+@keyframes betaWhiteDamageFlow{
+  0%,38%{left:-46%;opacity:0}
+  45%{opacity:1}
+  76%{left:112%;opacity:1}
+  77%,100%{left:112%;opacity:0}
+}
+@keyframes betaRedDamageFlow{
+  0%,28%{left:-46%;opacity:0}
+  36%{opacity:1}
+  72%{left:112%;opacity:1}
+  73%,100%{left:112%;opacity:0}
+}
+
+@media(max-width:620px){
+  .beta-live{width:100%!important;padding:10px!important}
+  .beta-live-grid{gap:8px!important}
+  .beta-live-cell{min-height:62px!important;padding:8px 10px!important}
+  .beta-live-k{font-size:8px!important;margin-bottom:6px!important}
+  .beta-live-v{font-size:19px!important}
+}
+@media(max-width:360px){
+  .beta-live-grid{gap:6px!important}
+  .beta-live-cell{min-height:58px!important;padding:7px 6px!important}
+  .beta-live-v{font-size:17px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .beta-live-cell::after{animation:none!important;display:none!important}
+}
+</style>
+
+
+<style id="beta-01-damage-card-flow-v2">
+/* Width-only correction: center the pair and widen horizontally, without increasing height. */
+.beta-live{
+  width:min(100%,760px)!important;
+  padding:11px 14px 10px!important;
+}
+.beta-live-grid{
+  width:min(100%,680px)!important;
+  margin:0 auto!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:12px!important;
+}
+.beta-live-cell{
+  min-height:0!important;
+  height:auto!important;
+  padding:7px 18px!important;
+  display:block!important;
+  text-align:center!important;
+}
+.beta-live-k{
+  margin:0 0 4px!important;
+  text-align:center!important;
+  font-size:8px!important;
+}
+.beta-live-v{
+  text-align:center!important;
+  font-size:18px!important;
+  line-height:1.08!important;
+}
+
+/* Keep previous white/red flowing highlight. */
+.beta-live-cell{position:relative!important;overflow:hidden!important}
+.beta-live-cell::after{
+  content:"";position:absolute;top:0;bottom:0;left:-46%;width:34%;
+  pointer-events:none;transform:skewX(-18deg)
+}
+.beta-live-cell:not(.crit)::after{
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),rgba(255,255,255,.30),rgba(255,255,255,.06),transparent);
+  animation:betaWhiteDamageFlow 3.8s ease-in-out infinite
+}
+.beta-live-cell.crit::after{
+  background:linear-gradient(90deg,transparent,rgba(255,54,54,.05),rgba(255,72,72,.36),rgba(255,54,54,.08),transparent);
+  animation:betaRedDamageFlow 3.2s ease-in-out infinite
+}
+@media(max-width:620px){
+  .beta-live{padding:8px 10px!important}
+  .beta-live-grid{width:100%!important;gap:8px!important}
+  .beta-live-cell{padding:6px 12px!important}
+  .beta-live-k{font-size:7px!important;margin-bottom:3px!important}
+  .beta-live-v{font-size:15px!important}
+}
+@media(max-width:360px){
+  .beta-live-grid{gap:6px!important}
+  .beta-live-cell{padding:6px 8px!important}
+  .beta-live-v{font-size:14px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .beta-live-cell::after{animation:none!important;display:none!important}
+}
+</style>
+
 </head>
 <body>
 <script>
@@ -1553,6 +1707,16 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </section>
 </main>
 
+<div class="beta-live no-print" id="betaLive" aria-live="polite">
+  <div class="beta-live-head"><div class="beta-live-label">即時傷害</div><div class="beta-live-mode" id="betaLiveMode">手動實裝</div></div>
+  <div class="beta-live-grid">
+    <div class="beta-live-cell"><div class="beta-live-k" id="betaLiveNormalLabel">未暴擊</div><div class="beta-live-v" id="betaLiveNormal">—</div></div>
+    <div class="beta-live-cell crit"><div class="beta-live-k" id="betaLiveCritLabel">暴擊</div><div class="beta-live-v" id="betaLiveCrit">—</div></div>
+  </div>
+  <div class="beta-live-meta"><span id="betaLiveAtk">ATK —</span><span id="betaLiveSkill">—</span></div>
+</div>
+</div>
+
 <div class="footer-note site-footer">
   <div class="footer-social no-print" aria-label="APviEwer 社群連結">
     <a class="footer-social-link" href="https://discord.gg/3BTU7WwPK3" target="_blank" rel="noopener noreferrer" aria-label="Discord">
@@ -1575,16 +1739,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     </button>
   </div>
   <div class="footer-copyright">Copyright © APviEwer. All Rights Reserved.</div>
-</div>
-</div>
-
-<div class="beta-live no-print" id="betaLive" aria-live="polite">
-  <div class="beta-live-head"><div class="beta-live-label">即時傷害</div><div class="beta-live-mode" id="betaLiveMode">手動實裝</div></div>
-  <div class="beta-live-grid">
-    <div class="beta-live-cell"><div class="beta-live-k" id="betaLiveNormalLabel">未暴擊</div><div class="beta-live-v" id="betaLiveNormal">—</div></div>
-    <div class="beta-live-cell crit"><div class="beta-live-k" id="betaLiveCritLabel">暴擊</div><div class="beta-live-v" id="betaLiveCrit">—</div></div>
-  </div>
-  <div class="beta-live-meta"><span id="betaLiveAtk">ATK —</span><span id="betaLiveSkill">—</span></div>
 </div>
 <div class="actions"><div class="inner"><button class="btn secondary" id="prev">上一步</button><button class="btn secondary" id="reset">重置草稿</button><button class="btn primary" id="next">下一步</button></div></div>
 <script>
