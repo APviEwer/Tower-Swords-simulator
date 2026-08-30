@@ -3308,31 +3308,169 @@ function betaAutoCacheKey({minCrit=0,minCooldown=0}={}){
     sysElem:Number(sys.stats[elemKey]||0),sysSkill:Number(sys.stats.skillLv||0)
   });
 }
+
+function betaAutoManualAssignment(defs){
+  const map=state.manual?.equipment||{};
+  const a=betaAutoMakeDamageSeed(defs,'mixed');
+  let any=false;
+  for(let i=0;i<defs.length;i++){
+    const d=defs[i];
+    const short=d.slot.startsWith('Basic')?`B${d.slot.slice(5)}`:`P${d.slot.slice(4)}`;
+    const item=map[`${d.gear}.${short}`];
+    if(!item?.type)continue;
+    const j=d.opts.findIndex(o=>o.type===item.type);
+    if(j>=0){a[i]=j;any=true;}
+  }
+  return any?a:null;
+}
+
+function betaAutoExactImprove(defs,seed,targetCrit,targetCd){
+  let cur=betaAutoHillClimb(defs,seed,targetCrit,targetCd);
+  if(!cur)return null;
+
+  // Stronger neighborhood: exact 3-slot exchanges among constraint-capable slots.
+  // This lets the engine move CD/Crit to cheaper locations and free stronger
+  // damage slots, which the prior 1/2-slot search could miss.
+  const candidateIdx=[];
+  for(let i=0;i<defs.length;i++){
+    if(defs[i].opts.some(o=>o.crit>0||o.cd>0))candidateIdx.push(i);
+  }
+
+  for(let pass=0;pass<3;pass++){
+    let best=cur, improved=false;
+    const a=cur.assign, t=cur.totals;
+
+    // Rank slots by whether they currently carry Crit/CD, then include a bounded
+    // set of damage slots that can be converted to constraints.
+    const ranked=candidateIdx.slice().sort((i,j)=>{
+      const oi=defs[i].opts[a[i]],oj=defs[j].opts[a[j]];
+      return (Number(oj.crit>0||oj.cd>0)-Number(oi.crit>0||oi.cd>0));
+    }).slice(0,22);
+
+    for(let x=0;x<ranked.length;x++){
+      const i=ranked[x], oi=a[i], oldI=defs[i].opts[oi];
+      for(let y=x+1;y<ranked.length;y++){
+        const j=ranked[y], oj=a[j], oldJ=defs[j].opts[oj];
+        for(let z=y+1;z<ranked.length;z++){
+          const k=ranked[z], ok=a[k], oldK=defs[k].opts[ok];
+
+          for(let ni=0;ni<defs[i].opts.length;ni++){
+            if(ni===oi)continue;
+            const I=defs[i].opts[ni];
+            for(let nj=0;nj<defs[j].opts.length;nj++){
+              if(nj===oj)continue;
+              const J=defs[j].opts[nj];
+              for(let nk=0;nk<defs[k].opts.length;nk++){
+                if(nk===ok)continue;
+                const K=defs[k].opts[nk];
+
+                const nt={
+                  atk:t.atk-oldI.atk-oldJ.atk-oldK.atk+I.atk+J.atk+K.atk,
+                  elem:t.elem-oldI.elem-oldJ.elem-oldK.elem+I.elem+J.elem+K.elem,
+                  spell:t.spell-oldI.spell-oldJ.spell-oldK.spell+I.spell+J.spell+K.spell,
+                  crit:t.crit-oldI.crit-oldJ.crit-oldK.crit+I.crit+J.crit+K.crit,
+                  cd:t.cd-oldI.cd-oldJ.cd-oldK.cd+I.cd+J.cd+K.cd
+                };
+                const ev=betaAutoEvalTotals(nt,targetCrit,targetCd);
+                if(!ev||ev.critDamage<=best.result.critDamage)continue;
+
+                const na=a.slice();na[i]=ni;na[j]=nj;na[k]=nk;
+                best={assign:na,totals:nt,result:ev};
+                improved=true;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    cur=best;
+    if(!improved)break;
+    const reclimb=betaAutoHillClimb(defs,cur.assign,targetCrit,targetCd);
+    if(reclimb&&reclimb.result.critDamage>cur.result.critDamage)cur=reclimb;
+  }
+  return cur;
+}
+
 function betaAutoSearch({minCrit=0,minCooldown=0}={}){
   const args={minCrit,minCooldown};
   const cacheKey=betaAutoCacheKey(args);
   if(betaAutoCache.has(cacheKey))return betaAutoCache.get(cacheKey);
+
   const targetCrit=Math.max(0,Math.min(100,Number(minCrit||0)));
   const targetCd=Math.max(0,Math.min(100,Number(minCooldown||0)));
   const defs=betaAutoSlotDefs();
 
-  // Multiple independent seeds reduce local-optimum risk.
+  // Independent starts. Manual is only an incumbent/seed; it is never blindly
+  // returned as "the automatic answer".
   const seeds=[
     betaAutoMakeDamageSeed(defs,'mixed'),
     betaAutoMakeDamageSeed(defs,'atk'),
     betaAutoMakeDamageSeed(defs,'elem'),
     betaAutoMakeDamageSeed(defs,'spell'),
-    betaAutoManualTypeSeed(defs),
-    betaAutoLegacySeed(defs)
+    betaAutoLegacySeed(defs),
+    betaAutoManualAssignment(defs)
   ].filter(Boolean);
 
+  // Add deterministic constraint-biased seeds so 94/95/96 do not inherit
+  // the same local allocation merely because all satisfy the threshold.
+  for(const bias of ['crit','cd']){
+    const base=betaAutoMakeDamageSeed(defs,'mixed');
+    const sys=systemSelectionSummary();
+    let t=betaAutoTotals(defs,base);
+    for(let guard=0;guard<40;guard++){
+      const needC=Math.max(0,targetCrit-(Number(sys.stats.crit||0)+t.crit));
+      const needD=Math.max(0,targetCd-(Number(sys.stats.cooldown||0)+t.cd));
+      if(needC<=0&&needD<=0)break;
+      let best=null;
+      for(let i=0;i<defs.length;i++){
+        const old=base[i],oldO=defs[i].opts[old];
+        for(let j=0;j<defs[i].opts.length;j++){
+          if(j===old)continue;
+          const o=defs[i].opts[j];
+          const gainC=Math.min(needC,Math.max(0,o.crit-oldO.crit));
+          const gainD=Math.min(needD,Math.max(0,o.cd-oldO.cd));
+          if(gainC<=0&&gainD<=0)continue;
+          const nt={
+            atk:t.atk-oldO.atk+o.atk, elem:t.elem-oldO.elem+o.elem,
+            spell:t.spell-oldO.spell+o.spell, crit:t.crit-oldO.crit+o.crit,
+            cd:t.cd-oldO.cd+o.cd
+          };
+          const loss=betaAutoDamageScore(t)-betaAutoDamageScore(nt);
+          const progress=bias==='crit'?(gainC*10+gainD):(gainD*10+gainC);
+          const metric=loss/Math.max(progress,1e-9);
+          if(!best||metric<best.metric){best={metric,i,j,nt};}
+        }
+      }
+      if(!best)break;
+      base[best.i]=best.j;t=best.nt;
+    }
+    seeds.push(base);
+  }
+
   let best=null;
-  for(const seed of seeds){
-    const feasible=betaAutoMeetConstraints(defs,seed,targetCrit,targetCd);
+  for(const seed0 of seeds){
+    const feasible=betaAutoMeetConstraints(defs,seed0,targetCrit,targetCd);
     if(!feasible)continue;
-    const opt=betaAutoHillClimb(defs,feasible,targetCrit,targetCd);
+    const opt=betaAutoExactImprove(defs,feasible,targetCrit,targetCd);
     if(!opt)continue;
     if(!best||opt.result.critDamage>best.result.critDamage)best=opt;
+  }
+
+  // Critical invariant: if the current legal Manual Build satisfies the same
+  // limits, use it only as an incumbent and IMPROVE from it. Auto must never
+  // finish below that known legal point.
+  const manualSeed=betaAutoManualAssignment(defs);
+  if(manualSeed){
+    const mt=betaAutoTotals(defs,manualSeed);
+    const mev=betaAutoEvalTotals(mt,targetCrit,targetCd);
+    if(mev){
+      const improved=betaAutoExactImprove(defs,manualSeed,targetCrit,targetCd);
+      const cand=(improved&&improved.result.critDamage>=mev.critDamage)
+        ? improved
+        : {assign:manualSeed,totals:mt,result:mev};
+      if(!best||cand.result.critDamage>best.result.critDamage)best=cand;
+    }
   }
 
   if(!best){
@@ -3343,7 +3481,7 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
       cd:Number(sys.stats.cooldown||0),
       elem:Number(sys.stats[skillElementKey(activeSkill())]||0),
       spell:Number(sys.stats.spell||0),
-      critDamage:null,eq:null,source:'rebuilt-search'
+      critDamage:null,eq:null,source:'rebuilt-search-v2'
     };
     betaAutoCache.set(cacheKey,miss);
     return miss;
@@ -3353,7 +3491,7 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
   const solved={
     ...best.result,
     eq,
-    source:'rebuilt-search',
+    source:'rebuilt-search-v2',
     searchKey:`skill:${activeSkill().id}|lv:${best.result.skillLv}|crit:${targetCrit}|cd:${targetCd}`
   };
   betaAutoCache.set(cacheKey,solved);
@@ -3382,7 +3520,7 @@ function renderAutoBreakdown(r){
   const items=[];for(const e of order)for(const k of slotOrder)if(eq?.[e]?.[k])items.push({type:eq[e][k][0],value:eq[e][k][1]});
   const types=[...new Set(items.map(x=>x.type))];
   sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';const totalText=t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(total)))):`${total}${unit}`;return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${totalText}</div></div>`}).join('');
-  note.textContent=`${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜獨立重新搜尋｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
+  note.textContent=`${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜全域強化搜尋 v2｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
 let betaAutoRefreshing=false;
