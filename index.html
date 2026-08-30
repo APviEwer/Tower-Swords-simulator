@@ -3392,6 +3392,149 @@ function betaAutoExactImprove(defs,seed,targetCrit,targetCd){
   return cur;
 }
 
+
+function betaAutoExactCdRepair(defs,seed,targetCrit,targetCd){
+  const sys=systemSelectionSummary();
+  const baseCd=Number(sys.stats.cooldown||0);
+  const exactEquipCd=targetCd-baseCd;
+  if(exactEquipCd < -1e-9)return null;
+
+  let best=null;
+
+  // Start from the supplied seed and perform bounded 1/2/3-slot substitutions
+  // whose resulting equipment-CD lands exactly on the requested target.
+  const start=seed.slice();
+  const baseT=betaAutoTotals(defs,start);
+
+  const consider=(a,t)=>{
+    if(Math.abs((baseCd+t.cd)-targetCd)>1e-9)return;
+    const ev=betaAutoEvalTotals(t,targetCrit,targetCd);
+    if(!ev)return;
+    if(!best || ev.critDamage>best.result.critDamage){
+      best={assign:a.slice(),totals:t,result:ev};
+    }
+  };
+
+  consider(start,baseT);
+
+  // Single substitutions
+  for(let i=0;i<defs.length;i++){
+    const oi=start[i],oldI=defs[i].opts[oi];
+    for(let ni=0;ni<defs[i].opts.length;ni++){
+      if(ni===oi)continue;
+      const I=defs[i].opts[ni];
+      const nt={
+        atk:baseT.atk-oldI.atk+I.atk,
+        elem:baseT.elem-oldI.elem+I.elem,
+        spell:baseT.spell-oldI.spell+I.spell,
+        crit:baseT.crit-oldI.crit+I.crit,
+        cd:baseT.cd-oldI.cd+I.cd
+      };
+      if(Math.abs((baseCd+nt.cd)-targetCd)<=1e-9){
+        const na=start.slice();na[i]=ni;consider(na,nt);
+      }
+    }
+  }
+
+  // Candidate slots capable of changing CD/Crit.
+  const idx=[];
+  for(let i=0;i<defs.length;i++){
+    if(defs[i].opts.some(o=>o.cd>0||o.crit>0))idx.push(i);
+  }
+
+  // Two substitutions
+  for(let x=0;x<idx.length;x++){
+    const i=idx[x],oi=start[i],oldI=defs[i].opts[oi];
+    for(let y=x+1;y<idx.length;y++){
+      const j=idx[y],oj=start[j],oldJ=defs[j].opts[oj];
+      for(let ni=0;ni<defs[i].opts.length;ni++){
+        if(ni===oi)continue;
+        const I=defs[i].opts[ni];
+        for(let nj=0;nj<defs[j].opts.length;nj++){
+          if(nj===oj)continue;
+          const J=defs[j].opts[nj];
+          const nt={
+            atk:baseT.atk-oldI.atk-oldJ.atk+I.atk+J.atk,
+            elem:baseT.elem-oldI.elem-oldJ.elem+I.elem+J.elem,
+            spell:baseT.spell-oldI.spell-oldJ.spell+I.spell+J.spell,
+            crit:baseT.crit-oldI.crit-oldJ.crit+I.crit+J.crit,
+            cd:baseT.cd-oldI.cd-oldJ.cd+I.cd+J.cd
+          };
+          if(Math.abs((baseCd+nt.cd)-targetCd)<=1e-9){
+            const na=start.slice();na[i]=ni;na[j]=nj;consider(na,nt);
+          }
+        }
+      }
+    }
+  }
+
+  // Three substitutions, restricted to the most relevant 18 slots for runtime.
+  const tri=idx.slice(0,18);
+  for(let x=0;x<tri.length;x++){
+    const i=tri[x],oi=start[i],oldI=defs[i].opts[oi];
+    for(let y=x+1;y<tri.length;y++){
+      const j=tri[y],oj=start[j],oldJ=defs[j].opts[oj];
+      for(let z=y+1;z<tri.length;z++){
+        const k=tri[z],ok=start[k],oldK=defs[k].opts[ok];
+        for(let ni=0;ni<defs[i].opts.length;ni++){
+          if(ni===oi)continue;
+          const I=defs[i].opts[ni];
+          for(let nj=0;nj<defs[j].opts.length;nj++){
+            if(nj===oj)continue;
+            const J=defs[j].opts[nj];
+            for(let nk=0;nk<defs[k].opts.length;nk++){
+              if(nk===ok)continue;
+              const K=defs[k].opts[nk];
+              const nt={
+                atk:baseT.atk-oldI.atk-oldJ.atk-oldK.atk+I.atk+J.atk+K.atk,
+                elem:baseT.elem-oldI.elem-oldJ.elem-oldK.elem+I.elem+J.elem+K.elem,
+                spell:baseT.spell-oldI.spell-oldJ.spell-oldK.spell+I.spell+J.spell+K.spell,
+                crit:baseT.crit-oldI.crit-oldJ.crit-oldK.crit+I.crit+J.crit+K.crit,
+                cd:baseT.cd-oldI.cd-oldJ.cd-oldK.cd+I.cd+J.cd+K.cd
+              };
+              if(Math.abs((baseCd+nt.cd)-targetCd)<=1e-9){
+                const na=start.slice();na[i]=ni;na[j]=nj;na[k]=nk;consider(na,nt);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  if(!best)return null;
+
+  // Once exact CD is reached, improve damage without leaving exact target.
+  let cur=best;
+  for(let pass=0;pass<5;pass++){
+    let moved=false,next=cur;
+    const a=cur.assign,t=cur.totals;
+
+    for(let i=0;i<defs.length;i++){
+      const oi=a[i],oldI=defs[i].opts[oi];
+      for(let ni=0;ni<defs[i].opts.length;ni++){
+        if(ni===oi)continue;
+        const I=defs[i].opts[ni];
+        const nt={
+          atk:t.atk-oldI.atk+I.atk, elem:t.elem-oldI.elem+I.elem,
+          spell:t.spell-oldI.spell+I.spell, crit:t.crit-oldI.crit+I.crit,
+          cd:t.cd-oldI.cd+I.cd
+        };
+        if(Math.abs((baseCd+nt.cd)-targetCd)>1e-9)continue;
+        const ev=betaAutoEvalTotals(nt,targetCrit,targetCd);
+        if(ev && ev.critDamage>next.result.critDamage){
+          const na=a.slice();na[i]=ni;
+          next={assign:na,totals:nt,result:ev};moved=true;
+        }
+      }
+    }
+
+    cur=next;
+    if(!moved)break;
+  }
+  return cur;
+}
+
 function betaAutoSearch({minCrit=0,minCooldown=0}={}){
   const args={minCrit,minCooldown};
   const cacheKey=betaAutoCacheKey(args);
@@ -3449,12 +3592,26 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
   }
 
   let best=null;
+  let bestExactCd=null;
   for(const seed0 of seeds){
     const feasible=betaAutoMeetConstraints(defs,seed0,targetCrit,targetCd);
     if(!feasible)continue;
+
     const opt=betaAutoExactImprove(defs,feasible,targetCrit,targetCd);
-    if(!opt)continue;
-    if(!best||opt.result.critDamage>best.result.critDamage)best=opt;
+    if(opt && (!best||opt.result.critDamage>best.result.critDamage))best=opt;
+
+    // Independently search for a solution whose FINAL cooldown equals
+    // the requested threshold exactly (when feasible).
+    const exact=betaAutoExactCdRepair(defs,feasible,targetCrit,targetCd);
+    if(exact && (!bestExactCd||exact.result.critDamage>bestExactCd.result.critDamage)){
+      bestExactCd=exact;
+    }
+  }
+
+  // "Minimum CD" semantics are preserved: an overshooting solution may still win,
+  // but only if its actual damage is higher than the best exact-target solution.
+  if(bestExactCd && (!best || bestExactCd.result.critDamage>best.result.critDamage)){
+    best=bestExactCd;
   }
 
   // Critical invariant: if the current legal Manual Build satisfies the same
@@ -3466,9 +3623,11 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
     const mev=betaAutoEvalTotals(mt,targetCrit,targetCd);
     if(mev){
       const improved=betaAutoExactImprove(defs,manualSeed,targetCrit,targetCd);
-      const cand=(improved&&improved.result.critDamage>=mev.critDamage)
+      const exactManual=betaAutoExactCdRepair(defs,manualSeed,targetCrit,targetCd);
+      let cand=(improved&&improved.result.critDamage>=mev.critDamage)
         ? improved
         : {assign:manualSeed,totals:mt,result:mev};
+      if(exactManual && exactManual.result.critDamage>cand.result.critDamage)cand=exactManual;
       if(!best||cand.result.critDamage>best.result.critDamage)best=cand;
     }
   }
@@ -3481,7 +3640,7 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
       cd:Number(sys.stats.cooldown||0),
       elem:Number(sys.stats[skillElementKey(activeSkill())]||0),
       spell:Number(sys.stats.spell||0),
-      critDamage:null,eq:null,source:'rebuilt-search-v2'
+      critDamage:null,eq:null,source:'rebuilt-search-v3-exact-cd'
     };
     betaAutoCache.set(cacheKey,miss);
     return miss;
@@ -3491,7 +3650,7 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
   const solved={
     ...best.result,
     eq,
-    source:'rebuilt-search-v2',
+    source:'rebuilt-search-v3-exact-cd',
     searchKey:`skill:${activeSkill().id}|lv:${best.result.skillLv}|crit:${targetCrit}|cd:${targetCd}`
   };
   betaAutoCache.set(cacheKey,solved);
@@ -3520,7 +3679,7 @@ function renderAutoBreakdown(r){
   const items=[];for(const e of order)for(const k of slotOrder)if(eq?.[e]?.[k])items.push({type:eq[e][k][0],value:eq[e][k][1]});
   const types=[...new Set(items.map(x=>x.type))];
   sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';const totalText=t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(total)))):`${total}${unit}`;return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${totalText}</div></div>`}).join('');
-  note.textContent=`${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜全域強化搜尋 v2｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
+  note.textContent=`${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜全域強化搜尋 v3・精確CD校驗｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
 let betaAutoRefreshing=false;
