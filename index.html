@@ -2,8 +2,8 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Tower & Swords｜Build & Damage Analysis｜Beta 0.1</title>
-<meta name="description" content="Tower & Swords Build & Damage Analysis｜Beta 0.1｜APviEwer 建置實驗室">
+<title>Tower & Swords｜Build & Damage Analysis｜V 1.0</title>
+<meta name="description" content="Tower & Swords Build & Damage Analysis｜V 1.0｜APviEwer 建置實驗室">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#0b0f14">
 <meta property="og:type" content="website">
@@ -1478,13 +1478,13 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 }
 </style>
 
-</head>
+<style id="v10-test22-no-bottom-live">#betaLive{display:none!important}</style></head>
 <body>
 <script>
 /* APviEwer Release bootstrap: reset test-state once, then preserve normal user saves. */
 (function(){
   try {
-    var RELEASE_ID = 'BETA-0.1-20260829';
+    var RELEASE_ID = 'V1.0-TEST22-CLEAN-20260831';
     var MARKER = 'tower-sword-release-seed';
     if (localStorage.getItem(MARKER) !== RELEASE_ID) {
       localStorage.removeItem('tower-sword-v1');
@@ -1521,14 +1521,19 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <div class="release-help-modal no-print" role="dialog" aria-modal="true" aria-label="操作說明">
   <div class="release-help-panel">
     <div class="release-help-head"><h2>模擬器操作說明</h2><button type="button" class="release-help-close" aria-label="關閉">×</button></div>
-    <p class="release-help-intro">依照 1 → 4 頁順序設定即可。模擬器會保存目前設定；需要重新開始時可使用頁面內的重置功能。</p>
+    <p class="release-help-intro">本模擬器依「角色設定 → 系統效果 → 裝備配置 → 分析報告」四個步驟運作。建議先依遊戲實際面板建立角色條件，再進行手動實裝或自動最佳化。設定會儲存在目前瀏覽器中，重新整理後仍會保留。</p>
     <div class="release-help-steps">
-      <div class="release-help-step"><strong>01｜角色設定</strong><span>輸入角色等級與主武固定 ATK，並選擇武器技能。技能圖示、元素、CD、MP 與等級資訊會同步顯示。</span></div>
-      <div class="release-help-step"><strong>2｜系統效果</strong><span>依遊戲角色實際進度設定人工製品、魔法樹、時裝與寵物。頁面上方會即時統計目前套用效果。</span></div>
-      <div class="release-help-step"><strong>03｜裝備配置</strong><span>先選擇「手動實裝」或「自動最佳化」。手動模式逐件配置合法詞條與實際值；自動最佳化可同時輸入最低暴擊率與最低冷卻條件，直接輸出最佳合法配置。</span></div>
-      <div class="release-help-step"><strong>04｜分析報告</strong><span>彙整目前技能、系統效果、裝備配置與最終傷害，並比較手動實裝與自動最佳化結果。</span></div>
+      <div class="release-help-step"><strong>01｜角色設定</strong><span>輸入角色等級、主武固定 ATK 與主武裝備 Lv，再選擇目前要模擬的武器技能。角色等級、裝備等級與技能選擇都會影響後續傷害與最佳化結果，因此請以遊戲目前實際數值為準。</span></div>
+      <div class="release-help-step"><strong>02｜武器技能</strong><span>技能切換後，技能等級、Skill ATK、元素類型與即時傷害會重新計算。自動最佳化的元素詞條也會依目前技能所屬的普通／火／冰／雷屬性配置。</span></div>
+      <div class="release-help-step"><strong>03｜系統效果</strong><span>依角色實際持有狀態設定人工製品、魔法樹、時裝與寵物。手動實裝會使用第二頁目前設定；魔法樹點數與角色等級限制請依遊戲實際可用範圍配置。</span></div>
+      <div class="release-help-step"><strong>04｜手動實裝</strong><span>手動實裝用來重現遊戲中目前裝備。逐件選擇合法 Basic／Plus 詞條並輸入實際數值；所有變更都只作用於手動實裝，不會被自動最佳化覆寫。</span></div>
+      <div class="release-help-step"><strong>05｜自動最佳化</strong><span>自動最佳化與手動實裝完全獨立。它會依目前角色等級、主武 ATK、裝備 Lv、武器技能，以及第二頁當下的人工製品／魔法樹／時裝／寵物配置作為基準，只搜尋合法裝備詞條，目標為取得最高單次暴擊傷害。</span></div>
+      <div class="release-help-step"><strong>06｜暴擊／冷卻門檻</strong><span>「指定暴擊率」與「指定冷卻」都是最低條件，兩者同時輸入時採 AND 判定。輸入 0 代表不限制；例如暴擊 100、冷卻 95，表示搜尋結果必須同時達到暴擊率至少 100% 與冷卻至少 95%。</span></div>
+      <div class="release-help-step"><strong>07｜元素詞條</strong><span>自動最佳化會依所選武器技能配置對應元素法術傷害：普通技能使用普通法術傷害、火技能使用火焰法術傷害、冰技能使用冰系法術傷害、雷技能使用閃電法術傷害。</span></div>
+      <div class="release-help-step"><strong>08｜即時傷害與分析報告</strong><span>頁面會同步顯示未暴擊與暴擊傷害；第四頁彙整角色條件、系統效果、裝備配置與最終結果。切換手動／自動模式時，報告會讀取各自獨立的配置，不會互相污染。</span></div>
+      <div class="release-help-step"><strong>09｜儲存、重設與問題比對</strong><span>目前設定會自動保存在瀏覽器。若要重新建立測試條件，可使用重置功能。若模擬值與遊戲不一致，請先確認角色 Lv、主武 ATK、裝備 Lv、技能、系統效果、裝備詞條與暴擊／冷卻條件是否完全相同。</span></div>
     </div>
-    <div class="release-help-tip">提示：請盡量照遊戲面板顯示值輸入；不同裝置若曾儲存過不同設定，可先重置後再進行同條件比較。</div>
+    <div class="release-help-tip">重要：正式版的傷害結果以目前已驗證的計算核心為準。手動實裝用於重現你的實際裝備；自動最佳化則獨立搜尋最大傷害配置。兩種模式不會互相改寫裝備詞條。</div>
   </div>
 </div>
 
@@ -1550,7 +1555,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   <div class="release-help-panel release-version-panel">
     <div class="release-help-head"><h2 id="releaseVersionTitle">版本資訊</h2><button type="button" class="release-version-close release-help-close" aria-label="關閉">×</button></div>
     <div class="release-help-steps release-version-rows">
-      <div class="release-help-step"><strong id="releaseVersionSimulatorLabel">模擬器版本</strong><span>Beta 0.1</span></div>
+      <div class="release-help-step"><strong id="releaseVersionSimulatorLabel">模擬器版本</strong><span>V 1.0</span></div>
       <div class="release-help-step"><strong id="releaseVersionGameLabel">適用遊戲版本</strong><span>V.2.554</span></div>
     </div>
   </div>
@@ -2203,6 +2208,8 @@ window.TOWER_SWORD_SKILL_LEVEL_ATK = {"1":{"1":2.6,"2":2.755999851226807,"3":2.9
     '主武':{e:'Main Weapon',k:'주무기'},'武2':{e:'Weapon 2',k:'무기 2'},'武3':{e:'Weapon 3',k:'무기 3'},'盔甲':{e:'Armor',k:'갑옷'},'頭盔':{e:'Helmet',k:'투구'},'鞋子':{e:'Shoes',k:'신발'},'戒1':{e:'Ring 1',k:'반지 1'},'戒2':{e:'Ring 2',k:'반지 2'},'項鍊':{e:'Necklace',k:'목걸이'},'耳環':{e:'Earring',k:'귀걸이'}
   };
   const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const __phraseRules=Object.entries(phrases).sort((a,b)=>b[0].length-a[0].length).map(([z,v])=>[new RegExp(esc(z),'g'),v]);
+  const __termRules=Object.entries(terms).sort((a,b)=>b[0].length-a[0].length).map(([z,v])=>[new RegExp(esc(z),'g'),v]);
   function dynamic(text){
     if(lang===ZH) return text.replace(/Web V1 DebugFix10/g,'Web V1 DebugFix13');
     const isE=lang===EN, p=isE?'e':'k'; let s=text.replace(/Web V1 DebugFix10/g,'Web V1 DebugFix13');
@@ -2216,7 +2223,7 @@ window.TOWER_SWORD_SKILL_LEVEL_ATK = {"1":{"1":2.6,"2":2.755999851226807,"3":2.9
        .replace(/武器基礎/g,'Weapon Base').replace(/＋系統＋裝備/g,' + System + Equipment').replace(/目前技能採用元素/g,'Element used by current skill')
        .replace(/另有固定 ATK/g,'plus Fixed ATK').replace(/目前解析模式/g,'Current resolution mode').replace(/手動無 ATK 詞條時＝自動共用 ATK 核心/g,'With no manual ATK affix, Manual and Auto share the ATK core').replace(/已含手動裝備 ATK/g,'Includes manual equipment ATK')
        .replace(/手動詞條合計/g,'Manual affix total').replace(/自動最佳化目前不納入 ATK 詞條/g,'Current Auto benchmark excludes ATK affixes')
-       .replace(/^裝備詞條貢獻：/,'Equipment Affix Contribution: ').replace(/。上方最終值仍包含 MAX 系統基準。/g,'. Final values above still include the MAX system baseline.');
+       .replace(/^裝備詞條貢獻：/,'Equipment Affix Contribution: ').replace(/。上方最終值包含目前第二頁系統效果。/g,'. Final values above include the current Page-2 system effects.');
     } else {
       s=s.replace(/^已選 (\d+) 格$/,'$1슬롯 선택').replace(/^(\d+) 格$/,'$1슬롯').replace(/^合計 /,'합계 ')
        .replace(/^ATK 固定值增量：/,'고정 ATK 증가: ').replace(/^特殊／條件效果：/,'특수 / 조건 효과: ')
@@ -2227,10 +2234,10 @@ window.TOWER_SWORD_SKILL_LEVEL_ATK = {"1":{"1":2.6,"2":2.755999851226807,"3":2.9
        .replace(/武器基礎/g,'무기 기본').replace(/＋系統＋裝備/g,' + 시스템 + 장비').replace(/目前技能採用元素/g,'현재 스킬 적용 원소')
        .replace(/另有固定 ATK/g,'추가 고정 ATK').replace(/目前解析模式/g,'현재 해석 모드').replace(/手動無 ATK 詞條時＝自動共用 ATK 核心/g,'수동 ATK 옵션이 없으면 수동/자동이 동일 ATK 코어 사용').replace(/已含手動裝備 ATK/g,'수동 장비 ATK 포함')
        .replace(/手動詞條合計/g,'수동 옵션 합계').replace(/自動最佳化目前不納入 ATK 詞條/g,'현재 자동 benchmark에는 ATK 옵션 미포함')
-       .replace(/^裝備詞條貢獻：/,'장비 옵션 기여: ').replace(/。上方最終值仍包含 MAX 系統基準。/g,'. 위 최종값에는 MAX 시스템 기준이 포함됩니다.');
+       .replace(/^裝備詞條貢獻：/,'장비 옵션 기여: ').replace(/。上方最終值包含目前第二頁系統效果。/g,'. 위 최종값에는 MAX 시스템 기준이 포함됩니다.');
     }
-    const ph=Object.entries(phrases).sort((a,b)=>b[0].length-a[0].length); for(const [z,v] of ph) s=s.replace(new RegExp(esc(z),'g'),v[p]);
-    const pairs=Object.entries(terms).sort((a,b)=>b[0].length-a[0].length); for(const [z,v] of pairs) s=s.replace(new RegExp(esc(z),'g'),v[p]);
+    for(const [re,v] of __phraseRules) s=s.replace(re,v[p]);
+    for(const [re,v] of __termRules) s=s.replace(re,v[p]);
     const extra=isE?{'未取得／未啟用':'Not obtained / disabled','條件成立':'Condition Met','特殊／條件效果':'Special / Conditional Effects','目前無傷害向效果':'No current damage-related effect','無':'None','實際值':'Actual value','技能元素':'Skill Element','最終 ATK':'Final ATK','最終 Skill Lv':'Final Skill Lv','目前技能元素總合':'Current Skill Element Total','目前法術傷害總合':'Current Spell Damage Total','目前暴擊率總合':'Current Critical Rate Total','目前冷卻總合':'Current Cooldown Total','系統 ATK %':'System ATK %','裝備元素法傷':'Equipment Elemental Spell DMG','裝備法術傷害':'Equipment Spell DMG','裝備暴擊率':'Equipment Crit Rate','裝備冷卻':'Equipment Cooldown','裝備固定 ATK':'Equipment Fixed ATK','裝備所有魔法等級':'Equipment All Magic Levels','模擬器版本':'Simulator Version','匯出時間':'Export Time','資料來源':'Data Source','目前模式':'Current Mode','暴擊條件':'Crit Target','冷卻條件':'Cooldown Target','自動最大暴擊傷害':'Auto Max Critical Damage'}:{'未取得／未啟用':'미획득 / 비활성','條件成立':'조건 충족','特殊／條件效果':'특수 / 조건 효과','目前無傷害向效果':'현재 피해 관련 효과 없음','無':'없음','實際值':'실제 값','技能元素':'스킬 원소','最終 ATK':'최종 ATK','最終 Skill Lv':'최종 Skill Lv','目前技能元素總合':'현재 스킬 원소 합계','目前法術傷害總合':'현재 마법 피해 합계','目前暴擊率總合':'현재 치명타 확률 합계','目前冷卻總合':'현재 쿨다운 합계','系統 ATK %':'시스템 ATK %','裝備元素法傷':'장비 원소 마법 피해','裝備法術傷害':'장비 마법 피해','裝備暴擊率':'장비 치명타 확률','裝備冷卻':'장비 쿨다운','裝備固定 ATK':'장비 고정 ATK','裝備所有魔法等級':'장비 모든 마법 레벨','模擬器版本':'시뮬레이터 버전','匯出時間':'내보낸 시간','資料來源':'데이터 소스','目前模式':'현재 모드','暴擊條件':'치명타 조건','冷卻條件':'쿨다운 조건','自動最大暴擊傷害':'자동 최대 치명타 피해'};
     for(const [z,t] of Object.entries(extra).sort((a,b)=>b[0].length-a[0].length)) s=s.replace(new RegExp(esc(z),'g'),t);
     return s;
@@ -2239,18 +2246,35 @@ window.TOWER_SWORD_SKILL_LEVEL_ATK = {"1":{"1":2.6,"2":2.755999851226807,"3":2.9
     const trim=text.trim(); if(!trim)return text; if(lang===ZH)return dynamic(text);
     const d=lang===EN?enDict:koDict; const out=d[trim]!==undefined?d[trim]:dynamic(trim); const lead=text.match(/^\s*/)?.[0]||'',trail=text.match(/\s*$/)?.[0]||''; return lead+out+trail;
   }
+  const __i18nSource=new WeakMap();
   function apply(root=document){
     document.documentElement.lang=lang===ZH?'zh-TW':lang;
     const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){const p=node.parentElement;if(!p||['SCRIPT','STYLE'].includes(p.tagName)||p.closest('.language-switch'))return NodeFilter.FILTER_REJECT;return /\S/.test(node.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;}});
-    const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);nodes.forEach(n=>{const v=translateText(n.nodeValue);if(v!==n.nodeValue)n.nodeValue=v;});
+    const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+    nodes.forEach(n=>{
+      if(!__i18nSource.has(n)) __i18nSource.set(n,n.nodeValue);
+      const src=__i18nSource.get(n);
+      const v=translateText(src);
+      if(v!==n.nodeValue)n.nodeValue=v;
+    });
     root.querySelectorAll?.('[placeholder]').forEach(el=>{const src=el.dataset.i18nPlaceholder||el.getAttribute('placeholder');if(!el.dataset.i18nPlaceholder)el.dataset.i18nPlaceholder=src;const d=lang===EN?enDict:lang===KO?koDict:null;el.placeholder=d?(d[src]||dynamic(src)):src;});
     document.querySelectorAll('.lang-btn').forEach(b=>{const active=b.dataset.lang===lang;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
   }
   let translating=false;
-  const observer=new MutationObserver(muts=>{if(translating)return;translating=true;try{for(const m of muts){if(m.type==='characterData')apply(m.target.parentElement||document);else m.addedNodes.forEach(n=>{if(n.nodeType===1)apply(n);else if(n.nodeType===3&&n.parentElement)apply(n.parentElement);});}}finally{translating=false;}});
-  function setLanguage(next){if(!SUPPORTED.includes(next))return;localStorage.setItem(STORAGE_KEY,next);location.reload();}
+  const observer=new MutationObserver(muts=>{if(translating)return;translating=true;try{for(const m of muts){m.addedNodes.forEach(n=>{if(n.nodeType===1)apply(n);else if(n.nodeType===3&&n.parentElement)apply(n.parentElement);});}}finally{translating=false;}});
+  function setLanguage(next){
+    if(!SUPPORTED.includes(next)||next===lang)return;
+    lang=next;localStorage.setItem(STORAGE_KEY,next);
+    /* Translate what the user can see now; hidden pages are translated during idle time. */
+    const roots=[document.querySelector('.top'),document.querySelector('.screen.active'),document.querySelector('.actions'),...document.querySelectorAll('.release-help-modal')].filter(Boolean);
+    translating=true;try{roots.forEach(r=>apply(r));}finally{translating=false;}
+    const finish=()=>{translating=true;try{document.querySelectorAll('.screen:not(.active)').forEach(r=>apply(r));}finally{translating=false;}};
+    if('requestIdleCallback' in window) requestIdleCallback(finish,{timeout:700}); else setTimeout(finish,40);
+    window.dispatchEvent(new CustomEvent('tower-language-changed',{detail:{lang:next}}));
+  }
   document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.lang!==lang)setLanguage(b.dataset.lang);}));
-  apply(document);observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  apply(document);observer.observe(document.body,{subtree:true,childList:true});
+  window.__towerApplyLanguage=apply;
 })();
 
 </script>
@@ -2651,7 +2675,17 @@ function loadState(){
     return structuredClone(defaultState);
   }catch{return structuredClone(defaultState);}
 }
-function saveState(state){ localStorage.setItem('tower-sword-v1',JSON.stringify(state)); }
+let __v10SaveTimer=0;
+function __v10FlushState(){
+  clearTimeout(__v10SaveTimer); __v10SaveTimer=0;
+  try{ localStorage.setItem('tower-sword-v1',JSON.stringify(state)); }catch(e){ console.error('state save failed',e); }
+}
+function saveState(_state){
+  clearTimeout(__v10SaveTimer);
+  __v10SaveTimer=setTimeout(__v10FlushState,100);
+}
+window.addEventListener('pagehide',__v10FlushState);
+window.addEventListener('beforeunload',__v10FlushState);
 
 
 /* --- src/app.js --- */
@@ -2666,6 +2700,12 @@ function setStep(i){
   screens.forEach((x,n)=>x.classList.toggle('active',n===state.step));
   stepBtns.forEach((x,n)=>x.classList.toggle('active',n===state.step));
   window.scrollTo({top:0,behavior:'smooth'});
+  /* V1.0 Test22 performance rule: do not render hidden heavy pages. */
+  if(state.step===2){
+    try{ if(typeof __v10EnsureEquipmentReady==='function') __v10EnsureEquipmentReady(); }catch(_){ }
+    if(state.mode==='auto') refreshAuto(true);
+    else refreshManualSummary();
+  }
   if(state.step===3) refreshReport();
 }
 stepBtns.forEach((b,i)=>b.onclick=()=>setStep(i));
@@ -2682,7 +2722,11 @@ function setMode(mode){
   $$('.mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
   $('#manualPane').hidden=mode!=='manual';
   $('#autoPane').hidden=mode!=='auto';
-  if(mode==='auto')refreshAuto(true);else refreshReport();
+  /* Only build the expensive result that is currently on screen. */
+  if(state.step===2){
+    if(mode==='auto') refreshAuto(true);
+    else refreshManualSummary();
+  } else if(state.step===3) refreshReport();
 }
 $$('.mode').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 
@@ -2699,8 +2743,8 @@ function resolverRefresh(){
   $('#nativeRaw').value=r.raw??'';
   $('#resolverConfidence').textContent={exact:'精確',estimated:'估算',none:'無'}[r.confidence]||'—';
   saveState(state);
-  if(state.mode==='auto')refreshAuto(true);
-  refreshOverview();
+  if(state.step===2 && state.mode==='auto')refreshAuto(true);
+  if(state.step===3)refreshReport();
 }
 
 function manualListFor(type){
@@ -2805,7 +2849,7 @@ function refreshManualSummary(){
   if($('#manualNonCritDamage'))$('#manualNonCritDamage').textContent=dmg.valid?formatDamageR(dmg.nonCrit):'—';
   if($('#manualCritDamage'))$('#manualCritDamage').textContent=dmg.valid?formatDamageR(dmg.crit):'—';
   if($('#manualDamageNote'))$('#manualDamageNote').textContent=dmg.valid?`Skill Lv ${dmg.skillLv}｜Skill ATK ${Math.round(dmg.skillAtk*1000)/1000}｜有效 ATK ${formatGameBigInt(BigInt(Math.max(0,Math.floor(dmg.effectiveAtk))))}`:`無法計算：${dmg.reason||'輸入不完整'}`;
-  refreshReport();
+  if(state.step===3) refreshReport();
 }
 
 
@@ -2877,22 +2921,24 @@ function betaEquipmentTotalsFromEq(eq){
 function betaEvaluateEquipmentEq(eq,{minCrit=0,minCooldown=0}={}){
   const targetCrit=Math.max(0,Math.min(100,Number(minCrit||0)));
   const targetCd=Math.max(0,Math.min(100,Number(minCooldown||0)));
-  const sys=systemSelectionSummary(),sk=activeSkill(),elemKey=skillElementKey(sk);
+  const sys={stats:betaAutoMaxSystemStats()},sk=activeSkill(),mx=betaAutoMaxElementInfo(sys.stats);
   const t=betaEquipmentTotalsFromEq(eq);
 
-  const rawCrit=Number(sys.stats.crit||0)+t.crit;
-  const cd=Number(sys.stats.cooldown||0)+t.cooldown;
-  if(rawCrit+1e-9<targetCrit||cd+1e-9<targetCd)return null;
+  const rawCritUnits=betaAutoPctUnits(sys.stats.crit)+betaAutoPctUnits(t.crit);
+  const cdUnits=betaAutoPctUnits(sys.stats.cooldown)+betaAutoPctUnits(t.cooldown);
+  if(rawCritUnits<betaAutoPctUnits(targetCrit)||cdUnits<betaAutoPctUnits(targetCd))return null;
+  const rawCrit=betaAutoPctValue(rawCritUnits);
+  const cd=betaAutoPctValue(cdUnits);
 
   const baseSkill=weaponBaseSkillLv();
   const skillLv=Math.max(1,Math.min(139,Math.round(baseSkill+Number(sys.stats.skillLv||0)+t.skillLv)));
   const skillAtk=skillAtkAtLevel(sk.id,skillLv);
   if(!Number.isFinite(skillAtk))return null;
 
-  const atkResult=effectiveAtkResult(t.atk);
+  const atkResult=betaAutoEffectiveAtkResult(t.atk,sys.stats);
   if(!atkResult.valid)return null;
 
-  const elem=Number(sys.stats[elemKey]||0)+Number(t[elemKey]||0);
+  const elem=mx.value+Number(t[mx.key]||0);
   const spell=Number(sys.stats.spell||0)+t.spell;
   const critDamagePct=150+Number(sys.stats.critDamage||0);
   const bossMultiplier=state.player?.boss?1+Number(sys.stats.boss||0)/100:1;
@@ -2943,10 +2989,54 @@ function betaManualAutoCandidate(args={}){
    - Does NOT use Manual Build as the returned answer.
    ========================================================= */
 
-function betaAutoElemType(){
-  const e=activeSkill()?.element;
-  return e==='火'?'火焰法術傷害':e==='冰'?'冰系法術傷害':e==='雷'?'閃電法術傷害':'普通法術傷害';
+function betaAutoMaxSystemStats(){
+  /* V1.0: Auto Optimize uses the CURRENT Page-2 system configuration.
+     Artifacts (including Primary), Magic Tree / conditions, Costumes and Pets
+     are read exactly from the user's current state. Auto remains independent
+     from Manual equipment; only the shared non-equipment system state is read. */
+  const q=systemSelectionSummary();
+  const x=q?.stats||{};
+  return {
+    atk:Number(x.atk||0), flatAtk:Number(x.flatAtk||0), spell:Number(x.spell||0),
+    crit:Number(x.crit||0), critDamage:Number(x.critDamage||0),
+    cooldown:Number(x.cooldown||0), mpReduce:Number(x.mpReduce||0),
+    skillLv:Number(x.skillLv||0), fire:Number(x.fire||0), ice:Number(x.ice||0),
+    lightning:Number(x.lightning||0), normal:Number(x.normal||0), boss:Number(x.boss||0),
+    special:Array.isArray(x.special)?x.special.slice():[]
+  };
 }
+
+function betaAutoMaxElementInfo(sys=betaAutoMaxSystemStats()){
+  /* V1.0 rule: Auto follows the CURRENT weapon skill element.
+     Page-2 current system selections provide that element's current value;
+     Auto only optimizes legal Page-3 equipment affixes. */
+  const sk=activeSkill();
+  const e=sk?.element;
+  const key=e==='火'?'fire':e==='冰'?'ice':e==='雷'?'lightning':'normal';
+  const type=e==='火'?'火焰法術傷害':e==='冰'?'冰系法術傷害':e==='雷'?'閃電法術傷害':'普通法術傷害';
+  return {key,type,value:Number(sys[key]||0)};
+}
+
+function betaAutoElemType(){
+  return betaAutoMaxElementInfo().type;
+}
+
+function betaAutoEffectiveAtkResult(extraEquipmentAtk=0n,sys=betaAutoMaxSystemStats()){
+  const resolved=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
+  if(!resolved.raw)return {valid:false,reason:'主武 ATK 無法解析'};
+  const weaponAtk=Number(resolved.raw);
+  const levelAtk=playerLevelBaseAtk(state.player.level);
+  const flatAtk=Number(extraEquipmentAtk||0n)+Number(sys.flatAtk||0);
+  const atkPool=1+Number(sys.atk||0)/100;
+  // Current Page-2 system state supplies ATK%; keep the independent
+  // Berserker multiplier in the same damage chain when its current condition applies.
+  const atkIndependent=manualAtkIndependentMultiplier();
+  const effectiveAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent);
+  return {valid:true,effectiveAtk,resolved,weaponAtk,levelAtk,flatAtk,atkPool,atkIndependent};
+}
+
+function betaAutoPctUnits(v){return Math.round(Number(v||0)*1000);}
+function betaAutoPctValue(units){return units/1000;}
 
 function betaAutoOpt(type,value){
   const o={type,value:Number(value),atk:0,elem:0,spell:0,crit:0,cd:0};
@@ -3040,24 +3130,30 @@ function betaAutoTotals(defs,assign){
 }
 
 function betaAutoEvalTotals(t,targetCrit,targetCd){
-  const sys=systemSelectionSummary(),sk=activeSkill(),elemKey=skillElementKey(sk);
-  const rawCrit=Number(sys.stats.crit||0)+t.crit;
-  const cd=Number(sys.stats.cooldown||0)+t.cd;
-  if(rawCrit+1e-9<targetCrit || cd+1e-9<targetCd)return null;
+  const sys=betaAutoMaxSystemStats(),sk=activeSkill(),mx=betaAutoMaxElementInfo(sys);
+  const rawCritUnits=betaAutoPctUnits(sys.crit)+betaAutoPctUnits(t.crit);
+  const cdUnits=betaAutoPctUnits(sys.cooldown)+betaAutoPctUnits(t.cd);
+  const targetCritUnits=betaAutoPctUnits(targetCrit);
+  const targetCdUnits=betaAutoPctUnits(targetCd);
+  if(rawCritUnits<targetCritUnits || cdUnits<targetCdUnits)return null;
+  const rawCrit=betaAutoPctValue(rawCritUnits);
+  const cd=betaAutoPctValue(cdUnits);
 
   const skillLv=Math.max(1,Math.min(139,Math.round(
-    weaponBaseSkillLv()+Number(sys.stats.skillLv||0)+50
+    weaponBaseSkillLv()+Number(sys.skillLv||0)+50
   )));
   const skillAtk=skillAtkAtLevel(sk.id,skillLv);
   if(!Number.isFinite(skillAtk))return null;
 
-  const atkResult=effectiveAtkResult(BigInt(Math.max(0,Math.round(t.atk))));
+  const atkResult=betaAutoEffectiveAtkResult(BigInt(Math.max(0,Math.round(t.atk))),sys);
   if(!atkResult.valid)return null;
 
-  const elem=Number(sys.stats[elemKey]||0)+t.elem;
-  const spell=Number(sys.stats.spell||0)+t.spell;
-  const critDamagePct=150+Number(sys.stats.critDamage||0);
-  const bossMultiplier=state.player?.boss?1+Number(sys.stats.boss||0)/100:1;
+  // Use the CURRENT weapon skill element. The optimizer's elemental affix is
+  // assigned to that same element.
+  const elem=mx.value+t.elem;
+  const spell=Number(sys.spell||0)+t.spell;
+  const critDamagePct=150+Number(sys.critDamage||0);
+  const bossMultiplier=state.player?.boss?1+Number(sys.boss||0)/100:1;
   const otherMultiplier=manualOtherDamageMultiplier();
 
   const nonCritDamage=Math.floor(
@@ -3077,15 +3173,15 @@ function betaAutoEvalTotals(t,targetCrit,targetCd){
 
 function betaAutoDamageScore(t){
   // Score without Crit/CD feasibility, used only for damage-only seed/search.
-  const sys=systemSelectionSummary(),sk=activeSkill(),elemKey=skillElementKey(sk);
+  const sys=betaAutoMaxSystemStats(),sk=activeSkill(),mx=betaAutoMaxElementInfo(sys);
   const skillLv=Math.max(1,Math.min(139,Math.round(
-    weaponBaseSkillLv()+Number(sys.stats.skillLv||0)+50
+    weaponBaseSkillLv()+Number(sys.skillLv||0)+50
   )));
   const skillAtk=skillAtkAtLevel(sk.id,skillLv);
-  const atkResult=effectiveAtkResult(BigInt(Math.max(0,Math.round(t.atk))));
+  const atkResult=betaAutoEffectiveAtkResult(BigInt(Math.max(0,Math.round(t.atk))),sys);
   if(!atkResult.valid||!Number.isFinite(skillAtk))return -Infinity;
-  const elem=Number(sys.stats[elemKey]||0)+t.elem;
-  const spell=Number(sys.stats.spell||0)+t.spell;
+  const elem=mx.value+t.elem;
+  const spell=Number(sys.spell||0)+t.spell;
   return atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100);
 }
 
@@ -3297,15 +3393,16 @@ function betaAutoAssignmentToEq(defs,assign){
 
 const betaAutoCache=new Map();
 function betaAutoCacheKey({minCrit=0,minCooldown=0}={}){
-  const sys=systemSelectionSummary(),sk=activeSkill(),elemKey=skillElementKey(sk);
+  const sys=betaAutoMaxSystemStats(),sk=activeSkill(),mx=betaAutoMaxElementInfo(sys);
   return JSON.stringify({
     skillId:sk.id,level:state.player.level,weaponAtk:state.weapon.displayAtk,
     weaponLv:state.weapon.equipmentLevel,boss:!!state.player?.boss,
-    minCrit:Number(minCrit||0),minCooldown:Number(minCooldown||0),
-    sysAtk:Number(sys.stats.atk||0),sysFlat:Number(sys.stats.flatAtk||0),
-    sysSpell:Number(sys.stats.spell||0),sysCrit:Number(sys.stats.crit||0),
-    sysCd:Number(sys.stats.cooldown||0),sysCritDmg:Number(sys.stats.critDamage||0),
-    sysElem:Number(sys.stats[elemKey]||0),sysSkill:Number(sys.stats.skillLv||0)
+    minCrit:betaAutoPctValue(betaAutoPctUnits(minCrit)),minCooldown:betaAutoPctValue(betaAutoPctUnits(minCooldown)),
+    sysAtk:Number(sys.atk||0),sysFlat:Number(sys.flatAtk||0),
+    sysSpell:Number(sys.spell||0),sysCrit:Number(sys.crit||0),
+    sysCd:Number(sys.cooldown||0),sysCritDmg:Number(sys.critDamage||0),
+    sysElem:Number(mx.value||0),sysSkill:Number(sys.skillLv||0),
+    systemState:state.system||{}
   });
 }
 
@@ -3394,8 +3491,9 @@ function betaAutoExactImprove(defs,seed,targetCrit,targetCd){
 
 
 function betaAutoExactCdRepair(defs,seed,targetCrit,targetCd){
-  const sys=systemSelectionSummary();
-  const baseCd=Number(sys.stats.cooldown||0);
+  // Auto Optimize uses the CURRENT Page-2 system state; Manual equipment remains isolated.
+  const sys=betaAutoMaxSystemStats();
+  const baseCd=Number(sys.cooldown||0);
   const exactEquipCd=targetCd-baseCd;
   if(exactEquipCd < -1e-9)return null;
 
@@ -3535,6 +3633,42 @@ function betaAutoExactCdRepair(defs,seed,targetCrit,targetCd){
   return cur;
 }
 
+
+function betaAutoEqToAssignment(defs,eq){
+  if(!eq)return null;
+  const a=[];
+  for(const d of defs){
+    const pair=eq?.[d.gear]?.[d.slot];
+    if(!pair)return null;
+    const [type,val]=pair;
+    let j=d.opts.findIndex(o=>o.type===type && Math.abs(Number(o.value)-Number(val))<1e-9);
+    if(j<0)j=d.opts.findIndex(o=>o.type===type);
+    if(j<0)return null;
+    a.push(j);
+  }
+  return a;
+}
+
+function betaAutoReferenceSeeds(defs,targetCrit,targetCd){
+  /* The old verified 90..100 layouts are no longer hard-coded answers.
+     They are high-quality incumbents only. This prevents the local 1/2/3-slot
+     neighborhood search from finishing below a previously verified legal build,
+     while still allowing the live optimizer to improve beyond it. */
+  const out=[];
+  if(typeof betaGoldenEquipment!=='function')return out;
+  const cds=[];
+  const t=Math.round(Number(targetCd||0));
+  if(Math.abs(Number(targetCd||0)-t)<1e-9 && t>=90 && t<=100)cds.push(t);
+  for(let cd=90;cd<=100;cd++)if(!cds.includes(cd))cds.push(cd);
+  for(const cd of cds){
+    try{
+      const a=betaAutoEqToAssignment(defs,betaGoldenEquipment(cd));
+      if(a)out.push(a);
+    }catch(_){ }
+  }
+  return out;
+}
+
 function betaAutoSearch({minCrit=0,minCooldown=0}={}){
   const args={minCrit,minCooldown};
   const cacheKey=betaAutoCacheKey(args);
@@ -3552,14 +3686,15 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
     betaAutoMakeDamageSeed(defs,'elem'),
     betaAutoMakeDamageSeed(defs,'spell'),
     betaAutoLegacySeed(defs),
-    betaAutoManualAssignment(defs)
+    betaAutoManualAssignment(defs),
+    ...betaAutoReferenceSeeds(defs,targetCrit,targetCd)
   ].filter(Boolean);
 
   // Add deterministic constraint-biased seeds so 94/95/96 do not inherit
   // the same local allocation merely because all satisfy the threshold.
   for(const bias of ['crit','cd']){
     const base=betaAutoMakeDamageSeed(defs,'mixed');
-    const sys=systemSelectionSummary();
+    const sys={stats:betaAutoMaxSystemStats()};
     let t=betaAutoTotals(defs,base);
     for(let guard=0;guard<40;guard++){
       const needC=Math.max(0,targetCrit-(Number(sys.stats.crit||0)+t.crit));
@@ -3633,14 +3768,14 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
   }
 
   if(!best){
-    const sys=systemSelectionSummary();
+    const sys={stats:betaAutoMaxSystemStats()};
     const miss={
       status:'infeasible',
       crit:Number(sys.stats.crit||0),
       cd:Number(sys.stats.cooldown||0),
       elem:Number(sys.stats[skillElementKey(activeSkill())]||0),
       spell:Number(sys.stats.spell||0),
-      critDamage:null,eq:null,source:'rebuilt-search-v3-exact-cd'
+      critDamage:null,eq:null,source:'rebuilt-search-v4-reference-incumbent'
     };
     betaAutoCache.set(cacheKey,miss);
     return miss;
@@ -3650,7 +3785,7 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
   const solved={
     ...best.result,
     eq,
-    source:'rebuilt-search-v3-exact-cd',
+    source:'rebuilt-search-v4-reference-incumbent',
     searchKey:`skill:${activeSkill().id}|lv:${best.result.skillLv}|crit:${targetCrit}|cd:${targetCd}`
   };
   betaAutoCache.set(cacheKey,solved);
@@ -3808,7 +3943,9 @@ function betaGoldenOptimize(args={}){
 }
 
 function optimizeMax(args={}){
-  return betaGoldenOptimize(args);
+  // Live Auto Optimize must search the legal equipment space. Golden tables remain
+  // regression references only and are not returned as the answer.
+  return betaAutoSearch(args);
 }
 
 function makeAutoEquipment(){
@@ -3824,12 +3961,12 @@ function renderAutoBreakdown(r){
     note.textContent='自動最佳化固定第一頁與第二頁狀態，只處理第三頁裝備；符合條件的手動實裝亦會納入候選比較。';
     return;
   }
-  const eq=makeAutoEquipment(),order=['主武','武2','武3','頭盔','盔甲','鞋子','戒1','戒2','項鍊','耳環'],slotOrder=['Basic1','Basic2','Basic3','Basic4','Plus1','Plus2','Plus3'];
+  const eq=(r?.status==='dynamic'&&r?.eq)?r.eq:makeAutoEquipment(),order=['主武','武2','武3','頭盔','盔甲','鞋子','戒1','戒2','項鍊','耳環'],slotOrder=['Basic1','Basic2','Basic3','Basic4','Plus1','Plus2','Plus3'];
   host.innerHTML=order.map(e=>{const cells=slotOrder.filter(k=>eq?.[e]?.[k]).map(k=>{const [t,v]=eq[e][k];return `<div class="auto-slot"><b>${k}</b><span>${escHtml(t)} ${t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(Number(v||0))))):`${v}${t==='所有魔法等級'?' Lv':'%'}`}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${e}</div><div class="auto-slots">${cells||'<span class="small">無攻擊向候選</span>'}</div></div>`}).join('');
   const items=[];for(const e of order)for(const k of slotOrder)if(eq?.[e]?.[k])items.push({type:eq[e][k][0],value:eq[e][k][1]});
   const types=[...new Set(items.map(x=>x.type))];
   sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';const totalText=t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(total)))):`${total}${unit}`;return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${totalText}</div></div>`}).join('');
-  note.textContent=`${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜V1.5Q Golden Reference PASS｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
+  note.textContent=`${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜目前第二頁系統基準＋合法詞條搜尋｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
 let betaAutoRefreshing=false;
@@ -3850,7 +3987,7 @@ function refreshAuto(force=false){
   $('#autoSpell').textContent=r.spell??'—';
   $('#autoDamage').textContent=r.critDamage!=null?formatDamageR(r.critDamage):'—';
   renderAutoBreakdown(r);
-  refreshReport();
+  if(state.step===3) refreshReport();
   }finally{betaAutoRefreshing=false;}
 }
 
@@ -3941,8 +4078,7 @@ function refreshSystemSummary(message=''){
   }
   if($('#treePointRule')) $('#treePointRule').textContent=`角色 Lv ${state.player.level}：可用技能點 ${treeAvailable}（角色 Lv − 1）`;
   $('#sysWarning').textContent=message;
-  if(state.mode==='auto')refreshAuto(true);
-  refreshReport();
+  /* Page 2 paint ends here. Auto/Report are lazily rendered when their page opens. */
 }
 function magicEnhanceMaxByPlayerLevel(level){
   const lv=Math.max(1,Math.min(500,Number(level||1)));
@@ -4201,24 +4337,54 @@ function refreshReport(){
   renderSummaryRows($('#reportManualStats'),manualTypes.map(([type,name])=>{const g=manualItems.filter(x=>x.type===type);return {name,count:g.length,total:formatManualTotal(type,g)}}));
   const autoGroups=at.available?[{name:'ATK',count:at.items.filter(x=>x.type==='ATK').length,total:formatGameBigInt(at.atk)},{name:'元素法術傷害',count:at.items.filter(x=>x.type.startsWith('元素法術傷害')).length,total:`${at.element}%`},{name:'法術傷害',count:at.items.filter(x=>x.type==='法術傷害').length,total:`${at.spell}%`},{name:'暴擊率',count:at.items.filter(x=>x.type==='暴擊率').length,total:`${at.crit}%`},{name:'冷卻時間',count:at.items.filter(x=>x.type==='冷卻時間').length,total:`${at.cooldown}%`},{name:'所有魔法等級',count:at.items.filter(x=>x.type==='所有魔法等級').length,total:`${at.skillLv} Lv`}]:[];
   renderSummaryRows($('#reportAutoStats'),autoGroups);$('#reportAutoNote').textContent=at.available?'此方案固定第一頁與第二頁目前狀態，只由裝備詞條滿足暴擊／冷卻條件並追求最高傷害。':'目前條件下沒有可行的合法裝備配置。';
-  const now=new Date();$('#reportMeta').innerHTML=[reportCondition('模擬器版本','Web V1 DebugFix12'),reportCondition('資料來源','V3.X Reference / APK 2.55400'),reportCondition('目前模式',state.mode==='auto'?'自動最佳化':'手動實裝'),reportCondition('匯出時間',now.toLocaleString('zh-TW')),reportCondition('Copyright','© APviEwer. All Rights Reserved.')].join('');
+  const now=new Date();$('#reportMeta').innerHTML=[reportCondition('模擬器版本','V1.0'),reportCondition('資料來源','V3.X Reference / APK 2.55400'),reportCondition('目前模式',state.mode==='auto'?'自動最佳化':'手動實裝'),reportCondition('匯出時間',now.toLocaleString('zh-TW')),reportCondition('Copyright','© APviEwer. All Rights Reserved.')].join('');
 }
 function refreshOverview(){refreshReport();}
 $('#level').value=state.player.level; $('#displayAtk').value=state.weapon.displayAtk; $('#weaponLv').value=state.weapon.equipmentLevel;
 $('#critTarget').value=state.auto.minCrit; $('#cdTarget').value=state.auto.minCooldown;
-$('#level').oninput=e=>{state.player.level=Math.max(1,Math.min(500,Number(e.target.value||1)));e.target.value=state.player.level;saveState(state);renderTree($('#treeSearch')?.value||'');refreshSystemSummary();if(state.mode==='auto')refreshAuto(true);};
+$('#level').oninput=e=>{
+  const raw=e.target.value;
+  if(raw!==''){
+    const n=Number(raw);
+    if(Number.isFinite(n)) state.player.level=Math.max(1,Math.min(500,Math.trunc(n)));
+  }
+  saveState(state);
+  /* Test23: Page-1 typing updates state only; hidden Page-3 damage is not recalculated here. */
+};
+const __v10CommitLevel=()=>{
+  const el=$('#level');
+  const n=Math.max(1,Math.min(500,Math.trunc(Number(el.value||1))));
+  state.player.level=n;el.value=n;saveState(state);
+  renderTree($('#treeSearch')?.value||'');
+  refreshSystemSummary();
+  if(state.step===2&&state.mode==='auto')refreshAuto(true);
+  if(state.step===3)refreshReport();
+};
+$('#level').onchange=__v10CommitLevel; $('#level').onblur=__v10CommitLevel;
 $('#displayAtk').oninput=resolverRefresh; $('#weaponLv').oninput=resolverRefresh;
-$('#skill').onchange=e=>{state.skill.id=Number(e.target.value);saveState(state);if(state.mode==='auto')refreshAuto(true);else refreshOverview()};
-$('#critTarget').oninput=()=>refreshAuto(true); $('#cdTarget').oninput=()=>refreshAuto(true);
+$('#skill').onchange=e=>{state.skill.id=Number(e.target.value);saveState(state);if(state.step===2){if(state.mode==='auto')refreshAuto(true);else refreshManualSummary();}if(state.step===3)refreshReport();};
+$('#critTarget').oninput=()=>{state.auto.minCrit=Math.max(0,Number($('#critTarget').value||0));saveState(state);if(state.step===2&&state.mode==='auto')refreshAuto(true);}; $('#cdTarget').oninput=()=>{state.auto.minCooldown=Math.max(0,Number($('#cdTarget').value||0));saveState(state);if(state.step===2&&state.mode==='auto')refreshAuto(true);};
 $('#reset').onclick=()=>{localStorage.removeItem('tower-sword-v1');location.reload()};
 
 if($('#exportPdf')) $('#exportPdf').onclick=()=>{refreshReport();window.print();};
 
-initSkills(); initSystemEffects(); renderEquipment(); setMode(state.mode); resolverRefresh(); refreshManualSummary(); refreshAuto(); refreshOverview(); setStep(state.step);
+/* V1.0 Test27: always open on Page 01. Do not block first paint by building Page 03 equipment immediately. */
+state.step=0;
+let __v10EquipmentReady=false;
+function __v10EnsureEquipmentReady(){
+  if(__v10EquipmentReady) return;
+  renderEquipment();
+  __v10EquipmentReady=true;
+}
+initSkills(); initSystemEffects(); setMode(state.mode); resolverRefresh(); setStep(0);
+/* Pre-build Page 03 only when the browser is idle, so later entry is usually faster without delaying Page 01. */
+const __v10PrewarmEquipment=()=>{ try{ __v10EnsureEquipmentReady(); }catch(e){ console.error('Page 03 prewarm failed',e); } };
+if('requestIdleCallback' in window) requestIdleCallback(__v10PrewarmEquipment,{timeout:2600});
+else setTimeout(__v10PrewarmEquipment,1400);
 
 </script>
 <script>
-window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98dfc4e81c0.png","status":"verified","source":"APK Texture2D"},"2":{"path":"assets/img/eefa17d9af7ccd1c.png","status":"verified","source":"APK Texture2D"},"3":{"path":"assets/img/9864d246b0fa07f9.png","status":"verified","source":"APK Texture2D"},"4":{"path":"assets/img/fde92c0258e913ea.png","status":"verified","source":"APK Texture2D"},"5":{"path":"assets/img/3544d29db14cf2ac.png","status":"verified","source":"APK Texture2D"},"6":{"path":"assets/img/c748ba896ccd15fe.png","status":"verified","source":"APK Texture2D"},"7":{"path":"assets/img/68d30d224979cb0e.png","status":"verified","source":"APK Texture2D"},"8":{"path":"assets/img/93d3e78ca29436a4.png","status":"verified","source":"APK Texture2D"},"9":{"path":"assets/img/0b329e1341749d67.png","status":"verified","source":"APK Texture2D"},"10":{"path":"assets/img/27b0b9a764fb28f7.png","status":"verified","source":"APK Texture2D"},"11":{"path":"assets/img/96c2068c91d748e4.png","status":"verified","source":"APK Texture2D"},"12":{"path":"assets/img/94f1e784ad0caeea.png","status":"verified","source":"APK Texture2D"},"13":{"path":"assets/img/35edeaa58a68a9ff.png","status":"verified","source":"APK Texture2D"},"14":{"path":"assets/img/06b85641680ae1bc.png","status":"verified","source":"APK Texture2D"},"15":{"path":"assets/img/6305fb2f5bb752cd.png","status":"verified","source":"APK Texture2D"},"16":{"path":"assets/img/7837085f47b5d330.png","status":"verified","source":"APK Texture2D"},"17":{"path":"assets/img/6cd470e97c8541b7.png","status":"verified","source":"APK Texture2D"},"18":{"path":"assets/img/5d016e2440d4984e.png","status":"verified","source":"APK Texture2D"},"19":{"path":"assets/img/e2c9db7a4f484859.png","status":"verified","source":"APK Texture2D"},"20":{"path":"assets/img/892dbe65209360e6.png","status":"verified","source":"APK Texture2D"},"21":{"path":"assets/img/e63ff40392574041.png","status":"verified","source":"APK Texture2D"},"22":{"path":"assets/img/a1b020105ad97389.png","status":"verified","source":"APK Texture2D"},"23":{"path":"assets/img/5fd1308019623ff6.png","status":"verified","source":"APK Texture2D"},"24":{"path":"assets/img/fdb5ae6749fd2224.png","status":"verified","source":"APK Texture2D"},"25":{"path":"assets/img/0b3a80979f521896.png","status":"verified","source":"APK Texture2D"},"26":{"path":"assets/img/af24b9b45c8ae8d8.png","status":"verified","source":"APK Texture2D"},"27":{"path":"assets/img/04f6a01de8c02bc7.png","status":"verified","source":"APK Texture2D"},"28":{"path":"assets/img/eab43bd564a90d75.png","status":"verified","source":"APK Texture2D"},"29":{"path":"assets/img/da36d2398b894794.png","status":"verified","source":"APK Texture2D"},"30":{"path":"assets/img/b511b59968b89c98.png","status":"verified","source":"APK Texture2D"},"31":{"path":"assets/img/540181fc02f90b07.png","status":"verified","source":"APK Texture2D"},"32":{"path":"assets/img/2492b7120a784a75.png","status":"verified","source":"APK Texture2D"},"33":{"path":"assets/img/95ae335a91dca107.png","status":"verified","source":"APK Texture2D"},"34":{"path":"assets/img/d4de8ccd81a0cd9e.png","status":"verified","source":"APK Texture2D"},"35":{"path":"assets/img/ee7ab1259f9ad463.png","status":"verified","source":"APK Texture2D"},"36":{"path":"assets/img/675a9dd1c8e5f5e4.png","status":"verified","source":"APK Texture2D"},"37":{"path":"assets/img/c748ba896ccd15fe.png","status":"verified","source":"APK Texture2D"},"38":{"path":"assets/img/a1b020105ad97389.png","status":"verified","source":"APK Texture2D"},"39":{"path":"assets/img/27b0b9a764fb28f7.png","status":"verified","source":"APK Texture2D"},"40":{"path":"assets/img/94f1e784ad0caeea.png","status":"verified","source":"APK Texture2D"},"41":{"path":"assets/img/fdb5ae6749fd2224.png","status":"verified","source":"APK Texture2D"},"42":{"path":"assets/img/7837085f47b5d330.png","status":"verified","source":"APK Texture2D"},"43":{"path":"assets/img/06b85641680ae1bc.png","status":"verified","source":"APK Texture2D"},"44":{"path":"assets/img/93d3e78ca29436a4.png","status":"verified","source":"APK Texture2D"},"45":{"path":"assets/img/eab43bd564a90d75.png","status":"verified","source":"APK Texture2D"},"46":{"path":"assets/img/e2c9db7a4f484859.png","status":"verified","source":"APK Texture2D"},"47":{"path":"assets/img/e63ff40392574041.png","status":"verified","source":"APK Texture2D"},"48":{"path":"assets/img/35edeaa58a68a9ff.png","status":"verified","source":"APK Texture2D"},"49":{"path":"assets/img/68d30d224979cb0e.png","status":"verified","source":"APK Texture2D"},"50":{"path":"assets/img/b511b59968b89c98.png","status":"verified","source":"APK Texture2D"},"51":{"path":"assets/img/44ee0564aa11b2dd.png","status":"verified","source":"APK Texture2D"},"52":{"path":"assets/img/7815d54dc4787e4c.png","status":"verified","source":"APK Texture2D"}},"artifacts":{"1":{"path":"assets/img/81ee8f260e899ce8.png","status":"verified","sourceTexture":"rotany_9","size":[256,256]},"2":{"path":"assets/img/4dee6a99147beadc.png","status":"verified","sourceTexture":"rotany_11","size":[256,256]},"3":{"path":"assets/img/34643dea72371d7e.png","status":"verified","sourceTexture":"rotany_10","size":[256,256]},"4":{"path":"assets/img/10e4b549ca754077.png","status":"verified","sourceTexture":"rotany_18","size":[256,256]},"5":{"path":"assets/img/56bf090e7e7887c4.png","status":"verified","sourceTexture":"crystal_35","size":[256,256]},"6":{"path":"assets/img/60bba713ce8f84b7.png","status":"verified","sourceTexture":"crystal_33","size":[256,256]},"7":{"path":"assets/img/3fd40e5e47e07ce7.png","status":"verified","sourceTexture":"crystal_29","size":[256,256]},"8":{"path":"assets/img/0704bad605a0f226.png","status":"verified","sourceTexture":"crystal_37","size":[256,256]},"9":{"path":"assets/img/e8986c8bdc3c91dc.png","status":"verified","sourceTexture":"GoldenTwig","size":[256,256]},"10":{"path":"assets/img/d08f3f6d533c3321.png","status":"verified","sourceTexture":"RedKey","size":[256,256]},"11":{"path":"assets/img/835b6255490a0ee7.png","status":"verified","sourceTexture":"HaetaeMask","size":[256,256]},"12":{"path":"assets/img/d71d5b2a439e3783.png","status":"verified","sourceTexture":"crystal_21","size":[256,256]},"13":{"path":"assets/img/1f09784b03fc54df.png","status":"verified","sourceTexture":"crystal_23","size":[256,256]},"14":{"path":"assets/img/aa5c54b04b67c7a4.png","status":"verified","sourceTexture":"crystal_24","size":[256,256]},"15":{"path":"assets/img/6f1da75bdd55dbbf.png","status":"verified","sourceTexture":"crystal_25","size":[256,256]},"16":{"path":"assets/img/9a3691f2505f7c79.png","status":"verified","sourceTexture":"crystal_22","size":[256,256]},"17":{"path":"assets/img/d67ca55b00b5273a.png","status":"verified","sourceTexture":"crystal_26","size":[256,256]},"18":{"path":"assets/img/33734e96c78afc6a.png","status":"verified","sourceTexture":"crystal_27","size":[256,256]},"19":{"path":"assets/img/513b5678b653e86c.png","status":"verified","sourceTexture":"WingCrystal","size":[256,256]},"20":{"path":"assets/img/8f935e5db1e798ec.png","status":"verified","sourceTexture":"MoonCrystal","size":[256,256]},"21":{"path":"assets/img/f5b5e6cce4e60110.png","status":"verified","sourceTexture":"MagicStone","size":[256,256]},"22":{"path":"assets/img/13b996a5590b667a.png","status":"verified","sourceTexture":"DimensionCube","size":[256,256]},"23":{"path":"assets/img/d19b2a95263743d8.png","status":"verified","sourceTexture":"DragonShield","size":[256,256]},"24":{"path":"assets/img/8cbe241cbec110f0.png","status":"verified","sourceTexture":"MagicGlasses","size":[256,256]},"25":{"path":"assets/img/04a4b848b9164ddb.png","status":"verified","sourceTexture":"CoreOfDarkOverlord","size":[256,256]},"26":{"path":"assets/img/361dff34b13ef0c2.png","status":"verified","sourceTexture":"TreasureOfDeath","size":[256,256]},"27":{"path":"assets/img/19a5dff7a6cbb497.png","status":"verified","sourceTexture":"crystal_27Copy","size":[256,256]},"28":{"path":"assets/img/7abfc0a81b4ddcbd.png","status":"verified","sourceTexture":"DragonsFang","size":[256,256]},"29":{"path":"assets/img/9b15d1a638875652.png","status":"verified","sourceTexture":"DragonsHorn","size":[256,256]},"30":{"path":"assets/img/a48e12e87cbc617a.png","status":"verified","sourceTexture":"DragonsScale","size":[256,256]},"31":{"path":"assets/img/9752ace7a1c0d93b.png","status":"verified","sourceTexture":"DragonsCore","size":[256,256]},"32":{"path":"assets/img/af67dafb07bc356d.png","status":"verified","sourceTexture":"DemonDragonTrace","size":[256,256]},"33":{"path":"assets/img/acb9c947556f8e7f.png","status":"verified","sourceTexture":"DarknessEye","size":[256,256]},"34":{"path":"assets/img/5da874595b0543e2.png","status":"verified","sourceTexture":"AncientTriangle","size":[256,256]},"35":{"path":"assets/img/e4e6f0d9e900047c.png","status":"verified","sourceTexture":"CupOfDeath","size":[256,256]},"36":{"path":"assets/img/477b0e1f200f9ac5.png","status":"verified","sourceTexture":"BookOfDeath","size":[256,256]},"37":{"path":"assets/img/8c3d377ff28eab62.png","status":"verified","sourceTexture":"CrownOfDeath","size":[256,256]},"38":{"path":"assets/img/418d6ccb2a83ab7a.png","status":"verified","sourceTexture":"CupOfDarkOverLord","size":[256,256]},"39":{"path":"assets/img/4a564180172cfffc.png","status":"verified","sourceTexture":"FeatherOfDarkOverLord","size":[256,256]},"40":{"path":"assets/img/49d2a84e6ce652a1.png","status":"verified","sourceTexture":"AncientTreasure","size":[256,256]},"41":{"path":"assets/img/2c0d1acb06c3ff06.png","status":"verified","sourceTexture":"BloodCrystal","size":[256,256]},"42":{"path":"assets/img/270ad42f4becc8cd.png","status":"verified","sourceTexture":"HornOfDarkOverlord","size":[256,256]},"43":{"path":"assets/img/7d03942c4d5b18ea.png","status":"verified","sourceTexture":"BookOfSoul","size":[256,256]},"44":{"path":"assets/img/d646999bd38303c4.png","status":"verified","sourceTexture":"DemonDragonTrace2","size":[256,256]},"45":{"path":"assets/img/b5c74120e817b638.png","status":"verified","sourceTexture":"AncientOfMask","size":[256,256]},"46":{"path":"assets/img/59dfc0bcd7591857.png","status":"verified","sourceTexture":"EyeOfDeath","size":[256,256]},"47":{"path":"assets/img/2292876b294a83bd.png","status":"verified","sourceTexture":"SoulOfDarkOverLord","size":[256,256]},"48":{"path":"assets/img/16d2c36d229d55d5.png","status":"verified","sourceTexture":"MagicBallOfDark","size":[256,256]},"49":{"path":"assets/img/e1704207eabc7c3a.png","status":"verified","sourceTexture":"DemonDragonTrace3","size":[256,256]},"50":{"path":"assets/img/c95e8880a9d7113d.png","status":"verified","sourceTexture":"AncientJewel","size":[256,256]},"51":{"path":"assets/img/c1928069a0a2d3a2.png","status":"verified","sourceTexture":"RuneOfDeath","size":[256,256]},"52":{"path":"assets/img/31ca1634ff722e0e.png","status":"verified","sourceTexture":"EyeOfDarkOverLord","size":[256,256]},"53":{"path":"assets/img/74caf63de3751aec.png","status":"verified","sourceTexture":"EyeOfDemonDragon","size":[256,256]},"54":{"path":"assets/img/323bee67ed8da31f.png","status":"verified","sourceTexture":"DemonDragonTrace4","size":[256,256]},"55":{"path":"assets/img/17204888d6b49e7a.png","status":"verified","sourceTexture":"SlimeArtifact00","size":[256,256]},"56":{"path":"assets/img/ffdc5aec38329c4e.png","status":"verified","sourceTexture":"SlimeArtifact01","size":[256,256]},"57":{"path":"assets/img/a67da18b88c45045.png","status":"verified","sourceTexture":"SlimeArtifact02","size":[256,256]},"58":{"path":"assets/img/39bb5c00b3339e40.png","status":"verified","sourceTexture":"SlimeArtifact03","size":[256,256]},"59":{"path":"assets/img/d343198b06e753dc.png","status":"verified","sourceTexture":"SlimeArtifact04","size":[256,256]},"60":{"path":"assets/img/dd27cca08b8f22a1.png","status":"verified","sourceTexture":"SlimeArtifact05","size":[256,256]},"61":{"path":"assets/img/db97d2eb3fb181ea.png","status":"verified","sourceTexture":"SlimeArtifact06","size":[256,256]},"62":{"path":"assets/img/b0cc71095d5f725d.png","status":"verified","sourceTexture":"SlimeArtifact07","size":[256,256]},"63":{"path":"assets/img/31ecbec08f7600c1.png","status":"verified","sourceTexture":"SlimeArtifact08","size":[256,256]},"64":{"path":"assets/img/75e2964d31949c1c.png","status":"verified","sourceTexture":"SlimeArtifact09","size":[256,256]},"65":{"path":"assets/img/59e102149e4dce0d.png","status":"verified","sourceTexture":"SlimeArtifact10","size":[256,256]},"66":{"path":"assets/img/bd01f55e932a5607.png","status":"verified","sourceTexture":"SlimeArtifact11","size":[256,256]},"67":{"path":"assets/img/41e7d79b898b23b7.png","status":"verified","sourceTexture":"SlimeArtifact12","size":[256,256]},"68":{"path":"assets/img/672436d8166d38cd.png","status":"verified","sourceTexture":"SlimeArtifact13","size":[256,256]},"69":{"path":"assets/img/ced096d5e36e4e2b.png","status":"verified","sourceTexture":"SlimeArtifact14","size":[256,256]},"70":{"path":"assets/img/ae1d72b1703c9cd5.png","status":"verified","sourceTexture":"SlimeArtifact15","size":[256,256]},"71":{"path":"assets/img/57738380a4ad1a24.png","status":"verified","sourceTexture":"ShiningStone","size":[256,256]},"72":{"path":"assets/img/e31f12d2079103c6.png","status":"verified","sourceTexture":"FireEnergy","size":[256,256]},"73":{"path":"assets/img/ece0574c86949d86.png","status":"verified","sourceTexture":"IceEnergy","size":[256,256]},"74":{"path":"assets/img/f953b3d36f21e644.png","status":"verified","sourceTexture":"LightningEnergy","size":[256,256]},"75":{"path":"assets/img/7a1e016abdd0e5eb.png","status":"verified","sourceTexture":"SoulEnergy","size":[256,256]},"76":{"path":"assets/img/c3826b1edcf08f0b.png","status":"verified","sourceTexture":"GoldenScroll","size":[256,256]},"77":{"path":"assets/img/122f5cb0f3345715.png","status":"verified","sourceTexture":"ExperienceBook","size":[256,256]},"78":{"path":"assets/img/72e000e2fd98b3c5.png","status":"verified","sourceTexture":"GoldCoin","size":[256,256]},"79":{"path":"assets/img/d30dc65acbbf41bd.png","status":"verified","sourceTexture":"RedClaw","size":[256,256]},"80":{"path":"assets/img/02f6a7c3f3fe72d1.png","status":"verified","sourceTexture":"DemonsFang","size":[256,256]},"81":{"path":"assets/img/b73bcefceb30cb4c.png","status":"verified","sourceTexture":"DemonsHorn","size":[256,256]},"82":{"path":"assets/img/17a948b383e7bb90.png","status":"verified","sourceTexture":"DemonsCore","size":[256,256]},"83":{"path":"assets/img/0bb61af105fa6a9a.png","status":"verified","sourceTexture":"GoldenCrystal","size":[256,256]},"84":{"path":"assets/img/24f7b180f68f69a3.png","status":"verified","sourceTexture":"RecoveryLyre","size":[256,256]},"85":{"path":"assets/img/cb4c9b4394058288.png","status":"verified","sourceTexture":"SturdyShield","size":[256,256]},"86":{"path":"assets/img/26e83a22dd6c0cd8.png","status":"verified","sourceTexture":"ManaBracelet","size":[256,256]},"87":{"path":"assets/img/6480897cd79b1b3a.png","status":"verified","sourceTexture":"LifeNecklace","size":[256,256]},"88":{"path":"assets/img/fa35188339dfa862.png","status":"verified","sourceTexture":"DemonsBone","size":[256,256]},"89":{"path":"assets/img/7c76b692af0e5680.png","status":"verified","sourceTexture":"DemonsEmblem","size":[256,256]},"90":{"path":"assets/img/b7be41cd3a141f24.png","status":"verified","sourceTexture":"OddDice","size":[256,256]},"91":{"path":"assets/img/fca6cc5f77fd7b69.png","status":"verified","sourceTexture":"DemonsBrightHorn","size":[256,256]}},"tree":{"0":{"path":"assets/img/f4e8772a46781779.png","status":"verified","sourceTexture":"HpUp2","size":[512,512]},"1":{"path":"assets/img/8f574a49ce9036f4.png","status":"verified","sourceTexture":"HpRecovery","size":[512,512]},"2":{"path":"assets/img/e89aa903d0fd13bd.png","status":"verified","sourceTexture":"AttackPowerUp","size":[512,512]},"3":{"path":"assets/img/c299c2c196a60a57.png","status":"verified","sourceTexture":"CriticalUp","size":[512,512]},"4":{"path":"assets/img/7fa898ff63706529.png","status":"verified","sourceTexture":"DamageUp3","size":[512,512]},"5":{"path":"assets/img/eb1ac20dad65236d.png","status":"verified","sourceTexture":"SecondChance","size":[512,512]},"6":{"path":"assets/img/e2041e86df53c91b.png","status":"verified","sourceTexture":"Resurrection","size":[512,512]},"7":{"path":"assets/img/4821b5cc70d19f14.png","status":"verified","sourceTexture":"AttackNumberUp","size":[512,512]},"8":{"path":"assets/img/23aaa0cb113b3f17.png","status":"verified","sourceTexture":"AttackDashUp","size":[512,512]},"9":{"path":"assets/img/dade161c88f8c9ce.png","status":"verified","sourceTexture":"HpDownDamageUp","size":[512,512]},"10":{"path":"assets/img/3fed3fdba8124bc2.png","status":"verified","sourceTexture":"HpLessPerDamageUp","size":[512,512]},"11":{"path":"assets/img/49dcbc034da2589c.png","status":"verified","sourceTexture":"BeAttackedDamageUp","size":[512,512]},"12":{"path":"assets/img/2e107dfc65c37c28.png","status":"verified","sourceTexture":"Bleeding","size":[512,512]},"13":{"path":"assets/img/a911b967746801a9.png","status":"verified","sourceTexture":"BleedingUp","size":[512,512]},"14":{"path":"assets/img/d2b6ef7213c7cfd0.png","status":"verified","sourceTexture":"StealHp","size":[512,512]},"15":{"path":"assets/img/c14ead4dbd620366.png","status":"verified","sourceTexture":"Avenger","size":[512,512]},"16":{"path":"assets/img/dc7473fd91573fd8.png","status":"verified","sourceTexture":"MpUp","size":[512,512]},"17":{"path":"assets/img/9184315d7b04bc20.png","status":"verified","sourceTexture":"MpRecovery","size":[512,512]},"18":{"path":"assets/img/47a17fb9639d9aa1.png","status":"verified","sourceTexture":"DecreaseSkillMp","size":[512,512]},"19":{"path":"assets/img/b1bb209c3a0edb76.png","status":"verified","sourceTexture":"IncreaseSkillDamage","size":[512,512]},"20":{"path":"assets/img/6f783037fbfc08a6.png","status":"verified","sourceTexture":"DecreaseSkillDelay","size":[512,512]},"21":{"path":"assets/img/6d0065b6507a2646.png","status":"verified","sourceTexture":"SupportOrb","size":[512,512]},"22":{"path":"assets/img/ba7cfca3d677f20e.png","status":"verified","sourceTexture":"ManaVestige","size":[512,512]},"23":{"path":"assets/img/aaea94205f8bec24.png","status":"verified","sourceTexture":"ManaWave","size":[512,512]},"24":{"path":"assets/img/0e348424a6a4681f.png","status":"verified","sourceTexture":"공격력1","size":[512,512]},"25":{"path":"assets/img/ca32eb15d0a01f42.png","status":"verified","sourceTexture":"Magic_52","size":[512,512]},"26":{"path":"assets/img/6bee2a98be667eec.png","status":"verified","sourceTexture":"Sparkle_1063","size":[512,512]},"27":{"path":"assets/img/f3b92517b615a96b.png","status":"verified","sourceTexture":"Sparkle_1062","size":[512,512]},"28":{"path":"assets/img/73fc165d89642354.png","status":"verified","sourceTexture":"SkillUp","size":[512,512]}},"fashions":{"SatgatCharacter":{"path":"assets/img/fa43d278f08fca6f.png","status":"verified","sourceTexture":"SatgatCostume","size":[256,256]},"HolyKnight0":{"path":"assets/img/562afc230689354b.png","status":"verified","sourceTexture":"HolyKnight0Costume","size":[256,256]},"HolyKnight1":{"path":"assets/img/5e0f2a036fd050c9.png","status":"verified","sourceTexture":"HolyKnight1Costume","size":[256,256]},"DarkKnight0":{"path":"assets/img/a4a981634fa570ae.png","status":"verified","sourceTexture":"DarkKnight0Costume","size":[256,256]},"DarkKnight1":{"path":"assets/img/ea86ab29ff1ca7e4.png","status":"verified","sourceTexture":"DarkKnight1Costume","size":[256,256]},"GoldenKnight0":{"path":"assets/img/805bee8090d0d6ed.png","status":"verified","sourceTexture":"GoldenKnight0Costume","size":[256,256]},"GoldenKnight1":{"path":"assets/img/075d6fff288b1c88.png","status":"verified","sourceTexture":"GoldenKnight1Costume","size":[256,256]},"SkeletonKnight":{"path":"assets/img/f70c67a20277117f.png","status":"verified","sourceTexture":"SkeletonKnightCostume","size":[256,256]},"GeomsungKnight":{"path":"assets/img/e61d729b2a2aaba4.png","status":"verified","sourceTexture":"GeomsungKnightCostume","size":[256,256]},"BerserkerKnight":{"path":"assets/img/680bb7f1bcaae786.png","status":"verified","sourceTexture":"BerserkerKnightCostume","size":[256,256]},"SantaKnight":{"path":"assets/img/148e88c1ea4e9929.png","status":"verified","sourceTexture":"SantaKnightCostume","size":[256,256]}},"pets":{"LittleAngelPet":{"path":"assets/img/afc240e99f16ceb6.png","status":"verified","sourceTexture":"LittleAngelPet","size":[256,256]},"LittleDevilPet":{"path":"assets/img/b82343c3a4e4cbd7.png","status":"verified","sourceTexture":"LittleDevilPet","size":[256,256]},"LittleGrimReaperPet":{"path":"assets/img/7e58b113035bf84d.png","status":"verified","sourceTexture":"LittleGrimReaperPet","size":[256,256]},"FireFairyPet":{"path":"assets/img/ac572d7f2241c8b5.png","status":"verified","sourceTexture":"FireFairyPet","size":[256,256]},"SoulFairyPet":{"path":"assets/img/a935fb774947dbcc.png","status":"verified","sourceTexture":"SoulFairyPet","size":[256,256]},"WaterFairyPet":{"path":"assets/img/07b2516b2aae8408.png","status":"verified","sourceTexture":"WaterFairyPet","size":[256,256]},"LightningFairyPet":{"path":"assets/img/6e7761be1ae9fc18.png","status":"verified","sourceTexture":"LightningFairyPet","size":[256,256]},"LittleDemonDragonPet":{"path":"assets/img/e79ee24fe9f530ea.png","status":"verified","sourceTexture":"LittleDemonDragonPet","size":[256,256]},"TornadoFairyPet":{"path":"assets/img/6865077a0fe9e74e.png","status":"verified","sourceTexture":"TornadoFairyPet","size":[256,256]},"MerchantFairyPet":{"path":"assets/img/acaf696eab89b81e.png","status":"verified","sourceTexture":"MerchantFairyPet","size":[256,256]},"ChristmasTreeFairyPet":{"path":"assets/img/16ffeb75fa6d57b8.png","status":"verified","sourceTexture":"ChristmasTreeFairyPet","size":[256,256]},"LittleRudolphPet":{"path":"assets/img/33bebde73ae98f93.png","status":"verified","sourceTexture":"LittleRudolphPet","size":[256,256]}},"meta":{"policy":"official-apk-only","apk":"Tower And Swords 2.55400","unverifiedBehavior":"no icon is displayed","artifactMappingEvidence":"ArtifactName enum + ArtifactPanel ListPopup ItemBox hierarchy and Sprite PPtr","treeMappingEvidence":"CharSkill button GameObject -> Image Sprite PPtr","fashionScope":"Sword APK only; 11 archer costumes intentionally omitted per project scope"}};
+window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/official-icons/skills/01.png","status":"verified","source":"APK Texture2D"},"2":{"path":"assets/official-icons/skills/02.png","status":"verified","source":"APK Texture2D"},"3":{"path":"assets/official-icons/skills/03.png","status":"verified","source":"APK Texture2D"},"4":{"path":"assets/official-icons/skills/04.png","status":"verified","source":"APK Texture2D"},"5":{"path":"assets/official-icons/skills/05.png","status":"verified","source":"APK Texture2D"},"6":{"path":"assets/official-icons/skills/06.png","status":"verified","source":"APK Texture2D"},"7":{"path":"assets/official-icons/skills/07.png","status":"verified","source":"APK Texture2D"},"8":{"path":"assets/official-icons/skills/08.png","status":"verified","source":"APK Texture2D"},"9":{"path":"assets/official-icons/skills/09.png","status":"verified","source":"APK Texture2D"},"10":{"path":"assets/official-icons/skills/10.png","status":"verified","source":"APK Texture2D"},"11":{"path":"assets/official-icons/skills/11.png","status":"verified","source":"APK Texture2D"},"12":{"path":"assets/official-icons/skills/12.png","status":"verified","source":"APK Texture2D"},"13":{"path":"assets/official-icons/skills/13.png","status":"verified","source":"APK Texture2D"},"14":{"path":"assets/official-icons/skills/14.png","status":"verified","source":"APK Texture2D"},"15":{"path":"assets/official-icons/skills/15.png","status":"verified","source":"APK Texture2D"},"16":{"path":"assets/official-icons/skills/16.png","status":"verified","source":"APK Texture2D"},"17":{"path":"assets/official-icons/skills/17.png","status":"verified","source":"APK Texture2D"},"18":{"path":"assets/official-icons/skills/18.png","status":"verified","source":"APK Texture2D"},"19":{"path":"assets/official-icons/skills/19.png","status":"verified","source":"APK Texture2D"},"20":{"path":"assets/official-icons/skills/20.png","status":"verified","source":"APK Texture2D"},"21":{"path":"assets/official-icons/skills/21.png","status":"verified","source":"APK Texture2D"},"22":{"path":"assets/official-icons/skills/22.png","status":"verified","source":"APK Texture2D"},"23":{"path":"assets/official-icons/skills/23.png","status":"verified","source":"APK Texture2D"},"24":{"path":"assets/official-icons/skills/24.png","status":"verified","source":"APK Texture2D"},"25":{"path":"assets/official-icons/skills/25.png","status":"verified","source":"APK Texture2D"},"26":{"path":"assets/official-icons/skills/26.png","status":"verified","source":"APK Texture2D"},"27":{"path":"assets/official-icons/skills/27.png","status":"verified","source":"APK Texture2D"},"28":{"path":"assets/official-icons/skills/28.png","status":"verified","source":"APK Texture2D"},"29":{"path":"assets/official-icons/skills/29.png","status":"verified","source":"APK Texture2D"},"30":{"path":"assets/official-icons/skills/30.png","status":"verified","source":"APK Texture2D"},"31":{"path":"assets/official-icons/skills/31.png","status":"verified","source":"APK Texture2D"},"32":{"path":"assets/official-icons/skills/32.png","status":"verified","source":"APK Texture2D"},"33":{"path":"assets/official-icons/skills/33.png","status":"verified","source":"APK Texture2D"},"34":{"path":"assets/official-icons/skills/34.png","status":"verified","source":"APK Texture2D"},"35":{"path":"assets/official-icons/skills/35.png","status":"verified","source":"APK Texture2D"},"36":{"path":"assets/official-icons/skills/36.png","status":"verified","source":"APK Texture2D"},"37":{"path":"assets/official-icons/skills/37.png","status":"verified","source":"APK Texture2D"},"38":{"path":"assets/official-icons/skills/38.png","status":"verified","source":"APK Texture2D"},"39":{"path":"assets/official-icons/skills/39.png","status":"verified","source":"APK Texture2D"},"40":{"path":"assets/official-icons/skills/40.png","status":"verified","source":"APK Texture2D"},"41":{"path":"assets/official-icons/skills/41.png","status":"verified","source":"APK Texture2D"},"42":{"path":"assets/official-icons/skills/42.png","status":"verified","source":"APK Texture2D"},"43":{"path":"assets/official-icons/skills/43.png","status":"verified","source":"APK Texture2D"},"44":{"path":"assets/official-icons/skills/44.png","status":"verified","source":"APK Texture2D"},"45":{"path":"assets/official-icons/skills/45.png","status":"verified","source":"APK Texture2D"},"46":{"path":"assets/official-icons/skills/46.png","status":"verified","source":"APK Texture2D"},"47":{"path":"assets/official-icons/skills/47.png","status":"verified","source":"APK Texture2D"},"48":{"path":"assets/official-icons/skills/48.png","status":"verified","source":"APK Texture2D"},"49":{"path":"assets/official-icons/skills/49.png","status":"verified","source":"APK Texture2D"},"50":{"path":"assets/official-icons/skills/50.png","status":"verified","source":"APK Texture2D"},"51":{"path":"assets/official-icons/skills/51.png","status":"verified","source":"APK Texture2D"},"52":{"path":"assets/official-icons/skills/52.png","status":"verified","source":"APK Texture2D"}},"artifacts":{"1":{"path":"assets/official-icons/artifacts/01.png","status":"verified","sourceTexture":"rotany_9","size":[256,256]},"2":{"path":"assets/official-icons/artifacts/02.png","status":"verified","sourceTexture":"rotany_11","size":[256,256]},"3":{"path":"assets/official-icons/artifacts/03.png","status":"verified","sourceTexture":"rotany_10","size":[256,256]},"4":{"path":"assets/official-icons/artifacts/04.png","status":"verified","sourceTexture":"rotany_18","size":[256,256]},"5":{"path":"assets/official-icons/artifacts/05.png","status":"verified","sourceTexture":"crystal_35","size":[256,256]},"6":{"path":"assets/official-icons/artifacts/06.png","status":"verified","sourceTexture":"crystal_33","size":[256,256]},"7":{"path":"assets/official-icons/artifacts/07.png","status":"verified","sourceTexture":"crystal_29","size":[256,256]},"8":{"path":"assets/official-icons/artifacts/08.png","status":"verified","sourceTexture":"crystal_37","size":[256,256]},"9":{"path":"assets/official-icons/artifacts/09.png","status":"verified","sourceTexture":"GoldenTwig","size":[256,256]},"10":{"path":"assets/official-icons/artifacts/10.png","status":"verified","sourceTexture":"RedKey","size":[256,256]},"11":{"path":"assets/official-icons/artifacts/11.png","status":"verified","sourceTexture":"HaetaeMask","size":[256,256]},"12":{"path":"assets/official-icons/artifacts/12.png","status":"verified","sourceTexture":"crystal_21","size":[256,256]},"13":{"path":"assets/official-icons/artifacts/13.png","status":"verified","sourceTexture":"crystal_23","size":[256,256]},"14":{"path":"assets/official-icons/artifacts/14.png","status":"verified","sourceTexture":"crystal_24","size":[256,256]},"15":{"path":"assets/official-icons/artifacts/15.png","status":"verified","sourceTexture":"crystal_25","size":[256,256]},"16":{"path":"assets/official-icons/artifacts/16.png","status":"verified","sourceTexture":"crystal_22","size":[256,256]},"17":{"path":"assets/official-icons/artifacts/17.png","status":"verified","sourceTexture":"crystal_26","size":[256,256]},"18":{"path":"assets/official-icons/artifacts/18.png","status":"verified","sourceTexture":"crystal_27","size":[256,256]},"19":{"path":"assets/official-icons/artifacts/19.png","status":"verified","sourceTexture":"WingCrystal","size":[256,256]},"20":{"path":"assets/official-icons/artifacts/20.png","status":"verified","sourceTexture":"MoonCrystal","size":[256,256]},"21":{"path":"assets/official-icons/artifacts/21.png","status":"verified","sourceTexture":"MagicStone","size":[256,256]},"22":{"path":"assets/official-icons/artifacts/22.png","status":"verified","sourceTexture":"DimensionCube","size":[256,256]},"23":{"path":"assets/official-icons/artifacts/23.png","status":"verified","sourceTexture":"DragonShield","size":[256,256]},"24":{"path":"assets/official-icons/artifacts/24.png","status":"verified","sourceTexture":"MagicGlasses","size":[256,256]},"25":{"path":"assets/official-icons/artifacts/25.png","status":"verified","sourceTexture":"CoreOfDarkOverlord","size":[256,256]},"26":{"path":"assets/official-icons/artifacts/26.png","status":"verified","sourceTexture":"TreasureOfDeath","size":[256,256]},"27":{"path":"assets/official-icons/artifacts/27.png","status":"verified","sourceTexture":"crystal_27Copy","size":[256,256]},"28":{"path":"assets/official-icons/artifacts/28.png","status":"verified","sourceTexture":"DragonsFang","size":[256,256]},"29":{"path":"assets/official-icons/artifacts/29.png","status":"verified","sourceTexture":"DragonsHorn","size":[256,256]},"30":{"path":"assets/official-icons/artifacts/30.png","status":"verified","sourceTexture":"DragonsScale","size":[256,256]},"31":{"path":"assets/official-icons/artifacts/31.png","status":"verified","sourceTexture":"DragonsCore","size":[256,256]},"32":{"path":"assets/official-icons/artifacts/32.png","status":"verified","sourceTexture":"DemonDragonTrace","size":[256,256]},"33":{"path":"assets/official-icons/artifacts/33.png","status":"verified","sourceTexture":"DarknessEye","size":[256,256]},"34":{"path":"assets/official-icons/artifacts/34.png","status":"verified","sourceTexture":"AncientTriangle","size":[256,256]},"35":{"path":"assets/official-icons/artifacts/35.png","status":"verified","sourceTexture":"CupOfDeath","size":[256,256]},"36":{"path":"assets/official-icons/artifacts/36.png","status":"verified","sourceTexture":"BookOfDeath","size":[256,256]},"37":{"path":"assets/official-icons/artifacts/37.png","status":"verified","sourceTexture":"CrownOfDeath","size":[256,256]},"38":{"path":"assets/official-icons/artifacts/38.png","status":"verified","sourceTexture":"CupOfDarkOverLord","size":[256,256]},"39":{"path":"assets/official-icons/artifacts/39.png","status":"verified","sourceTexture":"FeatherOfDarkOverLord","size":[256,256]},"40":{"path":"assets/official-icons/artifacts/40.png","status":"verified","sourceTexture":"AncientTreasure","size":[256,256]},"41":{"path":"assets/official-icons/artifacts/41.png","status":"verified","sourceTexture":"BloodCrystal","size":[256,256]},"42":{"path":"assets/official-icons/artifacts/42.png","status":"verified","sourceTexture":"HornOfDarkOverlord","size":[256,256]},"43":{"path":"assets/official-icons/artifacts/43.png","status":"verified","sourceTexture":"BookOfSoul","size":[256,256]},"44":{"path":"assets/official-icons/artifacts/44.png","status":"verified","sourceTexture":"DemonDragonTrace2","size":[256,256]},"45":{"path":"assets/official-icons/artifacts/45.png","status":"verified","sourceTexture":"AncientOfMask","size":[256,256]},"46":{"path":"assets/official-icons/artifacts/46.png","status":"verified","sourceTexture":"EyeOfDeath","size":[256,256]},"47":{"path":"assets/official-icons/artifacts/47.png","status":"verified","sourceTexture":"SoulOfDarkOverLord","size":[256,256]},"48":{"path":"assets/official-icons/artifacts/48.png","status":"verified","sourceTexture":"MagicBallOfDark","size":[256,256]},"49":{"path":"assets/official-icons/artifacts/49.png","status":"verified","sourceTexture":"DemonDragonTrace3","size":[256,256]},"50":{"path":"assets/official-icons/artifacts/50.png","status":"verified","sourceTexture":"AncientJewel","size":[256,256]},"51":{"path":"assets/official-icons/artifacts/51.png","status":"verified","sourceTexture":"RuneOfDeath","size":[256,256]},"52":{"path":"assets/official-icons/artifacts/52.png","status":"verified","sourceTexture":"EyeOfDarkOverLord","size":[256,256]},"53":{"path":"assets/official-icons/artifacts/53.png","status":"verified","sourceTexture":"EyeOfDemonDragon","size":[256,256]},"54":{"path":"assets/official-icons/artifacts/54.png","status":"verified","sourceTexture":"DemonDragonTrace4","size":[256,256]},"55":{"path":"assets/official-icons/artifacts/55.png","status":"verified","sourceTexture":"SlimeArtifact00","size":[256,256]},"56":{"path":"assets/official-icons/artifacts/56.png","status":"verified","sourceTexture":"SlimeArtifact01","size":[256,256]},"57":{"path":"assets/official-icons/artifacts/57.png","status":"verified","sourceTexture":"SlimeArtifact02","size":[256,256]},"58":{"path":"assets/official-icons/artifacts/58.png","status":"verified","sourceTexture":"SlimeArtifact03","size":[256,256]},"59":{"path":"assets/official-icons/artifacts/59.png","status":"verified","sourceTexture":"SlimeArtifact04","size":[256,256]},"60":{"path":"assets/official-icons/artifacts/60.png","status":"verified","sourceTexture":"SlimeArtifact05","size":[256,256]},"61":{"path":"assets/official-icons/artifacts/61.png","status":"verified","sourceTexture":"SlimeArtifact06","size":[256,256]},"62":{"path":"assets/official-icons/artifacts/62.png","status":"verified","sourceTexture":"SlimeArtifact07","size":[256,256]},"63":{"path":"assets/official-icons/artifacts/63.png","status":"verified","sourceTexture":"SlimeArtifact08","size":[256,256]},"64":{"path":"assets/official-icons/artifacts/64.png","status":"verified","sourceTexture":"SlimeArtifact09","size":[256,256]},"65":{"path":"assets/official-icons/artifacts/65.png","status":"verified","sourceTexture":"SlimeArtifact10","size":[256,256]},"66":{"path":"assets/official-icons/artifacts/66.png","status":"verified","sourceTexture":"SlimeArtifact11","size":[256,256]},"67":{"path":"assets/official-icons/artifacts/67.png","status":"verified","sourceTexture":"SlimeArtifact12","size":[256,256]},"68":{"path":"assets/official-icons/artifacts/68.png","status":"verified","sourceTexture":"SlimeArtifact13","size":[256,256]},"69":{"path":"assets/official-icons/artifacts/69.png","status":"verified","sourceTexture":"SlimeArtifact14","size":[256,256]},"70":{"path":"assets/official-icons/artifacts/70.png","status":"verified","sourceTexture":"SlimeArtifact15","size":[256,256]},"71":{"path":"assets/official-icons/artifacts/71.png","status":"verified","sourceTexture":"ShiningStone","size":[256,256]},"72":{"path":"assets/official-icons/artifacts/72.png","status":"verified","sourceTexture":"FireEnergy","size":[256,256]},"73":{"path":"assets/official-icons/artifacts/73.png","status":"verified","sourceTexture":"IceEnergy","size":[256,256]},"74":{"path":"assets/official-icons/artifacts/74.png","status":"verified","sourceTexture":"LightningEnergy","size":[256,256]},"75":{"path":"assets/official-icons/artifacts/75.png","status":"verified","sourceTexture":"SoulEnergy","size":[256,256]},"76":{"path":"assets/official-icons/artifacts/76.png","status":"verified","sourceTexture":"GoldenScroll","size":[256,256]},"77":{"path":"assets/official-icons/artifacts/77.png","status":"verified","sourceTexture":"ExperienceBook","size":[256,256]},"78":{"path":"assets/official-icons/artifacts/78.png","status":"verified","sourceTexture":"GoldCoin","size":[256,256]},"79":{"path":"assets/official-icons/artifacts/79.png","status":"verified","sourceTexture":"RedClaw","size":[256,256]},"80":{"path":"assets/official-icons/artifacts/80.png","status":"verified","sourceTexture":"DemonsFang","size":[256,256]},"81":{"path":"assets/official-icons/artifacts/81.png","status":"verified","sourceTexture":"DemonsHorn","size":[256,256]},"82":{"path":"assets/official-icons/artifacts/82.png","status":"verified","sourceTexture":"DemonsCore","size":[256,256]},"83":{"path":"assets/official-icons/artifacts/83.png","status":"verified","sourceTexture":"GoldenCrystal","size":[256,256]},"84":{"path":"assets/official-icons/artifacts/84.png","status":"verified","sourceTexture":"RecoveryLyre","size":[256,256]},"85":{"path":"assets/official-icons/artifacts/85.png","status":"verified","sourceTexture":"SturdyShield","size":[256,256]},"86":{"path":"assets/official-icons/artifacts/86.png","status":"verified","sourceTexture":"ManaBracelet","size":[256,256]},"87":{"path":"assets/official-icons/artifacts/87.png","status":"verified","sourceTexture":"LifeNecklace","size":[256,256]},"88":{"path":"assets/official-icons/artifacts/88.png","status":"verified","sourceTexture":"DemonsBone","size":[256,256]},"89":{"path":"assets/official-icons/artifacts/89.png","status":"verified","sourceTexture":"DemonsEmblem","size":[256,256]},"90":{"path":"assets/official-icons/artifacts/90.png","status":"verified","sourceTexture":"OddDice","size":[256,256]},"91":{"path":"assets/official-icons/artifacts/91.png","status":"verified","sourceTexture":"DemonsBrightHorn","size":[256,256]}},"tree":{"0":{"path":"assets/official-icons/tree/00.png","status":"verified","sourceTexture":"HpUp2","size":[512,512]},"1":{"path":"assets/official-icons/tree/01.png","status":"verified","sourceTexture":"HpRecovery","size":[512,512]},"2":{"path":"assets/official-icons/tree/02.png","status":"verified","sourceTexture":"AttackPowerUp","size":[512,512]},"3":{"path":"assets/official-icons/tree/03.png","status":"verified","sourceTexture":"CriticalUp","size":[512,512]},"4":{"path":"assets/official-icons/tree/04.png","status":"verified","sourceTexture":"DamageUp3","size":[512,512]},"5":{"path":"assets/official-icons/tree/05.png","status":"verified","sourceTexture":"SecondChance","size":[512,512]},"6":{"path":"assets/official-icons/tree/06.png","status":"verified","sourceTexture":"Resurrection","size":[512,512]},"7":{"path":"assets/official-icons/tree/07.png","status":"verified","sourceTexture":"AttackNumberUp","size":[512,512]},"8":{"path":"assets/official-icons/tree/08.png","status":"verified","sourceTexture":"AttackDashUp","size":[512,512]},"9":{"path":"assets/official-icons/tree/09.png","status":"verified","sourceTexture":"HpDownDamageUp","size":[512,512]},"10":{"path":"assets/official-icons/tree/10.png","status":"verified","sourceTexture":"HpLessPerDamageUp","size":[512,512]},"11":{"path":"assets/official-icons/tree/11.png","status":"verified","sourceTexture":"BeAttackedDamageUp","size":[512,512]},"12":{"path":"assets/official-icons/tree/12.png","status":"verified","sourceTexture":"Bleeding","size":[512,512]},"13":{"path":"assets/official-icons/tree/13.png","status":"verified","sourceTexture":"BleedingUp","size":[512,512]},"14":{"path":"assets/official-icons/tree/14.png","status":"verified","sourceTexture":"StealHp","size":[512,512]},"15":{"path":"assets/official-icons/tree/15.png","status":"verified","sourceTexture":"Avenger","size":[512,512]},"16":{"path":"assets/official-icons/tree/16.png","status":"verified","sourceTexture":"MpUp","size":[512,512]},"17":{"path":"assets/official-icons/tree/17.png","status":"verified","sourceTexture":"MpRecovery","size":[512,512]},"18":{"path":"assets/official-icons/tree/18.png","status":"verified","sourceTexture":"DecreaseSkillMp","size":[512,512]},"19":{"path":"assets/official-icons/tree/19.png","status":"verified","sourceTexture":"IncreaseSkillDamage","size":[512,512]},"20":{"path":"assets/official-icons/tree/20.png","status":"verified","sourceTexture":"DecreaseSkillDelay","size":[512,512]},"21":{"path":"assets/official-icons/tree/21.png","status":"verified","sourceTexture":"SupportOrb","size":[512,512]},"22":{"path":"assets/official-icons/tree/22.png","status":"verified","sourceTexture":"ManaVestige","size":[512,512]},"23":{"path":"assets/official-icons/tree/23.png","status":"verified","sourceTexture":"ManaWave","size":[512,512]},"24":{"path":"assets/official-icons/tree/24.png","status":"verified","sourceTexture":"공격력1","size":[512,512]},"25":{"path":"assets/official-icons/tree/25.png","status":"verified","sourceTexture":"Magic_52","size":[512,512]},"26":{"path":"assets/official-icons/tree/26.png","status":"verified","sourceTexture":"Sparkle_1063","size":[512,512]},"27":{"path":"assets/official-icons/tree/27.png","status":"verified","sourceTexture":"Sparkle_1062","size":[512,512]},"28":{"path":"assets/official-icons/tree/28.png","status":"verified","sourceTexture":"SkillUp","size":[512,512]}},"fashions":{"SatgatCharacter":{"path":"assets/official-icons/fashions/SatgatCharacter.png","status":"verified","sourceTexture":"SatgatCostume","size":[256,256]},"HolyKnight0":{"path":"assets/official-icons/fashions/HolyKnight0.png","status":"verified","sourceTexture":"HolyKnight0Costume","size":[256,256]},"HolyKnight1":{"path":"assets/official-icons/fashions/HolyKnight1.png","status":"verified","sourceTexture":"HolyKnight1Costume","size":[256,256]},"DarkKnight0":{"path":"assets/official-icons/fashions/DarkKnight0.png","status":"verified","sourceTexture":"DarkKnight0Costume","size":[256,256]},"DarkKnight1":{"path":"assets/official-icons/fashions/DarkKnight1.png","status":"verified","sourceTexture":"DarkKnight1Costume","size":[256,256]},"GoldenKnight0":{"path":"assets/official-icons/fashions/GoldenKnight0.png","status":"verified","sourceTexture":"GoldenKnight0Costume","size":[256,256]},"GoldenKnight1":{"path":"assets/official-icons/fashions/GoldenKnight1.png","status":"verified","sourceTexture":"GoldenKnight1Costume","size":[256,256]},"SkeletonKnight":{"path":"assets/official-icons/fashions/SkeletonKnight.png","status":"verified","sourceTexture":"SkeletonKnightCostume","size":[256,256]},"GeomsungKnight":{"path":"assets/official-icons/fashions/GeomsungKnight.png","status":"verified","sourceTexture":"GeomsungKnightCostume","size":[256,256]},"BerserkerKnight":{"path":"assets/official-icons/fashions/BerserkerKnight.png","status":"verified","sourceTexture":"BerserkerKnightCostume","size":[256,256]},"SantaKnight":{"path":"assets/official-icons/fashions/SantaKnight.png","status":"verified","sourceTexture":"SantaKnightCostume","size":[256,256]}},"pets":{"LittleAngelPet":{"path":"assets/official-icons/pets/LittleAngelPet.png","status":"verified","sourceTexture":"LittleAngelPet","size":[256,256]},"LittleDevilPet":{"path":"assets/official-icons/pets/LittleDevilPet.png","status":"verified","sourceTexture":"LittleDevilPet","size":[256,256]},"LittleGrimReaperPet":{"path":"assets/official-icons/pets/LittleGrimReaperPet.png","status":"verified","sourceTexture":"LittleGrimReaperPet","size":[256,256]},"FireFairyPet":{"path":"assets/official-icons/pets/FireFairyPet.png","status":"verified","sourceTexture":"FireFairyPet","size":[256,256]},"SoulFairyPet":{"path":"assets/official-icons/pets/SoulFairyPet.png","status":"verified","sourceTexture":"SoulFairyPet","size":[256,256]},"WaterFairyPet":{"path":"assets/official-icons/pets/WaterFairyPet.png","status":"verified","sourceTexture":"WaterFairyPet","size":[256,256]},"LightningFairyPet":{"path":"assets/official-icons/pets/LightningFairyPet.png","status":"verified","sourceTexture":"LightningFairyPet","size":[256,256]},"LittleDemonDragonPet":{"path":"assets/official-icons/pets/LittleDemonDragonPet.png","status":"verified","sourceTexture":"LittleDemonDragonPet","size":[256,256]},"TornadoFairyPet":{"path":"assets/official-icons/pets/TornadoFairyPet.png","status":"verified","sourceTexture":"TornadoFairyPet","size":[256,256]},"MerchantFairyPet":{"path":"assets/official-icons/pets/MerchantFairyPet.png","status":"verified","sourceTexture":"MerchantFairyPet","size":[256,256]},"ChristmasTreeFairyPet":{"path":"assets/official-icons/pets/ChristmasTreeFairyPet.png","status":"verified","sourceTexture":"ChristmasTreeFairyPet","size":[256,256]},"LittleRudolphPet":{"path":"assets/official-icons/pets/LittleRudolphPet.png","status":"verified","sourceTexture":"LittleRudolphPet","size":[256,256]}},"meta":{"iconPhase":"skills+artifacts+tree+fashions+pets","source":"DebugFix18 APK official icons","policy":"mapping/assets only; Test29 logic untouched"}};
 
 </script>
 <script>
@@ -4272,9 +4438,9 @@ window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98df
   }
   function decorate(){artifacts();tree();fashions();pets();skillPreview();}
   function observe(){
-    ['artifactList','treeList','fashionList','petList'].forEach(id=>{const el=document.getElementById(id);if(el)new MutationObserver(()=>setTimeout(decorate,0)).observe(el,{childList:true,subtree:true});});
+    /* Test23: legacy full-list MutationObservers disabled; they rescanned every system list after each edit. */
     $('#skill')?.addEventListener('change',()=>setTimeout(skillPreview,0));
-    document.addEventListener('click',e=>{if(e.target.closest('.lang-btn,.step,.mode,#next,#prev,#reset,[data-fashion],[data-pet],[data-tree-lv],[data-artifact-lv],[data-artifact-primary]'))setTimeout(decorate,30);},true);
+    document.addEventListener('click',e=>{if(e.target.closest('.step,.mode,#next,#prev'))setTimeout(decorate,30);},true);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{decorate();observe();}); else {decorate();observe();}
 })();
@@ -4398,9 +4564,9 @@ window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98df
   function refresh(){syncElementTheme();equipmentCards();refineReport();mobileSemantics();}
   const observeIds=['equipmentGrid','autoEquipmentGrid','reportTotals','reportCompareBody','reportManualGear','reportAutoGear'];
   function install(){
-    observeIds.forEach(id=>{const el=document.getElementById(id);if(el)new MutationObserver(()=>setTimeout(refresh,0)).observe(el,{childList:true,subtree:true});});
+    /* Test23: legacy DOM observers disabled; refresh presentation only on explicit navigation/skill changes. */
     $('#skill')?.addEventListener('change',()=>setTimeout(refresh,20));
-    document.addEventListener('click',e=>{if(e.target.closest('.step,.mode,#next,#prev,.lang-btn,#reset'))setTimeout(refresh,40);},true);
+    document.addEventListener('click',e=>{if(e.target.closest('.step,.mode,#next,#prev'))setTimeout(refresh,40);},true);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{refresh();install();}); else {refresh();install();}
 })();
@@ -4497,33 +4663,15 @@ window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98df
 
   const refreshDamageViews=()=>{
     try{ refreshManualSummary(); }catch(e){ console.error('DebugFix22 manual refresh failed',e); }
-    try{ refreshAuto(); }catch(e){ console.error('DebugFix22 auto refresh failed',e); }
+    if(state.step===2&&state.mode==='auto'){
+      try{ refreshAuto(); }catch(e){ console.error('DebugFix22 auto refresh failed',e); }
+    }
   };
 
   /* Main-console fields are dependencies of page-3 damage, but the original shell only
      refreshed the report. Add a second listener rather than replacing core handlers. */
-  ['level','displayAtk','weaponLv'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.addEventListener('input',()=>queueMicrotask(refreshDamageViews));
-  });
-  const skill=document.getElementById('skill');
-  if(skill) skill.addEventListener('change',()=>queueMicrotask(refreshDamageViews));
-
-  /* Every system-effect edit eventually calls refreshSystemSummary(). Wrap that one
-     presentation refresh point so manual damage stays live after artifact/tree/fashion/pet edits. */
-  try{
-    const originalRefreshSystemSummary=refreshSystemSummary;
-    refreshSystemSummary=function(...args){
-      const result=originalRefreshSystemSummary(...args);
-      queueMicrotask(()=>{
-        try{ refreshManualSummary(); }catch(e){ console.error('DebugFix22 system/manual refresh failed',e); }
-      });
-      return result;
-    };
-  }catch(e){ console.error('DebugFix22 system refresh hook failed',e); }
-
-  /* Repaint immediately so a saved low-level/manual state no longer opens as 0R. */
-  queueMicrotask(refreshDamageViews);
+  /* Test23: do not refresh hidden Page-3 damage from Page-1/Page-2 input events.
+     Page-3 refreshes when it is actually entered or its own controls change. */
 })();
 </script>
 
@@ -4547,7 +4695,7 @@ window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98df
 </script>
 
 <script>
-/* Web Release 1.0 — issue report controller (presentation only). */
+/* Web Release V 1.0 — issue report controller (presentation only). */
 (()=>{
   'use strict';
   const openBtn=document.querySelector('.release-report-btn');
@@ -4665,13 +4813,10 @@ window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98df
     return {normal,crit};
   }
   function findAtk(){
-    const report=$('#reportTotals');
-    if(report){
-      const candidates=[...report.querySelectorAll('.report-stat')];
-      const box=candidates.find(x=>/ATK/i.test(x.querySelector('.k')?.textContent||''));
-      const v=box?.querySelector('.v')?.textContent?.trim();if(v)return v;
-    }
-    return $('#displayAtk')?.value||'—';
+    /* V1.0 Test14 display-only: Page 3 compact "Main ATK" must mirror the
+       exact Page 1 main-weapon ATK input. Do not read report/System ATK %. */
+    const v=$('#displayAtk')?.value;
+    return v!=null&&String(v).trim()!==''?String(v).trim():'—';
   }
   function currentMode(){return document.querySelector('.mode.active')?.dataset.mode||'manual'}
   function currentCd(){
@@ -4706,11 +4851,9 @@ window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98df
   }
 
   /* Refresh after every relevant core render without changing its logic. */
-  const observer=new MutationObserver(()=>queueMicrotask(refreshBeta));
-  ['manualNonCritDamage','manualCritDamage','autoDamage','autoCd','reportTotals','reportConditions','sysArtifactCount','sysTreeCount','sysFashionCount','sysPetCount','skillPreview']
-    .forEach(id=>{const el=document.getElementById(id);if(el)observer.observe(el,{subtree:true,childList:true,characterData:true})});
-  ['level','displayAtk','skill','critTarget','cdTarget'].forEach(id=>document.getElementById(id)?.addEventListener('input',()=>queueMicrotask(refreshBeta)));
-  document.addEventListener('click',e=>{if(e.target.closest('.mode,.step,#next,#prev,[data-tree-lv],[data-artifact-lv],[data-fashion],[data-pet]'))setTimeout(refreshBeta,40)},true);
+  /* Test23: legacy result MutationObserver/input cascade disabled.
+     The compact Page-3 presentation refreshes only on explicit page/mode navigation. */
+  document.addEventListener('click',e=>{if(e.target.closest('.mode,.step,#next,#prev'))setTimeout(refreshBeta,40)},true);
 
   /* Auto condition UX: empty means no restriction; still feeds existing core 0=no limit. */
   ['critTarget','cdTarget'].forEach(id=>{
@@ -4734,11 +4877,12 @@ window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98df
     const prior=refreshSystemSummary;
     refreshSystemSummary=function(...args){
       const result=prior(...args);
-      queueMicrotask(()=>{try{refreshAuto();}catch(e){console.error('Beta 0.1 auto refresh',e)}});
+      /* Auto uses the same current Page-2 state, but is computed only when Auto pane is visible. */
+      if(state.step===2&&state.mode==='auto') queueMicrotask(()=>{try{refreshAuto();}catch(e){console.error('Beta 0.1 auto refresh',e)}});
       return result;
     };
   }catch(e){console.error('Beta 0.1 system/auto hook failed',e)}
-  queueMicrotask(()=>{try{refreshAuto();refreshManualSummary();}catch(e){console.error('Beta 0.1 initial dynamic refresh',e)}});
+  queueMicrotask(()=>{try{refreshManualSummary();}catch(e){console.error('Beta 0.1 initial manual refresh',e)}});
 })();
 </script>
 
@@ -4787,4 +4931,778 @@ window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98df
   refresh();
 })();
 </script>
+
+
+<script>
+/* Beta 0.1 Final Debug — Auto element presentation + Manual/Auto isolation guard.
+   IMPORTANT: presentation/state-isolation patch only.
+   The verified AutoMaxFix02 optimizer, damage formula, search scoring and totals are untouched. */
+(()=>{
+  'use strict';
+
+  const AUTO_ELEMENT_TYPES = new Set([
+    '火焰法術傷害','冰系法術傷害','閃電法術傷害','普通法術傷害'
+  ]);
+
+  function autoSkillElementType(){
+    const e=activeSkill()?.element;
+    if(e==='火') return '火焰法術傷害';
+    if(e==='冰') return '冰系法術傷害';
+    if(e==='雷') return '閃電法術傷害';
+    return '普通法術傷害';
+  }
+
+  function cloneAutoEqForDisplay(eq){
+    if(!eq) return eq;
+    const desired=autoSkillElementType();
+    const copy={};
+    for(const [gear,slots] of Object.entries(eq)){
+      copy[gear]={};
+      for(const [slot,pair] of Object.entries(slots||{})){
+        if(!Array.isArray(pair)) { copy[gear][slot]=pair; continue; }
+        const [type,value]=pair;
+        copy[gear][slot]=[AUTO_ELEMENT_TYPES.has(type)?desired:type,value];
+      }
+    }
+    return copy;
+  }
+
+  /* Only the equipment TEXT returned for Auto display/report is translated to the
+     selected skill's actual element. optimizeMax()/r.eq remain untouched so the
+     already game-verified AutoMaxFix02 damage/search core cannot regress here. */
+  try{
+    makeAutoEquipment=function(){
+      const r=optimizeMax(state.auto);
+      const eq=r?.status==='dynamic'&&r.eq?r.eq:null;
+      return cloneAutoEqForDisplay(eq);
+    };
+  }catch(e){ console.error('Auto element display patch failed',e); }
+
+  /* Hard isolation guard: Auto refresh is not allowed to write into Manual Build.
+     This is deliberately a safety net only; it does not feed Manual equipment into
+     Auto results and it never changes optimizer math. */
+  try{
+    const originalRefreshAuto=refreshAuto;
+    refreshAuto=function(...args){
+      const before=JSON.stringify(state.manual||{equipment:{}});
+      const result=originalRefreshAuto.apply(this,args);
+      const after=JSON.stringify(state.manual||{equipment:{}});
+      if(after!==before){
+        try{ state.manual=JSON.parse(before); saveState(state); }
+        catch(_){ /* keep runtime alive; optimizer math remains untouched */ }
+        console.error('Manual/Auto isolation guard restored Manual Build after Auto refresh.');
+      }
+      return result;
+    };
+  }catch(e){ console.error('Manual/Auto isolation guard failed',e); }
+
+  /* Refresh Auto presentation when skill changes so labels immediately follow
+     Normal / Fire / Ice / Lightning without touching Manual equipment. */
+  const skill=document.getElementById('skill');
+  if(skill) skill.addEventListener('change',()=>queueMicrotask(()=>{
+    try{ if(state.mode==='auto') refreshAuto(true); }
+    catch(e){ console.error('Auto element repaint failed',e); }
+  }));
+})();
+</script>
+
+
+<!-- V1.0 Test03: dual Manual/Auto view + deferred Auto repaint + display-only ATK/MP fixes.
+     IMPORTANT: no damage formula, optimizer candidate/scoring, Manual equipment, or system-stat math is changed. -->
+
+
+
+
+
+<!-- V1.0 Test04: UX performance + restore Manual/Auto pane switch + dual live damage + MP display floor.
+     Display/trigger timing only. Damage formulas and optimizer search/scoring are untouched. -->
+<style id="v10-test04-ux-style">
+  /* Restore the original two-panel switch behavior even though Test03 forced both panes visible. */
+  body[data-v10-equip-mode="manual"] #manualPane{display:block!important}
+  body[data-v10-equip-mode="manual"] #autoPane{display:none!important}
+  body[data-v10-equip-mode="auto"] #manualPane{display:none!important}
+  body[data-v10-equip-mode="auto"] #autoPane{display:block!important}
+
+  /* The bottom live card now shows Manual and Auto together. */
+  #betaLive .beta-live-head,#betaLive>.beta-live-grid{display:none!important}
+  .v10-live-dual{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:8px}
+  .v10-live-panel{min-width:0;padding:9px 10px;border:1px solid rgba(70,107,126,.48);border-radius:11px;background:rgba(5,15,22,.66)}
+  .v10-live-panel.auto{border-color:rgba(213,173,100,.40);background:linear-gradient(145deg,rgba(43,35,20,.56),rgba(6,17,24,.70))}
+  .v10-live-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;font-size:9px;font-weight:850;letter-spacing:.04em;color:#b8c8cf}
+  .v10-live-panel.auto .v10-live-title{color:var(--gold-bright)}
+  .v10-live-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .v10-live-value{min-width:0;padding:6px 7px;border-radius:8px;background:rgba(0,0,0,.16)}
+  .v10-live-k{font-size:8px;color:var(--muted)}
+  .v10-live-v{margin-top:3px;font-size:13px;font-weight:900;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .v10-live-value.crit .v10-live-v{color:var(--gold-bright)}
+  @media(max-width:620px){
+    .v10-live-dual{grid-template-columns:1fr;gap:6px}
+    .v10-live-panel{padding:7px 8px}.v10-live-v{font-size:12px}
+  }
+</style>
+
+
+
+
+<!-- V1.0 Test05: final interaction scheduler + true simultaneous Manual/Auto equipment view.
+     Trigger timing / presentation only. Damage formulas, optimizer candidates, scoring and equipment rules are untouched. -->
+
+
+
+
+<script id="v10-test22-modal-i18n-only">(()=>{
+  'use strict';
+  const q=s=>document.querySelector(s);
+/* ---------------------------
+     B. FULL HELP / REPORT I18N
+     --------------------------- */
+  const MODAL={
+    'zh-Hant':{
+      helpBtn:'操作說明', reportBtn:'問題回報', close:'關閉',
+      helpTitle:'模擬器操作說明',
+      intro:'本模擬器依「角色設定 → 系統效果 → 裝備配置 → 分析報告」四個步驟運作。建議先依遊戲實際面板建立角色條件，再進行手動實裝或自動最佳化。設定會儲存在目前瀏覽器中，重新整理後仍會保留。',
+      steps:[
+        ['01｜角色設定','輸入角色等級、主武固定 ATK 與主武裝備 Lv，再選擇目前要模擬的武器技能。角色等級、裝備等級與技能選擇都會影響後續傷害與最佳化結果，因此請以遊戲目前實際數值為準。'],
+        ['02｜武器技能','技能切換後，技能等級、Skill ATK、元素類型與即時傷害會重新計算。自動最佳化的元素詞條也會依目前技能所屬的普通／火／冰／雷屬性配置。'],
+        ['03｜系統效果','依角色實際持有狀態設定人工製品、魔法樹、時裝與寵物。手動實裝會使用第二頁目前設定；魔法樹點數與角色等級限制請依遊戲實際可用範圍配置。'],
+        ['04｜手動實裝','手動實裝用來重現遊戲中目前裝備。逐件選擇合法 Basic／Plus 詞條並輸入實際數值；所有變更都只作用於手動實裝，不會被自動最佳化覆寫。'],
+        ['05｜自動最佳化','自動最佳化與手動實裝完全獨立。它會依目前角色等級、主武 ATK、裝備 Lv、武器技能，以及第二頁當下的人工製品／魔法樹／時裝／寵物配置作為基準，只搜尋合法裝備詞條，目標為取得最高單次暴擊傷害。'],
+        ['06｜暴擊／冷卻門檻','「指定暴擊率」與「指定冷卻」都是最低條件，兩者同時輸入時採 AND 判定。輸入 0 代表不限制；例如暴擊 100、冷卻 95，表示搜尋結果必須同時達到暴擊率至少 100% 與冷卻至少 95%。'],
+        ['07｜元素詞條','自動最佳化會依所選武器技能配置對應元素法術傷害：普通技能使用普通法術傷害、火技能使用火焰法術傷害、冰技能使用冰系法術傷害、雷技能使用閃電法術傷害。'],
+        ['08｜即時傷害與分析報告','頁面會同步顯示未暴擊與暴擊傷害；第四頁彙整角色條件、系統效果、裝備配置與最終結果。切換手動／自動模式時，報告會讀取各自獨立的配置，不會互相污染。'],
+        ['09｜儲存、重設與問題比對','目前設定會自動保存在瀏覽器。若要重新建立測試條件，可使用重置功能。若模擬值與遊戲不一致，請先確認角色 Lv、主武 ATK、裝備 Lv、技能、系統效果、裝備詞條與暴擊／冷卻條件是否完全相同。']
+      ],
+      tip:'重要：正式版的傷害結果以目前已驗證的計算核心為準。手動實裝用於重現你的實際裝備；自動最佳化則獨立搜尋最大傷害配置。兩種模式不會互相改寫裝備詞條。',
+      reportTitle:'問題回報', reportIntro:'若發現模擬結果或操作異常，請在發布本模擬器的 Discord 頻道回報。為了方便快速重現問題，建議附上以下資訊。',
+      reportSteps:[['① 角色條件','角色等級、主武 ATK、主武 Lv、武器技能。'],['② 使用模式','手動實裝或自動最佳化，以及暴擊率／冷卻條件。'],['③ 問題內容','預期結果、實際顯示結果，以及問題發生在哪一頁。'],['④ 截圖與裝置','請附畫面截圖，並註明手機／桌面與瀏覽器。']],
+      reportTip:'回報範例：Lv 500｜主武 ATK 178｜冰月斬｜手動實裝｜第 3 頁最終傷害顯示異常｜iPhone Safari｜附截圖。'
+    },
+    en:{
+      helpBtn:'Guide', reportBtn:'Report Issue', close:'Close', helpTitle:'Simulator Guide',
+      intro:'This simulator follows four steps: Character Setup → System Effects → Equipment Build → Analysis Report. Start by matching your actual in-game character panel, then use Manual Build or Auto Optimize. Your settings are saved in this browser and remain after refresh.',
+      steps:[
+        ['01｜Character Setup','Enter character level, main-weapon fixed ATK, and main-weapon equipment Lv, then select the weapon skill to simulate. Character level, equipment level, and skill selection all affect damage and optimization results, so use your current in-game values.'],
+        ['02｜Weapon Skill','Changing the skill recalculates skill level, Skill ATK, element type, and damage. Auto Optimize also uses the element affix that matches the current skill: Normal, Fire, Ice, or Lightning.'],
+        ['03｜System Effects','Set Artifacts, Magic Tree, Fashion, and Pets to match what the character currently has. Manual Build uses the current Page 2 settings. Configure Magic Tree points and level limits within the ranges actually available in game.'],
+        ['04｜Manual Build','Manual Build reproduces your current in-game equipment. Choose legal Basic/Plus affixes for each item and enter the actual values. Manual changes affect only Manual Build and are never overwritten by Auto Optimize.'],
+        ['05｜Auto Optimize','Auto Optimize is completely independent from Manual Build. It uses the current character level, main-weapon ATK, equipment Lv, weapon skill, and the current Page 2 Artifact / Magic Tree / Fashion / Pet configuration as its baseline. It searches only legal equipment affixes to maximize single-hit critical damage.'],
+        ['06｜Crit / Cooldown Thresholds','Target Crit Rate and Target Cooldown are minimum constraints and use AND when both are set. Enter 0 for no restriction. For example, Crit 100 and Cooldown 95 requires a result with at least 100% Crit Rate and at least 95% Cooldown.'],
+        ['07｜Element Affixes','Auto Optimize uses the elemental spell-damage affix that matches the selected weapon skill: Normal Spell Damage for normal skills, Fire Spell Damage for fire skills, Ice Spell Damage for ice skills, and Lightning Spell Damage for lightning skills.'],
+        ['08｜Damage & Analysis Report','The simulator displays non-critical and critical damage and Page 4 summarizes character conditions, system effects, equipment builds, and final results. Manual and Auto configurations remain independent when switching modes.'],
+        ['09｜Save, Reset & Troubleshooting','Current settings are saved automatically in the browser. Use Reset to rebuild test conditions. If simulator and game values differ, first confirm that character Lv, main-weapon ATK, equipment Lv, skill, system effects, equipment affixes, and Crit/Cooldown conditions are identical.']
+      ],
+      tip:'Important: release damage results use the currently verified calculation core. Manual Build reproduces your actual equipment; Auto Optimize independently searches for the highest-damage legal build. The two modes never overwrite each other’s equipment affixes.',
+      reportTitle:'Report Issue', reportIntro:'If you find an incorrect result or an operation problem, please report it in the Discord channel where this simulator is published. Include the following information so the issue can be reproduced quickly.',
+      reportSteps:[['① Character Conditions','Character level, main-weapon ATK, main-weapon Lv, and weapon skill.'],['② Mode Used','Manual Build or Auto Optimize, including Crit Rate / Cooldown constraints.'],['③ Problem Details','Expected result, actual displayed result, and the page where the issue occurs.'],['④ Screenshot & Device','Attach a screenshot and specify mobile/desktop and browser.']],
+      reportTip:'Example: Lv 500｜Main ATK 178｜Ice Moon Slash｜Manual Build｜Final damage is incorrect on Page 3｜iPhone Safari｜Screenshot attached.'
+    },
+    ko:{
+      helpBtn:'사용 안내', reportBtn:'문제 신고', close:'닫기', helpTitle:'시뮬레이터 사용 안내',
+      intro:'이 시뮬레이터는 캐릭터 설정 → 시스템 효과 → 장비 구성 → 분석 보고서의 4단계로 동작합니다. 먼저 게임의 실제 패널에 맞춰 캐릭터 조건을 설정한 뒤 수동 빌드 또는 자동 최적화를 사용하세요. 설정은 현재 브라우저에 저장되며 새로고침 후에도 유지됩니다.',
+      steps:[
+        ['01｜캐릭터 설정','캐릭터 레벨, 주무기 고정 ATK, 주무기 장비 Lv를 입력한 뒤 시뮬레이션할 무기 스킬을 선택합니다. 캐릭터 레벨, 장비 레벨, 스킬 선택은 이후 피해량과 최적화 결과에 영향을 주므로 현재 게임 수치를 사용하세요.'],
+        ['02｜무기 스킬','스킬을 변경하면 스킬 레벨, Skill ATK, 속성 유형, 피해량이 다시 계산됩니다. 자동 최적화의 속성 옵션도 현재 스킬의 일반／화염／빙결／번개 속성에 맞춰 적용됩니다.'],
+        ['03｜시스템 효과','현재 보유 상태에 맞춰 아티팩트, 마법 트리, 코스튬, 펫을 설정합니다. 수동 빌드는 2페이지의 현재 설정을 사용합니다. 마법 트리 포인트와 캐릭터 레벨 제한은 게임에서 실제 사용 가능한 범위에 맞춰 설정하세요.'],
+        ['04｜수동 빌드','수동 빌드는 현재 게임 장비를 재현하는 기능입니다. 각 장비에서 사용 가능한 Basic／Plus 옵션을 선택하고 실제 수치를 입력합니다. 수동 빌드의 변경 내용은 자동 최적화에 의해 덮어쓰이지 않습니다.'],
+        ['05｜자동 최적화','자동 최적화는 수동 빌드와 완전히 독립적입니다. 현재 캐릭터 레벨, 주무기 ATK, 장비 Lv, 무기 스킬과 2페이지의 현재 아티팩트／마법 트리／코스튬／펫 구성을 기준으로 사용 가능한 장비 옵션만 검색하여 단일 치명타 피해량을 최대화합니다.'],
+        ['06｜치명타／쿨다운 기준','지정 치명타율과 지정 쿨다운은 모두 최소 조건이며 두 값을 함께 입력하면 AND 조건으로 적용됩니다. 0은 제한 없음입니다. 예를 들어 치명타 100, 쿨다운 95는 치명타율 100% 이상과 쿨다운 95% 이상을 동시에 만족해야 합니다.'],
+        ['07｜속성 옵션','자동 최적화는 선택한 무기 스킬에 맞는 속성 마법 피해 옵션을 사용합니다. 일반 스킬은 일반 마법 피해, 화염 스킬은 화염 마법 피해, 빙결 스킬은 빙결 마법 피해, 번개 스킬은 번개 마법 피해를 사용합니다.'],
+        ['08｜피해량 및 분석 보고서','페이지에는 비치명타 및 치명타 피해량이 표시되며 4페이지에서는 캐릭터 조건, 시스템 효과, 장비 구성, 최종 결과를 종합합니다. 수동／자동 모드를 전환해도 각 장비 구성은 서로 독립적으로 유지됩니다.'],
+        ['09｜저장, 초기화 및 문제 확인','현재 설정은 브라우저에 자동 저장됩니다. 테스트 조건을 다시 만들려면 초기화 기능을 사용하세요. 게임과 시뮬레이션 값이 다르면 캐릭터 Lv, 주무기 ATK, 장비 Lv, 스킬, 시스템 효과, 장비 옵션, 치명타／쿨다운 조건이 동일한지 먼저 확인하세요.']
+      ],
+      tip:'중요: 정식 버전의 피해 결과는 현재 검증된 계산 코어를 기준으로 합니다. 수동 빌드는 실제 장비를 재현하고 자동 최적화는 최대 피해 구성을 독립적으로 검색합니다. 두 모드는 서로의 장비 옵션을 덮어쓰지 않습니다.',
+      reportTitle:'문제 신고', reportIntro:'시뮬레이션 결과 또는 조작 이상을 발견하면 이 시뮬레이터가 배포된 Discord 채널에 신고해 주세요. 문제를 빠르게 재현할 수 있도록 아래 정보를 함께 보내는 것을 권장합니다.',
+      reportSteps:[['① 캐릭터 조건','캐릭터 레벨, 주무기 ATK, 주무기 Lv, 무기 스킬.'],['② 사용 모드','수동 빌드 또는 자동 최적화 및 치명타율／쿨다운 조건.'],['③ 문제 내용','예상 결과, 실제 표시 결과, 문제가 발생한 페이지.'],['④ 스크린샷 및 기기','화면 스크린샷을 첨부하고 모바일／데스크톱 및 브라우저를 적어 주세요.']],
+      reportTip:'신고 예시: Lv 500｜주무기 ATK 178｜빙월참｜수동 빌드｜3페이지 최종 피해 표시 이상｜iPhone Safari｜스크린샷 첨부.'
+    }
+  };
+  function lang(){const x=localStorage.getItem('towerSword.language')||document.documentElement.lang||'zh-Hant';return x.startsWith('en')?'en':x.startsWith('ko')?'ko':'zh-Hant';}
+  function renderModalI18n(){
+    const L=MODAL[lang()]||MODAL['zh-Hant'];
+    const hb=q('.release-help-btn'),rb=q('.release-report-btn'); if(hb)hb.textContent=L.helpBtn;if(rb)rb.textContent=L.reportBtn;
+    const hm=q('.release-help-modal:not(.release-report-modal):not(.release-version-modal)');
+    if(hm){
+      hm.setAttribute('aria-label',L.helpBtn); const h=hm.querySelector('h2');if(h)h.textContent=L.helpTitle;
+      const c=hm.querySelector('.release-help-close');if(c)c.setAttribute('aria-label',L.close);
+      const intro=hm.querySelector('.release-help-intro');if(intro)intro.textContent=L.intro;
+      const rows=[...hm.querySelectorAll('.release-help-step')];L.steps.forEach((x,i)=>{if(rows[i]){const a=rows[i].querySelector('strong'),b=rows[i].querySelector('span');if(a)a.textContent=x[0];if(b)b.textContent=x[1];}});
+      const tip=hm.querySelector('.release-help-tip');if(tip)tip.textContent=L.tip;
+    }
+    const rm=q('.release-report-modal');
+    if(rm){
+      rm.setAttribute('aria-label',L.reportTitle);const h=rm.querySelector('h2');if(h)h.textContent=L.reportTitle;
+      const c=rm.querySelector('.release-report-close');if(c)c.setAttribute('aria-label',L.close);
+      const intro=rm.querySelector('.release-help-intro');if(intro)intro.textContent=L.reportIntro;
+      const rows=[...rm.querySelectorAll('.release-help-step')];L.reportSteps.forEach((x,i)=>{if(rows[i]){const a=rows[i].querySelector('strong'),b=rows[i].querySelector('span');if(a)a.textContent=x[0];if(b)b.textContent=x[1];}});
+      const tip=rm.querySelector('.release-help-tip');if(tip)tip.textContent=L.reportTip;
+    }
+  }
+  document.addEventListener('click',e=>{if(e.target.closest?.('.lang-btn'))requestAnimationFrame(()=>renderModalI18n());},{capture:true,passive:true});
+  window.addEventListener('tower-language-changed',()=>requestAnimationFrame(renderModalI18n));
+  renderModalI18n();
+})();
+</script>
+
+<script id="v10-test22-skill-i18n-approved">
+(()=>{
+  'use strict';
+  const N={"1":{"z":"大搖擺","e":"Big Swing","k":"일격"},"2":{"z":"粉碎","e":"Smash","k":"회전베기"},"3":{"z":"劍氣","e":"Aura Attack","k":"검기"},"4":{"z":"三重斜杠","e":"Triple Slash","k":"삼연참"},"5":{"z":"穿刺劍","e":"Piercing Sword","k":"꿰뚫는 검"},"6":{"z":"匆忙","e":"Rush","k":"돌진"},"7":{"z":"閃電衝刺","e":"Lightning Dash","k":"일섬일격"},"8":{"z":"消防路","e":"Fire Road","k":"불의 길"},"9":{"z":"火焰斬Jr","e":"Flame Slash Jr","k":"화염베기"},"10":{"z":"火焰斬","e":"Flame Slash","k":"진'화염베기"},"11":{"z":"冰斬Jr","e":"Ice Slash Jr","k":"서리베기"},"12":{"z":"冰斬","e":"Ice Slash","k":"진'서리베기"},"13":{"z":"冰花","e":"Ice Flower","k":"얼음꽃"},"14":{"z":"燃燒的火焰","e":"Burning Flame","k":"타오르는 불꽃"},"15":{"z":"火浪","e":"Waves Of Fire","k":"불의 파도"},"16":{"z":"閃電之舞","e":"Dance Of Lightning","k":"진'전격의 춤"},"17":{"z":"閃電之舞Jr","e":"Dance Of Lightning Jr","k":"전격의 춤"},"18":{"z":"藍色光束","e":"Blue Light Beam","k":"푸른 광선"},"19":{"z":"明亮的光束","e":"Bright Light Beam","k":"빛의 광선"},"20":{"z":"紅色光束","e":"Red Light Beam","k":"붉은 광선"},"21":{"z":"太陽寶珠","e":"Solar Orb","k":"태양구"},"22":{"z":"地面震動","e":"Ground Shaking","k":"진'땅울림"},"23":{"z":"地面震動Jr","e":"Ground Shaking Jr","k":"땅울림"},"24":{"z":"雷擊","e":"Thunder Strike","k":"진'천둥의 전격"},"25":{"z":"雷擊Jr","e":"Thunder Strike Jr","k":"천둥의 전격"},"26":{"z":"雪矛","e":"Snow Spear","k":"눈의 창"},"27":{"z":"大劍之魂","e":"Great Aura Attack","k":"대검기"},"28":{"z":"大斜線","e":"Great Slash","k":"대검격"},"29":{"z":"火焰三連擊","e":"Flame Triple Strike","k":"화염 삼연격"},"30":{"z":"幻覺攻擊","e":"Illusion Attack","k":"환영격"},"31":{"z":"狂野之舞","e":"Wild Dance","k":"난무"},"32":{"z":"冰吹","e":"Ice Blow","k":"얼음 송곳"},"33":{"z":"火焰之刃","e":"Blade Of Flame","k":"화염의 칼날"},"34":{"z":"雷雨","e":"Lightning Storm","k":"번개의 폭풍"},"35":{"z":"冰凍斬擊","e":"Freezing Slash","k":"얼음의 참격"},"36":{"z":"紅色斜線","e":"Red Slash","k":"붉은 참격"},"37":{"z":"匆忙","e":"Rush","k":"돌진"},"38":{"z":"地面震動","e":"Ground Shaking","k":"진'땅울림"},"39":{"z":"火焰斬","e":"Flame Slash","k":"진'화염베기"},"40":{"z":"冰斬","e":"Ice Slash","k":"진'서리베기"},"41":{"z":"雷擊","e":"Thunder Strike","k":"진'천둥의 전격"},"42":{"z":"閃電之舞","e":"Dance Of Lightning","k":"진'전격의 춤"},"43":{"z":"燃燒的火焰","e":"Burning Flame","k":"타오르는 불꽃"},"44":{"z":"消防路","e":"Fire Road","k":"불의 길"},"45":{"z":"大斜線","e":"Great Slash","k":"대검격"},"46":{"z":"明亮的光束","e":"Bright Light Beam","k":"빛의 광선"},"47":{"z":"太陽寶珠","e":"Solar Orb","k":"태양구"},"48":{"z":"冰花","e":"Ice Flower","k":"얼음꽃"},"49":{"z":"閃電衝刺","e":"Lightning Dash","k":"일섬일격"},"50":{"z":"幻覺攻擊","e":"Illusion Attack","k":"환영격"},"51":{"z":"拉斜線","e":"Pulling Slash","k":"인력참"},"52":{"z":"冰月斬","e":"Frost Moon Slash","k":"빙월참"}};
+  const elem={
+    'zh-Hant':{'普通':'普通','火':'火','冰':'冰','雷':'雷'},
+    'en':{'普通':'Normal','火':'Fire','冰':'Ice','雷':'Lightning'},
+    'ko':{'普通':'일반','火':'불','冰':'얼음','雷':'번개'}
+  };
+  function L(){const x=localStorage.getItem('towerSword.language')||'zh-Hant';return x==='en'?'en':x==='ko'?'ko':'zh-Hant';}
+  function update(){
+    const sel=document.getElementById('skill'); if(!sel)return; const l=L(),p=l==='en'?'e':l==='ko'?'k':'z'; const keep=String(state.skill.id);
+    for(const o of sel.options){const id=String(o.value), sk=(window.TOWER_SWORD_SKILLS||[]).find(x=>String(x.id)===id), name=N[id]?.[p]||sk?.name||o.textContent, el=elem[l]?.[sk?.element]||sk?.element||'';o.textContent=`${name}｜${el}`;}
+    sel.value=keep;
+  }
+  document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>requestAnimationFrame(update)));
+  window.addEventListener('tower-language-changed',()=>requestAnimationFrame(update));
+  requestAnimationFrame(update);
+  window.__towerSkillSelectI18n=update;
+})();
+</script>
+<!-- V1.0 Test24: Test23 event-cascade fix + fast in-place i18n + Page-3 no hidden-report rebuild. -->
+
+<style id="test27-hints-style">
+/* Page 01 uses the right column for guidance; mode selection remains only on Page 03. */
+main > .screen:first-of-type .mode-only-card{display:none!important}
+#test27HintCard{margin:0;padding:17px;border:1px solid rgba(213,173,100,.30);border-radius:16px;background:linear-gradient(145deg,rgba(24,29,28,.96),rgba(8,21,29,.96));box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 12px 28px rgba(0,0,0,.16);overflow:hidden}
+#test27HintCard:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold-bright),var(--cyan),transparent)}
+#test27HintCard .hint-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+#test27HintCard .hint-mark{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;flex:0 0 30px;border-radius:10px;border:1px solid rgba(213,173,100,.36);background:rgba(213,173,100,.10);color:var(--gold-bright);font-size:16px;font-weight:900}
+#test27HintCard .hint-title{font-size:15px;font-weight:900;color:#f3e2b7;letter-spacing:.025em;line-height:1.2}
+#test27HintCard .hint-sub{margin-top:3px;color:var(--muted);font-size:11px;line-height:1.4}
+#test27HintCard .hint-list{display:grid;gap:9px}
+#test27HintCard .hint-item{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;padding:11px 12px;border:1px solid rgba(76,112,132,.34);border-radius:12px;background:linear-gradient(180deg,rgba(11,27,37,.94),rgba(7,18,26,.94));box-shadow:inset 0 1px 0 rgba(255,255,255,.02)}
+#test27HintCard .hint-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:9px;border:1px solid rgba(117,203,213,.27);background:rgba(117,203,213,.08);color:#bce9ef;font-size:12px;font-weight:900}
+#test27HintCard .hint-item-title{font-size:12.5px;font-weight:850;color:#eef4f5;line-height:1.35;margin-bottom:4px}
+#test27HintCard .hint-text{color:#a9bbc4;font-size:12px;line-height:1.62}
+@media(max-width:820px){
+  #test27HintCard{margin:0;padding:15px}
+  #test27HintCard .hint-title{font-size:14px}
+  #test27HintCard .hint-item-title{font-size:12.5px}
+  #test27HintCard .hint-text{font-size:12px;line-height:1.58}
+}
+@media(max-width:420px){
+  #test27HintCard{padding:13px;border-radius:13px}
+  #test27HintCard .hint-head{gap:8px;margin-bottom:10px}
+  #test27HintCard .hint-mark{width:28px;height:28px;flex-basis:28px;font-size:14px}
+  #test27HintCard .hint-title{font-size:13.5px}
+  #test27HintCard .hint-sub{font-size:10.5px}
+  #test27HintCard .hint-item{grid-template-columns:27px minmax(0,1fr);gap:8px;padding:10px}
+  #test27HintCard .hint-num{width:26px;height:26px;font-size:11px}
+  #test27HintCard .hint-item-title{font-size:12px}
+  #test27HintCard .hint-text{font-size:11.5px}
+}
+</style>
+<script id="test27-hints-and-home-default">
+(function(){
+  const HINTS={
+    'zh-Hant':{
+      title:'模擬前使用提示', sub:'依序完成設定，可避免條件遺漏並更快取得正確結果。',
+      items:[
+        ['進入 03 前會重新計算','完成 01「角色設定」或 02「系統效果」的輸入與調整後，進入 03「裝備配置」時，系統會依目前全部條件重新計算；若條件較多，請稍候片刻。'],
+        ['角色等級異動請檢查魔法樹','若調整 01 的角色等級，請務必回到 02 檢查「魔法樹」設定，確認等級上限與目前配置仍符合需求。'],
+        ['自動最佳化需要搜尋時間','03「裝備配置」是主要計算頁面。使用「自動最佳化」調整最低暴擊率或最低冷卻條件後，系統會重新搜尋最佳配置；條件越嚴格，計算時間可能略長。']
+      ]
+    },
+    en:{
+      title:'Before You Calculate', sub:'Complete the setup in order to avoid missing conditions and get the correct result faster.',
+      items:[
+        ['Recalculation when opening 03','After changing values in 01 Character Setup or 02 System Effects, opening 03 Equipment recalculates the simulator using the full current setup. If many conditions changed, please allow a moment for the result to update.'],
+        ['Recheck Magic Tree after level changes','Whenever the character level in 01 is changed, review the Magic Tree in 02 to make sure its level limits and current allocation are still valid.'],
+        ['Auto Optimize requires search time','03 Equipment is the main calculation page. In Auto Optimize, changing the minimum Critical Rate or Cooldown requirement starts a new search for the best setup; stricter conditions may take slightly longer.']
+      ]
+    },
+    ko:{
+      title:'계산 전 안내', sub:'설정을 순서대로 완료하면 조건 누락을 줄이고 더 빠르게 정확한 결과를 확인할 수 있습니다.',
+      items:[
+        ['03 진입 시 전체 재계산','01 캐릭터 설정 또는 02 시스템 효과에서 값을 변경한 뒤 03 장비 구성으로 이동하면 현재 모든 조건을 기준으로 다시 계산합니다. 변경 항목이 많다면 결과가 갱신될 때까지 잠시 기다려 주세요.'],
+        ['레벨 변경 후 마법 트리 확인','01에서 캐릭터 레벨을 변경한 경우 02의 마법 트리를 다시 확인하여 레벨 제한과 현재 배치가 올바른지 확인해 주세요.'],
+        ['자동 최적화에는 탐색 시간이 필요합니다','03 장비 구성은 핵심 계산 페이지입니다. 자동 최적화에서 최소 치명타율 또는 최소 쿨타임 조건을 바꾸면 최적 구성을 다시 탐색하며, 조건이 엄격할수록 계산 시간이 조금 더 걸릴 수 있습니다.']
+      ]
+    }
+  };
+  function lang(){
+    const v=(localStorage.getItem('towerSword.language')||document.documentElement.lang||'zh-Hant').toLowerCase();
+    if(v.startsWith('en')) return 'en'; if(v.startsWith('ko')) return 'ko'; return 'zh-Hant';
+  }
+  function mount(){
+    if(document.getElementById('test27HintCard')) return;
+    const page1=document.querySelector('main > .screen:first-of-type'); if(!page1) return;
+    const grid=page1.querySelector('.grid.two'); if(!grid) return;
+    const card=document.createElement('div'); card.id='test27HintCard'; card.className='card';
+    const mode=grid.querySelector('.mode-only-card');
+    if(mode) grid.insertBefore(card,mode); else grid.appendChild(card);
+    render();
+  }
+  function render(){
+    const card=document.getElementById('test27HintCard'); if(!card) return;
+    const d=HINTS[lang()]||HINTS['zh-Hant'];
+    card.innerHTML='<div class="hint-head"><span class="hint-mark">!</span><div><div class="hint-title">'+d.title+'</div><div class="hint-sub">'+d.sub+'</div></div></div><div class="hint-list">'+d.items.map((x,i)=>'<div class="hint-item"><span class="hint-num">'+(i+1)+'</span><div><div class="hint-item-title">'+x[0]+'</div><div class="hint-text">'+x[1]+'</div></div></div>').join('')+'</div>';
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>requestAnimationFrame(mount),{once:true}); else requestAnimationFrame(mount);
+  window.addEventListener('tower-language-changed',()=>requestAnimationFrame(render));
+  document.addEventListener('click',e=>{if(e.target.closest('.lang-btn')) requestAnimationFrame(()=>requestAnimationFrame(render));},{passive:true});
+})();
+</script>
+
+<!-- V1.0 Test27: Page01 default + right-side hint cards + idle Page03 prewarm + responsive parity. -->
+
+<!-- V1.0 Test29 — mobile header geometry fix + math-identical Auto invariant caching. -->
+<style id="v10-test29-mobile-header-fix">
+@media(max-width:620px){
+  .top{position:sticky!important;top:0!important;height:auto!important;min-height:0!important;padding:7px 7px 8px!important;margin:0 0 9px!important}
+  .brand{height:auto!important;min-height:0!important;max-height:none!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:auto auto auto!important;grid-template-areas:"stack stack stack" "help report version" "language language language"!important;gap:6px!important;padding:5px 4px 7px!important;overflow:visible!important;align-items:stretch!important}
+  .brand-stack{grid-area:stack!important;height:auto!important;min-height:0!important;padding:0 2px 2px!important}
+  .brand h1{font-size:20px!important;line-height:1.05!important;white-space:normal!important;overflow:visible!important}
+  .brand-lab{font-size:7.5px!important;line-height:1.1!important}
+  .brand-function{font-size:8.5px!important;line-height:1.15!important;margin-top:3px!important;white-space:normal!important;overflow:visible!important}
+  .brand-crest{display:none!important}
+  .release-help-btn,.release-report-btn,.release-version-btn{position:static!important;transform:none!important;margin:0!important;width:100%!important;min-width:0!important;height:34px!important;min-height:34px!important;padding:6px 4px!important;font-size:9.5px!important;line-height:1.05!important;align-self:stretch!important;justify-self:stretch!important}
+  .release-help-btn{grid-area:help!important}.release-report-btn{grid-area:report!important}.release-version-btn{grid-area:version!important}
+  .language-switch{grid-area:language!important;position:static!important;transform:none!important;margin:0!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;width:100%!important;height:34px!important;min-height:34px!important;max-height:none!important;padding:3px!important;gap:3px!important;border-radius:10px!important}
+  .language-switch .lang-divider{display:none!important}
+  .language-switch .lang-btn{width:100%!important;min-width:0!important;height:28px!important;min-height:28px!important;padding:5px 3px!important;font-size:10px!important}
+  .steps{margin-top:0!important;position:relative!important;z-index:2!important}
+}
+</style>
+<script id="v10-test29-auto-invariant-cache">
+(()=>{
+  'use strict';
+  if(typeof betaAutoSearch!=='function'||typeof betaAutoMaxSystemStats!=='function')return;
+  const rawSearch=betaAutoSearch,rawStats=betaAutoMaxSystemStats,rawElem=betaAutoMaxElementInfo,rawScore=betaAutoDamageScore,rawEval=betaAutoEvalTotals;
+  let ctx=null;
+  function buildCtx(){
+    const sys=rawStats(),sk=activeSkill(),mx=rawElem(sys);
+    const skillLv=Math.max(1,Math.min(139,Math.round(weaponBaseSkillLv()+Number(sys.skillLv||0)+50)));
+    const skillAtk=skillAtkAtLevel(sk.id,skillLv),resolved=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
+    return {sys,sk,mx,skillLv,skillAtk,resolved,weaponAtk:resolved?.raw?Number(resolved.raw):NaN,levelAtk:playerLevelBaseAtk(state.player.level),atkPool:1+Number(sys.atk||0)/100,atkIndependent:manualAtkIndependentMultiplier(),elemBase:Number(mx.value||0),spellBase:Number(sys.spell||0),critDamagePct:150+Number(sys.critDamage||0),bossMultiplier:state.player?.boss?1+Number(sys.boss||0)/100:1,otherMultiplier:manualOtherDamageMultiplier()};
+  }
+  betaAutoMaxSystemStats=function(){return ctx?ctx.sys:rawStats()};
+  betaAutoMaxElementInfo=function(sys=betaAutoMaxSystemStats()){return ctx?ctx.mx:rawElem(sys)};
+  betaAutoDamageScore=function(t){
+    if(!ctx)return rawScore(t);
+    if(!ctx.resolved?.raw||!Number.isFinite(ctx.skillAtk))return-Infinity;
+    const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
+    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent);
+    return effectiveAtk*ctx.skillAtk*(1+(ctx.elemBase+t.elem)/100)*(1+(ctx.spellBase+t.spell)/100);
+  };
+  betaAutoEvalTotals=function(t,targetCrit,targetCd){
+    if(!ctx)return rawEval(t,targetCrit,targetCd);
+    const rawCritUnits=betaAutoPctUnits(ctx.sys.crit)+betaAutoPctUnits(t.crit),cdUnits=betaAutoPctUnits(ctx.sys.cooldown)+betaAutoPctUnits(t.cd);
+    if(rawCritUnits<betaAutoPctUnits(targetCrit)||cdUnits<betaAutoPctUnits(targetCd))return null;
+    if(!ctx.resolved?.raw||!Number.isFinite(ctx.skillAtk))return null;
+    const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
+    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent),elem=ctx.elemBase+t.elem,spell=ctx.spellBase+t.spell;
+    const nonCritDamage=Math.floor(effectiveAtk*ctx.skillAtk*(1+elem/100)*(1+spell/100)*ctx.bossMultiplier*ctx.otherMultiplier),critDamage=Math.floor(nonCritDamage*(ctx.critDamagePct/100));
+    const rawCrit=betaAutoPctValue(rawCritUnits),cd=betaAutoPctValue(cdUnits);
+    return {status:'dynamic',crit:Math.min(100,rawCrit),rawCrit,cd,elem,spell,critDamage,nonCritDamage,critDamagePct:ctx.critDamagePct,skillLv:ctx.skillLv,skillAtk:ctx.skillAtk,effectiveAtk};
+  };
+  betaAutoSearch=function(args={}){if(ctx)return rawSearch(args);ctx=buildCtx();try{return rawSearch(args)}finally{ctx=null}};
+})();
+</script>
+
+<!-- V1.0 Icon Regression Phase 01: Skill icons only. Assets + mapping from DebugFix18; Test29 logic untouched. -->
 </body></html>
+<!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
+<style id="v10-test06-mode-switch-restore-css">
+  /* Restore the original two-mode selector and mutually exclusive panes. */
+  .mode-only-card{display:block!important}
+  #betaModeMount{display:block!important}
+
+  body[data-v10-equip-mode="manual"] #manualPane{display:block!important}
+  body[data-v10-equip-mode="manual"] #autoPane{display:none!important}
+  body[data-v10-equip-mode="auto"] #manualPane{display:none!important}
+  body[data-v10-equip-mode="auto"] #autoPane{display:block!important}
+
+  /* Respect the original hidden attribute as a fallback before dataset sync. */
+  #manualPane[hidden],#autoPane[hidden]{display:none!important}
+</style>
+<script id="v10-test06-mode-switch-restore-js">
+(()=>{
+  'use strict';
+  const $=s=>document.querySelector(s);
+
+  function syncModeUI(){
+    const mode=(state.mode==='auto')?'auto':'manual';
+    document.body.dataset.v10EquipMode=mode;
+    const manual=$('#manualPane'), auto=$('#autoPane');
+    if(manual) manual.hidden=mode!=='manual';
+    if(auto) auto.hidden=mode!=='auto';
+    document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+  }
+
+  function restoreText(){
+    const lang=document.documentElement.lang||'zh-Hant';
+    const hero=$('#equipmentHeroText');
+    if(!hero)return;
+    if(lang.startsWith('en')) hero.textContent='Choose Manual Build or Auto Optimize. The two equipment configurations remain independent.';
+    else if(lang.startsWith('ko')) hero.textContent='수동 빌드 또는 자동 최적화를 선택합니다. 두 장비 구성은 서로 독립적으로 유지됩니다.';
+    else hero.textContent='選擇「手動實裝」或「自動最佳化」查看對應裝備配置；兩者的裝備狀態彼此獨立。';
+  }
+
+  document.addEventListener('click',e=>{
+    if(e.target.closest?.('.mode')) setTimeout(()=>{syncModeUI();restoreText();},0);
+  },true);
+  window.addEventListener('load',()=>{syncModeUI();restoreText();});
+  setTimeout(()=>{syncModeUI();restoreText();},0);
+})();
+</script>
+
+<!-- V1.0 Test07 — Fix Manual/Auto selector click state sync only -->
+<script id="v10-test07-mode-click-fix">
+(()=>{
+  'use strict';
+  const q=s=>document.querySelector(s);
+
+  function applyModeVisual(mode){
+    mode = mode==='auto' ? 'auto' : 'manual';
+    document.body.dataset.v10EquipMode=mode;
+    document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+    const manual=q('#manualPane'), auto=q('#autoPane');
+    /* hidden is kept semantically correct; older "show both" observers may remove it,
+       but the final body[data-v10-equip-mode] CSS remains the authoritative display switch. */
+    if(manual) manual.hidden=mode!=='manual';
+    if(auto) auto.hidden=mode!=='auto';
+  }
+
+  /* Test06 accidentally read window.state. `state` is a global lexical binding, not a
+     window property, so the UI was always synced back to manual. Use the real state. */
+  const verifiedSetMode = typeof setMode==='function' ? setMode : null;
+  if(verifiedSetMode){
+    setMode=function(mode){
+      verifiedSetMode(mode);
+      applyModeVisual(state.mode);
+    };
+  }
+
+  /* Explicit button binding in case an earlier presentation layer replaced/neutralized onclick. */
+  document.querySelectorAll('.mode').forEach(btn=>{
+    btn.onclick=()=>setMode(btn.dataset.mode);
+  });
+
+  /* Keep visual state aligned after the mode card is moved into Page 3 or language redraws. */
+  document.addEventListener('click',e=>{
+    const btn=e.target.closest?.('.mode');
+    if(!btn)return;
+    requestAnimationFrame(()=>applyModeVisual(state.mode));
+  },true);
+
+  applyModeVisual(state.mode);
+  setTimeout(()=>applyModeVisual(state.mode),0);
+})();
+</script>
+
+<!-- V1.0 Test09 — final interaction performance governor.
+     Scope: event scheduling only. Damage formulas, optimizer scoring/candidates,
+     equipment legality and Manual/Auto state are not changed. -->
+
+
+
+<!-- V1.0 Test11 — single-layer interaction scheduler.
+     IMPORTANT: calculation formulas, optimizer candidates/scoring, equipment legality,
+     i18n dictionaries, and Manual/Auto state are unchanged. -->
+<script id="v10-test11-performance-language-safe">
+(()=>{
+  'use strict';
+  const q=s=>document.querySelector(s);
+
+  /* A. ONE Auto scheduler only. Older nested scheduler layers were removed from this build.
+        Every caller still requests exactly the same verified refreshAuto; only execution is
+        coalesced so typing/click painting is never blocked by repeated searches. */
+  const verifiedAuto=typeof refreshAuto==='function'?refreshAuto:null;
+  let autoTimer=0,autoForce=false;
+  if(verifiedAuto){
+    refreshAuto=function(force=false){
+      autoForce=autoForce||!!force;
+      clearTimeout(autoTimer);
+      autoTimer=setTimeout(()=>{
+        const f=autoForce; autoForce=false; autoTimer=0;
+        try{ verifiedAuto(f); }catch(e){ console.error('V1.0 Test11 Auto refresh failed',e); }
+      },55);
+    };
+  }
+
+  /* B. ONE lightweight report scheduler. Reports are presentation only and must not block
+        keystrokes. Export keeps its existing explicit synchronous refresh path. */
+  const verifiedReport=typeof refreshReport==='function'?refreshReport:null;
+  let reportTimer=0;
+  if(verifiedReport){
+    refreshReport=function(){
+      clearTimeout(reportTimer);
+      reportTimer=setTimeout(()=>{
+        reportTimer=0;
+        try{ verifiedReport(); }catch(e){ console.error('V1.0 Test11 report refresh failed',e); }
+      },35);
+    };
+  }
+
+  /* C. Display-only fixes: Page-3 Main ATK mirrors Page-1 input; MP reduction follows the
+        game's integer display (34.5 -> 34). No stat used by damage math is altered. */
+  function visibleAtk(){
+    const v=q('#displayAtk')?.value;
+    return v!=null&&String(v).trim()!==''?String(v).trim():'—';
+  }
+  function visibleMp(){
+    try{
+      const n=Number(systemSelectionSummary()?.stats?.mpReduce??0);
+      return Number.isFinite(n)?`${Math.floor(n+1e-9)}%`:'—';
+    }catch(_){ return '—'; }
+  }
+  function refreshCompactDisplay(){
+    const items=[...document.querySelectorAll('#betaBuildStrip .beta-build-item')];
+    if(items[1]){const v=items[1].querySelector('.beta-build-v');if(v)v.textContent=visibleAtk();}
+    if(items[4]){
+      const k=items[4].querySelector('.beta-build-k'),v=items[4].querySelector('.beta-build-v');
+      const lang=localStorage.getItem('towerSword.language')||'zh-Hant';
+      if(k)k.textContent=lang==='en'?'MP Reduction':lang==='ko'?'MP 소모 감소':'MP 減耗';
+      if(v)v.textContent=visibleMp();
+    }
+    const mp=q('#sysMpReducePct');if(mp)mp.textContent=visibleMp();
+    document.querySelectorAll('#reportTotals .report-stat').forEach(box=>{
+      const k=box.querySelector('.k')?.textContent||'';
+      if(/MP\s*(減耗|Reduction|소모 감소)/i.test(k)){const v=box.querySelector('.v');if(v)v.textContent=visibleMp();}
+    });
+  }
+
+  /* D. Bottom live card remains Manual + Auto together, but does NOT call the optimizer on
+        every generic DOM mutation. It updates from already-rendered damage nodes. */
+  const live=q('#betaLive');
+  if(live&&!q('#v10LiveDual')){
+    const dual=document.createElement('div');dual.id='v10LiveDual';dual.className='v10-live-dual';
+    dual.innerHTML=`
+      <div class="v10-live-panel manual"><div class="v10-live-title"><span id="v10LiveManualTitle">手動實裝</span></div><div class="v10-live-values"><div class="v10-live-value"><div class="v10-live-k" id="v10LiveManualNonLabel">未暴擊</div><div class="v10-live-v" id="v10LiveManualNon">—</div></div><div class="v10-live-value crit"><div class="v10-live-k" id="v10LiveManualCritLabel">暴擊</div><div class="v10-live-v" id="v10LiveManualCrit">—</div></div></div></div>
+      <div class="v10-live-panel auto"><div class="v10-live-title"><span id="v10LiveAutoTitle">自動最佳化</span></div><div class="v10-live-values"><div class="v10-live-value"><div class="v10-live-k" id="v10LiveAutoNonLabel">未暴擊</div><div class="v10-live-v" id="v10LiveAutoNon">—</div></div><div class="v10-live-value crit"><div class="v10-live-k" id="v10LiveAutoCritLabel">暴擊</div><div class="v10-live-v" id="v10LiveAutoCrit">—</div></div></div></div>`;
+    const meta=live.querySelector('.beta-live-meta');live.insertBefore(dual,meta||null);
+  }
+  function refreshLive(){
+    const set=(id,val)=>{const el=q(id);if(el&&el.textContent!==val)el.textContent=val;};
+    set('#v10LiveManualNon',q('#manualNonCritDamage')?.textContent?.trim()||'—');
+    set('#v10LiveManualCrit',q('#manualCritDamage')?.textContent?.trim()||'—');
+    set('#v10LiveAutoCrit',q('#autoDamage')?.textContent?.trim()||'—');
+    /* Auto non-crit is populated only from the last cached optimizer result, never by launching a search. */
+    let autoNon='—';
+    try{
+      if(typeof betaAutoCache!=='undefined'&&betaAutoCache?.size){
+        const vals=[...betaAutoCache.values()];const r=vals[vals.length-1];
+        if(r?.nonCritDamage!=null)autoNon=formatDamageR(r.nonCritDamage);
+      }
+    }catch(_){ }
+    set('#v10LiveAutoNon',autoNon);
+    const lang=localStorage.getItem('towerSword.language')||'zh-Hant';
+    const T=lang==='en'?{m:'Manual Build',a:'Auto Optimize',n:'Non-Crit',c:'Critical'}:lang==='ko'?{m:'수동 빌드',a:'자동 최적화',n:'일반 피해',c:'치명타 피해'}:{m:'手動實裝',a:'自動最佳化',n:'未暴擊',c:'暴擊'};
+    set('#v10LiveManualTitle',T.m);set('#v10LiveAutoTitle',T.a);
+    set('#v10LiveManualNonLabel',T.n);set('#v10LiveAutoNonLabel',T.n);
+    set('#v10LiveManualCritLabel',T.c);set('#v10LiveAutoCritLabel',T.c);
+    refreshCompactDisplay();
+  }
+
+  /* Observe only the small result nodes, not whole cards/pages. */
+  /* Test23: bottom live panel is hidden; its observer/input repaint loop is disabled. */
+  document.addEventListener('click',e=>{
+    if(e.target.closest?.('.mode,.step,#next,#prev'))requestAnimationFrame(refreshCompactDisplay);
+  },{capture:true,passive:true});
+})();
+</script>
+
+
+<!-- V1.0 Test25: page-1 skill-change performance gate + fixed four-page title i18n.
+     Display/event scheduling only. Damage formulas, current-system Auto rules, equipment state and optimizer search/scoring are untouched. -->
+<script id="v10-test25-skill-fast-page-title-i18n">
+(()=>{
+  'use strict';
+
+  /* 1) A weapon-skill change on Page 1 must only update the selected skill/state.
+        Older additive patches still call refreshAuto() whenever state.mode === 'auto',
+        even while the optimizer page is hidden. That hidden search is the ~5 s freeze.
+        Keep the exact verified refreshAuto implementation, but do not execute it on
+        Page 1 / Page 2. setStep(2) already invokes it when Page 3 is actually opened. */
+  try{
+    const verifiedRefreshAuto = (typeof refreshAuto === 'function') ? refreshAuto : null;
+    if(verifiedRefreshAuto && !window.__v10Test25AutoGateInstalled){
+      window.__v10Test25AutoGateInstalled=true;
+      refreshAuto=function(...args){
+        try{
+          if(typeof state!=='undefined' && Number(state.step)<2){
+            window.__v10Test25AutoDirty=true;
+            return undefined;
+          }
+        }catch(_){ }
+        window.__v10Test25AutoDirty=false;
+        return verifiedRefreshAuto.apply(this,args);
+      };
+    }
+  }catch(e){ console.error('V1.0 Test25 Auto gate failed',e); }
+
+  /* 2) The four navigation/page titles have wording that is newer than the original
+        dictionary keys, so generic text translation leaves them unchanged. Translate
+        these eight fixed labels directly; no full-page scan is needed. */
+  const TITLES={
+    'zh-Hant':{
+      nav:['01 角色設定','02 系統效果','03 裝備配置','04 分析報告'],
+      hero:['01｜角色設定','02｜系統效果','03｜裝備配置','04｜分析報告']
+    },
+    en:{
+      nav:['01 Character Setup','02 System Effects','03 Equipment','04 Analysis Report'],
+      hero:['01｜Character Setup','02｜System Effects','03｜Equipment','04｜Analysis Report']
+    },
+    ko:{
+      nav:['01 캐릭터 설정','02 시스템 효과','03 장비 구성','04 분석 보고서'],
+      hero:['01｜캐릭터 설정','02｜시스템 효과','03｜장비 구성','04｜분석 보고서']
+    }
+  };
+  function currentLang(){
+    const x=localStorage.getItem('towerSword.language')||'zh-Hant';
+    return x==='en'?'en':x==='ko'?'ko':'zh-Hant';
+  }
+  function applyPageTitles(){
+    const t=TITLES[currentLang()];
+    document.querySelectorAll('.top .steps .step').forEach((el,i)=>{if(t.nav[i]&&el.textContent!==t.nav[i])el.textContent=t.nav[i];});
+    document.querySelectorAll('main > .screen').forEach((screen,i)=>{
+      const h=screen.querySelector(':scope > .hero h2');
+      if(h&&t.hero[i]&&h.textContent!==t.hero[i])h.textContent=t.hero[i];
+    });
+  }
+  window.addEventListener('tower-language-changed',()=>{
+    applyPageTitles();
+    requestAnimationFrame(applyPageTitles);
+    setTimeout(applyPageTitles,80);
+    setTimeout(applyPageTitles,800);
+  });
+  document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>requestAnimationFrame(applyPageTitles)));
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',applyPageTitles,{once:true});
+  else applyPageTitles();
+})();
+</script>
+
+
+<!-- V1.0 Test28 — skill preview i18n + Page03 faster entry + mobile header/footer refinement.
+     Presentation/scheduling only: damage formulas, optimizer legal search/scoring, current-system Auto baseline,
+     Manual equipment state and Page01/Page02 event-cascade fixes remain untouched. -->
+<style id="v10-test28-mobile-layout">
+/* Mobile header: one clear brand row, one action row, one full-width language row. */
+@media(max-width:620px){
+  .top{padding:8px 8px 9px!important}
+  .brand{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    grid-template-areas:
+      "stack stack stack"
+      "help report version"
+      "language language language"!important;
+    align-items:stretch!important;
+    gap:7px!important;
+    min-height:0!important;
+    padding:6px 5px 9px!important;
+  }
+  .brand-crest{display:none!important}
+  .brand-stack{grid-area:stack!important;min-width:0!important;padding:1px 2px 3px!important}
+  .brand h1{font-size:20px!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.08!important}
+  .brand-function{font-size:8.5px!important;letter-spacing:.09em!important;white-space:normal!important}
+  .release-help-btn{grid-area:help!important}
+  .release-report-btn{grid-area:report!important}
+  .release-version-btn{grid-area:version!important}
+  .release-help-btn,.release-report-btn,.release-version-btn{
+    width:100%!important;min-width:0!important;min-height:35px!important;height:auto!important;
+    padding:7px 5px!important;font-size:9.5px!important;line-height:1.15!important;
+    transform:none!important;align-self:stretch!important;justify-self:stretch!important;
+  }
+  .language-switch{
+    grid-area:language!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    width:100%!important;max-width:none!important;min-height:36px!important;height:auto!important;
+    margin:0!important;padding:3px!important;gap:3px!important;transform:none!important;
+    align-self:stretch!important;justify-self:stretch!important;
+  }
+  .language-switch .lang-divider{display:none!important}
+  .language-switch .lang-btn{
+    width:100%!important;min-width:0!important;min-height:30px!important;padding:6px 4px!important;
+    font-size:10.5px!important;line-height:1!important;
+  }
+  .steps{margin-top:1px!important}
+
+  /* Mobile community/share controls: larger touch targets. */
+  .footer-social{gap:8px!important;margin-bottom:10px!important;flex-wrap:wrap!important}
+  .footer-social-link{
+    min-height:40px!important;padding:7px 12px!important;font-size:10.5px!important;
+    border-radius:10px!important;gap:7px!important;
+  }
+  .footer-social-icon{
+    min-width:25px!important;width:25px!important;height:25px!important;flex-basis:25px!important;border-radius:8px!important;
+  }
+  .footer-social-icon svg{width:16px!important;height:16px!important}
+  .footer-social-icon-youtube svg{width:18px!important;height:18px!important}
+  .footer-social-icon-share svg{width:15px!important;height:15px!important}
+  .footer-copyright{font-size:8px!important;line-height:1.5!important}
+}
+@media(max-width:390px){
+  .brand h1{font-size:18px!important}
+  .release-help-btn,.release-report-btn,.release-version-btn{font-size:8.8px!important;padding-left:3px!important;padding-right:3px!important}
+  .language-switch .lang-btn{font-size:10px!important}
+}
+</style>
+<script id="v10-test28-skill-card-page3-fast-mobile">
+(()=>{
+  'use strict';
+  const q=s=>document.querySelector(s);
+
+  /* A. Skill information card name follows the already-approved translated select option.
+        This reuses the official skill-name table indirectly and never changes skill ID/data. */
+  function syncSkillPreviewLanguage(){
+    const sel=q('#skill'), title=q('#skillPreview .skill-preview-title');
+    if(!sel||!title)return;
+    const opt=sel.options[sel.selectedIndex];
+    if(!opt)return;
+    const name=String(opt.textContent||'').split('｜')[0].trim();
+    if(name && title.textContent!==name) title.textContent=name;
+  }
+  q('#skill')?.addEventListener('change',()=>requestAnimationFrame(()=>requestAnimationFrame(syncSkillPreviewLanguage)),{passive:true});
+  document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>requestAnimationFrame(()=>requestAnimationFrame(syncSkillPreviewLanguage)),{passive:true}));
+  window.addEventListener('tower-language-changed',()=>requestAnimationFrame(()=>requestAnimationFrame(syncSkillPreviewLanguage)));
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>requestAnimationFrame(syncSkillPreviewLanguage),{once:true});
+  else requestAnimationFrame(syncSkillPreviewLanguage);
+
+  /* B. Page 03 entry: always open the equipment page in Manual first after a fresh load.
+        Manual and Auto equipment states remain independent; only the visible mode resets.
+        This prevents a persisted Auto mode from launching the expensive optimizer while the user
+        merely enters Page 03. Auto still runs normally when Auto Optimize is explicitly selected. */
+  let firstPage3Entry=true;
+  try{
+    const verifiedSetStep=(typeof setStep==='function')?setStep:null;
+    if(verifiedSetStep){
+      setStep=function(i){
+        const target=Math.max(0,Math.min(3,Number(i)));
+        if(target!==2) return verifiedSetStep(target);
+
+        if(firstPage3Entry){
+          firstPage3Entry=false;
+          try{
+            state.mode='manual';
+            document.body.dataset.v10EquipMode='manual';
+            document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('active',b.dataset.mode==='manual'));
+            const m=q('#manualPane'),a=q('#autoPane'); if(m)m.hidden=false;if(a)a.hidden=true;
+            saveState(state);
+          }catch(_){ }
+        }
+
+        /* Paint Page 03 first, then calculate Manual on the next frame. This does not change math;
+           it only avoids a blank/frozen transition. */
+        state.step=2; saveState(state);
+        if(typeof screens!=='undefined') screens.forEach((x,n)=>x.classList.toggle('active',n===2));
+        if(typeof stepBtns!=='undefined') stepBtns.forEach((x,n)=>x.classList.toggle('active',n===2));
+        try{window.scrollTo({top:0,behavior:'auto'});}catch(_){ }
+        try{ if(typeof __v10EnsureEquipmentReady==='function') __v10EnsureEquipmentReady(); }catch(_){ }
+        requestAnimationFrame(()=>requestAnimationFrame(()=>{
+          try{ if(state.step!==2)return; if(state.mode==='auto') refreshAuto(true); else refreshManualSummary(); }
+          catch(e){console.error('Test28 Page03 refresh failed',e);}
+        }));
+      };
+      /* Navigation handlers captured the old function only through closures that resolve setStep
+         dynamically, so no duplicate listeners are introduced. */
+    }
+  }catch(e){console.error('Test28 Page03 entry optimization failed',e);}
+})();
+</script>
