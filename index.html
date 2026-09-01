@@ -2788,13 +2788,7 @@ function setStep(i){
     try{
       if(matchMedia('(max-width:620px)').matches){
         document.dispatchEvent(new Event('tower-page2-enter'));
-        /* iOS/Safari can leave hidden lazy images unscheduled.
-           Once Page 02 is actually visible, promote only its images to eager. */
-        setTimeout(()=>{
-          const s=screens[1];
-          if(!s)return;
-          s.querySelectorAll('img[loading="lazy"]').forEach(img=>img.loading='eager');
-        },60);
+        /* Page02 images are progressively activated by the V2 mobile loader. */
       }
     }catch(_){}
   }
@@ -5677,7 +5671,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 </style>
 <div id="v10MobileWelcome" class="no-print" aria-label="Tower & Swords mobile welcome" aria-hidden="true">
   <div class="v10-welcome-stage">
-    <img class="v10-welcome-art" alt="Tower & Swords mobile welcome" src="assets/v2/img_02_6e016d03e403.png">
+    <img class="v10-welcome-art" alt="Tower & Swords mobile welcome" src="assets/mobile/welcome_v2_mobile.webp" fetchpriority="high" decoding="async">
 
     <!-- Language selector hotspots -->
     <button type="button" class="v10-welcome-hotspot v10-welcome-lang" data-welcome-lang="zh-Hant" aria-label="繁中" style="left:57.6%;top:3.1%;width:14.8%;height:5.2%"></button>
@@ -5805,13 +5799,17 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 @media(prefers-reduced-motion:reduce){.magic-tree-node-btn{transition:none}}
 </style>
 <script type="application/json" id="v2-magic-tree-icons-json">{"0":"assets/v2/img_03_f4e8772a4678.png","1":"assets/v2/img_04_8f574a49ce90.png","2":"assets/v2/img_05_7fa898ff6370.png","3":"assets/v2/img_06_c299c2c196a6.png","4":"assets/v2/img_07_e89aa903d0fd.png","5":"assets/v2/img_08_eb1ac20dad65.png","6":"assets/v2/img_09_e2041e86df53.png","7":"assets/v2/img_10_4821b5cc70d1.png","8":"assets/v2/img_11_23aaa0cb113b.png","9":"assets/v2/img_12_dade161c88f8.png","10":"assets/v2/img_13_3fed3fdba812.png","11":"assets/v2/img_14_49dcbc034da2.png","12":"assets/v2/img_15_2e107dfc65c3.png","13":"assets/v2/img_16_a911b9677468.png","14":"assets/v2/img_17_d2b6ef7213c7.png","15":"assets/v2/img_18_c14ead4dbd62.png","16":"assets/v2/img_19_dc7473fd9157.png","17":"assets/v2/img_20_9184315d7b04.png","18":"assets/v2/img_21_47a17fb9639d.png","19":"assets/v2/img_22_b1bb209c3a0e.png","20":"assets/v2/img_23_6f783037fbfc.png","21":"assets/v2/img_24_6d0065b6507a.png","22":"assets/v2/img_25_ba7cfca3d677.png","23":"assets/v2/img_26_aaea94205f8b.png","24":"assets/v2/img_27_0e348424a6a4.png","25":"assets/v2/img_28_ca32eb15d0a0.png","26":"assets/v2/img_29_6bee2a98be66.png","27":"assets/v2/img_30_f3b92517b615.png","28":"assets/v2/img_31_73fc165d8964.png"}</script>
+<script type="application/json" id="v2-magic-tree-icons-mobile-json">{"0":"assets/mobile/tree_00.webp","1":"assets/mobile/tree_01.webp","2":"assets/mobile/tree_02.webp","3":"assets/mobile/tree_03.webp","4":"assets/mobile/tree_04.webp","5":"assets/mobile/tree_05.webp","6":"assets/mobile/tree_06.webp","7":"assets/mobile/tree_07.webp","8":"assets/mobile/tree_08.webp","9":"assets/mobile/tree_09.webp","10":"assets/mobile/tree_10.webp","11":"assets/mobile/tree_11.webp","12":"assets/mobile/tree_12.webp","13":"assets/mobile/tree_13.webp","14":"assets/mobile/tree_14.webp","15":"assets/mobile/tree_15.webp","16":"assets/mobile/tree_16.webp","17":"assets/mobile/tree_17.webp","18":"assets/mobile/tree_18.webp","19":"assets/mobile/tree_19.webp","20":"assets/mobile/tree_20.webp","21":"assets/mobile/tree_21.webp","22":"assets/mobile/tree_22.webp","23":"assets/mobile/tree_23.webp","24":"assets/mobile/tree_24.webp","25":"assets/mobile/tree_25.webp","26":"assets/mobile/tree_26.webp","27":"assets/mobile/tree_27.webp","28":"assets/mobile/tree_28.webp"}</script>
+
 <script id="preview-game-magic-tree-js">
 (()=>{
  'use strict';
  let ICONS=null;
  function ensureMagicTreeIcons(){
    if(ICONS)return ICONS;
-   const el=document.getElementById('v2-magic-tree-icons-json');
+   let mobile=false;
+   try{mobile=matchMedia('(max-width:620px)').matches}catch(_){}
+   const el=document.getElementById(mobile?'v2-magic-tree-icons-mobile-json':'v2-magic-tree-icons-json');
    try{ICONS=JSON.parse(el?.textContent||'{}')}catch(_){ICONS={}}
    return ICONS;
  }
@@ -5838,7 +5836,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
  }
  function drawNodes(canvas){
    const nodes=window.TOWER_SWORD_SYSTEM_DATA?.treeNodes||[];
-   const body=nodes.map(n=>{const p=POS[String(n.id)];if(!p)return '';const lv=levelFor(n.id);return `<div class="magic-tree-node ${lv>0?'is-active':''} ${Number(n.id)===Number(selected)?'is-selected':''}" data-preview-tree-node="${n.id}" style="left:${p[0]}%;top:${p[1]}%"><button type="button" class="magic-tree-node-btn" aria-label="${esc(n.name)}"><img src="${ICONS[String(n.id)]||''}" alt=""><span class="magic-tree-level-badge ${lv===0?'zero':''}">${lv}</span></button><span class="magic-tree-node-name">${esc(n.name)}</span></div>`}).join('');
+   const body=nodes.map(n=>{const p=POS[String(n.id)];if(!p)return '';const lv=levelFor(n.id);return `<div class="magic-tree-node ${lv>0?'is-active':''} ${Number(n.id)===Number(selected)?'is-selected':''}" data-preview-tree-node="${n.id}" style="left:${p[0]}%;top:${p[1]}%"><button type="button" class="magic-tree-node-btn" aria-label="${esc(n.name)}"><img src="${ICONS[String(n.id)]||''}" alt="" decoding="async" loading="lazy"><span class="magic-tree-level-badge ${lv===0?'zero':''}">${lv}</span></button><span class="magic-tree-node-name">${esc(n.name)}</span></div>`}).join('');
    canvas.innerHTML=buildSvg()+body;
    canvas.querySelectorAll('[data-preview-tree-node]').forEach(el=>el.querySelector('button').addEventListener('click',()=>{selected=Number(el.dataset.previewTreeNode);refresh();}));
  }
@@ -6178,6 +6176,62 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 }
 @media(max-width:360px){.artifact-game-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
+
+<script id="v2-mobile-page02-progressive-images">
+(function(){
+  window.v2MobileProgressiveImg=function(path,alt,cls){
+    let mobile=false;
+    try{mobile=matchMedia('(max-width:620px)').matches}catch(_){}
+    const e=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    if(!path)return '';
+    const c=cls?` class="${e(cls)}"`:'';
+    return mobile
+      ? `<img data-v2-src="${e(path)}" alt="${e(alt||'')}" decoding="async"${c}>`
+      : `<img src="${e(path)}" alt="${e(alt||'')}" loading="lazy" decoding="async"${c}>`;
+  };
+
+  function load(img){
+    if(!img || img.src || !img.dataset.v2Src)return;
+    img.src=img.dataset.v2Src;
+    img.removeAttribute('data-v2-src');
+  }
+
+  window.v2ActivateProgressiveImages=function(root){
+    root=root||document;
+    const imgs=[...root.querySelectorAll('img[data-v2-src]')];
+    if(!imgs.length)return;
+
+    /* Load a small first batch immediately so Page02 never looks blank. */
+    imgs.slice(0,10).forEach(load);
+
+    if(!('IntersectionObserver' in window)){
+      imgs.forEach(load);
+      return;
+    }
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(en=>{
+        if(en.isIntersecting){
+          load(en.target);
+          io.unobserve(en.target);
+        }
+      });
+    },{rootMargin:'240px 0px'});
+    imgs.forEach(img=>{ if(img.dataset.v2Src)io.observe(img); });
+  };
+
+  document.addEventListener('tower-page2-enter',()=>{
+    requestAnimationFrame(()=>{
+      const screens=[...document.querySelectorAll('main>.screen')];
+      window.v2ActivateProgressiveImages(screens[1]||document);
+    });
+    setTimeout(()=>{
+      const screens=[...document.querySelectorAll('main>.screen')];
+      window.v2ActivateProgressiveImages(screens[1]||document);
+    },120);
+  });
+})();
+</script>
+
 <script id="artifact-gallery-preview-script">
 (function(){
   'use strict';
@@ -6211,7 +6265,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   function renderGrid(){
     const kw=currentFilter();
     const items=sys.artifacts.filter(a=>!kw||String(a.name).toLowerCase().includes(kw));
-    grid.innerHTML=items.map(a=>{const lv=getLv(a.id),p=isPrimary(a.id),path=iconPath(a.id);return `<button type="button" class="artifact-game-item ${lv>0?'is-owned':''} ${Number(a.id)===Number(selected)?'is-selected':''} ${p?'is-primary':''}" data-game-artifact="${a.id}" title="${esc(a.name)}"><span class="artifact-game-icon">${path?`<img src="${esc(path)}" alt="" loading="lazy">`:''}</span><span class="artifact-game-name">${esc(a.name)}</span><span class="artifact-game-lv">Lv ${lv} / ${a.maxLevel}</span></button>`}).join('');
+    grid.innerHTML=items.map(a=>{const lv=getLv(a.id),p=isPrimary(a.id),path=iconPath(a.id);return `<button type="button" class="artifact-game-item ${lv>0?'is-owned':''} ${Number(a.id)===Number(selected)?'is-selected':''} ${p?'is-primary':''}" data-game-artifact="${a.id}" title="${esc(a.name)}"><span class="artifact-game-icon">${path?`${window.v2MobileProgressiveImg?window.v2MobileProgressiveImg(path,"",""): `<img src="${esc(path)}" alt="" loading="lazy" decoding="async">`}`:''}</span><span class="artifact-game-name">${esc(a.name)}</span><span class="artifact-game-lv">Lv ${lv} / ${a.maxLevel}</span></button>`}).join('');
     grid.querySelectorAll('[data-game-artifact]').forEach(b=>b.addEventListener('click',()=>{selected=Number(b.dataset.gameArtifact);render()}));
     const owned=sys.artifacts.reduce((n,a)=>n+(getLv(a.id)>0?1:0),0);count.textContent=`${owned} / ${sys.artifacts.length}`;
   }
@@ -6228,7 +6282,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   if(search){search.placeholder='搜尋人工製品名稱';search.addEventListener('input',()=>setTimeout(render,0));}
   // Re-sync after any legacy control changes without observing the whole DOM.
   list.addEventListener('input',()=>setTimeout(render,0));list.addEventListener('change',()=>setTimeout(render,0));
-  function __startArtifactGallery(){render();}
+  function __startArtifactGallery(){render(); setTimeout(()=>window.v2ActivateProgressiveImages?.(document.getElementById('artifactGameGallery')),0);}
   try{
     if(matchMedia('(max-width:620px)').matches) document.addEventListener('tower-page2-enter',__startArtifactGallery);
     else __startArtifactGallery();
@@ -6285,7 +6339,9 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   }
   function iconHTML(key, cls=''){
     const x=iconEntry(key);
-    if(x?.path&&x.status==='verified') return `<img src="${esc(x.path)}" alt="" loading="lazy" class="${cls}">`;
+    if(x?.path&&x.status==='verified') return window.v2MobileProgressiveImg
+      ? window.v2MobileProgressiveImg(x.path,'',cls)
+      : `<img src="${esc(x.path)}" alt="" loading="lazy" decoding="async" class="${cls}">`;
     return `<span class="fashion-game-fallback">◇</span>`;
   }
   function getState(){
@@ -6369,7 +6425,9 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   let selectedKey=null;
   function getData(){return window.TOWER_SWORD_SYSTEM_DATA?.pets||[];}
   function iconEntry(key){return window.TOWER_SWORD_OFFICIAL_ICONS?.pets?.[String(key)]||null;}
-  function iconHTML(key){const x=iconEntry(key);return x?.path&&x.status==='verified'?`<img src="${esc(x.path)}" alt="" loading="lazy">`:'<span class="pet-slot-empty">◇</span>';}
+  function iconHTML(key){const x=iconEntry(key);return x?.path&&x.status==='verified'?
+    (window.v2MobileProgressiveImg?window.v2MobileProgressiveImg(x.path,'',''):`<img src="${esc(x.path)}" alt="" loading="lazy" decoding="async">`)
+    :'<span class="pet-slot-empty">◇</span>';}
   function getState(){try{if(typeof state!=='undefined'&&state?.system)return state;}catch(_){ }return window.state?.system?window.state:null;}
   function save(st){try{if(typeof saveState==='function')saveState(st);else if(typeof window.saveState==='function')window.saveState(st);}catch(_){}}
   function refresh(){try{if(typeof refreshSystemSummary==='function')refreshSystemSummary();else if(typeof window.refreshSystemSummary==='function')window.refreshSystemSummary();}catch(_){}}
