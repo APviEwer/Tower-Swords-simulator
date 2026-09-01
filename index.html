@@ -1479,6 +1479,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </style>
 
 <style id="v10-test22-no-bottom-live">#betaLive{display:none!important}</style>
+/* V2.0 gallery audit: fashion icons use contain; pet gallery structure verified. */
 <style id="fashion-game-gallery-preview">
 /* PREVIEW ONLY — Game-style Fashion Gallery. Calculation state remains original. */
 #fashionList{display:none!important}
@@ -1492,12 +1493,12 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 .fashion-game-item.is-owned{border-color:rgba(242,197,83,.72);background:radial-gradient(circle at 50% 15%,rgba(244,198,76,.17),transparent 48%),linear-gradient(180deg,#282116,#11151a);box-shadow:inset 0 0 0 1px rgba(255,223,124,.08)}
 .fashion-game-item.is-selected{outline:2px solid rgba(238,215,151,.88);outline-offset:1px}
 .fashion-game-art{aspect-ratio:1/1;width:100%;border-radius:8px;overflow:hidden;background:#080d12;display:flex;align-items:center;justify-content:center;position:relative}
-.fashion-game-art img{width:100%;height:100%;object-fit:cover;display:block}
+.fashion-game-art img{width:100%;height:100%;object-fit:contain;display:block;padding:2px;box-sizing:border-box}
 .fashion-game-fallback{font-weight:900;font-size:18px;color:#9ca8b1}
 .fashion-owned-mark{position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:#c89a35;color:#111;font-size:11px;font-weight:1000;box-shadow:0 2px 7px rgba(0,0,0,.35)}
 .fashion-game-name{display:block;margin-top:5px;font-size:10px;line-height:1.2;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fashion-game-detail{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;border-top:1px solid rgba(255,255,255,.07);background:rgba(6,10,14,.45)}
-.fashion-detail-art{width:72px;height:72px;border-radius:12px;overflow:hidden;border:1px solid rgba(226,196,118,.28);background:#081018}.fashion-detail-art img{width:100%;height:100%;object-fit:cover}
+.fashion-detail-art{width:72px;height:72px;border-radius:12px;overflow:hidden;border:1px solid rgba(226,196,118,.28);background:#081018}.fashion-detail-art img{width:100%;height:100%;object-fit:contain;padding:3px;box-sizing:border-box}
 .fashion-detail-title{font-size:15px;font-weight:950;color:#f4ead0}.fashion-detail-effect{font-size:11px;line-height:1.55;color:#bdc8ce;margin-top:4px}.fashion-detail-note{font-size:9px;color:#778894;margin-top:4px}
 .fashion-own-btn{min-width:96px;min-height:42px;border-radius:10px;border:1px solid rgba(255,255,255,.13);background:#18232b;color:#e9f0f2;font-weight:900;cursor:pointer}.fashion-own-btn.is-owned{border-color:rgba(232,190,79,.72);background:linear-gradient(180deg,#6f5423,#382914);color:#fff2c7}
 @media(max-width:820px){.fashion-game-grid{grid-template-columns:repeat(5,minmax(0,1fr));max-height:420px}.fashion-game-detail{grid-template-columns:62px minmax(0,1fr);}.fashion-detail-art{width:62px;height:62px}.fashion-own-btn{grid-column:1/-1;width:100%}}
@@ -6053,6 +6054,15 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 })();
 </script>
 
+
+<style id="artifact-gallery-desktop-layout-hardfix">
+/* Hard layout fix: keep artifact icon/name/level inside every grid button. */
+.artifact-game-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;overflow:hidden!important;box-sizing:border-box!important}
+.artifact-game-icon{display:block!important;flex:0 0 auto!important}
+.artifact-game-name,.artifact-game-lv{display:block!important;width:100%!important;min-width:0!important;box-sizing:border-box!important;text-align:center!important;position:static!important;transform:none!important}
+.artifact-game-name{margin-top:0!important}
+.artifact-game-lv{margin-bottom:0!important}
+</style>
 </body></html>
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
