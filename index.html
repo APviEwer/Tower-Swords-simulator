@@ -6044,7 +6044,14 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   const $=s=>document.querySelector(s);
   const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   let selectedKey=null;
-  function getData(){ return window.TOWER_SWORD_SYSTEM_DATA?.fashions||[]; }
+  const SWORD_FASHION_EXCLUDE=new Set([
+    'RangerArcher','BowMasterArcher','HalfMaskArcher','ChristmasArcher',
+    'HolyArcher0','HolyArcher1','DarkArcher0','DarkArcher1',
+    'GoldenArcher0','GoldenArcher1','JoseonCharacter'
+  ]);
+  function getData(){
+    return (window.TOWER_SWORD_SYSTEM_DATA?.fashions||[]).filter(f=>!SWORD_FASHION_EXCLUDE.has(f.key));
+  }
   function iconEntry(key){ return window.TOWER_SWORD_OFFICIAL_ICONS?.fashions?.[String(key)]||null; }
   function ensureMount(){
     const list=$('#fashionList'); if(!list)return null;
