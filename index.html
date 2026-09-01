@@ -5720,7 +5720,9 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .magic-tree-inline-hint{justify-content:flex-start;text-align:left;padding:0 2px}
 }
 @media(max-width:420px){
-  .magic-tree-node-popover{width:204px}
+  .magic-tree-node-popover{width:204px;box-sizing:border-box}
+  .magic-tree-pop-controls{grid-template-columns:36px minmax(0,1fr) 36px 48px;gap:5px}
+  .magic-tree-pop-controls>*{min-width:0}
   .magic-tree-pop-title{font-size:11px}
   .magic-tree-pop-meta,.magic-tree-pop-effect{font-size:9px}
 }
@@ -5814,7 +5816,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 .artifact-game-item.is-selected{outline:2px solid rgba(99,201,231,.66);outline-offset:1px;box-shadow:0 0 18px rgba(90,190,220,.14)}
 .artifact-game-item.is-primary:after{content:'◆';position:absolute;right:5px;top:3px;color:#f1d27d;font-size:10px;text-shadow:0 0 8px rgba(241,210,125,.6)}
 .artifact-game-icon{width:54px;height:54px;margin:0 auto 5px;border-radius:11px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#0b1118;box-shadow:0 5px 11px rgba(0,0,0,.32)}
-.artifact-game-icon img{width:100%;height:100%;display:block;object-fit:contain;padding:2px;box-sizing:border-box}.artifact-game-name{font-size:9px;line-height:1.22;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.artifact-game-lv{font-size:8px;color:#7e909a;margin-top:2px}.artifact-game-item.is-owned .artifact-game-lv{color:#e0be70}
+.artifact-game-icon img{width:100%;height:100%;display:block;object-fit:contain;padding:2px;box-sizing:border-box}.artifact-game-name{display:block;font-size:9px;line-height:1.22;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.artifact-game-lv{display:block;font-size:8px;color:#7e909a;margin-top:2px}.artifact-game-item.is-owned .artifact-game-lv{color:#e0be70}
 .artifact-game-detail{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px 14px;border-top:1px solid rgba(255,255,255,.06);background:rgba(5,11,17,.5)}
 .artifact-detail-icon{width:64px;height:64px;border-radius:13px;overflow:hidden;border:1px solid rgba(218,184,108,.42);background:#09111a}.artifact-detail-icon img{width:100%;height:100%;object-fit:contain;padding:3px;box-sizing:border-box}
 .artifact-detail-name{font-size:14px;font-weight:900;color:#f0f2f3}.artifact-detail-effect{font-size:10px;line-height:1.45;color:#9db0ba;margin-top:4px}.artifact-detail-status{font-size:9px;color:#74858e;margin-top:4px}
@@ -5861,7 +5863,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   function renderGrid(){
     const kw=currentFilter();
     const items=sys.artifacts.filter(a=>!kw||String(a.name).toLowerCase().includes(kw));
-    grid.innerHTML=items.map(a=>{const lv=getLv(a.id),p=isPrimary(a.id),path=iconPath(a.id);return `<button type="button" class="artifact-game-item ${lv>0?'is-owned':''} ${Number(a.id)===Number(selected)?'is-selected':''} ${p?'is-primary':''}" data-game-artifact="${a.id}" title="${esc(a.name)}"><span class="artifact-game-icon">${path?`<img src="${esc(path)}" alt="" loading="lazy">`:''}</span><div class="artifact-game-name">${esc(a.name)}</div><div class="artifact-game-lv">Lv ${lv} / ${a.maxLevel}</div></button>`}).join('');
+    grid.innerHTML=items.map(a=>{const lv=getLv(a.id),p=isPrimary(a.id),path=iconPath(a.id);return `<button type="button" class="artifact-game-item ${lv>0?'is-owned':''} ${Number(a.id)===Number(selected)?'is-selected':''} ${p?'is-primary':''}" data-game-artifact="${a.id}" title="${esc(a.name)}"><span class="artifact-game-icon">${path?`<img src="${esc(path)}" alt="" loading="lazy">`:''}</span><span class="artifact-game-name">${esc(a.name)}</span><span class="artifact-game-lv">Lv ${lv} / ${a.maxLevel}</span></button>`}).join('');
     grid.querySelectorAll('[data-game-artifact]').forEach(b=>b.addEventListener('click',()=>{selected=Number(b.dataset.gameArtifact);render()}));
     const owned=sys.artifacts.reduce((n,a)=>n+(getLv(a.id)>0?1:0),0);count.textContent=`${owned} / ${sys.artifacts.length}`;
   }
