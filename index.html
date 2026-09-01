@@ -1505,6 +1505,57 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 @media(max-width:620px){.fashion-game-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px;max-height:390px}.fashion-game-item{padding:4px;border-radius:9px}.fashion-game-name{font-size:9px}.fashion-game-detail{padding:10px;gap:9px}}
 @media(max-width:360px){.fashion-game-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
 </style>
+
+<style id="v2-mobile-first-paint-gate">
+@media screen and (max-width:620px){
+  html.v2-mobile-booting body{
+    overflow:hidden!important;
+    background:#050b10!important;
+  }
+  html.v2-mobile-booting body > *{
+    visibility:hidden!important;
+  }
+  html.v2-mobile-booting body::before{
+    content:"TOWER & SWORDS";
+    visibility:visible!important;
+    position:fixed;
+    inset:0;
+    z-index:2147483646;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding-bottom:34px;
+    background:
+      radial-gradient(circle at 50% 34%,rgba(158,124,58,.12),transparent 28%),
+      linear-gradient(180deg,#071018,#03070b);
+    color:#e2d09a;
+    font:900 15px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;
+    letter-spacing:.18em;
+    text-align:center;
+  }
+  html.v2-mobile-booting body::after{
+    content:"BUILD & DAMAGE ANALYSIS  ·  V2.0";
+    visibility:visible!important;
+    position:fixed;
+    left:0;right:0;top:calc(50% + 12px);
+    z-index:2147483647;
+    color:#718692;
+    font:800 8px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;
+    letter-spacing:.12em;
+    text-align:center;
+  }
+}
+</style>
+<script id="v2-mobile-first-paint-gate-js">
+(function(){
+  try{
+    if(window.matchMedia && window.matchMedia('(max-width:620px)').matches){
+      document.documentElement.classList.add('v2-mobile-booting');
+    }
+  }catch(e){}
+})();
+</script>
+
 </head>
 <body>
 <script>
@@ -7622,229 +7673,19 @@ main>.screen:nth-of-type(3) #autoPane>.card{
 </script>
 
 
-<style id="v2-mobile-final-restoration">
-/* V2.0 MOBILE FINAL RESTORATION
-   Presentation only. Existing calculation/state logic is untouched. */
 
-@media screen and (max-width:1024px), screen and (pointer:coarse){
-  html.v2-mobile-final body{overflow-x:hidden}
-
-  /* 01 — keep the V2 final skill information card on mobile */
-  html.v2-mobile-final #skillPreview{display:block!important}
-  html.v2-mobile-final #skillPreview .skill-preview-card{
-    display:flex!important;
-    align-items:flex-start!important;
-    gap:10px!important;
-    min-height:0!important;
-  }
-  html.v2-mobile-final #skillPreview .skill-preview-meta{
-    display:block!important;
-    flex:1!important;
-    min-width:0!important;
-    padding-right:0!important;
-  }
-  html.v2-mobile-final #skillPreview .skill-preview-stats-v2{
-    display:grid!important;
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    gap:6px!important;
-    margin:8px 0 0!important;
-  }
-  html.v2-mobile-final #skillPreview .skill-preview-stat{
-    display:block!important;
-    min-width:0!important;
-  }
-  html.v2-mobile-final .v2-p1-build-status-only{
-    display:block!important;
-  }
-
-  /* 02 — V2 game-style controls always win over legacy mobile lists */
-  html.v2-mobile-final #artifactList,
-  html.v2-mobile-final #treeSearch,
-  html.v2-mobile-final #treeList,
-  html.v2-mobile-final #fashionList,
-  html.v2-mobile-final #petList{
-    display:none!important;
-  }
-
-  html.v2-mobile-final .artifact-game-shell,
-  html.v2-mobile-final .magic-tree-preview-shell,
-  html.v2-mobile-final #fashionGameGallery,
-  html.v2-mobile-final #petGameGallery,
-  html.v2-mobile-final .fashion-game-shell,
-  html.v2-mobile-final .pet-game-shell{
-    display:block!important;
-    visibility:visible!important;
-  }
-
-  /* Mobile Magic Tree must use the approved direct-node tree, not the old list mode */
-  html.v2-mobile-final .magic-tree-preview-shell.magic-tree-list-mode .magic-tree-map-wrap,
-  html.v2-mobile-final .magic-tree-preview-shell .magic-tree-map-wrap{
-    display:block!important;
-    visibility:visible!important;
-    overflow:hidden!important;
-  }
-  html.v2-mobile-final .magic-tree-map-scroll{
-    display:block!important;
-    overflow-x:auto!important;
-    overflow-y:hidden!important;
-    -webkit-overflow-scrolling:touch!important;
-    padding:8px!important;
-  }
-  html.v2-mobile-final .magic-tree-canvas{
-    display:block!important;
-    min-width:900px!important;
-    height:520px!important;
-  }
-  html.v2-mobile-final .magic-tree-node{
-    display:block!important;
-  }
-  html.v2-mobile-final .magic-tree-node-popover{
-    display:block;
-  }
-
-  /* Artifact game gallery */
-  html.v2-mobile-final .artifact-game-grid{
-    display:grid!important;
-    grid-template-columns:repeat(4,minmax(0,1fr))!important;
-    gap:7px!important;
-  }
-  html.v2-mobile-final .artifact-game-grid-wrap{
-    display:block!important;
-    overflow:auto!important;
-    -webkit-overflow-scrolling:touch!important;
-  }
-
-  /* Fashion / Pet galleries */
-  html.v2-mobile-final .fashion-game-grid{
-    display:grid!important;
-    grid-template-columns:repeat(4,minmax(0,1fr))!important;
-  }
-  html.v2-mobile-final .pet-game-grid{
-    display:grid!important;
-    grid-template-columns:repeat(3,minmax(0,1fr))!important;
-  }
-
-  /* 03 — retain the approved V2 auto dashboard on mobile */
-  html.v2-mobile-final .v2-p3-auto-grid{
-    display:grid!important;
-    grid-template-columns:1fr!important;
-  }
-  html.v2-mobile-final .v2-p3-auto-head,
-  html.v2-mobile-final .v2-p3-auto-panel{
-    display:block!important;
-  }
-
-  /* 04 — preserve final report layout */
-  html.v2-mobile-final .v2-share-card,
-  html.v2-mobile-final .v2-report-equipment-summary{
-    display:block!important;
-  }
-
-  /* Welcome page must remain available on actual touch/mobile devices */
-  html.v2-mobile-final body.v10-welcome-open #v10MobileWelcome{
-    display:block!important;
-  }
-}
-
-@media screen and (max-width:620px){
-  html.v2-mobile-final .artifact-game-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
-  html.v2-mobile-final .fashion-game-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
-  html.v2-mobile-final .pet-game-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
-}
-</style>
-
-
-<script id="v2-mobile-final-restoration-js">
+<script id="v2-mobile-first-paint-release">
 (function(){
-  'use strict';
-
-  function isMobileLike(){
-    var ua = navigator.userAgent || '';
-    var uaMobile = /Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini/i.test(ua);
-    var coarse = false;
-    try{ coarse = !!window.matchMedia && window.matchMedia('(pointer:coarse)').matches; }catch(e){}
-    var narrow = Math.min(window.innerWidth || 9999, screen.width || 9999) <= 1024;
-    return uaMobile || (coarse && narrow);
+  function releaseMobile(){
+    document.documentElement.classList.remove('v2-mobile-booting');
   }
-
-  if(!isMobileLike()) return;
-  document.documentElement.classList.add('v2-mobile-final');
-
-  function restoreV2Mobile(){
-    /* 01: ask the existing released skill renderer to repaint. */
-    var skill = document.getElementById('skill');
-    if(skill){
-      try{ skill.dispatchEvent(new Event('change',{bubbles:true})); }catch(e){
-        var ev=document.createEvent('Event');ev.initEvent('change',true,true);skill.dispatchEvent(ev);
-      }
-    }
-
-    /* 02: explicitly select the approved game-tree presentation on mobile. */
-    var tree = document.querySelector('.magic-tree-preview-shell');
-    if(tree){
-      tree.classList.remove('magic-tree-list-mode');
-      tree.classList.add('magic-tree-map-mode');
-    }
-
-    var legacyIds=['artifactList','treeSearch','treeList','fashionList','petList'];
-    for(var i=0;i<legacyIds.length;i++){
-      var legacy=document.getElementById(legacyIds[i]);
-      if(legacy) legacy.style.setProperty('display','none','important');
-    }
-
-    /* Repaint already-established V2 system galleries from current state. */
-    try{
-      document.dispatchEvent(new CustomEvent('tower-system-refresh'));
-    }catch(e){
-      try{
-        var ce=document.createEvent('Event');
-        ce.initEvent('tower-system-refresh',true,true);
-        document.dispatchEvent(ce);
-      }catch(_){}
-    }
-  }
-
-  function showWelcomeOnce(){
-    /* Existing welcome implementation is kept; this only removes viewport-only gating. */
-    var welcome=document.getElementById('v10MobileWelcome');
-    if(!welcome) return;
-    try{
-      if(typeof window.__v10ShowMobileWelcome==='function'){
-        window.__v10ShowMobileWelcome();
-      }else{
-        document.body.classList.add('v10-welcome-open');
-        welcome.setAttribute('aria-hidden','false');
-      }
-    }catch(e){}
-  }
-
-  function boot(){
-    restoreV2Mobile();
-    showWelcomeOnce();
-
-    /* Re-assert final V2 presentation after page navigation or details opening.
-       No calculations are launched here. */
-    document.addEventListener('click',function(e){
-      var t=e.target;
-      if(!t || !t.closest) return;
-      if(t.closest('.step,.v10-welcome-card,#next,#prev,summary,.mode')){
-        setTimeout(restoreV2Mobile,0);
-        setTimeout(restoreV2Mobile,80);
-      }
-    },true);
-
-    window.addEventListener('orientationchange',function(){
-      setTimeout(restoreV2Mobile,120);
-    });
-  }
-
   if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',boot,{once:true});
+    document.addEventListener('DOMContentLoaded',releaseMobile,{once:true});
   }else{
-    boot();
+    releaseMobile();
   }
-
-  window.TOWER_SWORD_BUILD_ID='V2.0-mobile-final-restoration';
+  /* absolute safety release; display only */
+  setTimeout(releaseMobile,2500);
 })();
 </script>
 
