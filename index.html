@@ -1556,6 +1556,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 })();
 </script>
 
+<script type="application/json" id="v2-mobile-thumb-map">{"assets/v2/img_01_6d29ad637366.png":"assets/mobile/thumb_img_01_6d29ad637366.webp","assets/v2/img_03_f4e8772a4678.png":"assets/mobile/thumb_img_03_f4e8772a4678.webp","assets/v2/img_04_8f574a49ce90.png":"assets/mobile/thumb_img_04_8f574a49ce90.webp","assets/v2/img_05_7fa898ff6370.png":"assets/mobile/thumb_img_05_7fa898ff6370.webp","assets/v2/img_06_c299c2c196a6.png":"assets/mobile/thumb_img_06_c299c2c196a6.webp","assets/v2/img_07_e89aa903d0fd.png":"assets/mobile/thumb_img_07_e89aa903d0fd.webp","assets/v2/img_08_eb1ac20dad65.png":"assets/mobile/thumb_img_08_eb1ac20dad65.webp","assets/v2/img_09_e2041e86df53.png":"assets/mobile/thumb_img_09_e2041e86df53.webp","assets/v2/img_10_4821b5cc70d1.png":"assets/mobile/thumb_img_10_4821b5cc70d1.webp","assets/v2/img_11_23aaa0cb113b.png":"assets/mobile/thumb_img_11_23aaa0cb113b.webp","assets/v2/img_12_dade161c88f8.png":"assets/mobile/thumb_img_12_dade161c88f8.webp","assets/v2/img_13_3fed3fdba812.png":"assets/mobile/thumb_img_13_3fed3fdba812.webp","assets/v2/img_14_49dcbc034da2.png":"assets/mobile/thumb_img_14_49dcbc034da2.webp","assets/v2/img_15_2e107dfc65c3.png":"assets/mobile/thumb_img_15_2e107dfc65c3.webp","assets/v2/img_16_a911b9677468.png":"assets/mobile/thumb_img_16_a911b9677468.webp","assets/v2/img_17_d2b6ef7213c7.png":"assets/mobile/thumb_img_17_d2b6ef7213c7.webp","assets/v2/img_18_c14ead4dbd62.png":"assets/mobile/thumb_img_18_c14ead4dbd62.webp","assets/v2/img_19_dc7473fd9157.png":"assets/mobile/thumb_img_19_dc7473fd9157.webp","assets/v2/img_20_9184315d7b04.png":"assets/mobile/thumb_img_20_9184315d7b04.webp","assets/v2/img_21_47a17fb9639d.png":"assets/mobile/thumb_img_21_47a17fb9639d.webp","assets/v2/img_22_b1bb209c3a0e.png":"assets/mobile/thumb_img_22_b1bb209c3a0e.webp","assets/v2/img_23_6f783037fbfc.png":"assets/mobile/thumb_img_23_6f783037fbfc.webp","assets/v2/img_24_6d0065b6507a.png":"assets/mobile/thumb_img_24_6d0065b6507a.webp","assets/v2/img_25_ba7cfca3d677.png":"assets/mobile/thumb_img_25_ba7cfca3d677.webp","assets/v2/img_26_aaea94205f8b.png":"assets/mobile/thumb_img_26_aaea94205f8b.webp","assets/v2/img_27_0e348424a6a4.png":"assets/mobile/thumb_img_27_0e348424a6a4.webp","assets/v2/img_28_ca32eb15d0a0.png":"assets/mobile/thumb_img_28_ca32eb15d0a0.webp","assets/v2/img_29_6bee2a98be66.png":"assets/mobile/thumb_img_29_6bee2a98be66.webp","assets/v2/img_30_f3b92517b615.png":"assets/mobile/thumb_img_30_f3b92517b615.webp","assets/v2/img_31_73fc165d8964.png":"assets/mobile/thumb_img_31_73fc165d8964.webp"}</script>
 </head>
 <body>
 <script>
@@ -5836,7 +5837,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
  }
  function drawNodes(canvas){
    const nodes=window.TOWER_SWORD_SYSTEM_DATA?.treeNodes||[];
-   const body=nodes.map(n=>{const p=POS[String(n.id)];if(!p)return '';const lv=levelFor(n.id);return `<div class="magic-tree-node ${lv>0?'is-active':''} ${Number(n.id)===Number(selected)?'is-selected':''}" data-preview-tree-node="${n.id}" style="left:${p[0]}%;top:${p[1]}%"><button type="button" class="magic-tree-node-btn" aria-label="${esc(n.name)}"><img src="${ICONS[String(n.id)]||''}" alt="" decoding="async" loading="lazy"><span class="magic-tree-level-badge ${lv===0?'zero':''}">${lv}</span></button><span class="magic-tree-node-name">${esc(n.name)}</span></div>`}).join('');
+   const body=nodes.map(n=>{const p=POS[String(n.id)];if(!p)return '';const lv=levelFor(n.id);return `<div class="magic-tree-node ${lv>0?'is-active':''} ${Number(n.id)===Number(selected)?'is-selected':''}" data-preview-tree-node="${n.id}" style="left:${p[0]}%;top:${p[1]}%"><button type="button" class="magic-tree-node-btn" aria-label="${esc(n.name)}"><img src="${ICONS[String(n.id)]||''}" alt="" decoding="async" loading="eager"><span class="magic-tree-level-badge ${lv===0?'zero':''}">${lv}</span></button><span class="magic-tree-node-name">${esc(n.name)}</span></div>`}).join('');
    canvas.innerHTML=buildSvg()+body;
    canvas.querySelectorAll('[data-preview-tree-node]').forEach(el=>el.querySelector('button').addEventListener('click',()=>{selected=Number(el.dataset.previewTreeNode);refresh();}));
  }
@@ -6179,44 +6180,40 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 
 <script id="v2-mobile-page02-progressive-images">
 (function(){
-  window.v2MobileProgressiveImg=function(path,alt,cls){
-    let mobile=false;
-    try{mobile=matchMedia('(max-width:620px)').matches}catch(_){}
-    const e=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    if(!path)return '';
-    const c=cls?` class="${e(cls)}"`:'';
-    return mobile
-      ? `<img data-v2-src="${e(path)}" alt="${e(alt||'')}" decoding="async"${c}>`
-      : `<img src="${e(path)}" alt="${e(alt||'')}" loading="lazy" decoding="async"${c}>`;
-  };
+  let mobile=false;
+  try{mobile=matchMedia('(max-width:620px)').matches}catch(_){}
+  let thumbMap={};
+  try{
+    const el=document.getElementById('v2-mobile-thumb-map');
+    thumbMap=JSON.parse(el?.textContent||'{}');
+  }catch(_){}
 
-  function load(img){
-    if(!img || img.src || !img.dataset.v2Src)return;
-    img.src=img.dataset.v2Src;
-    img.removeAttribute('data-v2-src');
+  const esc=(s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  function mobilePath(path){
+    return mobile ? (thumbMap[path] || path) : path;
   }
+
+  window.v2MobileProgressiveImg=function(path,alt,cls){
+    if(!path)return '';
+    const p=mobilePath(path);
+    const c=cls?` class="${esc(cls)}"`:'';
+    /* Important:
+       Mobile Page02 gallery thumbnails now get src immediately.
+       They are tiny WebPs, so there is no reason to remove/re-add src.
+       This also prevents images disappearing when artifact/fashion/pet cards rerender. */
+    return `<img src="${esc(p)}" alt="${esc(alt||'')}" loading="eager" decoding="async"${c}>`;
+  };
 
   window.v2ActivateProgressiveImages=function(root){
     root=root||document;
-    const imgs=[...root.querySelectorAll('img[data-v2-src]')];
-    if(!imgs.length)return;
-
-    /* Load a small first batch immediately so Page02 never looks blank. */
-    imgs.slice(0,10).forEach(load);
-
-    if(!('IntersectionObserver' in window)){
-      imgs.forEach(load);
-      return;
-    }
-    const io=new IntersectionObserver(entries=>{
-      entries.forEach(en=>{
-        if(en.isIntersecting){
-          load(en.target);
-          io.unobserve(en.target);
-        }
-      });
-    },{rootMargin:'240px 0px'});
-    imgs.forEach(img=>{ if(img.dataset.v2Src)io.observe(img); });
+    /* Compatibility for any old data-v2-src nodes that may still exist. */
+    root.querySelectorAll('img[data-v2-src]').forEach(img=>{
+      if(!img.src){
+        img.src=mobilePath(img.dataset.v2Src);
+      }
+      img.removeAttribute('data-v2-src');
+    });
   };
 
   document.addEventListener('tower-page2-enter',()=>{
@@ -6224,10 +6221,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
       const screens=[...document.querySelectorAll('main>.screen')];
       window.v2ActivateProgressiveImages(screens[1]||document);
     });
-    setTimeout(()=>{
-      const screens=[...document.querySelectorAll('main>.screen')];
-      window.v2ActivateProgressiveImages(screens[1]||document);
-    },120);
   });
 })();
 </script>
@@ -7784,6 +7777,26 @@ main>.screen:nth-of-type(3) #autoPane>.card{
   }
   /* absolute safety release; display only */
   setTimeout(releaseMobile,900);
+})();
+</script>
+
+
+<script id="v2-mobile-thumb-prewarm">
+(function(){
+  let mobile=false;
+  try{mobile=matchMedia('(max-width:620px)').matches}catch(_){}
+  if(!mobile)return;
+  function prewarm(){
+    let map={};
+    try{map=JSON.parse(document.getElementById('v2-mobile-thumb-map')?.textContent||'{}')}catch(_){}
+    Object.values(map).slice(0,12).forEach(src=>{
+      const i=new Image();
+      i.decoding='async';
+      i.src=src;
+    });
+  }
+  if('requestIdleCallback' in window) requestIdleCallback(prewarm,{timeout:700});
+  else setTimeout(prewarm,250);
 })();
 </script>
 
