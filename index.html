@@ -5727,7 +5727,72 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .magic-tree-pop-title{font-size:11px}
   .magic-tree-pop-meta,.magic-tree-pop-effect{font-size:9px}
 }
+
+@media(max-width:420px){
+  .magic-tree-node-popover{width:184px!important;max-width:calc(100vw - 38px)!important;padding:8px!important}
+  .magic-tree-pop-controls{grid-template-columns:34px minmax(42px,1fr) 34px 44px!important;gap:4px!important;width:100%!important;box-sizing:border-box!important}
+  .magic-tree-pop-controls button,.magic-tree-pop-level{min-width:0!important;width:auto!important;box-sizing:border-box!important}
+  .magic-tree-pop-controls button{padding:4px 2px!important;font-size:12px!important}
+  .magic-tree-pop-level{font-size:11px!important;white-space:nowrap!important}
+}
 </style>
+
+<style id="mobile-tree-popover-floating-clamp-final">
+/* Mobile: preserve the original node-attached floating editor.
+   It remains inside the magic-tree canvas and is clamped to the currently visible tree area. */
+@media (max-width:820px){
+  .magic-tree-node-popover{
+    position:absolute!important;
+    width:190px!important;
+    max-width:190px!important;
+    min-width:0!important;
+    margin:0!important;
+    box-sizing:border-box!important;
+    z-index:50!important;
+    padding:8px!important;
+  }
+  .magic-tree-node-popover.below{
+    transform:translate(-50%,46px)!important;
+  }
+  .magic-tree-node-popover.above{
+    transform:translate(-50%,calc(-100% - 48px))!important;
+  }
+  .magic-tree-pop-controls{
+    display:grid!important;
+    grid-template-columns:34px minmax(0,1fr) 34px 44px!important;
+    gap:4px!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
+  }
+  .magic-tree-pop-controls>*{
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  .magic-tree-pop-controls button{
+    padding:4px 2px!important;
+    font-size:12px!important;
+  }
+  .magic-tree-pop-level{
+    font-size:11px!important;
+    white-space:nowrap!important;
+  }
+}
+@media (max-width:380px){
+  .magic-tree-node-popover{
+    width:178px!important;
+    max-width:178px!important;
+  }
+  .magic-tree-pop-controls{
+    grid-template-columns:32px minmax(0,1fr) 32px 40px!important;
+    gap:3px!important;
+  }
+}
+</style>
+
 <script id="preview-game-magic-tree-direct-js">
 (()=>{
   'use strict';
@@ -5745,7 +5810,66 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     const el=document.querySelector(`[data-tree-effect="${id}"]`);
     return el?.textContent?.trim()||'Lv0｜未點';
   }
-  function closePop(){if(pop){pop.remove();pop=null}document.querySelectorAll('.magic-tree-node.is-selected').forEach(x=>x.classList.remove('is-selected'))}
+  function closePop(){clearMobileFollow();if(pop){pop.remove();pop=null}document.querySelectorAll('.magic-tree-node.is-selected').forEach(x=>x.classList.remove('is-selected'))}
+  let mobileFollowCleanup=null;
+  function clearMobileFollow(){
+    if(mobileFollowCleanup){mobileFollowCleanup();mobileFollowCleanup=null}
+  }
+  function positionMobilePop(node){
+    if(!pop||!node||!matchMedia('(max-width:820px)').matches)return;
+    const scroller=node.closest('.magic-tree-map-scroll');
+    const canvas=node.closest('.magic-tree-canvas');
+    if(!scroller||!canvas)return;
+
+    const pw=pop.offsetWidth||190;
+    const ph=pop.offsetHeight||150;
+    const safe=8;
+    const gap=10;
+
+    // Center on the node first, in canvas coordinates.
+    const nodeCenter=node.offsetLeft + node.offsetWidth/2;
+
+    // Clamp the popover center to the CURRENTLY VISIBLE horizontal slice of the tree.
+    // Because the popover remains a child of the canvas, it still moves naturally with the node/tree.
+    const half=pw/2;
+    const visibleLeft=scroller.scrollLeft + safe + half;
+    const visibleRight=scroller.scrollLeft + scroller.clientWidth - safe - half;
+    let center=nodeCenter;
+    if(visibleRight>=visibleLeft){
+      center=Math.max(visibleLeft,Math.min(visibleRight,center));
+    }else{
+      center=scroller.scrollLeft + scroller.clientWidth/2;
+    }
+    pop.style.left=`${Math.round(center)}px`;
+
+    // Prefer above/below based on the node's visible position in the scroller.
+    const sr=scroller.getBoundingClientRect();
+    const nr=node.getBoundingClientRect();
+    const spaceAbove=nr.top-sr.top;
+    const spaceBelow=sr.bottom-nr.bottom;
+    if(spaceAbove>=ph+gap || spaceAbove>=spaceBelow){
+      pop.classList.add('above');pop.classList.remove('below');
+    }else{
+      pop.classList.add('below');pop.classList.remove('above');
+    }
+  }
+  function bindMobileFollow(node){
+    clearMobileFollow();
+    if(!matchMedia('(max-width:820px)').matches)return;
+    const scroller=node.closest('.magic-tree-map-scroll');
+    let raf=0;
+    const update=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>positionMobilePop(node))};
+    scroller?.addEventListener('scroll',update,{passive:true});
+    window.addEventListener('resize',update,{passive:true});
+    window.addEventListener('orientationchange',update,{passive:true});
+    mobileFollowCleanup=()=>{
+      cancelAnimationFrame(raf);
+      scroller?.removeEventListener('scroll',update);
+      window.removeEventListener('resize',update);
+      window.removeEventListener('orientationchange',update);
+    };
+    requestAnimationFrame(()=>positionMobilePop(node));
+  }
   function syncVisual(id){
     const sel=hiddenLevel(id),node=nodeEl(id);if(!sel||!node)return;
     const lv=num(sel.value);node.classList.toggle('is-active',lv>0);
@@ -5766,12 +5890,15 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     const isMagic=String(id)==='28';const cond=hiddenCondition(id);
     pop=document.createElement('div');pop.className='magic-tree-node-popover';pop.dataset.nodeId=String(id);
     const left=parseFloat(node.style.left)||50,top=parseFloat(node.style.top)||50;
-    pop.style.left=`${Math.max(12,Math.min(88,left))}%`;pop.style.top=`${top}%`;pop.classList.add(top<42?'below':'above');
+    pop.style.left=`${left}%`;pop.style.top=`${top}%`;pop.classList.add(top<42?'below':'above');
     const roleLv=num(document.querySelector('#level')?.value,1);
     const meta=isMagic?`角色 Lv ${roleLv}｜目前上限 Lv ${mx}`:`可投入 Lv 0～${mx}`;
     pop.innerHTML=`<div class="magic-tree-pop-head"><div class="magic-tree-pop-title"></div><button type="button" class="magic-tree-pop-close" aria-label="關閉">×</button></div><div class="magic-tree-pop-meta"></div><div class="magic-tree-pop-effect"></div><div class="magic-tree-pop-controls"><button type="button" data-act="minus" aria-label="降低等級">−</button><div class="magic-tree-pop-level">Lv ${lv}</div><button type="button" data-act="plus" aria-label="提高等級">＋</button><button type="button" class="magic-tree-pop-max" data-act="max">MAX</button></div>${cond?`<label class="magic-tree-pop-condition"><input type="checkbox" ${cond.checked?'checked':''}>條件成立</label>`:''}`;
     pop.querySelector('.magic-tree-pop-title').textContent=name;pop.querySelector('.magic-tree-pop-meta').textContent=meta;pop.querySelector('.magic-tree-pop-effect').textContent=effectText(id);
     node.parentElement.appendChild(pop);
+    if(matchMedia('(max-width:820px)').matches){
+      bindMobileFollow(node);
+    }
     pop.querySelector('.magic-tree-pop-close').addEventListener('click',e=>{e.stopPropagation();closePop()});
     pop.querySelector('[data-act="minus"]').addEventListener('click',e=>{e.stopPropagation();setLevel(id,lv-1)});
     pop.querySelector('[data-act="plus"]').addEventListener('click',e=>{e.stopPropagation();setLevel(id,lv+1)});
