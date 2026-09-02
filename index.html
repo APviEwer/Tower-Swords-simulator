@@ -4148,19 +4148,19 @@ function addTreeStats(out,node,info,conditionOn){
   if(node.id===11&&conditionOn){const x=p(/傷害 \+(\d+(?:\.\d+)?)%/);if(x)out.special.push(`強大的精神：傷害 +${x}%（條件成立）`);}
   if(node.id===15){const m=text.match(/ATK ×(\d+(?:\.\d+)?)/);if(m)out.special.push(`狂戰士：ATK ×${m[1]}`);}
 }
-function highLevelTreeBranchUnlocked(){
-  return Number(state?.player?.level||0)>=100;
-}
 function highLevelTreeNode(id){
   const n=Number(id);
   return n>=24&&n<=28;
 }
-function treeNodeActiveForCurrentRole(node){
-  return !(highLevelTreeNode(node?.id)&&!highLevelTreeBranchUnlocked());
+function highLevelTreeUnlocked(){
+  return Number(state.player.level||0)>=100;
+}
+function treeNodeAvailableForRole(node){
+  return !(highLevelTreeNode(node?.id)&&!highLevelTreeUnlocked());
 }
 function systemSelectionSummary(){
   const artifactIds=systemData.artifacts.filter(a=>Number(state.system.artifacts[a.id]||0)>0);
-  const treeIds=systemData.treeNodes.filter(n=>treeNodeActiveForCurrentRole(n)&&Number(state.system.tree[n.id]||0)>0);
+  const treeIds=systemData.treeNodes.filter(n=>treeNodeAvailableForRole(n)&&Number(state.system.tree[n.id]||0)>0);
   const fashions=systemData.fashions.filter(f=>!!state.system.fashions[f.key]);
   const pets=systemData.pets.filter(p=>!!state.system.pets[p.key]);
   const stats={atk:0,flatAtk:0,spell:0,crit:0,critDamage:0,cooldown:0,mpReduce:0,skillLv:0,fire:0,ice:0,lightning:0,normal:0,boss:0,special:[]};
@@ -4256,7 +4256,7 @@ function renderTree(filter=''){
   const el=$('#treeList'); if(!el)return;
   const kw=filter.trim().toLowerCase();
   el.innerHTML=systemData.treeNodes
-    .filter(n=>treeNodeActiveForCurrentRole(n))
+    .filter(n=>treeNodeAvailableForRole(n))
     .filter(n=>!kw||n.name.toLowerCase().includes(kw)||String(n.category||'').toLowerCase().includes(kw))
     .map(n=>{
     const allowedMax=treeAllowedMax(n);
@@ -4431,7 +4431,7 @@ function systemSourceStats(){
   const a=blank(),t=blank(),f=blank(),p=blank();
   ensureSystemState();
   for(const item of systemData.artifacts){const lv=Number(state.system.artifacts[item.id]||0);if(lv>0)addArtifactStats(a,artifactLevelData(item.id,lv),Number(state.system.artifactPrimary)===item.id?1.5:1);}
-  for(const n of systemData.treeNodes){if(!treeNodeActiveForCurrentRole(n))continue;const lv=Number(state.system.tree[n.id]||0);if(lv>0)addTreeStats(t,n,treeLevelData(n.id,lv),state.system.treeConditions[n.id]===true);}
+  for(const n of systemData.treeNodes){if(!treeNodeAvailableForRole(n))continue;const lv=Number(state.system.tree[n.id]||0);if(lv>0)addTreeStats(t,n,treeLevelData(n.id,lv),state.system.treeConditions[n.id]===true);}
   for(const x of systemData.fashions.filter(x=>state.system.fashions[x.key])){f.spell+=Number(x.spellPct||0);f.crit+=Number(x.critPct||0);f.critDamage+=Number(x.critDamagePct||0);f.cooldown+=Number(x.cooldownPct||0);f.atk+=Number(x.atkPct||0);}
   for(const x of systemData.pets.filter(x=>state.system.pets[x.key])){p.fire+=Number(x.firePct||0);p.ice+=Number(x.icePct||0);p.lightning+=Number(x.lightningPct||0);p.normal+=Number(x.normalPct||0);p.boss+=Number(x.bossPct||0);}
   return {人工製品:a,魔法樹:t,時裝:f,寵物:p};
@@ -4499,15 +4499,6 @@ const __v10CommitLevel=()=>{
   state.player.level=n;el.value=n;saveState(state);
   renderTree($('#treeSearch')?.value||'');
   refreshSystemSummary();
-  try{
-    const treeShell=document.querySelector('.magic-tree-preview-shell');
-    if(treeShell){
-      const treeDetails=document.querySelector('#treeList')?.closest('details');
-      if(treeDetails?.open){
-        treeDetails.dispatchEvent(new Event('toggle'));
-      }
-    }
-  }catch(_){}
   if(state.step===2&&state.mode==='auto')refreshAuto(true);
   if(state.step===3)refreshReport();
 };
@@ -5852,11 +5843,16 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
    if(Math.abs(x1-x2)<0.5)return `M ${x1} ${y1} L ${x2} ${y2}`;
    return `M ${x1} ${y1} L ${x1} ${mid} L ${x2} ${mid} L ${x2} ${y2}`;
  }
- function advancedBranchUnlocked(){
-   return Number(window.state?.player?.level||0)>=100;
- }
  function advancedNode(id){
    const n=Number(id);return n>=24&&n<=28;
+ }
+ function roleLevelNow(){
+   const input=q('#level');
+   const v=Number(input?.value||0);
+   return Number.isFinite(v)?v:0;
+ }
+ function advancedBranchUnlocked(){
+   return roleLevelNow()>=100;
  }
  function buildSvg(){
    const showAdvanced=advancedBranchUnlocked();
@@ -5864,8 +5860,11 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
    for(const [a,b] of EDGES){
      if(!showAdvanced&&(advancedNode(a)||advancedNode(b)))continue;
      const A=POS[String(a)],B=POS[String(b)]; if(!A||!B)continue;
-     s+=`<path d="${connectorPath(a,b)}"></path>`;
-     if(Math.abs(A[0]-B[0])>0.5){const mid=(A[1]+B[1])/2;s+=`<circle cx="${A[0]}" cy="${mid}" r="0.45"></circle><circle cx="${B[0]}" cy="${mid}" r="0.45"></circle>`;}
+     s+=`<path d="${connectorPath(a,b)}" data-tree-edge="${a}-${b}"></path>`;
+     if(Math.abs(A[0]-B[0])>0.5){
+       const mid=(A[1]+B[1])/2;
+       s+=`<circle cx="${A[0]}" cy="${mid}" r="0.45"></circle><circle cx="${B[0]}" cy="${mid}" r="0.45"></circle>`;
+     }
    }
    return s+'</svg>';
  }
@@ -5915,9 +5914,9 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
    document.addEventListener('change',e=>{if(e.target?.matches?.('[data-tree-lv]'))setTimeout(refresh,0);});
    document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(refresh,30)));
    const level=q('#level');if(level){
-     level.addEventListener('input',()=>setTimeout(refresh,20));
-     level.addEventListener('change',()=>setTimeout(refresh,20));
-     level.addEventListener('blur',()=>setTimeout(refresh,20));
+     level.addEventListener('input',()=>setTimeout(refresh,0));
+     level.addEventListener('change',()=>setTimeout(refresh,0));
+     level.addEventListener('blur',()=>setTimeout(refresh,0));
    }
    refresh();
  }
@@ -7840,13 +7839,36 @@ main>.screen:nth-of-type(3) #autoPane>.card{
 })();
 </script>
 
-<script id="v2-magic-tree-lv100-gate-marker">
-window.TOWER_SWORD_MAGIC_TREE_HIGH_BRANCH_RULE={
-  nodeIds:[24,25,26,27,28],
-  unlockRoleLevel:100,
-  preserveSavedLevelsWhenLocked:true,
-  effectsActiveOnlyWhenUnlocked:true
-};
+
+<script id="v2-magic-tree-lv100-visual-safeguard">
+(function(){
+  const IDS=[24,25,26,27,28];
+  function level(){
+    const el=document.getElementById('level');
+    const n=Number(el?.value||0);
+    return Number.isFinite(n)?n:0;
+  }
+  function apply(){
+    const locked=level()<100;
+    IDS.forEach(id=>{
+      document.querySelectorAll(`[data-preview-tree-node="${id}"],[data-tree-row="${id}"]`).forEach(el=>{
+        el.style.setProperty('display',locked?'none':'','important');
+      });
+    });
+    document.documentElement.classList.toggle('tree-high-branch-locked',locked);
+  }
+  function bind(){
+    const el=document.getElementById('level');
+    if(el){
+      ['input','change','blur'].forEach(ev=>el.addEventListener(ev,()=>setTimeout(apply,0)));
+    }
+    const details=document.getElementById('treeList')?.closest('details');
+    if(details)details.addEventListener('toggle',()=>setTimeout(apply,0));
+    document.addEventListener('tower-page2-enter',()=>setTimeout(apply,40));
+    apply();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
+})();
 </script>
 
 </body></html>
