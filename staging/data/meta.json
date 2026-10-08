@@ -1,0 +1,13 @@
+{
+  "environment": "staging",
+  "simulatorVersion": "V2.1-staging-baseline",
+  "productionSource": "https://apviewer.github.io/Tower-Swords-simulator/",
+  "purpose": "New game-data validation before Production deployment",
+  "calculationCoreStatus": "UNCHANGED_FROM_PRODUCTION",
+  "dataIntegrationStatus": "NOT_CONNECTED_YET",
+  "notes": [
+    "This baseline reuses Production assets via ../assets/.",
+    "artifacts.json and titles.json are placeholders only.",
+    "No new artifact/title bonuses are active yet."
+  ]
+}
