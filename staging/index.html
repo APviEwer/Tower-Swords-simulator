@@ -1567,7 +1567,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 }
 .v21-title-shell{
   margin:10px!important;border:1px solid rgba(117,150,164,.36);
-  border-radius:13px;overflow:hidden;
+  border-radius:15px;overflow:hidden;
   background:linear-gradient(180deg,rgba(8,21,29,.86),rgba(4,12,18,.92))
 }
 .v21-title-head{
@@ -1594,58 +1594,113 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   color:#91a5ae;font-size:8px;font-weight:850;cursor:pointer
 }
 .v21-title-tab.is-active{border-color:rgba(216,189,118,.52);color:#e4c87c;background:rgba(52,40,19,.52)}
-.v21-title-body{display:grid;grid-template-columns:minmax(280px,.95fr) minmax(320px,1.05fr);gap:9px;padding:0 10px 10px}
-.v21-title-list{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;
-  max-height:430px;overflow:auto;padding-right:2px
+.v21-title-grid-wrap{
+  max-height:520px;overflow:auto;padding:10px;
+  scrollbar-width:thin;scrollbar-color:#586a73 transparent
+}
+.v21-title-grid{
+  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px
 }
 .v21-title-card{
-  min-width:0;text-align:left;padding:8px 9px;border-radius:10px;
-  border:1px solid rgba(68,96,109,.34);background:rgba(5,15,21,.72);
-  cursor:pointer;color:#dce5e8
+  appearance:none;position:relative;min-width:0;padding:8px 7px;
+  border-radius:11px;border:1px solid rgba(70,100,114,.40);
+  background:linear-gradient(180deg,rgba(8,20,27,.92),rgba(4,12,17,.96));
+  color:#dce5e8;text-align:left;cursor:pointer;
+  transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease
 }
-.v21-title-card:hover,.v21-title-card.is-selected{border-color:rgba(216,189,118,.53);background:rgba(31,28,20,.78)}
-.v21-title-card-name{font-size:9.5px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.v21-title-card-en{margin-top:2px;font-size:7px;color:#647b86;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.v21-title-card-meta{margin-top:5px;display:flex;justify-content:space-between;gap:6px;font-size:7px;color:#80949e}
-.v21-title-detail{
-  min-width:0;border:1px solid rgba(73,104,119,.38);border-radius:11px;
-  background:rgba(5,14,20,.68);padding:11px
+.v21-title-card:hover{transform:translateY(-1px);border-color:rgba(216,189,118,.46)}
+.v21-title-card.is-selected{
+  border-color:rgba(216,189,118,.74);
+  box-shadow:0 0 0 1px rgba(216,189,118,.10),0 0 14px rgba(216,189,118,.08)
 }
-.v21-title-detail-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.v21-title-detail-name{font-size:13px;font-weight:950;color:#edf2f3}
-.v21-title-detail-en{margin-top:2px;font-size:8px;color:#6f8792}
-.v21-title-cat{
-  padding:4px 7px;border-radius:999px;border:1px solid rgba(91,132,150,.42);
-  color:#9fc1cf;font-size:7px;font-weight:850;white-space:nowrap
+.v21-title-card.is-pop-target{outline:2px solid rgba(99,201,231,.72);outline-offset:1px}
+.v21-title-card-badge{
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  border-radius:8px;border:1px solid rgba(216,189,118,.35);
+  background:rgba(58,43,18,.45);color:#e7c86f;font-size:11px;font-weight:950;
+  margin-bottom:6px
 }
-.v21-title-desc{margin-top:8px;color:#8297a1;font-size:8px;line-height:1.5}
-.v21-title-stars{display:flex;gap:6px;margin-top:10px}
-.v21-title-star{
-  flex:1;min-height:34px;border-radius:9px;border:1px solid rgba(82,111,124,.42);
-  background:#081720;color:#738994;font-size:9px;font-weight:950;cursor:pointer
+.v21-title-card-name{font-size:9px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v21-title-card-en{margin-top:2px;font-size:6.8px;color:#647b86;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v21-title-card-meta{margin-top:5px;display:flex;justify-content:space-between;gap:5px;font-size:6.8px;color:#80949e}
+.v21-title-card-star{color:#d8bb6f;font-weight:900}
+
+/* Floating title editor — mirrors the Artifact interaction pattern. */
+.v21-title-float{
+  position:fixed;width:260px;max-width:calc(100vw - 20px);box-sizing:border-box;
+  z-index:10030;padding:10px;border:1px solid rgba(111,169,192,.58);
+  border-radius:13px;
+  background:linear-gradient(180deg,rgba(12,28,38,.985),rgba(5,14,21,.99));
+  box-shadow:0 12px 30px rgba(0,0,0,.48),0 0 0 1px rgba(255,255,255,.025);
+  color:#dfe8ec
 }
-.v21-title-star.is-active{border-color:rgba(216,189,118,.58);background:rgba(59,44,18,.5);color:#e4c87c}
-.v21-title-star:disabled{opacity:.28;cursor:not-allowed}
-.v21-title-info{margin-top:9px;display:grid;gap:7px}
-.v21-title-info-row{padding:8px 9px;border-radius:9px;background:rgba(10,27,37,.68);border:1px solid rgba(61,91,106,.30)}
-.v21-title-info-row span{display:block;font-size:7px;color:#69808a}
-.v21-title-info-row b{display:block;margin-top:3px;font-size:8.5px;line-height:1.5;color:#d7e2e6}
-.v21-title-warning{
-  margin-top:9px;padding:8px 9px;border-radius:9px;
-  border:1px solid rgba(181,112,72,.34);background:rgba(53,29,18,.35);
-  color:#d8a77f;font-size:7.5px;line-height:1.5
+.v21-title-float:before{
+  content:"";position:absolute;left:-7px;right:auto;top:50%;width:12px;height:12px;
+  transform:translateY(-50%) rotate(45deg);background:rgba(10,24,33,.99);
+  border-left:1px solid rgba(111,169,192,.58);
+  border-bottom:1px solid rgba(111,169,192,.58)
 }
-.v21-title-loading{padding:14px;color:#8197a1;font-size:9px}
-@media(max-width:760px){
+.v21-title-float.is-left:before{
+  left:auto;right:-7px;transform:translateY(-50%) rotate(225deg)
+}
+.v21-title-float-top{
+  display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:8px;align-items:center
+}
+.v21-title-float-badge{
+  width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(216,189,118,.44);background:rgba(61,45,17,.48);
+  color:#edce77;font-size:14px;font-weight:950
+}
+.v21-title-float-name{font-size:12px;font-weight:950;color:#f0f3f4;line-height:1.25}
+.v21-title-float-en{font-size:8px;color:#8297a2;margin-top:2px}
+.v21-title-float-close{
+  align-self:start;width:28px;height:28px;border-radius:8px;
+  border:1px solid rgba(92,127,143,.42);background:#091923;color:#9eb1ba;cursor:pointer
+}
+.v21-title-float-desc{
+  margin-top:8px;padding:7px 8px;border:1px solid rgba(255,255,255,.055);
+  border-radius:9px;background:rgba(0,0,0,.18);font-size:8.5px;line-height:1.45;color:#9eb0b9
+}
+.v21-title-float-stars{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:8px
+}
+.v21-title-float-star{
+  min-height:34px;border-radius:8px;border:1px solid rgba(105,147,165,.46);
+  background:#0a1923;color:#9fb0b8;font-weight:900;cursor:pointer
+}
+.v21-title-float-star.is-active{
+  border-color:rgba(218,180,95,.65);background:rgba(68,49,22,.52);color:#f1d58b
+}
+.v21-title-float-star:disabled{opacity:.28;cursor:not-allowed}
+.v21-title-float-info{
+  margin-top:8px;display:grid;gap:6px
+}
+.v21-title-float-row{
+  padding:7px 8px;border-radius:9px;border:1px solid rgba(61,91,106,.30);
+  background:rgba(10,27,37,.68)
+}
+.v21-title-float-row span{display:block;font-size:6.8px;color:#69808a}
+.v21-title-float-row b{display:block;margin-top:2px;font-size:8px;line-height:1.45;color:#d7e2e6}
+.v21-title-float-warning{
+  margin-top:7px;font-size:7px;line-height:1.4;color:#d4a278
+}
+@media(max-width:980px){.v21-title-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:760px){.v21-title-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:620px){
   .v21-title-shell{margin:7px!important}
   .v21-title-head{padding:9px;flex-direction:column}
-  .v21-title-body{grid-template-columns:1fr;padding:0 8px 8px}
-  .v21-title-list{grid-template-columns:repeat(2,minmax(0,1fr));max-height:320px}
+  .v21-title-grid-wrap{padding:8px;max-height:430px}
+  .v21-title-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .v21-title-card{padding:7px 5px}
+  .v21-title-card-badge{width:26px;height:26px;font-size:10px;margin-bottom:5px}
+  .v21-title-card-name{font-size:8px}
+  .v21-title-card-en{font-size:6.3px}
+  .v21-title-float{width:218px;padding:8px}
+  .v21-title-float-top{grid-template-columns:38px minmax(0,1fr) 26px;gap:6px}
+  .v21-title-float-badge{width:38px;height:38px}
+  .v21-title-float-name{font-size:10.5px}
 }
-@media(max-width:430px){
-  .v21-title-list{grid-template-columns:1fr}
-}
+@media(max-width:380px){.v21-title-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 
 </head>
@@ -7973,8 +8028,9 @@ main>.screen:nth-of-type(3) #autoPane>.card{
 (()=>{
   'use strict';
   const STORAGE='tower-sword-v21-title-preview';
-  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
   let db=null, category='all', query='', selectedId=1, star=1;
+  let pop=null,targetBtn=null,targetId=null,cleanup=null,raf=0;
 
   try{
     const s=JSON.parse(localStorage.getItem(STORAGE)||'{}');
@@ -7983,15 +8039,9 @@ main>.screen:nth-of-type(3) #autoPane>.card{
   }catch(_){}
 
   function save(){try{localStorage.setItem(STORAGE,JSON.stringify({selectedId,star}))}catch(_){}}
-  function selected(){return db?.titles?.find(x=>Number(x.id)===Number(selectedId))||db?.titles?.[0]||null}
+  function title(id){return db?.titles?.find(x=>Number(x.id)===Number(id))||null}
+  function selected(){return title(selectedId)||db?.titles?.[0]||null}
   function starData(t,n){return (t?.stars||[]).find(x=>Number(x.star)===Number(n))||null}
-
-  function syncProgress(){
-    const el=document.getElementById('v21TitleCurrent');
-    const t=selected();
-    if(el)el.textContent=t?`${t.nameZh} ★${star}`:'未設定';
-  }
-
   function filtered(){
     if(!db)return[];
     const q=query.trim().toLowerCase();
@@ -8001,74 +8051,146 @@ main>.screen:nth-of-type(3) #autoPane>.card{
       return cat&&hit;
     });
   }
+  function syncProgress(){
+    const el=document.getElementById('v21TitleCurrent');
+    const t=selected();
+    if(el)el.textContent=t?`${t.nameZh} ★${star}`:'未設定';
+  }
+  function clearFollow(){
+    cancelAnimationFrame(raf);
+    if(cleanup){cleanup();cleanup=null}
+  }
+  function closePop(){
+    clearFollow();
+    targetBtn?.classList.remove('is-pop-target');
+    targetBtn=null;targetId=null;
+    pop?.remove();pop=null;
+  }
+  function positionPop(){
+    if(!pop||targetId==null)return;
+    const grid=document.getElementById('v21TitleGrid');
+    const live=grid?.querySelector(`[data-title-id="${targetId}"]`);
+    if(live&&live!==targetBtn){
+      targetBtn?.classList.remove('is-pop-target');
+      targetBtn=live;targetBtn.classList.add('is-pop-target');
+    }
+    if(!targetBtn?.isConnected)return;
+    const r=targetBtn.getBoundingClientRect();
+    const pw=pop.offsetWidth||260,ph=pop.offsetHeight||230;
+    const vw=document.documentElement.clientWidth,vh=document.documentElement.clientHeight;
+    const safe=8,gap=8;
+    const roomRight=vw-r.right-safe,roomLeft=r.left-safe;
+    let left,onLeft=false;
+    if(roomRight>=pw+gap){left=r.right+gap}
+    else if(roomLeft>=pw+gap){left=r.left-pw-gap;onLeft=true}
+    else if(roomRight>=roomLeft){left=vw-pw-safe}
+    else{left=safe;onLeft=true}
+    pop.classList.toggle('is-left',onLeft);
+    let top=r.top+(r.height-ph)/2;
+    top=Math.max(safe,Math.min(vh-ph-safe,top));
+    left=Math.max(safe,Math.min(vw-pw-safe,left));
+    pop.style.left=`${Math.round(left)}px`;
+    pop.style.top=`${Math.round(top)}px`;
+  }
+  function bindFollow(){
+    clearFollow();
+    const wrap=document.querySelector('.v21-title-grid-wrap');
+    const update=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(positionPop)};
+    wrap?.addEventListener('scroll',update,{passive:true});
+    window.addEventListener('scroll',update,{passive:true});
+    window.addEventListener('resize',update,{passive:true});
+    cleanup=()=>{
+      wrap?.removeEventListener('scroll',update);
+      window.removeEventListener('scroll',update);
+      window.removeEventListener('resize',update);
+    };
+    requestAnimationFrame(()=>requestAnimationFrame(positionPop));
+  }
+  function openPop(id,btn=null){
+    const t=title(id);if(!t)return;
+    selectedId=Number(id);
+    if(!starData(t,star))star=(t.stars||[])[0]?.star||1;
+    save();syncProgress();
 
-  function render(){
+    targetId=Number(id);
+    const grid=document.getElementById('v21TitleGrid');
+    const live=grid?.querySelector(`[data-title-id="${targetId}"]`)||btn;
+    if(!live)return;
+    if(targetBtn!==live){
+      targetBtn?.classList.remove('is-pop-target');
+      targetBtn=live;targetBtn.classList.add('is-pop-target');
+    }
+    if(!pop){
+      pop=document.createElement('div');
+      pop.className='v21-title-float';
+      document.body.appendChild(pop);
+    }
+    const sd=starData(t,star);
+    pop.innerHTML=`
+      <div class="v21-title-float-top">
+        <div class="v21-title-float-badge">★${star}</div>
+        <div><div class="v21-title-float-name">${esc(t.nameZh)}</div><div class="v21-title-float-en">${esc(t.nameEn)}｜${esc(t.categoryZh)}</div></div>
+        <button type="button" class="v21-title-float-close" aria-label="關閉">×</button>
+      </div>
+      <div class="v21-title-float-desc">${esc(t.description||'—')}</div>
+      <div class="v21-title-float-stars">
+        ${[1,2,3].map(n=>{
+          const x=starData(t,n);
+          return `<button type="button" class="v21-title-float-star ${n===star?'is-active':''}" data-title-star="${n}" ${x?'':'disabled'}>★${n}</button>`;
+        }).join('')}
+      </div>
+      <div class="v21-title-float-info">
+        <div class="v21-title-float-row"><span>解鎖條件</span><b>${esc(sd?.unlock||'—')}</b></div>
+        <div class="v21-title-float-row"><span>能力加成</span><b>${esc(sd?.effect||'—')}</b></div>
+      </div>
+      <div class="v21-title-float-warning">STAGING：目前只保存預覽星級，不計入傷害。</div>`;
+
+    pop.querySelector('.v21-title-float-close')?.addEventListener('click',closePop);
+    pop.querySelectorAll('[data-title-star]').forEach(b=>b.addEventListener('click',()=>{
+      star=Number(b.dataset.titleStar);
+      save();syncProgress();
+      renderGrid();
+      requestAnimationFrame(()=>requestAnimationFrame(()=>openPop(id,null)));
+    }));
+    bindFollow();
+  }
+  function renderGrid(){
     const root=document.getElementById('v21TitleRoot');
     if(!root||!db)return;
-    let t=selected();
-    if(!t)return;
-    if(!starData(t,star)){
-      star=(t.stars||[])[0]?.star||1;
-      save();
-    }
-    const active=starData(t,star);
-    const cats=[
-      ['all','全部'],['journey','旅程'],['training','修練'],['hidden','隱藏'],['demon_realm','魔界']
-    ];
+    const cats=[['all','全部'],['journey','旅程'],['training','修練'],['hidden','隱藏'],['demon_realm','魔界']];
     const list=filtered();
-
     root.innerHTML=`
       <div class="v21-title-head">
-        <div><strong>稱號系統｜48 個</strong><span>位置：02 系統效果 → 魔法樹之後、時裝之前。先確認資料與操作方式，再決定是否接入傷害。</span></div>
+        <div><strong>稱號系統｜48 個</strong><span>點選稱號後，以人工製品相同邏輯在旁邊開啟浮動設定視窗。</span></div>
         <div class="v21-title-mode">STAGING · 不計入傷害</div>
       </div>
       <div class="v21-title-toolbar">
         <input class="v21-title-search" id="v21TitleSearch" value="${esc(query)}" placeholder="搜尋中文／英文稱號">
         <div class="v21-title-tabs">${cats.map(([id,label])=>`<button type="button" class="v21-title-tab ${category===id?'is-active':''}" data-title-cat="${id}">${label}</button>`).join('')}</div>
       </div>
-      <div class="v21-title-body">
-        <div class="v21-title-list">
-          ${list.map(x=>`
-            <button type="button" class="v21-title-card ${Number(x.id)===Number(t.id)?'is-selected':''}" data-title-id="${x.id}">
-              <div class="v21-title-card-name">${esc(x.nameZh)}</div>
-              <div class="v21-title-card-en">${esc(x.nameEn)}</div>
-              <div class="v21-title-card-meta"><span>${esc(x.categoryZh)}</span><span>★1–★${x.maxStar}</span></div>
-            </button>`).join('') || '<div class="v21-title-loading">沒有符合條件的稱號。</div>'}
-        </div>
-        <div class="v21-title-detail">
-          <div class="v21-title-detail-top">
-            <div><div class="v21-title-detail-name">${esc(t.nameZh)}</div><div class="v21-title-detail-en">${esc(t.nameEn)}</div></div>
-            <div class="v21-title-cat">${esc(t.categoryZh)}</div>
-          </div>
-          <div class="v21-title-desc">${esc(t.description||'—')}</div>
-          <div class="v21-title-stars">
-            ${[1,2,3].map(n=>{
-              const sd=starData(t,n);
-              return `<button type="button" class="v21-title-star ${n===star?'is-active':''}" data-title-star="${n}" ${sd?'':'disabled'}>★${n}</button>`;
-            }).join('')}
-          </div>
-          <div class="v21-title-info">
-            <div class="v21-title-info-row"><span>解鎖條件</span><b>${esc(active?.unlock||'—')}</b></div>
-            <div class="v21-title-info-row"><span>能力加成</span><b>${esc(active?.effect||'—')}</b></div>
-          </div>
-          <div class="v21-title-warning">資料驗證模式：目前只保存「預覽稱號／星級」，不寫入 V2.0 傷害公式、不影響 Manual／Auto。稱號能力會在確認 v2.60060 後再分成 SAFE／CONDITIONAL／UNKNOWN 接入。</div>
+      <div class="v21-title-grid-wrap">
+        <div class="v21-title-grid" id="v21TitleGrid">
+          ${list.map(t=>`
+            <button type="button" class="v21-title-card ${Number(t.id)===Number(selectedId)?'is-selected':''}" data-title-id="${t.id}">
+              <div class="v21-title-card-badge">★</div>
+              <div class="v21-title-card-name">${esc(t.nameZh)}</div>
+              <div class="v21-title-card-en">${esc(t.nameEn)}</div>
+              <div class="v21-title-card-meta"><span>${esc(t.categoryZh)}</span><span class="v21-title-card-star">★${Number(t.id)===Number(selectedId)?star:1}</span></div>
+            </button>`).join('')||'<div class="v21-title-loading">沒有符合條件的稱號。</div>'}
         </div>
       </div>`;
-
-    root.querySelector('#v21TitleSearch')?.addEventListener('input',e=>{query=e.target.value;render()});
-    root.querySelectorAll('[data-title-cat]').forEach(b=>b.addEventListener('click',()=>{category=b.dataset.titleCat;render()}));
+    root.querySelector('#v21TitleSearch')?.addEventListener('input',e=>{query=e.target.value;renderGrid();closePop()});
+    root.querySelectorAll('[data-title-cat]').forEach(b=>b.addEventListener('click',()=>{category=b.dataset.titleCat;renderGrid();closePop()}));
     root.querySelectorAll('[data-title-id]').forEach(b=>b.addEventListener('click',()=>{
-      selectedId=Number(b.dataset.titleId);
-      const nt=selected();
-      star=(nt?.stars||[])[0]?.star||1;
-      save();syncProgress();render();
-    }));
-    root.querySelectorAll('[data-title-star]').forEach(b=>b.addEventListener('click',()=>{
-      star=Number(b.dataset.titleStar);save();syncProgress();render();
+      const id=Number(b.dataset.titleId);
+      selectedId=id;
+      const t=title(id);
+      star=(t?.stars||[])[0]?.star||1;
+      save();syncProgress();renderGrid();
+      requestAnimationFrame(()=>requestAnimationFrame(()=>openPop(id,null)));
     }));
     syncProgress();
   }
-
   async function init(){
     const root=document.getElementById('v21TitleRoot');
     if(!root)return;
@@ -8078,12 +8200,17 @@ main>.screen:nth-of-type(3) #autoPane>.card{
       db=await r.json();
       if(!Array.isArray(db.titles)||!db.titles.length)throw new Error('titles empty');
       if(!db.titles.some(x=>Number(x.id)===Number(selectedId)))selectedId=db.titles[0].id;
-      render();
+      if(!starData(selected(),star))star=(selected()?.stars||[])[0]?.star||1;
+      renderGrid();
     }catch(e){
       root.innerHTML=`<div class="v21-title-loading">稱號資料讀取失敗：${esc(e.message)}。請確認 staging/data/titles.json 已上傳。</div>`;
     }
   }
-
+  document.addEventListener('pointerdown',e=>{
+    if(!pop)return;
+    if(pop.contains(e.target)||e.target.closest('[data-title-id]'))return;
+    closePop();
+  },true);
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
