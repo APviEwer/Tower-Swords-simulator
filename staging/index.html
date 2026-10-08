@@ -1599,12 +1599,14 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   scrollbar-width:thin;scrollbar-color:#586a73 transparent
 }
 .v21-title-grid{
-  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px
 }
 .v21-title-card{
-  appearance:none;position:relative;min-width:0;padding:8px 7px;
-  border-radius:11px;border:1px solid rgba(70,100,114,.40);
-  background:linear-gradient(180deg,rgba(8,20,27,.92),rgba(4,12,17,.96));
+  appearance:none;position:relative;min-width:0;padding:10px 10px 9px;
+  min-height:138px;border-radius:12px;
+  border:1px solid rgba(70,100,114,.40);
+  background:
+    linear-gradient(180deg,rgba(8,20,27,.96),rgba(4,12,17,.985));
   color:#dce5e8;text-align:left;cursor:pointer;
   transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease
 }
@@ -1614,16 +1616,45 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   box-shadow:0 0 0 1px rgba(216,189,118,.10),0 0 14px rgba(216,189,118,.08)
 }
 .v21-title-card.is-pop-target{outline:2px solid rgba(99,201,231,.72);outline-offset:1px}
-.v21-title-card-badge{
-  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
-  border-radius:8px;border:1px solid rgba(216,189,118,.35);
-  background:rgba(58,43,18,.45);color:#e7c86f;font-size:11px;font-weight:950;
-  margin-bottom:6px
+.v21-title-card-top{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:7px
 }
-.v21-title-card-name{font-size:9px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.v21-title-card-en{margin-top:2px;font-size:6.8px;color:#647b86;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.v21-title-card-meta{margin-top:5px;display:flex;justify-content:space-between;gap:5px;font-size:6.8px;color:#80949e}
-.v21-title-card-star{color:#d8bb6f;font-weight:900}
+.v21-title-card-cat{
+  display:inline-flex;align-items:center;min-height:20px;padding:0 7px;
+  border-radius:6px;border:1px solid rgba(196,116,54,.72);
+  background:rgba(58,30,11,.66);color:#e7a561;
+  font-size:6.8px;font-weight:950;letter-spacing:.03em
+}
+.v21-title-card-starbadge{
+  display:inline-flex;align-items:center;justify-content:center;min-width:31px;height:21px;
+  padding:0 6px;border-radius:6px;
+  border:1px solid rgba(117,150,164,.38);
+  background:rgba(17,31,39,.8);color:#d7e0e3;
+  font-size:7px;font-weight:900
+}
+.v21-title-card-en{
+  font-size:10px;font-weight:950;color:#f0f3f4;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.v21-title-card-name{
+  margin-top:2px;font-size:7.3px;font-weight:800;color:#788e98;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.v21-title-card-desc{
+  margin-top:8px;min-height:28px;font-size:7.2px;line-height:1.45;color:#80929a;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+}
+.v21-title-card-rule{
+  margin-top:8px;border-top:1px solid rgba(255,255,255,.055);padding-top:7px
+}
+.v21-title-card-label{
+  font-size:6.4px;font-weight:900;color:#5f747d;letter-spacing:.04em
+}
+.v21-title-card-value{
+  margin-top:2px;font-size:7.1px;line-height:1.35;color:#cdd8dc;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.v21-title-card-value.is-bonus{color:#e0b35e;font-weight:900}
 
 /* Floating title editor — mirrors the Artifact interaction pattern. */
 .v21-title-float{
@@ -1684,13 +1715,13 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 .v21-title-float-warning{
   margin-top:7px;font-size:7px;line-height:1.4;color:#d4a278
 }
-@media(max-width:980px){.v21-title-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
-@media(max-width:760px){.v21-title-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:1180px){.v21-title-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.v21-title-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){
   .v21-title-shell{margin:7px!important}
   .v21-title-head{padding:9px;flex-direction:column}
   .v21-title-grid-wrap{padding:8px;max-height:430px}
-  .v21-title-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .v21-title-grid{grid-template-columns:1fr;gap:7px}
   .v21-title-card{padding:7px 5px}
   .v21-title-card-badge{width:26px;height:26px;font-size:10px;margin-bottom:5px}
   .v21-title-card-name{font-size:8px}
@@ -1700,7 +1731,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   .v21-title-float-badge{width:38px;height:38px}
   .v21-title-float-name{font-size:10.5px}
 }
-@media(max-width:380px){.v21-title-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:380px){.v21-title-grid{grid-template-columns:1fr}}
 </style>
 
 </head>
@@ -8162,7 +8193,7 @@ main>.screen:nth-of-type(3) #autoPane>.card{
     const list=filtered();
     root.innerHTML=`
       <div class="v21-title-head">
-        <div><strong>稱號系統｜48 個</strong><span>點選稱號後，以人工製品相同邏輯在旁邊開啟浮動設定視窗。</span></div>
+        <div><strong>稱號系統｜48 個</strong><span>圖卡文字層級比照遊戲正式顯示；點選稱號後，以人工製品相同邏輯開啟浮動設定視窗。</span></div>
         <div class="v21-title-mode">STAGING · 不計入傷害</div>
       </div>
       <div class="v21-title-toolbar">
@@ -8171,13 +8202,27 @@ main>.screen:nth-of-type(3) #autoPane>.card{
       </div>
       <div class="v21-title-grid-wrap">
         <div class="v21-title-grid" id="v21TitleGrid">
-          ${list.map(t=>`
+          ${list.map(t=>{
+            const cardStar=Number(t.id)===Number(selectedId)?star:((t.stars||[])[0]?.star||1);
+            const sd=starData(t,cardStar);
+            return `
             <button type="button" class="v21-title-card ${Number(t.id)===Number(selectedId)?'is-selected':''}" data-title-id="${t.id}">
-              <div class="v21-title-card-badge">★</div>
-              <div class="v21-title-card-name">${esc(t.nameZh)}</div>
+              <div class="v21-title-card-top">
+                <span class="v21-title-card-cat">${esc(t.categoryEn||t.categoryZh)}</span>
+                <span class="v21-title-card-starbadge">${cardStar} / ${t.maxStar}</span>
+              </div>
               <div class="v21-title-card-en">${esc(t.nameEn)}</div>
-              <div class="v21-title-card-meta"><span>${esc(t.categoryZh)}</span><span class="v21-title-card-star">★${Number(t.id)===Number(selectedId)?star:1}</span></div>
-            </button>`).join('')||'<div class="v21-title-loading">沒有符合條件的稱號。</div>'}
+              <div class="v21-title-card-name">${esc(t.nameZh)}</div>
+              <div class="v21-title-card-desc">${esc(t.description||'—')}</div>
+              <div class="v21-title-card-rule">
+                <div class="v21-title-card-label">UNLOCK</div>
+                <div class="v21-title-card-value">${esc(sd?.unlock||'—')}</div>
+              </div>
+              <div class="v21-title-card-rule">
+                <div class="v21-title-card-label">ABILITY BONUS</div>
+                <div class="v21-title-card-value is-bonus">${esc(sd?.effect||'—')}</div>
+              </div>
+            </button>`}).join('')||'<div class="v21-title-loading">沒有符合條件的稱號。</div>'}
         </div>
       </div>`;
     root.querySelector('#v21TitleSearch')?.addEventListener('input',e=>{query=e.target.value;renderGrid();closePop()});
