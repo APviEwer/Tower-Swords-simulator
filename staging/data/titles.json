@@ -1,7 +1,1385 @@
 {
   "schemaVersion": 1,
-  "status": "placeholder",
+  "status": "staging-display-only",
   "calculationEnabled": false,
-  "sourceGameVersion": null,
-  "titles": []
+  "source": {
+    "titleData": "Tower And Swords v2.60020 TitleDatabase / TitleCondition extraction",
+    "targetGameVersion": "2.60060",
+    "v260060MetadataCheck": "TitleDatabase / TitleCondition / title condition keys present",
+    "bonusRevalidationFor260060": false
+  },
+  "categories": [
+    {
+      "id": "journey",
+      "zh": "旅程",
+      "en": "Journey"
+    },
+    {
+      "id": "training",
+      "zh": "修練",
+      "en": "Training"
+    },
+    {
+      "id": "hidden",
+      "zh": "隱藏",
+      "en": "Hidden"
+    },
+    {
+      "id": "demon_realm",
+      "zh": "魔界",
+      "en": "Demon Realm"
+    }
+  ],
+  "titles": [
+    {
+      "id": 1,
+      "key": "wanderer",
+      "nameZh": "漫遊者",
+      "nameEn": "Wanderer",
+      "category": "journey",
+      "categoryZh": "旅程",
+      "categoryEn": "Journey",
+      "description": "累積遊玩時間",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "累積遊玩 3,000 分鐘（50小時）",
+          "effect": "經驗值獲得 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "累積遊玩 9,000 分鐘（150小時）",
+          "effect": "經驗值獲得 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "累積遊玩 30,000 分鐘（500小時）",
+          "effect": "經驗值獲得 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 2,
+      "key": "monster_slayer",
+      "nameZh": "怪物獵殺者",
+      "nameEn": "Monster Slayer",
+      "category": "journey",
+      "categoryZh": "旅程",
+      "categoryEn": "Journey",
+      "description": "累積怪物擊殺數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "累積擊殺 10,000 隻怪物",
+          "effect": "攻擊力 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "累積擊殺 100,000 隻怪物",
+          "effect": "攻擊力 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "累積擊殺 500,000 隻怪物",
+          "effect": "攻擊力 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 3,
+      "key": "tycoon",
+      "nameZh": "大亨",
+      "nameEn": "Tycoon",
+      "category": "journey",
+      "categoryZh": "旅程",
+      "categoryEn": "Journey",
+      "description": "累積取得金幣",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "累積取得 1,000,000 Gold",
+          "effect": "金幣獲得 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "累積取得 100,000,000 Gold",
+          "effect": "金幣獲得 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "累積取得 10,000,000,000 Gold",
+          "effect": "金幣獲得 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 4,
+      "key": "legend_finder",
+      "nameZh": "傳說發現者",
+      "nameEn": "Legend Finder",
+      "category": "journey",
+      "categoryZh": "旅程",
+      "categoryEn": "Journey",
+      "description": "單階段稱號",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "第一次取得傳說裝備",
+          "effect": "攻擊力 +3.00%"
+        }
+      ],
+      "maxStar": 1,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 5,
+      "key": "collector",
+      "nameZh": "收藏家",
+      "nameEn": "Collector",
+      "category": "journey",
+      "categoryZh": "旅程",
+      "categoryEn": "Journey",
+      "description": "特殊傳說裝備收集數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "取得 3 件特殊／Trait 傳說裝備",
+          "effect": "掉落率 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "取得 10 件特殊／Trait 傳說裝備",
+          "effect": "掉落率 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "取得 30 件特殊／Trait 傳說裝備",
+          "effect": "掉落率 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 6,
+      "key": "destined_challenger",
+      "nameZh": "命定挑戰者",
+      "nameEn": "Destined Challenger",
+      "category": "journey",
+      "categoryZh": "旅程",
+      "categoryEn": "Journey",
+      "description": "程式原始門檻為 0 / 1 / 2 / 3，共四段；不是一般三星計數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "Difficulty Tier 0",
+          "effect": "攻擊力 +1.32%"
+        },
+        {
+          "star": 2,
+          "unlock": "Difficulty Tier 1",
+          "effect": "攻擊力 +2.64%"
+        },
+        {
+          "star": 3,
+          "unlock": "Difficulty Tier 2 / 3",
+          "effect": "攻擊力 +4.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 7,
+      "key": "first_step",
+      "nameZh": "第一步",
+      "nameEn": "First Step",
+      "category": "journey",
+      "categoryZh": "旅程",
+      "categoryEn": "Journey",
+      "description": "Tower Boss／首步進度索引，不是單純擊殺次數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "First Step Progress 0",
+          "effect": "金幣獲得 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "First Step Progress 1",
+          "effect": "金幣獲得 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "First Step Progress 2",
+          "effect": "金幣獲得 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 8,
+      "key": "relic_collector",
+      "nameZh": "文物收藏家",
+      "nameEn": "Relic Collector",
+      "category": "journey",
+      "categoryZh": "旅程",
+      "categoryEn": "Journey",
+      "description": "不同種類文物收集數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "收集 5 種不同文物",
+          "effect": "掉落率 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "收集 10 種不同文物",
+          "effect": "掉落率 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "收集 20 種不同文物",
+          "effect": "掉落率 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 9,
+      "key": "adept",
+      "nameZh": "熟練者",
+      "nameEn": "Adept",
+      "category": "training",
+      "categoryZh": "修練",
+      "categoryEn": "Training",
+      "description": "角色等級",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "角色 Lv.50",
+          "effect": "經驗值獲得 +2.97%"
+        },
+        {
+          "star": 2,
+          "unlock": "角色 Lv.150",
+          "effect": "經驗值獲得 +5.94%"
+        },
+        {
+          "star": 3,
+          "unlock": "角色 Lv.300",
+          "effect": "經驗值獲得 +9.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 10,
+      "key": "mana_bearer",
+      "nameZh": "魔力承載者",
+      "nameEn": "Mana Bearer",
+      "category": "training",
+      "categoryZh": "修練",
+      "categoryEn": "Training",
+      "description": "最大 MP",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "最大 MP 5,000",
+          "effect": "最大 MP +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "最大 MP 50,000",
+          "effect": "最大 MP +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "最大 MP 250,000",
+          "effect": "最大 MP +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 11,
+      "key": "immortal",
+      "nameZh": "不死者",
+      "nameEn": "Immortal",
+      "category": "training",
+      "categoryZh": "修練",
+      "categoryEn": "Training",
+      "description": "角色復活次數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "復活 10 次",
+          "effect": "HP 回復 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "復活 100 次",
+          "effect": "HP 回復 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "復活 500 次",
+          "effect": "HP 回復 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 12,
+      "key": "flame_breath",
+      "nameZh": "火焰吐息",
+      "nameEn": "Flame Breath",
+      "category": "training",
+      "categoryZh": "修練",
+      "categoryEn": "Training",
+      "description": "火屬性法術傷害",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "火屬性法術傷害 100%",
+          "effect": "火屬性傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "火屬性法術傷害 300%",
+          "effect": "火屬性傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "火屬性法術傷害 500%",
+          "effect": "火屬性傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 13,
+      "key": "frost_breath",
+      "nameZh": "冰霜吐息",
+      "nameEn": "Frost Breath",
+      "category": "training",
+      "categoryZh": "修練",
+      "categoryEn": "Training",
+      "description": "冰屬性法術傷害",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "冰屬性法術傷害 100%",
+          "effect": "冰屬性傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "冰屬性法術傷害 300%",
+          "effect": "冰屬性傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "冰屬性法術傷害 500%",
+          "effect": "冰屬性傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 14,
+      "key": "thunder_breath",
+      "nameZh": "雷霆吐息",
+      "nameEn": "Thunder Breath",
+      "category": "training",
+      "categoryZh": "修練",
+      "categoryEn": "Training",
+      "description": "雷屬性法術傷害",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "雷屬性法術傷害 100%",
+          "effect": "雷屬性傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "雷屬性法術傷害 300%",
+          "effect": "雷屬性傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "雷屬性法術傷害 500%",
+          "effect": "雷屬性傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 15,
+      "key": "soul_breath",
+      "nameZh": "靈魂吐息",
+      "nameEn": "Soul Breath",
+      "category": "training",
+      "categoryZh": "修練",
+      "categoryEn": "Training",
+      "description": "Normal／Soul 法術傷害",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "Normal／Soul 法術傷害 100%",
+          "effect": "靈魂屬性傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "Normal／Soul 法術傷害 300%",
+          "effect": "靈魂屬性傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "Normal／Soul 法術傷害 500%",
+          "effect": "靈魂屬性傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 16,
+      "key": "gale",
+      "nameZh": "疾風",
+      "nameEn": "Gale",
+      "category": "training",
+      "categoryZh": "修練",
+      "categoryEn": "Training",
+      "description": "移動速度倍率",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "移動速度 140%",
+          "effect": "移動速度 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "移動速度 180%",
+          "effect": "移動速度 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "移動速度 220%",
+          "effect": "移動速度 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 17,
+      "key": "skill_master",
+      "nameZh": "技能大師",
+      "nameEn": "Skill Master",
+      "category": "training",
+      "categoryZh": "修練",
+      "categoryEn": "Training",
+      "description": "技能使用總次數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "使用技能 10,000 次",
+          "effect": "技能傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "使用技能 100,000 次",
+          "effect": "技能傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "使用技能 500,000 次",
+          "effect": "技能傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 18,
+      "key": "ancient_visitor",
+      "nameZh": "遠古訪客",
+      "nameEn": "Ancient Visitor",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "單階段稱號",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "進入 Ancient Room 1 次",
+          "effect": "最大 HP +3.00%"
+        }
+      ],
+      "maxStar": 1,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 19,
+      "key": "reaper_hunter",
+      "nameZh": "死神獵人",
+      "nameEn": "Reaper Hunter",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "Reaper 專用 Boss 擊破進度",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "Reaper 擊破進度 1",
+          "effect": "暴擊傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "Reaper 擊破進度 2",
+          "effect": "暴擊傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "Reaper 擊破進度 3",
+          "effect": "暴擊傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 20,
+      "key": "demon_lord_slayer",
+      "nameZh": "魔王獵殺者",
+      "nameEn": "Demon Lord Slayer",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "Demon Lord／Dark Lord 專用 Boss 擊破進度",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "Demon Lord 擊破進度 1",
+          "effect": "攻擊力 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "Demon Lord 擊破進度 2",
+          "effect": "攻擊力 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "Demon Lord 擊破進度 3",
+          "effect": "攻擊力 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 21,
+      "key": "dark_dragon_slayer",
+      "nameZh": "暗黑龍獵殺者",
+      "nameEn": "Dark Dragon Slayer",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "Dark Dragon 專用 Boss 擊破進度",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "Dark Dragon 擊破進度 1",
+          "effect": "全屬性傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "Dark Dragon 擊破進度 2",
+          "effect": "全屬性傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "Dark Dragon 擊破進度 3",
+          "effect": "全屬性傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 22,
+      "key": "goddess_s_blessing",
+      "nameZh": "女神的祝福",
+      "nameEn": "Goddess's Blessing",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "單階段稱號",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "集齊所有 Goddess Token",
+          "effect": "最大 HP +1.00%；最大 MP +1.00%"
+        }
+      ],
+      "maxStar": 1,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 23,
+      "key": "black_market_regular",
+      "nameZh": "黑市常客",
+      "nameEn": "Black Market Regular",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "黑市購買次數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "黑市購買 100 次",
+          "effect": "黑市額外折扣 +3.30%"
+        },
+        {
+          "star": 2,
+          "unlock": "黑市購買 500 次",
+          "effect": "黑市額外折扣 +6.60%"
+        },
+        {
+          "star": 3,
+          "unlock": "黑市購買 2,000 次",
+          "effect": "黑市額外折扣 +10.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 24,
+      "key": "treasure_hunter",
+      "nameZh": "寶物獵人",
+      "nameEn": "Treasure Hunter",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "單階段稱號",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "開啟／破壞寶箱 20 個",
+          "effect": "寶箱額外道具 +1 個"
+        }
+      ],
+      "maxStar": 1,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 25,
+      "key": "slime_slayer",
+      "nameZh": "史萊姆獵殺者",
+      "nameEn": "Slime Slayer",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "史萊姆地牢擊殺數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "史萊姆地牢擊殺 5,000 隻",
+          "effect": "史萊姆地牢經驗值 +4.95%"
+        },
+        {
+          "star": 2,
+          "unlock": "史萊姆地牢擊殺 30,000 隻",
+          "effect": "史萊姆地牢經驗值 +9.90%"
+        },
+        {
+          "star": 3,
+          "unlock": "史萊姆地牢擊殺 100,000 隻",
+          "effect": "史萊姆地牢經驗值 +15.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 26,
+      "key": "flash_executioner",
+      "nameZh": "閃擊處刑者",
+      "nameEn": "Flash Executioner",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "特殊限時 Boss 判定；時間條件與完成次數同時成立",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "30 秒內擊殺 Boss × 1 次",
+          "effect": "暴擊傷害 +3.30%"
+        },
+        {
+          "star": 2,
+          "unlock": "15 秒內擊殺 Boss × 5 次",
+          "effect": "暴擊傷害 +6.60%"
+        },
+        {
+          "star": 3,
+          "unlock": "5 秒內擊殺 Boss × 15 次",
+          "effect": "暴擊傷害 +10.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 27,
+      "key": "unscathed",
+      "nameZh": "毫髮無傷",
+      "nameEn": "Unscathed",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "無傷通關次數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "無傷通關 1 次",
+          "effect": "防禦力 +3.30%"
+        },
+        {
+          "star": 2,
+          "unlock": "無傷通關 10 次",
+          "effect": "防禦力 +6.60%"
+        },
+        {
+          "star": 3,
+          "unlock": "無傷通關 50 次",
+          "effect": "防禦力 +10.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 28,
+      "key": "meditator",
+      "nameZh": "冥想者",
+      "nameEn": "Meditator",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "累積冥想時間",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "累積冥想 1,800 秒（30分）",
+          "effect": "MP 回復 +3.30%"
+        },
+        {
+          "star": 2,
+          "unlock": "累積冥想 3,600 秒（60分）",
+          "effect": "MP 回復 +6.60%"
+        },
+        {
+          "star": 3,
+          "unlock": "累積冥想 7,200 秒（120分）",
+          "effect": "MP 回復 +10.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 29,
+      "key": "proven_challenger",
+      "nameZh": "受證挑戰者",
+      "nameEn": "Proven Challenger",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "異界地牢通關次數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "異界／Token Dungeon 通關 10 次",
+          "effect": "異界地牢金幣獲得 +4.95%"
+        },
+        {
+          "star": 2,
+          "unlock": "異界／Token Dungeon 通關 30 次",
+          "effect": "異界地牢金幣獲得 +9.90%"
+        },
+        {
+          "star": 3,
+          "unlock": "異界／Token Dungeon 通關 100 次",
+          "effect": "異界地牢金幣獲得 +15.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 30,
+      "key": "storyteller",
+      "nameZh": "說書人",
+      "nameEn": "Storyteller",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "★3 程式原始值確實為 9,999",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "看過 30 次 NPC 對話",
+          "effect": "金幣獲得 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "看過 50 次 NPC 對話",
+          "effect": "金幣獲得 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "看過 9,999 次 NPC 對話",
+          "effect": "金幣獲得 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 31,
+      "key": "dawn_riser",
+      "nameZh": "拂曉之眠",
+      "nameEn": "Dawn Riser",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "單階段稱號",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "凌晨 4:00～5:00 登入 1 次",
+          "effect": "經驗值獲得 +5.00%"
+        }
+      ],
+      "maxStar": 1,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 32,
+      "key": "beyond_the_wall",
+      "nameZh": "牆外之人",
+      "nameEn": "Beyond the Wall",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "秘密房發現數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "發現 10 個 Secret Room",
+          "effect": "金幣獲得 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "發現 30 個 Secret Room",
+          "effect": "金幣獲得 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "發現 50 個 Secret Room",
+          "effect": "金幣獲得 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 33,
+      "key": "unwavering",
+      "nameZh": "堅定不移者",
+      "nameEn": "Unwavering",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "普通攻擊 Boss 擊殺",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "以普通攻擊擊殺 Boss 1 次",
+          "effect": "攻擊力 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "以普通攻擊擊殺 Boss 5 次",
+          "effect": "攻擊力 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "以普通攻擊擊殺 Boss 15 次",
+          "effect": "攻擊力 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 34,
+      "key": "forgotten_name",
+      "nameZh": "被遺忘的名字",
+      "nameEn": "Forgotten Name",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "單階段稱號",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "不裝備任何稱號持續 20 小時",
+          "effect": "掉落率 +2.00%"
+        }
+      ],
+      "maxStar": 1,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 35,
+      "key": "risen_from_defeat",
+      "nameZh": "敗北重生者",
+      "nameEn": "Risen from Defeat",
+      "category": "hidden",
+      "categoryZh": "隱藏",
+      "categoryEn": "Hidden",
+      "description": "角色死亡次數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "死亡 10 次",
+          "effect": "最大 HP +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "死亡 50 次",
+          "effect": "最大 HP +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "死亡 100 次",
+          "effect": "最大 HP +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 36,
+      "key": "oath_shatterer",
+      "nameZh": "誓約粉碎者",
+      "nameEn": "Oath Shatterer",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "Demon Boss #1；Tier 是擊破難度／階級，不是擊殺次數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "指定 Demon Boss 達到 Tier 6",
+          "effect": "防禦力 +1.65%；最大 HP +0.99%"
+        },
+        {
+          "star": 2,
+          "unlock": "指定 Demon Boss 達到 Tier 7",
+          "effect": "防禦力 +3.30%；最大 HP +1.98%"
+        },
+        {
+          "star": 3,
+          "unlock": "指定 Demon Boss 達到 Tier 8",
+          "effect": "防禦力 +5.00%；最大 HP +3.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 37,
+      "key": "bone_terminator",
+      "nameZh": "骸骨終結者",
+      "nameEn": "Bone Terminator",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "Demon Boss #2；Tier 是擊破難度／階級",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "指定 Demon Boss 達到 Tier 6",
+          "effect": "HP 吸取機率 +0.66%"
+        },
+        {
+          "star": 2,
+          "unlock": "指定 Demon Boss 達到 Tier 7",
+          "effect": "HP 吸取機率 +1.32%"
+        },
+        {
+          "star": 3,
+          "unlock": "指定 Demon Boss 達到 Tier 8",
+          "effect": "HP 吸取機率 +2.00%；Signature：死亡時復活機率 +3.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 38,
+      "key": "ember_suppressor",
+      "nameZh": "餘燼鎮壓者",
+      "nameEn": "Ember Suppressor",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "Demon Boss #3；Tier 是擊破難度／階級",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "指定 Demon Boss 達到 Tier 6",
+          "effect": "MP 吸取機率 +0.66%；最大 MP +0.99%"
+        },
+        {
+          "star": 2,
+          "unlock": "指定 Demon Boss 達到 Tier 7",
+          "effect": "MP 吸取機率 +1.32%；最大 MP +1.98%"
+        },
+        {
+          "star": 3,
+          "unlock": "指定 Demon Boss 達到 Tier 8",
+          "effect": "MP 吸取機率 +2.00%；最大 MP +3.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 39,
+      "key": "novice",
+      "nameZh": "新手",
+      "nameEn": "Novice",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "AlwaysTrue；單階段稱號",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "開始遊戲即成立",
+          "effect": "經驗值獲得 +2.00%"
+        }
+      ],
+      "maxStar": 1,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 40,
+      "key": "world_guardian",
+      "nameZh": "世界守護者",
+      "nameEn": "World Guardian",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "單階段稱號",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "Challenge 通關",
+          "effect": "攻擊力 +2.00%"
+        }
+      ],
+      "maxStar": 1,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 41,
+      "key": "peace_envoy",
+      "nameZh": "和平使者",
+      "nameEn": "Peace Envoy",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "返回村莊次數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "返回村莊 100 次",
+          "effect": "金幣獲得 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "返回村莊 500 次",
+          "effect": "金幣獲得 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "返回村莊 2,000 次",
+          "effect": "金幣獲得 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 42,
+      "key": "boss_hunter",
+      "nameZh": "Boss 獵人",
+      "nameEn": "Boss Hunter",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "任意 Boss 擊殺數",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "擊殺任意 Boss 50 隻",
+          "effect": "普通攻擊傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "擊殺任意 Boss 300 隻",
+          "effect": "普通攻擊傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "擊殺任意 Boss 1,500 隻",
+          "effect": "普通攻擊傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 43,
+      "key": "elite_adventurer",
+      "nameZh": "菁英冒險者",
+      "nameEn": "Elite Adventurer",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "單階段稱號",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "Mythic 通關",
+          "effect": "經驗值獲得 +3.00%"
+        }
+      ],
+      "maxStar": 1,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 44,
+      "key": "flame_adventurer",
+      "nameZh": "火焰冒險者",
+      "nameEn": "Flame Adventurer",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "火屬性技能 Boss 擊殺",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "使用火屬性技能擊殺 Boss 10 次",
+          "effect": "火屬性傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "使用火屬性技能擊殺 Boss 50 次",
+          "effect": "火屬性傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "使用火屬性技能擊殺 Boss 200 次",
+          "effect": "火屬性傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 45,
+      "key": "frost_adventurer",
+      "nameZh": "冰霜冒險者",
+      "nameEn": "Frost Adventurer",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "冰屬性技能 Boss 擊殺",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "使用冰屬性技能擊殺 Boss 10 次",
+          "effect": "冰屬性傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "使用冰屬性技能擊殺 Boss 50 次",
+          "effect": "冰屬性傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "使用冰屬性技能擊殺 Boss 200 次",
+          "effect": "冰屬性傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 46,
+      "key": "thunder_adventurer",
+      "nameZh": "雷霆冒險者",
+      "nameEn": "Thunder Adventurer",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "雷屬性技能 Boss 擊殺",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "使用雷屬性技能擊殺 Boss 10 次",
+          "effect": "雷屬性傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "使用雷屬性技能擊殺 Boss 50 次",
+          "effect": "雷屬性傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "使用雷屬性技能擊殺 Boss 200 次",
+          "effect": "雷屬性傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 47,
+      "key": "soul_adventurer",
+      "nameZh": "靈魂冒險者",
+      "nameEn": "Soul Adventurer",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "Normal／Soul 技能 Boss 擊殺",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "使用 Normal／Soul 技能擊殺 Boss 10 次",
+          "effect": "靈魂屬性傷害 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "使用 Normal／Soul 技能擊殺 Boss 50 次",
+          "effect": "靈魂屬性傷害 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "使用 Normal／Soul 技能擊殺 Boss 200 次",
+          "effect": "靈魂屬性傷害 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    },
+    {
+      "id": 48,
+      "key": "remains_cleaner",
+      "nameZh": "遺骸清掃者",
+      "nameEn": "Remains Cleaner",
+      "category": "demon_realm",
+      "categoryZh": "魔界",
+      "categoryEn": "Demon Realm",
+      "description": "Demon Boss 系統進度",
+      "stars": [
+        {
+          "star": 1,
+          "unlock": "Demon Boss 解鎖／擊破進度 5",
+          "effect": "攻擊力 +1.98%"
+        },
+        {
+          "star": 2,
+          "unlock": "Demon Boss 解鎖／擊破進度 10",
+          "effect": "攻擊力 +3.96%"
+        },
+        {
+          "star": 3,
+          "unlock": "Demon Boss 解鎖／擊破進度 13",
+          "effect": "攻擊力 +6.00%"
+        }
+      ],
+      "maxStar": 3,
+      "integrationStatus": "DISPLAY_ONLY",
+      "calculationEnabled": false
+    }
+  ]
 }
