@@ -1581,6 +1581,8 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   border:1px solid rgba(196,126,77,.42);background:rgba(57,31,17,.42);
   color:#e3a46f;font-size:7.5px;font-weight:900;white-space:nowrap
 }
+.v21-title-effect-preview{display:flex;gap:7px 13px;align-items:center;flex-wrap:wrap;margin:9px 10px 0;padding:9px 11px;border:1px solid rgba(83,151,171,.25);border-radius:9px;background:rgba(8,35,46,.55);font-size:9px;color:#b8d5e2}
+.v21-title-effect-preview b{color:#e9d4a0}.v21-title-effect-preview small{width:100%;font-size:8px;color:#7c9aa5}
 .v21-title-toolbar{display:flex;gap:7px;padding:10px 10px 8px;flex-wrap:wrap}
 .v21-title-search{
   flex:1 1 220px;min-width:140px;height:36px;border-radius:9px;
@@ -1603,7 +1605,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 }
 .v21-title-card{
   appearance:none;position:relative;min-width:0;
-  min-height:126px;padding:11px 12px 10px;
+  min-height:88px;padding:7px 10px 7px;
   border-radius:12px;border:1px solid rgba(76,99,119,.44);
   background:
     linear-gradient(180deg,rgba(22,24,42,.94),rgba(14,18,31,.98));
@@ -1626,16 +1628,16 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   color:#e7c94f;font-size:11px;font-weight:950;line-height:1
 }
 .v21-title-card-center{
-  min-height:58px;display:flex;align-items:center;justify-content:center;
-  padding:7px 3px 5px;text-align:center
+  min-height:35px;display:flex;align-items:center;justify-content:center;
+  padding:3px 3px 2px;text-align:center
 }
 .v21-title-card-name{
   font-size:13px;font-weight:900;line-height:1.3;color:#f2f3f5;
   white-space:normal;overflow-wrap:anywhere
 }
 .v21-title-card-bonus{
-  min-height:30px;display:flex;align-items:flex-end;justify-content:center;
-  border-top:1px solid rgba(255,255,255,.045);padding:7px 4px 0;
+  min-height:22px;display:flex;align-items:center;justify-content:center;
+  border-top:1px solid rgba(255,255,255,.045);padding:4px 4px 0;
   color:#69b8d8;font-size:8px;font-weight:900;line-height:1.38;text-align:center
 }
 .v21-title-card-bonus span{white-space:normal;overflow-wrap:anywhere}
@@ -1706,7 +1708,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   .v21-title-head{padding:9px;flex-direction:column}
   .v21-title-grid-wrap{padding:8px;max-height:430px}
   .v21-title-grid{grid-template-columns:1fr;gap:7px}
-  .v21-title-card{min-height:116px;padding:9px 10px 8px}
+  .v21-title-card{min-height:88px;padding:7px 8px 6px}
   .v21-title-card-name{font-size:12px}
   .v21-title-card-bonus{font-size:7.6px}
   .v21-title-float{width:218px;padding:8px}
@@ -8066,7 +8068,23 @@ main>.screen:nth-of-type(3) #autoPane>.card{
       return cat&&hit;
     });
   }
+  function titleEffectPreview(){
+    const t=selected(),sd=starData(t,star);
+    const raw=String(sd?.effect||'');
+    const pieces=raw.split(/[；;]/).map(x=>x.trim()).filter(Boolean);
+    return {id:t?.id||null, title:t?.nameZh||'', star, bonuses:pieces.map(piece=>{
+      const match=piece.match(/^(.+?)\s*([+＋-])\s*(\d+(?:\.\d+)?)\s*%/);
+      return match?{stat:match[1].trim(),percent:Number(match[3])*(match[2]==='-'?-1:1),raw:piece,recognized:true}:{raw:piece,recognized:false};
+    }), appliedToDamage:false};
+  }
   function syncProgress(){
+    const preview=titleEffectPreview();
+    window.TOWER_SWORDS_STAGING_TITLE_PREVIEW=preview;
+    const previewEl=document.getElementById('v21TitleEffectPreview');
+    if(previewEl){
+      const list=preview.bonuses.map(b=>b.recognized?`${esc(b.stat)} ${b.percent>=0?'+':''}${b.percent}%`:esc(b.raw)).join('｜');
+      previewEl.innerHTML=preview.id?`<b>目前選用：${esc(preview.title)} ★${preview.star}</b><span>${list||'無可辨識加成'}</span><small>稱號能力來源已獨立解析，尚未加入傷害計算；待新版數值與能力疊加規則核對後啟用。</small>`:'尚未選擇稱號';
+    }
     const el=document.getElementById('v21TitleCurrent');
     const t=selected();
     if(el)el.textContent=t?`${t.nameZh} ★${star}`:'未設定';
@@ -8158,7 +8176,7 @@ main>.screen:nth-of-type(3) #autoPane>.card{
         <div class="v21-title-float-row"><span>解鎖條件</span><b>${esc(sd?.unlock||'—')}</b></div>
         <div class="v21-title-float-row"><span>能力加成</span><b>${esc(sd?.effect||'—')}</b></div>
       </div>
-      <div class="v21-title-float-warning">STAGING：目前只保存預覽星級，不計入傷害。</div>`;
+      <div class="v21-title-float-warning">STAGING：已建立獨立稱號能力來源預覽；尚未計入傷害。</div>`;
 
     pop.querySelector('.v21-title-float-close')?.addEventListener('click',closePop);
     pop.querySelectorAll('[data-title-star]').forEach(b=>b.addEventListener('click',()=>{
@@ -8179,6 +8197,7 @@ main>.screen:nth-of-type(3) #autoPane>.card{
         <div><strong>稱號系統｜48 個</strong><span>圖卡只保留遊戲正式顯示的分類、星級、稱號名稱與能力加成；完整說明請點擊稱號查看。</span></div>
         <div class="v21-title-mode">STAGING · 不計入傷害</div>
       </div>
+      <div id="v21TitleEffectPreview" class="v21-title-effect-preview"></div>
       <div class="v21-title-toolbar">
         <input class="v21-title-search" id="v21TitleSearch" value="${esc(query)}" placeholder="搜尋中文／英文稱號">
         <div class="v21-title-tabs">${cats.map(([id,label])=>`<button type="button" class="v21-title-tab ${category===id?'is-active':''}" data-title-cat="${id}">${label}</button>`).join('')}</div>
