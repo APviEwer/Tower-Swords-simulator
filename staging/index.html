@@ -6478,6 +6478,12 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 })();
 </script>
 
+<style id="artifact-level-matrix-style">
+.artifact-level-matrix{grid-column:1/-1;margin:0 14px 14px;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:rgba(3,9,14,.48);overflow:hidden}
+.artifact-level-matrix-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;border-bottom:1px solid rgba(255,255,255,.06);font-size:10px;color:#cbd6dc}.artifact-level-matrix-head b{color:#efd18b}
+.artifact-level-matrix-scroll{max-height:240px;overflow:auto}.artifact-level-table{width:100%;border-collapse:collapse;font-size:9px}.artifact-level-table th,.artifact-level-table td{padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.045);text-align:left;vertical-align:top}.artifact-level-table th{position:sticky;top:0;background:#101923;color:#9fb2bd;z-index:1}.artifact-level-table tr.is-current td{background:rgba(66,157,187,.12);color:#eef7fa}.artifact-level-table td:first-child,.artifact-level-table th:first-child{width:58px;text-align:center;color:#e2c987;font-weight:850}.artifact-level-empty{padding:14px 12px;color:#c39a68;font-size:9px;line-height:1.55}.artifact-icon-status{font-size:8px;color:#748994;margin-top:3px}
+@media(max-width:620px){.artifact-level-matrix{margin:0 10px 10px}.artifact-level-matrix-scroll{max-height:210px}.artifact-level-table th,.artifact-level-table td{padding:6px 7px;font-size:8px}}
+</style>
 <script id="artifact-gallery-preview-script">
 (function(){
   'use strict';
@@ -6492,10 +6498,11 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   const levelInfo=(id,lv)=>sys.artifactLevels?.[String(id)]?.[String(lv)]||null;
   const shell=document.createElement('div');
   shell.className='artifact-game-shell';
-  shell.innerHTML='<div class="artifact-game-head"><div><div class="artifact-game-title">人工製品圖鑑</div><div class="artifact-game-meta">點選圖示直接調整 Lv／滿級／主要人工製品</div></div><div class="artifact-game-count" id="artifactGameCount">0 / 103</div></div><div class="artifact-preview-note"><b>V2.1 Staging：</b> Production 91 件原資料完整保留；2.60060 新增 12 件已補入圖鑑。新增項目目前不計入傷害，精確 Lv 能力將逐項實抓。</div><div class="artifact-game-grid-wrap"><div class="artifact-game-grid" id="artifactGameGrid"></div></div><div class="artifact-game-detail" id="artifactGameDetail"></div>';
+  shell.innerHTML='<div class="artifact-game-head"><div><div class="artifact-game-title">人工製品圖鑑</div><div class="artifact-game-meta">點選圖示直接調整 Lv／滿級／主要人工製品</div></div><div class="artifact-game-count" id="artifactGameCount">0 / 103</div></div><div class="artifact-preview-note"><b>V2.1 Staging：</b> Production 91 件原資料完整保留；2.60060 新增 12 件已補入圖鑑。舊 91 件逐級能力已完整展開；2.60060 新增 12 件維持未驗證、不參與計算，避免以推算值污染正式資料。</div><div class="artifact-game-grid-wrap"><div class="artifact-game-grid" id="artifactGameGrid"></div></div><div class="artifact-game-detail" id="artifactGameDetail"></div><div class="artifact-level-matrix" id="artifactLevelMatrix"></div>';
   list.parentNode.insertBefore(shell,list);
   const grid=shell.querySelector('#artifactGameGrid');
   const detail=shell.querySelector('#artifactGameDetail');
+  const matrix=shell.querySelector('#artifactLevelMatrix');
   const count=shell.querySelector('#artifactGameCount');
   function getLv(id){const inp=list.querySelector(`[data-artifact-lv="${id}"]`);return Number(inp?.value||0)}
   function isPrimary(id){return !!list.querySelector(`[data-artifact-primary="${id}"]`)?.checked}
@@ -6520,13 +6527,27 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     const a=sys.artifacts.find(x=>Number(x.id)===Number(selected))||sys.artifacts[0]; if(!a)return;
     selected=Number(a.id);const lv=getLv(a.id),p=isPrimary(a.id),path=iconPath(a.id),info=levelInfo(a.id,lv);const effect=lv>0?(info?.effect||a.maxEffect||'已啟用'):'Lv0｜未取得／未啟用';
     const pending=a.levelDataVerified===false,selectable=Number(a.maxLevel||0)>0;
-    detail.innerHTML=`<div class="artifact-detail-icon">${path?`<img src="${esc(path)}" alt="">`:''}</div><div><div class="artifact-detail-name">${esc(a.name)}${a.productionV20===false?' <span style="color:#e4a75c;font-size:8px">NEW</span>':''}</div><div class="artifact-detail-effect">${esc(effect)}</div><div class="artifact-detail-status">${selectable?`最高 Lv ${a.maxLevel}`:'等級上限待實抓'}${p?'｜目前主要人工製品':''}</div>${pending?`<div class="artifact-detail-pending">${esc(a.status||'2.60060 新資料待核對')}｜目前不計入傷害</div>`:''}</div><div class="artifact-detail-controls ${selectable?'':'is-disabled'}"><button type="button" class="artifact-level-btn" data-art-minus>−</button><div class="artifact-level-read">Lv ${lv}</div><button type="button" class="artifact-level-btn" data-art-plus>＋</button><button type="button" class="artifact-level-btn" data-art-max>MAX</button><button type="button" class="artifact-primary-btn ${p?'is-on':''}" data-art-primary>${p?'主要中':'設主要'}</button></div>`;
+    detail.innerHTML=`<div class="artifact-detail-icon">${path?`<img src="${esc(path)}" alt="">`:''}</div><div><div class="artifact-detail-name">${esc(a.name)}${a.productionV20===false?' <span style="color:#e4a75c;font-size:8px">NEW</span>':''}</div><div class="artifact-detail-effect">${esc(effect)}</div><div class="artifact-detail-status">${selectable?`最高 Lv ${a.maxLevel}`:'等級上限待實抓'}${p?'｜目前主要人工製品':''}</div><div class="artifact-icon-status">${path?'官方 APK 圖示：已對應':'官方 APK 圖示：待 2.60060 資產實抓'}</div>${pending?`<div class="artifact-detail-pending">${esc(a.status||'2.60060 新資料待核對')}｜目前不計入傷害</div>`:''}</div><div class="artifact-detail-controls ${selectable?'':'is-disabled'}"><button type="button" class="artifact-level-btn" data-art-minus>−</button><div class="artifact-level-read">Lv ${lv}</div><button type="button" class="artifact-level-btn" data-art-plus>＋</button><button type="button" class="artifact-level-btn" data-art-max>MAX</button><button type="button" class="artifact-primary-btn ${p?'is-on':''}" data-art-primary>${p?'主要中':'設主要'}</button></div>`;
     detail.querySelector('[data-art-minus]')?.addEventListener('click',()=>setLv(a.id,lv-1));
     detail.querySelector('[data-art-plus]')?.addEventListener('click',()=>setLv(a.id,lv+1));
     detail.querySelector('[data-art-max]')?.addEventListener('click',()=>setLv(a.id,a.maxLevel));
     detail.querySelector('[data-art-primary]')?.addEventListener('click',()=>{if(a.calculationEnabled===false)return;setPrimary(a.id,!p)});
   }
-  function render(){renderGrid();renderDetail()}
+  function renderMatrix(){
+    if(!matrix)return;
+    const a=sys.artifacts.find(x=>Number(x.id)===Number(selected))||sys.artifacts[0]; if(!a)return;
+    const levels=sys.artifactLevels?.[String(a.id)]||{};
+    const keys=Object.keys(levels).map(Number).filter(n=>Number.isFinite(n)&&n>0).sort((x,y)=>x-y);
+    const current=getLv(a.id);
+    if(!keys.length){
+      matrix.innerHTML=`<div class="artifact-level-matrix-head"><b>逐級能力</b><span>ID ${a.id}${a.internalKey?` · ${esc(a.internalKey)}`:''}</span></div><div class="artifact-level-empty">目前 2.60060 資料僅確認名稱／內部 ID；逐級能力尚未從 APK 實際數值表核對完成，因此不使用推算值填補。</div>`;
+      return;
+    }
+    const rows=keys.map(k=>{const x=levels[String(k)]||{};const txt=x.effect||x.display||'—';return `<tr class="${k===current?'is-current':''}"><td>Lv ${k}</td><td>${esc(txt)}</td></tr>`}).join('');
+    const verified=a.levelDataVerified!==false;
+    matrix.innerHTML=`<div class="artifact-level-matrix-head"><b>逐級能力</b><span>${verified?'已核對':'Staging／待實抓核對'} · ${keys.length} 級資料</span></div><div class="artifact-level-matrix-scroll"><table class="artifact-level-table"><thead><tr><th>等級</th><th>能力效果</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }
+  function render(){renderGrid();renderDetail();renderMatrix()}
   if(search){search.placeholder='搜尋人工製品名稱';search.addEventListener('input',()=>setTimeout(render,0));}
   // Re-sync after any legacy control changes without observing the whole DOM.
   list.addEventListener('input',()=>setTimeout(render,0));list.addEventListener('change',()=>setTimeout(render,0));
