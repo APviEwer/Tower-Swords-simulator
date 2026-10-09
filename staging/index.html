@@ -1767,6 +1767,8 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 
 </head>
 <body>
+<!-- STAGING CAPS PATCH: character Lv600 / weapon Lv750 / Magic Enhance Lv10 -->
+
 <script>
 /* APviEwer Release bootstrap: reset test-state once, then preserve normal user saves. */
 (function(){
@@ -1853,9 +1855,9 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   <div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div>
   <div class="grid two">
     <div class="card"><h3>角色／主武</h3>
-      <div class="field"><label>角色等級</label><input id="level" type="number" min="1" max="500"></div>
+      <div class="field"><label>角色等級</label><input id="level" type="number" min="1" max="600"></div>
       <div class="field"><label>主武固定 ATK（照遊戲顯示輸入）</label><input id="displayAtk"></div>
-      <div class="field"><label>主武裝備 Lv</label><input id="weaponLv" type="number"></div>
+      <div class="field"><label>主武裝備 Lv</label><input id="weaponLv" type="number" min="1" max="750"></div>
       <div class="field skill-field"><label>武器技能</label><select id="skill"></select><div class="skill-preview" id="skillPreview" aria-live="polite"></div></div>
     </div>
     <div class="card mode-only-card"><h3>模式</h3>
@@ -3081,7 +3083,8 @@ $$('.mode').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 
 function resolverRefresh(){
   state.weapon.displayAtk=$('#displayAtk').value;
-  state.weapon.equipmentLevel=Number($('#weaponLv').value||0);
+  state.weapon.equipmentLevel=Math.max(1,Math.min(750,Math.trunc(Number($('#weaponLv').value||1))));
+  $('#weaponLv').value=state.weapon.equipmentLevel;
   const r=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
   $('#resolverMode').textContent={
     nativeExact:'Native 精確匹配',
@@ -4454,9 +4457,9 @@ function refreshSystemSummary(message=''){
   /* Page 2 paint ends here. Auto/Report are lazily rendered when their page opens. */
 }
 function magicEnhanceMaxByPlayerLevel(level){
-  const lv=Math.max(1,Math.min(500,Number(level||1)));
+  const lv=Math.max(1,Math.min(600,Number(level||1)));
   if(lv<300)return 3;
-  return Math.min(8,3+Math.floor((lv-250)/50));
+  return Math.min(10,3+Math.floor((lv-250)/50));
 }
 function treeAllowedMax(node){
   if(Number(node.id)===28)return Math.min(Number(node.maxLevel||0),magicEnhanceMaxByPlayerLevel(state.player.level));
@@ -4650,7 +4653,10 @@ function manualDamageResult(){
   const crit=Math.floor(nonCrit*(critDamage/100));
   return {valid:true,nonCrit,crit,skillLv:finalSkillLv,skillAtk,effectiveAtk,element,spell,critDamage,resolverMode:resolved.mode};
 }
-function weaponBaseSkillLv(){return Math.min(139,Math.max(1,Math.floor(Number(state.weapon.equipmentLevel||0)/10)+1));}
+function weaponBaseSkillLv(){
+  const equipLv=Math.max(1,Math.min(750,Math.trunc(Number(state.weapon.equipmentLevel||1))));
+  return Math.min(76,Math.max(1,Math.floor(equipLv/10)+1));
+}
 function autoEquipmentTotals(){
   if(state.mode!=='auto'){
     return {available:false,atk:0n,spell:0,crit:0,cooldown:0,mpReduce:0,skillLv:0,element:0,items:[],result:null};
@@ -4732,20 +4738,22 @@ function refreshReport(){
   const now=new Date();$('#reportMeta').innerHTML=[reportCondition('模擬器版本','V2.0'),reportCondition('資料來源','V3.X Reference / APK 2.55400'),reportCondition('目前模式',state.mode==='auto'?'自動最佳化':'手動實裝'),reportCondition('匯出時間',now.toLocaleString('zh-TW')),reportCondition('Copyright','© APviEwer. All Rights Reserved.')].join('');
 }
 function refreshOverview(){refreshReport();}
+state.player.level=Math.max(1,Math.min(600,Math.trunc(Number(state.player.level||1))));
+state.weapon.equipmentLevel=Math.max(1,Math.min(750,Math.trunc(Number(state.weapon.equipmentLevel||1))));
 $('#level').value=state.player.level; $('#displayAtk').value=state.weapon.displayAtk; $('#weaponLv').value=state.weapon.equipmentLevel;
 $('#critTarget').value=state.auto.minCrit; $('#cdTarget').value=state.auto.minCooldown;
 $('#level').oninput=e=>{
   const raw=e.target.value;
   if(raw!==''){
     const n=Number(raw);
-    if(Number.isFinite(n)) state.player.level=Math.max(1,Math.min(500,Math.trunc(n)));
+    if(Number.isFinite(n)) state.player.level=Math.max(1,Math.min(600,Math.trunc(n)));
   }
   saveState(state);
   /* Test23: Page-1 typing updates state only; hidden Page-3 damage is not recalculated here. */
 };
 const __v10CommitLevel=()=>{
   const el=$('#level');
-  const n=Math.max(1,Math.min(500,Math.trunc(Number(el.value||1))));
+  const n=Math.max(1,Math.min(600,Math.trunc(Number(el.value||1))));
   state.player.level=n;el.value=n;saveState(state);
   renderTree($('#treeSearch')?.value||'');
   refreshSystemSummary();
