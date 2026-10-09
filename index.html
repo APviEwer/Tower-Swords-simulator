@@ -1645,7 +1645,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   <div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div>
   <div class="grid two">
     <div class="card"><h3>角色／主武</h3>
-      <div class="field"><label>角色等級</label><input id="level" type="number" min="1" max="500"></div>
+      <div class="field"><label>角色等級</label><input id="level" type="number" min="1" max="600"></div>
       <div class="field"><label>主武固定 ATK（照遊戲顯示輸入）</label><input id="displayAtk"></div>
       <div class="field"><label>主武裝備 Lv</label><input id="weaponLv" type="number"></div>
       <div class="field skill-field"><label>武器技能</label><select id="skill"></select><div class="skill-preview" id="skillPreview" aria-live="polite"></div></div>
@@ -4488,14 +4488,14 @@ $('#level').oninput=e=>{
   const raw=e.target.value;
   if(raw!==''){
     const n=Number(raw);
-    if(Number.isFinite(n)) state.player.level=Math.max(1,Math.min(500,Math.trunc(n)));
+    if(Number.isFinite(n)) state.player.level=Math.max(1,Math.min(600,Math.trunc(n)));
   }
   saveState(state);
   /* Test23: Page-1 typing updates state only; hidden Page-3 damage is not recalculated here. */
 };
 const __v10CommitLevel=()=>{
   const el=$('#level');
-  const n=Math.max(1,Math.min(500,Math.trunc(Number(el.value||1))));
+  const n=Math.max(1,Math.min(600,Math.trunc(Number(el.value||1))));
   state.player.level=n;el.value=n;saveState(state);
   renderTree($('#treeSearch')?.value||'');
   refreshSystemSummary();
