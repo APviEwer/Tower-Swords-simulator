@@ -1767,7 +1767,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 
 </head>
 <body>
-<!-- STAGING CAPS PATCH: character Lv600 / weapon Lv750 / Magic Enhance Lv10 -->
+<!-- STAGING CAPS PATCH: character Lv600 / Magic Enhance Lv10; weapon skill logic restored -->
 
 <script>
 /* APviEwer Release bootstrap: reset test-state once, then preserve normal user saves. */
@@ -1857,7 +1857,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     <div class="card"><h3>角色／主武</h3>
       <div class="field"><label>角色等級</label><input id="level" type="number" min="1" max="600"></div>
       <div class="field"><label>主武固定 ATK（照遊戲顯示輸入）</label><input id="displayAtk"></div>
-      <div class="field"><label>主武裝備 Lv</label><input id="weaponLv" type="number" min="1" max="750"></div>
+      <div class="field"><label>主武裝備 Lv</label><input id="weaponLv" type="number"></div>
       <div class="field skill-field"><label>武器技能</label><select id="skill"></select><div class="skill-preview" id="skillPreview" aria-live="polite"></div></div>
     </div>
     <div class="card mode-only-card"><h3>模式</h3>
@@ -3083,8 +3083,7 @@ $$('.mode').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 
 function resolverRefresh(){
   state.weapon.displayAtk=$('#displayAtk').value;
-  state.weapon.equipmentLevel=Math.max(1,Math.min(750,Math.trunc(Number($('#weaponLv').value||1))));
-  $('#weaponLv').value=state.weapon.equipmentLevel;
+  state.weapon.equipmentLevel=Number($('#weaponLv').value||0);
   const r=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
   $('#resolverMode').textContent={
     nativeExact:'Native 精確匹配',
@@ -4653,10 +4652,7 @@ function manualDamageResult(){
   const crit=Math.floor(nonCrit*(critDamage/100));
   return {valid:true,nonCrit,crit,skillLv:finalSkillLv,skillAtk,effectiveAtk,element,spell,critDamage,resolverMode:resolved.mode};
 }
-function weaponBaseSkillLv(){
-  const equipLv=Math.max(1,Math.min(750,Math.trunc(Number(state.weapon.equipmentLevel||1))));
-  return Math.min(76,Math.max(1,Math.floor(equipLv/10)+1));
-}
+function weaponBaseSkillLv(){return Math.min(139,Math.max(1,Math.floor(Number(state.weapon.equipmentLevel||0)/10)+1));}
 function autoEquipmentTotals(){
   if(state.mode!=='auto'){
     return {available:false,atk:0n,spell:0,crit:0,cooldown:0,mpReduce:0,skillLv:0,element:0,items:[],result:null};
@@ -4739,7 +4735,6 @@ function refreshReport(){
 }
 function refreshOverview(){refreshReport();}
 state.player.level=Math.max(1,Math.min(600,Math.trunc(Number(state.player.level||1))));
-state.weapon.equipmentLevel=Math.max(1,Math.min(750,Math.trunc(Number(state.weapon.equipmentLevel||1))));
 $('#level').value=state.player.level; $('#displayAtk').value=state.weapon.displayAtk; $('#weaponLv').value=state.weapon.equipmentLevel;
 $('#critTarget').value=state.auto.minCrit; $('#cdTarget').value=state.auto.minCooldown;
 $('#level').oninput=e=>{
