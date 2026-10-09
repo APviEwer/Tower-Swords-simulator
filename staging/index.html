@@ -1874,7 +1874,14 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <section class="screen">
   <div class="hero"><h2>02｜系統效果 <span class="v21-staging-badge">V2.1 STAGING</span></h2><p>依角色實際進度逐項設定。新手預設全部未取得／Lv0／未裝備；不再強制使用 MAX。資料由獨立後台檔載入，之後可直接擴充。</p></div>
 
-  <div class="card"><h3>目前系統效果｜依遊戲初始值累加</h3>
+  <div class="card v22-unified-stats" id="v22UnifiedStats">
+    <div class="v22-stat-head"><h3>系統統計總覽</h3><span>各來源獨立統計 · 稱號不計入傷害</span></div>
+    <div class="v22-stat-tabs" role="tablist" aria-label="統計分類">
+      <button type="button" class="is-active" data-v22-stat="system" role="tab" aria-selected="true">系統能力</button>
+      <button type="button" data-v22-stat="titles" role="tab" aria-selected="false">稱號能力</button>
+      <button type="button" data-v22-stat="progress" role="tab" aria-selected="false">自訂進度</button>
+    </div>
+    <div class="v22-stat-panel" data-v22-panel="system" role="tabpanel"><h3>目前系統效果｜依遊戲初始值累加</h3>
     <div class="note">此區以遊戲初始屬性為起點，再累加「人工製品／魔法樹／時裝／寵物」效果。暴擊傷害初始 150%；其餘本頁追蹤項目未取得效果時為 0。</div>
     <div class="statgrid" style="margin-top:12px">
       <div class="stat"><div class="k">ATK %</div><div class="v" id="sysAtkPct">0%</div></div>
@@ -1894,16 +1901,14 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     </div>
     <div class="small" id="sysFlatAtk" style="margin-top:10px">ATK 固定值增量：+0</div>
     <div class="small" id="sysSpecialEffects" style="margin-top:5px">特殊／條件效果：無</div>
-  </div>
-
-  <div class="card v21-title-stats-panel" id="v21TitleStatsPanel">
+    </div>
+    <div class="v22-stat-panel" data-v22-panel="titles" role="tabpanel" hidden>
     <div class="v21-title-stats-heading"><div><h3>稱號能力統計｜獨立計算</h3><div class="small">僅統計已解鎖稱號的最高星級能力，不納入上方系統效果、角色屬性或傷害計算。</div></div><span class="v21-title-stat-pill">STAGING｜獨立驗證</span></div>
     <div class="v21-title-stat-meta"><span id="v21TitleStatCount">已解鎖 0 / 48</span><span id="v21TitleStatTypeCount">生效能力 0 種</span><span>各稱號星級不重複累加</span></div>
     <div class="v21-title-stat-grid" id="v21TitleStatGrid"><div class="small">尚無已解鎖稱號。</div></div>
     <details class="v21-title-stat-detail"><summary>查看各屬性加成來源</summary><div id="v21TitleStatSources" class="v21-title-stat-sources"></div></details>
-  </div>
-
-  <div class="card"><h3>目前自訂進度</h3>
+    </div>
+    <div class="v22-stat-panel" data-v22-panel="progress" role="tabpanel" hidden><h3>目前自訂進度</h3>
     <div class="statgrid">
       <div class="stat"><div class="k">人工製品</div><div class="v" id="sysArtifactCount">0 / 91</div></div>
       <div class="stat"><div class="k">魔法樹</div><div class="v" id="sysTreeCount">0 / 29</div></div>
@@ -1913,6 +1918,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     </div>
     <div class="small" id="sysTreePoints" style="margin-top:10px">魔法樹已投入：0 點</div>
     <div class="warn small" id="sysWarning" style="margin-top:5px"></div>
+    </div>
   </div>
 
   <div class="card"><h3>系統來源｜逐項自訂</h3>
@@ -5300,7 +5306,7 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
     if(sourceCard){
       const bar=document.createElement('div');bar.className='beta-system-jump no-print';
       const items=[
-        ['人工製品','#artifactList'],['魔法樹','#treeList'],['時裝','#fashionList'],['寵物','#petList']
+        ['人工製品','#artifactList'],['魔法樹','#treeList'],['稱號','#v21TitleRoot'],['時裝','#fashionList'],['寵物','#petList']
       ];
       items.forEach(([label,sel],idx)=>{
         const btn=document.createElement('button');btn.type='button';btn.textContent=label;if(!idx)btn.classList.add('active');
@@ -8497,6 +8503,42 @@ main>.screen:nth-of-type(3) #autoPane>.card{
 })();
 </script>
 
+
+<style id="v22-title-layout">
+.v22-unified-stats{padding:14px!important}
+.v22-stat-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.v22-stat-head h3{margin:0!important}.v22-stat-head span{font-size:10px;color:#91aab3}
+.v22-stat-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:4px;margin-bottom:12px;background:rgba(4,15,24,.65);border:1px solid rgba(88,119,134,.3);border-radius:11px}
+.v22-stat-tabs button{cursor:pointer;min-width:0;min-height:37px;border-radius:8px;border:1px solid transparent;background:transparent;color:#9ab2bd;font-size:11px;font-weight:850}
+.v22-stat-tabs button.is-active{border-color:rgba(182,160,100,.55);color:#e7d39d;background:rgba(81,64,32,.32)}
+.v22-stat-panel[hidden]{display:none!important}
+.v22-stat-panel>.note{font-size:11px;line-height:1.55;padding:7px 9px}
+.v22-unified-stats .statgrid{gap:7px!important;margin-top:8px!important}
+.v22-unified-stats .stat{min-height:57px!important;padding:8px 10px!important}
+.v22-unified-stats .v21-title-stats-heading h3{font-size:13px}
+.v22-unified-stats .v21-title-stat-item{min-height:59px;padding:9px 10px}
+.v22-unified-stats .v21-title-stat-grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:7px}
+@media(min-width:1181px){.v21-title-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
+@media(min-width:801px) and (max-width:1180px){.v21-title-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media(min-width:551px) and (max-width:800px){.v21-title-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(min-width:390px) and (max-width:550px){.v21-title-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:389px){.v21-title-grid{grid-template-columns:1fr!important}}
+</style>
+<script id="v22-title-layout-js">
+(()=>{
+ const init=()=>{const box=document.getElementById('v22UnifiedStats');if(!box)return;
+  const buttons=[...box.querySelectorAll('[data-v22-stat]')];
+  const panels=[...box.querySelectorAll('[data-v22-panel]')];
+  buttons.forEach(btn=>btn.addEventListener('click',()=>{
+    const key=btn.dataset.v22Stat;
+    buttons.forEach(b=>{const active=b===btn;b.classList.toggle('is-active',active);b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;});
+    panels.forEach(p=>p.hidden=p.dataset.v22Panel!==key);
+  }));
+  buttons.forEach((b,i)=>b.tabIndex=i===0?0:-1);
+ };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
 </body></html>
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
