@@ -1921,14 +1921,21 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     </div>
   </div>
 
-  <div class="card"><h3>系統來源｜逐項自訂</h3>
-    <div class="note">所有設定都會保存於瀏覽器草稿。人工製品輸入 Lv 後不會再跳回清單頂端。魔法樹使用等級下拉；「魔法強化」會依主控台角色 Lv 自動限制可用上限。時裝擁有即生效；寵物最多裝備 4 隻。</div>
+  <div class="card v23-system-hub" id="v23SystemHub"><div class="v23-system-header"><h3>系統來源｜逐項自訂</h3><span>五類獨立切換</span></div>
+    <div class="v23-system-tip">設定會自動保存在瀏覽器 · 切換分類不影響數值</div>
+    <div class="v23-system-tabs" role="tablist" aria-label="五大系統分類">
+      <button type="button" data-v23-system="artifact" class="is-active" role="tab" aria-selected="true">人工製品</button>
+      <button type="button" data-v23-system="tree" role="tab" aria-selected="false">魔法樹</button>
+      <button type="button" data-v23-system="title" role="tab" aria-selected="false">稱號</button>
+      <button type="button" data-v23-system="fashion" role="tab" aria-selected="false">時裝</button>
+      <button type="button" data-v23-system="pet" role="tab" aria-selected="false">寵物</button>
+    </div>
 
-    <details open><summary>人工製品｜91 件</summary>
+    <details open data-v23-panel="artifact"><summary>人工製品｜91 件</summary>
       <div class="sys-toolbar"><input id="artifactSearch" placeholder="搜尋人工製品名稱"></div>
       <div class="sys-list" id="artifactList"></div>
     </details>
-    <details><summary>魔法樹｜29 節點</summary>
+    <details data-v23-panel="tree"><summary>魔法樹｜29 節點</summary>
       <div class="tree-point-grid">
         <div class="tree-point"><div class="k">可用點數</div><div class="v" id="treeAvailablePoints">0</div></div>
         <div class="tree-point"><div class="k">已使用點數</div><div class="v" id="treeUsedPoints">0</div></div>
@@ -1938,15 +1945,15 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
       <div class="sys-toolbar"><input id="treeSearch" placeholder="搜尋魔法樹節點"></div>
       <div class="sys-list" id="treeList"></div>
     </details>
-    <details id="v21TitleDetails"><summary>稱號｜48 個｜資料驗證模式</summary>
+    <details id="v21TitleDetails" data-v23-panel="title"><summary>稱號｜48 個｜資料驗證模式</summary>
       <div id="v21TitleRoot" class="v21-title-shell">
         <div class="v21-title-loading">正在讀取稱號資料…</div>
       </div>
     </details>
-    <details><summary>時裝｜擁有即生效</summary>
+    <details data-v23-panel="fashion"><summary>時裝｜擁有即生效</summary>
       <div class="sys-list" id="fashionList"></div>
     </details>
-    <details><summary>寵物｜最多裝備 4 隻</summary>
+    <details data-v23-panel="pet"><summary>寵物｜最多裝備 4 隻</summary>
       <div class="sys-list" id="petList"></div>
     </details>
   </div>
@@ -8936,5 +8943,37 @@ main>.screen:nth-of-type(3) #autoPane>.card{
          dynamically, so no duplicate listeners are introduced. */
     }
   }catch(e){console.error('Test28 Page03 entry optimization failed',e);}
+})();
+</script>
+
+<style id="v23-system-tabs-css">
+.v23-system-header{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.v23-system-header h3{margin:0!important}.v23-system-header span{font-size:10px;color:#8fa6b0}
+.v23-system-tip{font-size:10px;color:#91a9b3;margin:6px 0 10px;line-height:1.4}
+.v23-system-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:4px;background:rgba(4,15,24,.65);border:1px solid rgba(88,119,134,.3);border-radius:11px;margin-bottom:12px}
+.v23-system-tabs button{min-width:0;min-height:39px;padding:6px 3px;border-radius:8px;border:1px solid transparent;background:transparent;color:#9ab2bd;font-size:11px;font-weight:850;cursor:pointer;white-space:nowrap}
+.v23-system-tabs button.is-active{border-color:rgba(182,160,100,.55);color:#e7d39d;background:rgba(81,64,32,.32)}
+.v23-system-hub>details[data-v23-panel]{display:none!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
+.v23-system-hub>details[data-v23-panel].is-active{display:block!important}
+.v23-system-hub>details[data-v23-panel]>summary{display:none!important}
+@media(max-width:520px){.v23-system-tabs{gap:3px;padding:3px}.v23-system-tabs button{font-size:10px;padding:5px 1px;min-height:36px;letter-spacing:-.3px}}
+@media(max-width:350px){.v23-system-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+<script id="v23-system-tabs-js">
+(()=>{
+ const init=()=>{
+  const hub=document.getElementById('v23SystemHub');if(!hub)return;
+  const buttons=[...hub.querySelectorAll('[data-v23-system]')];
+  const panels=[...hub.querySelectorAll('details[data-v23-panel]')];
+  const select=(key)=>{
+   buttons.forEach(b=>{const on=b.dataset.v23System===key;b.classList.toggle('is-active',on);b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;});
+   panels.forEach(p=>{const on=p.dataset.v23Panel===key;p.classList.toggle('is-active',on);if(on&&!p.open)p.open=true;else if(!on&&p.open)p.open=false;});
+  };
+  buttons.forEach(b=>b.addEventListener('click',()=>select(b.dataset.v23System)));
+  // If legacy code opens a system details element, select the matching tab.
+  panels.forEach(p=>p.addEventListener('toggle',()=>{if(p.open&&!p.classList.contains('is-active'))select(p.dataset.v23Panel)}));
+  select('artifact');
+ };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
