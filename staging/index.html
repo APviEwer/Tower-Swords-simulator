@@ -1876,6 +1876,12 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 
   <div class="card v22-unified-stats" id="v22UnifiedStats">
     <div class="v22-stat-head"><h3>系統統計總覽</h3><span>各來源獨立統計 · 稱號不計入傷害</span></div>
+    <div class="v24-overview" aria-label="能力與完成進度摘要">
+      <button type="button" class="v24-brief" data-v24-open="system"><span class="v24-label">系統能力 <small>人工製品 · 魔法樹 · 時裝 · 寵物</small></span><span class="v24-metrics"><span>ATK <b id="v24Atk">0%</b></span><span>暴擊 <b id="v24Crit">0%</b></span><span>冷卻 <b id="v24Cd">0%</b></span></span></button>
+      <button type="button" class="v24-brief" data-v24-open="titles"><span class="v24-label">稱號能力 <small>獨立統計 · 不參與傷害計算</small></span><span class="v24-metrics"><span>解鎖 <b id="v24Titles">0 / 48</b></span><span>能力 <b id="v24TitleKinds">0 種</b></span></span></button>
+      <button type="button" class="v24-brief" data-v24-open="progress"><span class="v24-label">自訂進度 <small>各系統完成情況</small></span><span class="v24-metrics"><span>人工製品 <b id="v24Artifacts">0 / 91</b></span><span>魔法樹 <b id="v24Trees">0 / 29</b></span></span></button>
+    </div>
+    <details class="v24-expand" id="v24StatDetails"><summary>展開詳細統計 <span>檢視完整能力、稱號與進度</span></summary>
     <div class="v22-stat-tabs" role="tablist" aria-label="統計分類">
       <button type="button" class="is-active" data-v22-stat="system" role="tab" aria-selected="true">系統能力</button>
       <button type="button" data-v22-stat="titles" role="tab" aria-selected="false">稱號能力</button>
@@ -1919,6 +1925,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     <div class="small" id="sysTreePoints" style="margin-top:10px">魔法樹已投入：0 點</div>
     <div class="warn small" id="sysWarning" style="margin-top:5px"></div>
     </div>
+    </details>
   </div>
 
   <div class="card v23-system-hub" id="v23SystemHub"><div class="v23-system-header"><h3>系統來源｜逐項自訂</h3><span>五類獨立切換</span></div>
@@ -8545,6 +8552,32 @@ main>.screen:nth-of-type(3) #autoPane>.card{
  };
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
+</script>
+<style id="v24-summary-css">
+.v24-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}
+.v24-brief{min-width:0;text-align:left;background:linear-gradient(150deg,rgba(15,36,47,.92),rgba(9,22,34,.92));border:1px solid rgba(109,153,165,.27);border-radius:11px;padding:13px 12px;cursor:pointer;color:inherit;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+.v24-brief:hover,.v24-brief:focus-visible{border-color:rgba(202,177,112,.72);outline:none}
+.v24-label{font-size:13px;font-weight:800;color:#d9e9e8}.v24-label small{display:block;font-size:10px;font-weight:400;color:#8eaab5;margin-top:5px;line-height:1.4}
+.v24-metrics{display:flex;gap:8px 14px;flex-wrap:wrap;font-size:10px;color:#91aeb7}
+.v24-metrics span{white-space:nowrap}.v24-metrics b{display:block;color:#d9e4ca;font-size:17px;margin-top:4px;font-variant-numeric:tabular-nums}
+.v24-expand{margin-top:12px;border-top:1px solid rgba(112,146,160,.25);padding-top:9px}
+.v24-expand>summary{cursor:pointer;color:#bed3d5;font-size:12px;font-weight:700;list-style:none;padding:9px 4px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.v24-expand>summary::-webkit-details-marker{display:none}.v24-expand>summary::before{content:'▸';color:#d9c28a;margin-right:4px}.v24-expand[open]>summary::before{content:'▾'}
+.v24-expand>summary span{font-size:10px;font-weight:400;color:#8ca9b3}
+.v24-expand>.v22-stat-tabs{margin-top:8px}
+@media(max-width:850px){.v24-overview{grid-template-columns:1fr 1fr}.v24-brief:first-child{grid-column:1 / -1}}
+@media(max-width:520px){.v24-overview{grid-template-columns:1fr;gap:7px}.v24-brief:first-child{grid-column:auto}.v24-brief{gap:8px;padding:10px 12px}.v24-metrics b{display:inline;font-size:14px;margin-left:4px}.v24-expand>summary span{display:none}}
+</style>
+<script id="v24-summary-js">
+(()=>{const init=()=>{
+ const root=document.getElementById('v22UnifiedStats');if(!root)return;
+ const pairs=[['sysAtkPct','v24Atk'],['sysCritPct','v24Crit'],['sysCooldownPct','v24Cd'],['sysArtifactCount','v24Artifacts'],['sysTreeCount','v24Trees']];
+ const transfer=(a,b,fn)=>{const from=document.getElementById(a),to=document.getElementById(b);if(!from||!to)return;const update=()=>{to.textContent=fn?fn(from.textContent):from.textContent.trim()};update();new MutationObserver(update).observe(from,{childList:true,characterData:true,subtree:true})};
+ pairs.forEach(([a,b])=>transfer(a,b));
+ transfer('v21TitleStatCount','v24Titles',v=>v.replace(/^.*?已解鎖\s*/, '').trim());
+ transfer('v21TitleStatTypeCount','v24TitleKinds',v=>v.replace(/^.*?生效能力\s*/, '').trim());
+ root.querySelectorAll('[data-v24-open]').forEach(btn=>btn.addEventListener('click',()=>{document.getElementById('v24StatDetails').open=true;root.querySelector('[data-v22-stat="'+btn.dataset.v24Open+'"]').click()}));
+};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init()})();
 </script>
 </body></html>
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
