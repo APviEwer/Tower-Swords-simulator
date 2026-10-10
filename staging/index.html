@@ -8607,7 +8607,22 @@ main>.screen:nth-of-type(3) #autoPane>.card{
   update();new MutationObserver(update).observe(from,{childList:true,characterData:true,subtree:true});
  });
 };if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init()})();
-</script></body></html>
+</script>
+<style id="v26-navigation-pets-css">
+/* R6: system selector stays accessible while scrolling through long artifact galleries. */
+#v23SystemHub .v23-system-tabs{position:sticky;top:8px;z-index:55;box-shadow:0 8px 22px rgba(0,0,0,.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+/* Larger pet gallery cards, with responsive columns rather than tiny 8-column cards. */
+#v23SystemHub .pet-game-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;max-height:520px}
+#v23SystemHub .pet-game-item{padding:10px 6px 9px;border-radius:12px;min-height:109px}
+#v23SystemHub .pet-game-art{width:min(72px,100%);height:auto;aspect-ratio:1;margin:0 auto 7px}
+#v23SystemHub .pet-game-name{font-size:10px;min-height:24px;line-height:1.3}
+#v23SystemHub .pet-game-effect-mini{font-size:8px;margin-top:5px}
+@media(max-width:1050px){#v23SystemHub .pet-game-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:760px){#v23SystemHub .pet-game-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:520px){#v23SystemHub .v23-system-tabs{top:3px}#v23SystemHub .pet-game-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;max-height:520px}#v23SystemHub .pet-game-item{min-height:92px;padding:7px 4px}#v23SystemHub .pet-game-art{width:min(68px,100%)}#v23SystemHub .pet-game-name{font-size:9px}}
+@media(max-width:350px){#v23SystemHub .pet-game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</body></html>
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
   /* Restore the original two-mode selector and mutually exclusive panes. */
