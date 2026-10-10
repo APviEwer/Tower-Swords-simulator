@@ -1879,14 +1879,8 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     <div class="v24-overview" aria-label="能力與完成進度摘要">
       <button type="button" class="v24-brief" data-v24-open="system"><span class="v24-label">系統能力 <small>人工製品 · 魔法樹 · 時裝 · 寵物</small></span><span class="v24-metrics"><span>ATK <b id="v24Atk">0%</b></span><span>暴擊 <b id="v24Crit">0%</b></span><span>冷卻 <b id="v24Cd">0%</b></span></span></button>
       <button type="button" class="v24-brief" data-v24-open="titles"><span class="v24-label">稱號能力 <small>獨立統計 · 不參與傷害計算</small></span><span class="v24-metrics"><span>解鎖 <b id="v24Titles">0 / 48</b></span><span>能力 <b id="v24TitleKinds">0 種</b></span></span></button>
-      <button type="button" class="v24-brief" data-v24-open="progress"><span class="v24-label">自訂進度 <small>各系統完成情況</small></span><span class="v24-metrics"><span>人工製品 <b id="v24Artifacts">0 / 91</b></span><span>魔法樹 <b id="v24Trees">0 / 29</b></span></span></button>
     </div>
-    <details class="v24-expand" id="v24StatDetails"><summary>展開詳細統計 <span>檢視完整能力、稱號與進度</span></summary>
-    <div class="v22-stat-tabs" role="tablist" aria-label="統計分類">
-      <button type="button" class="is-active" data-v22-stat="system" role="tab" aria-selected="true">系統能力</button>
-      <button type="button" data-v22-stat="titles" role="tab" aria-selected="false">稱號能力</button>
-      <button type="button" data-v22-stat="progress" role="tab" aria-selected="false">自訂進度</button>
-    </div>
+    <details class="v24-expand" id="v24StatDetails"><summary>詳細能力統計 <span>可收合</span></summary>
     <div class="v22-stat-panel" data-v22-panel="system" role="tabpanel"><h3>目前系統效果｜依遊戲初始值累加</h3>
     <div class="note">此區以遊戲初始屬性為起點，再累加「人工製品／魔法樹／時裝／寵物」效果。暴擊傷害初始 150%；其餘本頁追蹤項目未取得效果時為 0。</div>
     <div class="statgrid" style="margin-top:12px">
@@ -1914,6 +1908,8 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     <div class="v21-title-stat-grid" id="v21TitleStatGrid"><div class="small">尚無已解鎖稱號。</div></div>
     <details class="v21-title-stat-detail"><summary>查看各屬性加成來源</summary><div id="v21TitleStatSources" class="v21-title-stat-sources"></div></details>
     </div>
+    </details>
+    <div id="v25ProgressBank" hidden aria-hidden="true">
     <div class="v22-stat-panel" data-v22-panel="progress" role="tabpanel" hidden><h3>目前自訂進度</h3>
     <div class="statgrid">
       <div class="stat"><div class="k">人工製品</div><div class="v" id="sysArtifactCount">0 / 91</div></div>
@@ -1925,17 +1921,18 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     <div class="small" id="sysTreePoints" style="margin-top:10px">魔法樹已投入：0 點</div>
     <div class="warn small" id="sysWarning" style="margin-top:5px"></div>
     </div>
-    </details>
+
+    </div>
   </div>
 
   <div class="card v23-system-hub" id="v23SystemHub"><div class="v23-system-header"><h3>系統來源｜逐項自訂</h3><span>五類獨立切換</span></div>
     <div class="v23-system-tip">設定會自動保存在瀏覽器 · 切換分類不影響數值</div>
     <div class="v23-system-tabs" role="tablist" aria-label="五大系統分類">
-      <button type="button" data-v23-system="artifact" class="is-active" role="tab" aria-selected="true">人工製品</button>
-      <button type="button" data-v23-system="tree" role="tab" aria-selected="false">魔法樹</button>
-      <button type="button" data-v23-system="title" role="tab" aria-selected="false">稱號</button>
-      <button type="button" data-v23-system="fashion" role="tab" aria-selected="false">時裝</button>
-      <button type="button" data-v23-system="pet" role="tab" aria-selected="false">寵物</button>
+      <button type="button" data-v23-system="artifact" class="is-active" role="tab" aria-selected="true"><span class="v25-tab-title">人工製品</span><span class="v25-tab-progress" id="v25-artifact">—</span><span class="v25-tab-bar"><i id="v25-bar-artifact"></i></span></button>
+      <button type="button" data-v23-system="tree" role="tab" aria-selected="false"><span class="v25-tab-title">魔法樹</span><span class="v25-tab-progress" id="v25-tree">—</span><span class="v25-tab-bar"><i id="v25-bar-tree"></i></span></button>
+      <button type="button" data-v23-system="title" role="tab" aria-selected="false"><span class="v25-tab-title">稱號</span><span class="v25-tab-progress" id="v25-title">—</span><span class="v25-tab-bar"><i id="v25-bar-title"></i></span></button>
+      <button type="button" data-v23-system="fashion" role="tab" aria-selected="false"><span class="v25-tab-title">時裝</span><span class="v25-tab-progress" id="v25-fashion">—</span><span class="v25-tab-bar"><i id="v25-bar-fashion"></i></span></button>
+      <button type="button" data-v23-system="pet" role="tab" aria-selected="false"><span class="v25-tab-title">寵物</span><span class="v25-tab-progress" id="v25-pet">—</span><span class="v25-tab-bar"><i id="v25-bar-pet"></i></span></button>
     </div>
 
     <details open data-v23-panel="artifact"><summary>人工製品｜91 件</summary>
@@ -8571,15 +8568,46 @@ main>.screen:nth-of-type(3) #autoPane>.card{
 <script id="v24-summary-js">
 (()=>{const init=()=>{
  const root=document.getElementById('v22UnifiedStats');if(!root)return;
- const pairs=[['sysAtkPct','v24Atk'],['sysCritPct','v24Crit'],['sysCooldownPct','v24Cd'],['sysArtifactCount','v24Artifacts'],['sysTreeCount','v24Trees']];
  const transfer=(a,b,fn)=>{const from=document.getElementById(a),to=document.getElementById(b);if(!from||!to)return;const update=()=>{to.textContent=fn?fn(from.textContent):from.textContent.trim()};update();new MutationObserver(update).observe(from,{childList:true,characterData:true,subtree:true})};
- pairs.forEach(([a,b])=>transfer(a,b));
+ [['sysAtkPct','v24Atk'],['sysCritPct','v24Crit'],['sysCooldownPct','v24Cd']].forEach(([a,b])=>transfer(a,b));
  transfer('v21TitleStatCount','v24Titles',v=>v.replace(/^.*?已解鎖\s*/, '').trim());
  transfer('v21TitleStatTypeCount','v24TitleKinds',v=>v.replace(/^.*?生效能力\s*/, '').trim());
- root.querySelectorAll('[data-v24-open]').forEach(btn=>btn.addEventListener('click',()=>{document.getElementById('v24StatDetails').open=true;root.querySelector('[data-v22-stat="'+btn.dataset.v24Open+'"]').click()}));
+ const cards=[...root.querySelectorAll('[data-v24-open]')],panels=[...root.querySelectorAll('[data-v22-panel]')].filter(p=>p.dataset.v22Panel!=='progress');
+ let active=null;const detail=document.getElementById('v24StatDetails');
+ const select=key=>{active=key;detail.open=true;cards.forEach(c=>{const on=c.dataset.v24Open===key;c.classList.toggle('is-active',on);c.setAttribute('aria-expanded',String(on))});panels.forEach(p=>p.hidden=p.dataset.v22Panel!==key)};
+ cards.forEach(c=>c.addEventListener('click',()=>{if(active===c.dataset.v24Open&&detail.open){detail.open=false;cards.forEach(x=>{x.classList.remove('is-active');x.setAttribute('aria-expanded','false')});active=null;}else select(c.dataset.v24Open)}));
+ select('system');detail.open=false;active=null;cards.forEach(c=>{c.classList.remove('is-active');c.setAttribute('aria-expanded','false')});
 };if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init()})();
 </script>
-</body></html>
+<style id="v25-refine-css">
+.v24-overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.v24-brief{gap:9px;padding:12px 14px}
+.v24-brief.is-active{border-color:rgba(203,183,129,.8);background:linear-gradient(150deg,rgba(39,53,52,.94),rgba(13,34,44,.94))}
+.v24-expand{margin-top:8px}.v24-expand>summary{font-size:11px;padding:8px 3px}
+.v23-system-tip{display:none}
+.v23-system-tabs button{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:5px;padding:10px 7px;min-height:66px}
+.v25-tab-title{font-weight:850;text-align:center;font-size:11px}
+.v25-tab-progress{font-size:11px;text-align:center;font-variant-numeric:tabular-nums;color:#b8cdd2;font-weight:650}
+.v25-tab-bar{width:100%;height:3px;background:rgba(113,142,149,.28);overflow:hidden;border-radius:10px}
+.v25-tab-bar i{display:block;width:0%;height:100%;background:#9eac8b;border-radius:10px;transition:width .2s}
+#v25ProgressBank{display:none!important}
+@media(max-width:850px){.v24-overview{grid-template-columns:repeat(2,minmax(0,1fr))}.v24-brief:first-child{grid-column:auto}}
+@media(max-width:520px){.v24-overview{grid-template-columns:1fr}.v23-system-tabs button{min-height:65px;padding:7px 3px;gap:4px}.v25-tab-title{font-size:10px}.v25-tab-progress{font-size:9px;letter-spacing:-.2px}}
+</style>
+<script id="v25-progress-js">
+(()=>{const init=()=>{
+ const items=[['artifact','sysArtifactCount'],['tree','sysTreeCount'],['title','v21TitleStatCount'],['fashion','sysFashionCount'],['pet','sysPetCount']];
+ items.forEach(([key,fromId])=>{
+  const from=document.getElementById(fromId),label=document.getElementById('v25-'+key),bar=document.getElementById('v25-bar-'+key);if(!from||!label)return;
+  const update=()=>{
+   const raw=from.textContent.trim();const match=raw.match(/(\d+)\s*\/\s*(\d+)/);
+   if(match){const n=Number(match[1]),d=Number(match[2]);label.textContent=n+' / '+d;if(bar)bar.style.width=(d?Math.min(100,Math.max(0,n/d*100)):0)+'%';}
+   else{label.textContent=raw||'—';if(bar)bar.style.width='0%'}
+  };
+  update();new MutationObserver(update).observe(from,{childList:true,characterData:true,subtree:true});
+ });
+};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init()})();
+</script></body></html>
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
   /* Restore the original two-mode selector and mutually exclusive panes. */
