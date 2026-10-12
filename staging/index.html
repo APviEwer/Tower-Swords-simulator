@@ -1790,8 +1790,8 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
       <div class="note">固定第一頁角色／技能與第二頁系統效果；暴擊率、冷卻採 AND 最低條件，達標後只以合法裝備詞條追求最大單次暴擊傷害。</div>
 
       <div id="autoTraitConditions" class="no-print">
-        <div class="auto-trait-head"><strong>Basic 特性條件｜Lv.750</strong><span class="small" id="autoTraitCount">未指定</span></div>
-        <div class="small" style="margin-bottom:10px">依裝備部位與 Basic 欄位選擇；每格最多一個特性。選擇後該 Basic 欄位會保留給特性，不再配置一般數值詞條。特殊特性的觸發傷害尚未納入公式。</div>
+        <div class="auto-trait-head"><strong>Basic 詞條／特性條件｜Lv.750</strong><span class="small" id="autoTraitCount">未指定</span></div>
+        <div class="small" style="margin-bottom:10px">每個 Basic 欄位只能選一項；Basic 2～3／2～4 共用一組選擇，但實際仍各自佔一格，魔法等級依欄位逐格加總。特殊特性觸發傷害暫不計入公式。</div>
         <div id="autoTraitGrid" class="auto-trait-grid"></div>
       </div>
       <div class="result"><div class="small">Optimizer 狀態</div><div id="autoStatus">—</div><strong id="autoDamage">—</strong></div>
@@ -3230,8 +3230,9 @@ function betaAutoPctUnits(v){return Math.round(Number(v||0)*1000);}
 function betaAutoPctValue(units){return units/1000;}
 
 function betaAutoOpt(type,value){
-  const o={type,value:Number(value),atk:0,elem:0,spell:0,crit:0,cd:0};
-  if(type==='ATK')o.atk=Number(value);
+  const o={type,value:Number(value),atk:0,elem:0,spell:0,crit:0,cd:0,skillLv:0};
+  if(type==='所有魔法等級')o.skillLv=Number(value);
+  else if(type==='ATK')o.atk=Number(value);
   else if(type===betaAutoElemType())o.elem=Number(value);
   else if(type==='法術傷害')o.spell=Number(value);
   else if(type==='暴擊率')o.crit=Number(value);
@@ -3267,33 +3268,51 @@ function r9Category(g){return g.startsWith('武')||g==='主武'?'武器':g.start
 function r9BasicSlots(g){return ['Basic1','Basic2','Basic3',...(['戒1','戒2','項鍊','耳環'].includes(g)?['Basic4']:[])];}
 function r9SavedTraits(){return state?.auto?.basicTraits||{};}
 function r9TraitAt(g,slot){return String(r9SavedTraits()[g+'|'+slot]||'');}
+function r10MagicValue(g,slot){
+  const first=slot==='Basic1';
+  if(['主武','武2','武3','頭盔','戒1','戒2'].includes(g))return first?8:7;
+  if(['項鍊','耳環'].includes(g))return first?4:3;
+  return 0;
+}
+function r10ChoiceGroups(g){const slots=r9BasicSlots(g);return [[slots[0]],slots.slice(1)].filter(a=>a.length);}
+function r10IsMagic(g,slot){return r9TraitAt(g,slot)==='所有魔法等級';}
 function r9RenderTraitSelectors(){
   const host=document.getElementById('autoTraitGrid');if(!host)return;
-  const selections=r9SavedTraits();
   host.innerHTML=R9_GEAR.map(g=>{
     const cat=r9Category(g),legal=R9_TRAITS.filter(t=>t[1].includes(cat)).map(t=>t[0]);
-    return `<div class="auto-trait-gear"><h4>${g}</h4><div class="auto-trait-slots">${r9BasicSlots(g).map(sl=>{
-      const chosen=selections[g+'|'+sl]||'';
-      return `<div class="auto-trait-slot"><label>${sl.replace('Basic','Basic ')}</label><select data-r9-gear="${g}" data-r9-slot="${sl}" aria-label="${g} ${sl} 特性"><option value="">不指定（數值詞條）</option>${legal.map(t=>`<option value="${t}" ${t===chosen?'selected':''}>${t}</option>`).join('')}</select></div>`;
+    const groups=r10ChoiceGroups(g);
+    return `<div class="auto-trait-gear"><h4>${g}</h4><div class="auto-trait-slots">${groups.map(slots=>{
+      const key=g+'|'+slots[0];
+      const chosen=r9TraitAt(g,slots[0]);
+      const mg=r10MagicValue(g,slots[0]);
+      const choices=[...(mg?['所有魔法等級']:[]),...legal];
+      return `<div class="auto-trait-slot"><label>${slots.length===1?'Basic 1':`Basic 2～${slots.length+1}`}（${slots.length} 格）</label><select data-r9-gear="${g}" data-r9-slots="${slots.join(',')}" aria-label="${g} ${slots.join(' ')} 特性"><option value="">${slots.length===1?'預設／不指定':'自動選一般詞條'}</option>${choices.map(t=>`<option value="${t}" ${t===chosen?'selected':''}>${t==='所有魔法等級'?`所有魔法等級 +${mg} Lv／格`:t}</option>`).join('')}</select></div>`;
     }).join('')}</div></div>`;
   }).join('');
   host.querySelectorAll('select[data-r9-gear]').forEach(select=>select.addEventListener('change',()=>{
-    const key=select.dataset.r9Gear+'|'+select.dataset.r9Slot;
+    const g=select.dataset.r9Gear,slots=select.dataset.r9Slots.split(',');
     state.auto.basicTraits=state.auto.basicTraits||{};
-    if(select.value)state.auto.basicTraits[key]=select.value;else delete state.auto.basicTraits[key];
+    for(const slot of slots){const key=g+'|'+slot;if(select.value)state.auto.basicTraits[key]=select.value;else delete state.auto.basicTraits[key];}
     betaAutoCache.clear();saveState(state);r9UpdateTraitCount();
     if(state.mode==='auto')refreshAuto(true);
   }));
   r9UpdateTraitCount();
 }
-function r9UpdateTraitCount(){const el=document.getElementById('autoTraitCount');if(el)el.textContent=Object.keys(r9SavedTraits()).length+' / 34 格指定特性';}
-// A selected trait occupies the Basic slot. It has zero unverified numeric effect.
+function r9UpdateTraitCount(){const el=document.getElementById('autoTraitCount');if(el)el.textContent=Object.keys(r9SavedTraits()).length+' / 34 格已指定';}
 function r9ConstrainAutoOpts(defs){
-  for(const def of defs){const tr=r9TraitAt(def.gear,def.slot);if(tr)def.opts=[betaAutoOpt(tr,0)];}
+  for(const def of defs){
+    const tr=r9TraitAt(def.gear,def.slot);
+    if(tr==='所有魔法等級')def.opts=[betaAutoOpt(tr,r10MagicValue(def.gear,def.slot))];
+    else if(tr)def.opts=[betaAutoOpt(tr,0)];
+  }
   return defs;
 }
 function r9ApplyFixedTraits(eq){
-  for(const g of R9_GEAR){const tr=r9TraitAt(g,'Basic1');if(tr)(eq[g]??={}).Basic1=[tr,0];}
+  for(const g of R9_GEAR){
+    const tr=r9TraitAt(g,'Basic1');
+    if(tr)(eq[g]??={}).Basic1=[tr,tr==='所有魔法等級'?r10MagicValue(g,'Basic1'):0];
+    else if(eq[g]?.Basic1?.[0]==='所有魔法等級')eq[g].Basic1[1]=r10MagicValue(g,'Basic1');
+  }
   return eq;
 }
 function r9FixedMagicLv(){
@@ -3301,6 +3320,8 @@ function r9FixedMagicLv(){
   for(const g of R9_GEAR){const a=fixed[g]?.Basic1;if(a?.[0]==='所有魔法等級')n+=Number(a[1]||0);}
   return n;
 }
+function r10SkillMax(sk){const levels=Object.keys(skillLevelAtk?.[String(sk.id)]||{}).map(Number).filter(Number.isFinite);return levels.length?Math.max(...levels):139;}
+function r10AutoSkillLevel(sk,t){const lv=weaponBaseSkillLv()+Number(betaAutoMaxSystemStats().skillLv||0)+r9FixedMagicLv()+Number(t.skillLv||0);return Math.max(1,Math.min(r10SkillMax(sk),Math.round(lv)));}
 // Defer UI creation, without blocking original app boot.
 window.addEventListener('DOMContentLoaded',()=>{try{r9RenderTraitSelectors();}catch(e){console.warn('R9 trait panel',e);}});
 
@@ -3364,12 +3385,12 @@ function betaAutoSlotDefs(){
 
 function betaAutoFixedEq(){
   return r9ApplyFixedTraits({
-    主武:{Basic1:['所有魔法等級',7]},
-    武2:{Basic1:['所有魔法等級',7]},
-    武3:{Basic1:['所有魔法等級',7]},
-    頭盔:{Basic1:['所有魔法等級',7]},
-    戒1:{Basic1:['所有魔法等級',7]},
-    戒2:{Basic1:['所有魔法等級',7]},
+    主武:{Basic1:['所有魔法等級',8]},
+    武2:{Basic1:['所有魔法等級',8]},
+    武3:{Basic1:['所有魔法等級',8]},
+    頭盔:{Basic1:['所有魔法等級',8]},
+    戒1:{Basic1:['所有魔法等級',8]},
+    戒2:{Basic1:['所有魔法等級',8]},
     項鍊:{Basic1:['所有魔法等級',4]},
     耳環:{Basic1:['所有魔法等級',4]},
     盔甲:{},鞋子:{}
@@ -3377,10 +3398,10 @@ function betaAutoFixedEq(){
 }
 
 function betaAutoTotals(defs,assign){
-  const t={atk:0,elem:0,spell:0,crit:0,cd:0};
+  const t={atk:0,elem:0,spell:0,crit:0,cd:0,skillLv:0};
   for(let i=0;i<defs.length;i++){
     const o=defs[i].opts[assign[i]];
-    t.atk+=o.atk;t.elem+=o.elem;t.spell+=o.spell;t.crit+=o.crit;t.cd+=o.cd;
+    t.atk+=o.atk;t.elem+=o.elem;t.spell+=o.spell;t.crit+=o.crit;t.cd+=o.cd;t.skillLv+=o.skillLv||0;
   }
   return t;
 }
@@ -3395,9 +3416,7 @@ function betaAutoEvalTotals(t,targetCrit,targetCd){
   const rawCrit=betaAutoPctValue(rawCritUnits);
   const cd=betaAutoPctValue(cdUnits);
 
-  const skillLv=Math.max(1,Math.min(139,Math.round(
-    weaponBaseSkillLv()+Number(sys.skillLv||0)+r9FixedMagicLv()
-  )));
+  const skillLv=r10AutoSkillLevel(sk,t);
   const skillAtk=skillAtkAtLevel(sk.id,skillLv);
   if(!Number.isFinite(skillAtk))return null;
 
@@ -3430,9 +3449,7 @@ function betaAutoEvalTotals(t,targetCrit,targetCd){
 function betaAutoDamageScore(t){
   // Score without Crit/CD feasibility, used only for damage-only seed/search.
   const sys=betaAutoMaxSystemStats(),sk=activeSkill(),mx=betaAutoMaxElementInfo(sys);
-  const skillLv=Math.max(1,Math.min(139,Math.round(
-    weaponBaseSkillLv()+Number(sys.skillLv||0)+50
-  )));
+  const skillLv=r10AutoSkillLevel(sk,t);
   const skillAtk=skillAtkAtLevel(sk.id,skillLv);
   const atkResult=betaAutoEffectiveAtkResult(BigInt(Math.max(0,Math.round(t.atk))),sys);
   if(!atkResult.valid||!Number.isFinite(skillAtk))return -Infinity;
@@ -3471,7 +3488,8 @@ function betaAutoMakeDamageSeed(defs,mode='mixed'){
           elem:t.elem-oldO.elem+o.elem,
           spell:t.spell-oldO.spell+o.spell,
           crit:t.crit-oldO.crit+o.crit,
-          cd:t.cd-oldO.cd+o.cd
+          cd:t.cd-oldO.cd+o.cd,
+          skillLv:(t.skillLv||0)-(oldO.skillLv||0)+(o.skillLv||0)
         };
         const sc=betaAutoDamageScore(nt);
         if(sc>bestScore*(1+1e-14)){
@@ -3539,7 +3557,8 @@ function betaAutoMeetConstraints(defs,seed,targetCrit,targetCd){
           elem:t.elem-oldO.elem+o.elem,
           spell:t.spell-oldO.spell+o.spell,
           crit:t.crit-oldO.crit+o.crit,
-          cd:t.cd-oldO.cd+o.cd
+          cd:t.cd-oldO.cd+o.cd,
+          skillLv:(t.skillLv||0)-(oldO.skillLv||0)+(o.skillLv||0)
         };
         const nc=baseCrit+nt.crit,nd=baseCd+nt.cd;
         const capC=Math.min(targetCrit,nc),capD=Math.min(targetCd,nd);
@@ -3588,7 +3607,8 @@ function betaAutoHillClimb(defs,seed,targetCrit,targetCd){
           elem:t.elem-oldO.elem+o.elem,
           spell:t.spell-oldO.spell+o.spell,
           crit:t.crit-oldO.crit+o.crit,
-          cd:t.cd-oldO.cd+o.cd
+          cd:t.cd-oldO.cd+o.cd,
+          skillLv:(t.skillLv||0)-(oldO.skillLv||0)+(o.skillLv||0)
         };
         const ev=betaAutoEvalTotals(nt,targetCrit,targetCd);
         if(!ev)continue;
@@ -3618,7 +3638,8 @@ function betaAutoHillClimb(defs,seed,targetCrit,targetCd){
               elem:t.elem-oldI.elem-oldK.elem+ni.elem+nk.elem,
               spell:t.spell-oldI.spell-oldK.spell+ni.spell+nk.spell,
               crit:t.crit-oldI.crit-oldK.crit+ni.crit+nk.crit,
-              cd:t.cd-oldI.cd-oldK.cd+ni.cd+nk.cd
+              cd:t.cd-oldI.cd-oldK.cd+ni.cd+nk.cd,
+              skillLv:(t.skillLv||0)-(oldI.skillLv||0)-(oldK.skillLv||0)+(ni.skillLv||0)+(nk.skillLv||0)
             };
             const ev=betaAutoEvalTotals(nt,targetCrit,targetCd);
             if(!ev)continue;
@@ -3722,7 +3743,8 @@ function betaAutoExactImprove(defs,seed,targetCrit,targetCd){
                   elem:t.elem-oldI.elem-oldJ.elem-oldK.elem+I.elem+J.elem+K.elem,
                   spell:t.spell-oldI.spell-oldJ.spell-oldK.spell+I.spell+J.spell+K.spell,
                   crit:t.crit-oldI.crit-oldJ.crit-oldK.crit+I.crit+J.crit+K.crit,
-                  cd:t.cd-oldI.cd-oldJ.cd-oldK.cd+I.cd+J.cd+K.cd
+                  cd:t.cd-oldI.cd-oldJ.cd-oldK.cd+I.cd+J.cd+K.cd,
+          skillLv:(t.skillLv||0)-(oldI.skillLv||0)-(oldJ.skillLv||0)-(oldK.skillLv||0)+(I.skillLv||0)+(J.skillLv||0)+(K.skillLv||0)
                 };
                 const ev=betaAutoEvalTotals(nt,targetCrit,targetCd);
                 if(!ev||ev.critDamage<=best.result.critDamage)continue;
@@ -3782,7 +3804,8 @@ function betaAutoExactCdRepair(defs,seed,targetCrit,targetCd){
         elem:baseT.elem-oldI.elem+I.elem,
         spell:baseT.spell-oldI.spell+I.spell,
         crit:baseT.crit-oldI.crit+I.crit,
-        cd:baseT.cd-oldI.cd+I.cd
+        cd:baseT.cd-oldI.cd+I.cd,
+          skillLv:(baseT.skillLv||0)-(oldI.skillLv||0)+(I.skillLv||0)
       };
       if(Math.abs((baseCd+nt.cd)-targetCd)<=1e-9){
         const na=start.slice();na[i]=ni;consider(na,nt);
@@ -3812,7 +3835,8 @@ function betaAutoExactCdRepair(defs,seed,targetCrit,targetCd){
             elem:baseT.elem-oldI.elem-oldJ.elem+I.elem+J.elem,
             spell:baseT.spell-oldI.spell-oldJ.spell+I.spell+J.spell,
             crit:baseT.crit-oldI.crit-oldJ.crit+I.crit+J.crit,
-            cd:baseT.cd-oldI.cd-oldJ.cd+I.cd+J.cd
+            cd:baseT.cd-oldI.cd-oldJ.cd+I.cd+J.cd,
+          skillLv:(baseT.skillLv||0)-(oldI.skillLv||0)-(oldJ.skillLv||0)+(I.skillLv||0)+(J.skillLv||0)
           };
           if(Math.abs((baseCd+nt.cd)-targetCd)<=1e-9){
             const na=start.slice();na[i]=ni;na[j]=nj;consider(na,nt);
@@ -3844,7 +3868,8 @@ function betaAutoExactCdRepair(defs,seed,targetCrit,targetCd){
                 elem:baseT.elem-oldI.elem-oldJ.elem-oldK.elem+I.elem+J.elem+K.elem,
                 spell:baseT.spell-oldI.spell-oldJ.spell-oldK.spell+I.spell+J.spell+K.spell,
                 crit:baseT.crit-oldI.crit-oldJ.crit-oldK.crit+I.crit+J.crit+K.crit,
-                cd:baseT.cd-oldI.cd-oldJ.cd-oldK.cd+I.cd+J.cd+K.cd
+                cd:baseT.cd-oldI.cd-oldJ.cd-oldK.cd+I.cd+J.cd+K.cd,
+          skillLv:(baseT.skillLv||0)-(oldI.skillLv||0)-(oldJ.skillLv||0)-(oldK.skillLv||0)+(I.skillLv||0)+(J.skillLv||0)+(K.skillLv||0)
               };
               if(Math.abs((baseCd+nt.cd)-targetCd)<=1e-9){
                 const na=start.slice();na[i]=ni;na[j]=nj;na[k]=nk;consider(na,nt);
@@ -3872,7 +3897,8 @@ function betaAutoExactCdRepair(defs,seed,targetCrit,targetCd){
         const nt={
           atk:t.atk-oldI.atk+I.atk, elem:t.elem-oldI.elem+I.elem,
           spell:t.spell-oldI.spell+I.spell, crit:t.crit-oldI.crit+I.crit,
-          cd:t.cd-oldI.cd+I.cd
+          cd:t.cd-oldI.cd+I.cd,
+          skillLv:(t.skillLv||0)-(oldI.skillLv||0)+(I.skillLv||0)
         };
         if(Math.abs((baseCd+nt.cd)-targetCd)>1e-9)continue;
         const ev=betaAutoEvalTotals(nt,targetCrit,targetCd);
@@ -3968,7 +3994,8 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
           const nt={
             atk:t.atk-oldO.atk+o.atk, elem:t.elem-oldO.elem+o.elem,
             spell:t.spell-oldO.spell+o.spell, crit:t.crit-oldO.crit+o.crit,
-            cd:t.cd-oldO.cd+o.cd
+            cd:t.cd-oldO.cd+o.cd,
+          skillLv:(t.skillLv||0)-(oldO.skillLv||0)+(o.skillLv||0)
           };
           const loss=betaAutoDamageScore(t)-betaAutoDamageScore(nt);
           const progress=bias==='crit'?(gainC*10+gainD):(gainD*10+gainC);
@@ -4104,12 +4131,12 @@ function betaGoldenEquipment(cd){
   const [WB_E,WB_C,HB_E,HB_D,RB_S,RB_C,RB_D,JB_S,JB_C,JB_D,GP_E,GP_S,GP_C,GP_D,JP_E,JP_S,JP_C,JP_D]=a;
   const elemType=betaAutoElemType();
   const eq={
-    主武:{Basic1:['所有魔法等級',7]},
-    武2:{Basic1:['所有魔法等級',7]},
-    武3:{Basic1:['所有魔法等級',7]},
-    頭盔:{Basic1:['所有魔法等級',7]},
-    戒1:{Basic1:['所有魔法等級',7]},
-    戒2:{Basic1:['所有魔法等級',7]},
+    主武:{Basic1:['所有魔法等級',8]},
+    武2:{Basic1:['所有魔法等級',8]},
+    武3:{Basic1:['所有魔法等級',8]},
+    頭盔:{Basic1:['所有魔法等級',8]},
+    戒1:{Basic1:['所有魔法等級',8]},
+    戒2:{Basic1:['所有魔法等級',8]},
     項鍊:{Basic1:['所有魔法等級',4]},
     耳環:{Basic1:['所有魔法等級',4]},
     盔甲:{},鞋子:{}
@@ -4222,7 +4249,7 @@ function renderAutoBreakdown(r){
   const items=[];for(const e of order)for(const k of slotOrder)if(eq?.[e]?.[k])items.push({type:eq[e][k][0],value:eq[e][k][1]});
   const types=[...new Set(items.map(x=>x.type))];
   sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';const totalText=t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(total)))):`${total}${unit}`;return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${totalText}</div></div>`}).join('');
-  note.textContent=`已指定的 Basic 特性只保留欄位，特殊效果尚未進入傷害公式。｜${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜目前第二頁系統基準＋合法詞條搜尋｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
+  note.textContent=`Basic 魔法等級依每格分別計入技能等級；特殊特性只有佔位、沒有未驗證的傷害倍率。｜${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜目前第二頁系統基準＋合法詞條搜尋｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
 let betaAutoRefreshing=false;
