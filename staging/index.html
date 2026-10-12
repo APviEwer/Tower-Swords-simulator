@@ -1676,6 +1676,13 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
       </div>
     </div>
   </div>
+  <div class="card" id="r20BareAtkPanel">
+    <h3>空裝 ATK 核對｜診斷模式</h3>
+    <p class="small">完全排除武器、裝備詞條與寵物；保留角色等級、人工製品、魔法樹、時裝及稱號。此為依模擬器現有 ATK 公式推算的測試值，尚未證實與遊戲空裝面板同口徑，不參與原傷害計算。</p>
+    <div class="statgrid"><div class="stat"><div class="k">模擬器空裝 ATK（推算）</div><div class="v" id="r20BareAtkValue">待計算</div></div><div class="stat"><div class="k">遊戲實測空裝 ATK</div><div class="v">1.444B</div></div></div>
+    <div class="small" id="r20BareAtkBreakdown">等待系統資料載入…</div>
+    <button class="btn secondary" type="button" id="r20BareAtkRefresh">重新核對空裝 ATK</button>
+  </div>
 </section>
 
 <section class="screen">
@@ -4751,6 +4758,7 @@ function __resetCurrentBuildPage(){
     alert('04 分析報告為輸出頁，沒有可重置的輸入設定。');
     return;
   }
+  if(keepStep===1){try{localStorage.removeItem('tower-sword-v21-title-formal')}catch(_){}}
   state.step=keepStep;
   __v10FlushState();
   sessionStorage.setItem('tower-sword-reset-return-step',String(keepStep));
@@ -4764,6 +4772,7 @@ function __resetAllBuild(){
   __v10SaveTimer=0;
   try{
     localStorage.removeItem('tower-sword-v1');
+    localStorage.removeItem('tower-sword-v21-title-formal');
     sessionStorage.removeItem('tower-sword-reset-return-step');
   }catch(_){}
   location.reload();
@@ -8590,10 +8599,22 @@ main>.screen:nth-of-type(3) #autoPane>.card{
     pop.querySelectorAll('[data-title-star]').forEach(b=>b.addEventListener('click',()=>{
       setTitleStar(id,Number(b.dataset.titleStar));
       save();syncProgress();
-      renderGrid();
-      requestAnimationFrame(()=>requestAnimationFrame(()=>openPop(id,null)));
+      updateVisibleTitleCard(id);
+      requestAnimationFrame(()=>openPop(id,null));
     }));
     bindFollow();
+  }
+  function updateVisibleTitleCard(id){
+    const card=document.querySelector(`#v21TitleGrid [data-title-id="${Number(id)}"]`);
+    if(!card)return;
+    const t=title(id),star=titleStar(id),sd=starData(t,star);
+    card.classList.toggle('is-unlocked',star>0);
+    card.classList.toggle('is-locked',star===0);
+    const badge=card.querySelector('.v21-title-card-starbadge');
+    if(badge)badge.textContent=star>0?'★'.repeat(star):'☆';
+    const bonus=card.querySelector('.v21-title-card-bonus span');
+    if(bonus)bonus.textContent=star>0?(sd?.effect||'—'):((t?.stars||[])[0]?.effect||'—');
+    document.querySelectorAll('#v21TitleGrid .v21-title-card').forEach(c=>c.classList.toggle('is-selected',Number(c.dataset.titleId)===Number(selectedId)));
   }
   function renderGrid(){
     const root=document.getElementById('v21TitleRoot');
@@ -8645,8 +8666,8 @@ main>.screen:nth-of-type(3) #autoPane>.card{
     root.querySelectorAll('[data-title-id]').forEach(b=>b.addEventListener('click',()=>{
       const id=Number(b.dataset.titleId);
       selectedId=id;
-      save();syncProgress();renderGrid();
-      requestAnimationFrame(()=>requestAnimationFrame(()=>openPop(id,null)));
+      save();syncProgress();updateVisibleTitleCard(id);
+      requestAnimationFrame(()=>openPop(id,null));
     }));
     syncProgress();
   }
@@ -8676,6 +8697,29 @@ main>.screen:nth-of-type(3) #autoPane>.card{
     closePop();
   },true);
   window.addEventListener('load',()=>setTimeout(init,400),{once:true});
+})();
+</script>
+<script id="r20-bare-atk-audit-js">
+(()=>{'use strict';
+ function compute(){
+  const value=document.getElementById('r20BareAtkValue'),info=document.getElementById('r20BareAtkBreakdown');if(!value||!info)return;
+  try{
+   if(typeof state==='undefined'||typeof systemSelectionSummary!=='function'||typeof playerLevelBaseAtk!=='function')throw Error('核心資料尚未就緒');
+   const stats=systemSelectionSummary().stats;
+   const level=Number(playerLevelBaseAtk(state.player.level));
+   const flat=Number(stats.flatAtk||0);
+   const pool=1+Number(stats.atk||0)/100;
+   // Independent buff only if matching the original condition, never an invented weapon.
+   const mul=typeof manualAtkIndependentMultiplier==='function'?Number(manualAtkIndependentMultiplier()):1;
+   const result=Math.floor((level+flat)*pool*mul);
+   if(!Number.isFinite(result)||result<0)throw Error('ATK 計算超出可表示範圍');
+   value.textContent=typeof formatGameBigInt==='function'?formatGameBigInt(BigInt(result)):String(result);
+   info.textContent=`角色等級 ${state.player.level}｜角色基礎 ATK ${level.toLocaleString()}｜系統固定 ATK ${flat.toLocaleString()}｜系統 ATK +${Number(stats.atk||0).toFixed(2)}%｜獨立倍率 ×${mul.toFixed(3)}。不含武器、裝備、寵物；遊戲 1.444B 僅為對照基準。`;
+  }catch(e){value.textContent='尚無法計算';info.textContent=String(e.message||e)}
+ }
+ const start=()=>{document.getElementById('r20BareAtkRefresh')?.addEventListener('click',compute);compute();};
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+ window.r20RefreshBareAtk=compute;
 })();
 </script>
 <style id="safe-formal-ui-css">
