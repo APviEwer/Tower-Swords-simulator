@@ -1790,6 +1790,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
         <div class="small" style="margin-bottom:8px">手動實裝即時傷害</div>
         <div class="statgrid"><div class="stat"><div class="k">未暴擊傷害</div><div class="v" id="manualNonCritDamage">—</div></div><div class="stat"><div class="k">最終暴擊傷害</div><div class="v" id="manualCritDamage">—</div></div></div>
         <div class="note" id="manualDamageNote" style="margin-top:10px">—</div>
+        <div class="note" id="r23ManualAffixLive" style="margin-top:8px">元素及法傷：等待輸入。</div>
       </div>
       <div class="note">手動實裝：武器的 ATK 已為固定詞條、頭盔的 DEF 已為固定詞條，因此這些裝備只有三個可選詞條位置。唯一會影響角色面板 ATK 的武器為主武器；主武 ATK 請直接於 01「角色設定」輸入，不需在此重複設定。每格先選合法詞條，再於下方輸入遊戲實際值；ATK 支援 K／M／B／T／Q／R。</div>
       <div class="eq-table" id="equipmentGrid" style="margin-top:12px"></div>
@@ -2937,7 +2938,7 @@ function resolverRefresh(){
   $('#nativeRaw').value=r.raw??'';
   $('#resolverConfidence').textContent={exact:'精確',estimated:'估算',none:'無'}[r.confidence]||'—';
   saveState(state);
-  if(state.step===2 && state.mode==='auto')refreshAuto(true);
+  if(state.step===2){ if(state.mode==='auto')refreshAuto(true); else refreshManualSummary(); }
   if(state.step===3)refreshReport();
 }
 
@@ -3052,6 +3053,19 @@ function refreshManualSummary(){
     const group=items.filter(x=>x.type===type);
     return `<div class="summary-row"><div class="name">${type}</div><div class="count">${group.length} 格</div><div class="total">合計 ${formatManualTotal(type,group)}</div></div>`;
   }).join('');
+  const mtLive=manualTotals();
+  const sysLive=systemSelectionSummary();
+  const skLive=state.skill.id===''?null:activeSkill();
+  const elKeyLive=skLive?skillElementKey(skLive):null;
+  const statLabels={fire:'火焰',ice:'冰系',lightning:'閃電',normal:'普通'};
+  const livePanel=$('#r23ManualAffixLive');
+  if(livePanel){
+    const elemText=elKeyLive
+      ? `${statLabels[elKeyLive]}元素：系統 ${plainNumber(sysLive.stats[elKeyLive]||0)} ＋ 手動 ${plainNumber(mtLive[elKeyLive]||0)} ＝ ${plainNumber((sysLive.stats[elKeyLive]||0)+(mtLive[elKeyLive]||0))}`
+      : `元素傷害：尚未選擇技能元素（手動火 ${plainNumber(mtLive.fire)}／冰 ${plainNumber(mtLive.ice)}／雷 ${plainNumber(mtLive.lightning)}／普通 ${plainNumber(mtLive.normal)}）`;
+    const spellText=`法術傷害：系統 ${plainNumber(sysLive.stats.spell||0)} ＋ 手動 ${plainNumber(mtLive.spell||0)} ＝ ${plainNumber((sysLive.stats.spell||0)+mtLive.spell)}`;
+    livePanel.textContent=elemText+'｜'+spellText;
+  }
   const dmg=manualDamageResult();
   if($('#manualNonCritDamage'))$('#manualNonCritDamage').textContent=dmg.valid?formatDamageR(dmg.nonCrit):'—';
   if($('#manualCritDamage'))$('#manualCritDamage').textContent=dmg.valid?formatDamageR(dmg.crit):'—';
@@ -3230,7 +3244,7 @@ function betaAutoElemType(){
 
 function betaAutoEffectiveAtkResult(extraEquipmentAtk=0n,sys=betaAutoMaxSystemStats()){
   const resolved=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
-  if(!resolved.raw)return {valid:false,reason:'主武 ATK 無法解析'};
+  if(!resolved.raw)return {valid:false,reason:'01 主武 ATK 未填或格式無法解析（例：17.855Q）'};
   const weaponAtk=Number(resolved.raw);
   const levelAtk=playerLevelBaseAtk(state.player.level);
   const flatAtk=Number(extraEquipmentAtk||0n)+Number(sys.flatAtk||0);
@@ -4599,7 +4613,7 @@ function formatDamageR(n){
 function effectiveAtkResult(extraEquipmentAtk=0n){
   const sys=systemSelectionSummary();
   const resolved=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
-  if(!resolved.raw)return {valid:false,reason:'主武 ATK 無法解析'};
+  if(!resolved.raw)return {valid:false,reason:'01 主武 ATK 未填或格式無法解析（例：17.855Q）'};
   const weaponAtk=Number(resolved.raw);
   const levelAtk=playerLevelBaseAtk(state.player.level);
   const flatAtk=Number(extraEquipmentAtk||0n)+Number(sys.stats.flatAtk||0);
@@ -4609,10 +4623,10 @@ function effectiveAtkResult(extraEquipmentAtk=0n){
   return {valid:true,effectiveAtk,resolved,weaponAtk,levelAtk,flatAtk,atkPool,atkIndependent};
 }
 function manualDamageResult(){
-  if(state.skill.id==='')return {valid:false,reason:'未選擇技能：僅供空裝 ATK 核對'};
+  if(state.skill.id==='')return {valid:false,reason:'尚未選擇技能；手動元素／法傷仍會加總，但技能傷害需先選技能'};
   const sk=activeSkill(),sys=systemSelectionSummary(),mt=manualTotals(),elemKey=skillElementKey(sk);
   const resolved=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
-  if(!resolved.raw)return {valid:false,reason:'主武 ATK 無法解析'};
+  if(!resolved.raw)return {valid:false,reason:'01 主武 ATK 未填或格式無法解析（例：17.855Q）'};
   const baseSkill=weaponBaseSkillLv();
   const elementMagicLv=Number(mt[`${elemKey}Lv`]||0);
   const finalSkillLv=Math.max(1,Math.min(r10SkillMax(sk),Math.round(baseSkill+sys.stats.skillLv+mt.skillLv+elementMagicLv)));
