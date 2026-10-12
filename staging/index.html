@@ -593,7 +593,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 @media(max-width:620px){.release-web-version,.release-game-version{font-size:9px;padding:2px 7px;margin-top:3px}}
 
 /* R9 trait-condition selectors for Auto */
-#autoTraitConditions{margin:12px 0;border:1px solid #2a4759;border-radius:13px;padding:12px;background:#081923}
+#autoTraitConditions{margin:12px 0 0;border:1px solid #2a4759;border-radius:13px;padding:12px;background:#081923}
 .auto-trait-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
 .auto-trait-head strong{font-size:13px;color:#e6eff3}
 .auto-trait-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -8030,6 +8030,9 @@ main>.screen:nth-of-type(3) #autoPane>.card{
   grid.appendChild(left);
   if(cond)left.appendChild(cond);
   if(note)left.appendChild(note);
+  // R11: keep Basic conditions inside the existing Conditions panel.
+  const basicConditions=autoCard.querySelector('#autoTraitConditions');
+  if(basicConditions)left.appendChild(basicConditions);
 
   const right=document.createElement('section');
   right.className='v2-p3-auto-panel';
