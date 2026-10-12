@@ -91,7 +91,7 @@ main{position:relative;z-index:1}
 .brand-function{margin-top:7px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.17em;text-transform:uppercase}
 .version{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-left:auto;align-self:center;padding:6px 10px;border:1px solid rgba(213,173,100,.30);border-radius:999px;background:rgba(213,173,100,.08);color:var(--gold-bright);font-size:10px;font-weight:800;letter-spacing:.04em;white-space:nowrap}
 
-.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:0}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:0}
 .step{
   position:relative;min-height:43px;padding:9px 12px;border:1px solid var(--line-soft);border-radius:11px;
   background:rgba(11,25,36,.78);color:var(--muted);font-size:12px;font-weight:760;cursor:pointer;
@@ -513,7 +513,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   .top{position:sticky;top:0;z-index:40;margin-left:-1px;margin-right:-1px;border-radius:0 0 15px 15px;padding-bottom:7px}
   .brand{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;min-height:60px;padding:7px 7px 8px}.brand-crest{grid-column:1}.brand-stack{grid-column:2;min-width:0}.language-switch{grid-column:3;align-self:center}.brand-lab{display:none}.brand h1{font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brand-function{font-size:7px;letter-spacing:.06em;white-space:nowrap}.brand:before{display:none}
   .language-switch{padding:3px}.lang-btn{min-width:30px;padding:5px 5px;font-size:8.5px}.lang-divider{font-size:7px}
-  .steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding-top:7px;overflow:visible}.step{min-width:0;min-height:34px;padding:6px 4px;border-radius:8px;font-size:9px;white-space:normal;line-height:1.15}.step.active{box-shadow:inset 0 -2px 0 #d6b66e}
+  .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding-top:7px;overflow:visible}.step{min-width:0;min-height:34px;padding:6px 4px;border-radius:8px;font-size:9px;white-space:normal;line-height:1.15}.step.active{box-shadow:inset 0 -2px 0 #d6b66e}
   .hero{padding:13px 12px}.hero h2{font-size:15px}.hero p{font-size:9.5px;line-height:1.55}.card{padding:11px;border-radius:12px}.card h3{font-size:12px}
   .field{gap:6px}.field label{font-size:9.5px}input,select{min-height:42px;font-size:12px}
   .skill-preview-card{min-height:74px;padding:9px 10px}.skill-preview-card>.entity-icon{width:52px;height:52px}.skill-preview-title{font-size:14px}.skill-preview-sub{margin-top:5px;font-size:9px}.skill-preview-card:before{right:8px;bottom:7px;font-size:7px}
@@ -1502,7 +1502,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 .fashion-detail-title{font-size:15px;font-weight:950;color:#f4ead0}.fashion-detail-effect{font-size:11px;line-height:1.55;color:#bdc8ce;margin-top:4px}.fashion-detail-note{font-size:9px;color:#778894;margin-top:4px}
 .fashion-own-btn{min-width:96px;min-height:42px;border-radius:10px;border:1px solid rgba(255,255,255,.13);background:#18232b;color:#e9f0f2;font-weight:900;cursor:pointer}.fashion-own-btn.is-owned{border-color:rgba(232,190,79,.72);background:linear-gradient(180deg,#6f5423,#382914);color:#fff2c7}
 @media(max-width:820px){.fashion-game-grid{grid-template-columns:repeat(5,minmax(0,1fr));max-height:420px}.fashion-game-detail{grid-template-columns:62px minmax(0,1fr);}.fashion-detail-art{width:62px;height:62px}.fashion-own-btn{grid-column:1/-1;width:100%}}
-@media(max-width:620px){.fashion-game-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:8px;max-height:390px}.fashion-game-item{padding:4px;border-radius:9px}.fashion-game-name{font-size:9px}.fashion-game-detail{padding:10px;gap:9px}}
+@media(max-width:620px){.fashion-game-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px;max-height:390px}.fashion-game-item{padding:4px;border-radius:9px}.fashion-game-name{font-size:9px}.fashion-game-detail{padding:10px;gap:9px}}
 @media(max-width:360px){.fashion-game-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
 </style>
 
@@ -1664,15 +1664,8 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <section class="screen">
   <div class="hero"><h2>02｜系統效果</h2><p>依角色實際進度逐項設定。新手預設全部未取得／Lv0／未裝備；不再強制使用 MAX。資料由獨立後台檔載入，之後可直接擴充。</p></div>
 
-  <div class="card v22-unified-stats" id="v22UnifiedStats">
-    <div class="v23-system-header"><h3>系統統計總覽</h3><span>正式版 · 稱號獨立統計，不計入傷害</span></div>
-    <div class="v24-overview">
-      <button type="button" class="v24-brief" data-v24-open="system" aria-expanded="false"><span class="v24-label">系統能力 <small>人工製品 · 魔法樹 · 時裝 · 寵物</small></span><span class="v24-metrics"><span>ATK <b id="v24Atk">0%</b></span><span>暴擊率 <b id="v24Crit">0%</b></span><span>冷卻 <b id="v24Cd">0%</b></span></span></button>
-      <button type="button" class="v24-brief" data-v24-open="titles" aria-expanded="false"><span class="v24-label">稱號能力 <small>48 個稱號 · 獨立統計 · 暫不計入傷害</small></span><span class="v24-metrics"><span>已解鎖 <b id="v24Titles">0 / 48</b></span><span>能力種類 <b id="v24TitleKinds">0</b></span></span></button>
-    </div>
-    <details class="v24-expand" id="v24StatDetails"><summary>詳細能力統計 <span>點選摘要展開／收合</span></summary>
-      <div class="v22-stat-panel" data-v22-panel="system"><h3>目前系統效果｜依遊戲初始值累加</h3>
-        <div class="note">此區統計人工製品、魔法樹、時裝與寵物；暴擊傷害初始為 150%。稱號另設獨立統計，不參與角色屬性或傷害計算。</div>
+  <div class="card"><h3>目前系統效果｜依遊戲初始值累加</h3>
+    <div class="note">此區以遊戲初始屬性為起點，再累加「人工製品／魔法樹／時裝／寵物」效果。暴擊傷害初始 150%；其餘本頁追蹤項目未取得效果時為 0。</div>
     <div class="statgrid" style="margin-top:12px">
       <div class="stat"><div class="k">ATK %</div><div class="v" id="sysAtkPct">0%</div></div>
       <div class="stat"><div class="k">法術傷害</div><div class="v" id="sysSpellPct">0%</div></div>
@@ -1691,41 +1684,27 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     </div>
     <div class="small" id="sysFlatAtk" style="margin-top:10px">ATK 固定值增量：+0</div>
     <div class="small" id="sysSpecialEffects" style="margin-top:5px">特殊／條件效果：無</div>
-      </div>
-    <div class="v22-stat-panel" data-v22-panel="titles" role="tabpanel" hidden>
-    <div class="v21-title-stats-heading"><div><h3>稱號能力統計｜獨立計算</h3><div class="small">依已選擇的最高解鎖星級顯示稱號能力（遊戲實際套用規則仍待驗證），不納入上方系統效果、角色屬性或傷害計算。</div></div><span class="v21-title-stat-pill">正式版｜不計入傷害</span></div>
-    <div class="v21-title-stat-meta"><span id="v21TitleStatCount">已解鎖 0 / 48</span><span id="v21TitleStatTypeCount">生效能力 0 種</span><span>各稱號星級不重複累加</span></div>
-    <div class="v21-title-stat-grid" id="v21TitleStatGrid"><div class="small">尚無已解鎖稱號。</div></div>
-    <details class="v21-title-stat-detail"><summary>查看各屬性加成來源</summary><div id="v21TitleStatSources" class="v21-title-stat-sources"></div></details>
-    </div>
-    </details>
-    <div id="v25ProgressBank" hidden aria-hidden="true">
+  </div>
+
+  <div class="card"><h3>目前自訂進度</h3>
     <div class="statgrid">
       <div class="stat"><div class="k">人工製品</div><div class="v" id="sysArtifactCount">0 / 103</div></div>
       <div class="stat"><div class="k">魔法樹</div><div class="v" id="sysTreeCount">0 / 29</div></div>
-      <div class="stat"><div class="k">稱號</div><div class="v" id="v21TitleCurrent">未設定</div></div>
       <div class="stat"><div class="k">時裝</div><div class="v" id="sysFashionCount">0 / 22</div></div>
       <div class="stat"><div class="k">寵物</div><div class="v" id="sysPetCount">0 / 4</div></div>
     </div>
     <div class="small" id="sysTreePoints" style="margin-top:10px">魔法樹已投入：0 點</div>
     <div class="warn small" id="sysWarning" style="margin-top:5px"></div>
-    </div>
   </div>
 
-  <div class="card v23-system-hub" id="v23SystemHub">
-    <div class="v23-system-header"><h3>系統來源｜逐項自訂</h3><span>五類獨立切換</span></div>
-    <div class="v23-system-tabs" role="tablist" aria-label="五大系統分類">
-      <button type="button" data-v23-system="artifact" class="is-active" role="tab" aria-selected="true"><span class="v25-tab-title">人工製品</span><span class="v25-tab-progress" id="v25-artifact">—</span><span class="v25-tab-bar"><i id="v25-bar-artifact"></i></span></button>
-      <button type="button" data-v23-system="tree" class="" role="tab" aria-selected="false"><span class="v25-tab-title">魔法樹</span><span class="v25-tab-progress" id="v25-tree">—</span><span class="v25-tab-bar"><i id="v25-bar-tree"></i></span></button>
-      <button type="button" data-v23-system="title" role="tab" aria-selected="false"><span class="v25-tab-title">稱號</span><span class="v25-tab-progress" id="v25-title">0 / 48</span><span class="v25-tab-bar"><i id="v25-bar-title"></i></span><span class="formal-title-tab-note">暫不計入傷害</span></button>
-      <button type="button" data-v23-system="fashion" class="" role="tab" aria-selected="false"><span class="v25-tab-title">時裝</span><span class="v25-tab-progress" id="v25-fashion">—</span><span class="v25-tab-bar"><i id="v25-bar-fashion"></i></span></button>
-      <button type="button" data-v23-system="pet" class="" role="tab" aria-selected="false"><span class="v25-tab-title">寵物</span><span class="v25-tab-progress" id="v25-pet">—</span><span class="v25-tab-bar"><i id="v25-bar-pet"></i></span></button>
-    </div>
-    <details open data-v23-panel="artifact"><summary>人工製品｜103 件</summary>
+  <div class="card"><h3>系統來源｜逐項自訂</h3>
+    <div class="note">所有設定都會保存於瀏覽器草稿。人工製品輸入 Lv 後不會再跳回清單頂端。魔法樹使用等級下拉；「魔法強化」會依主控台角色 Lv 自動限制可用上限。時裝擁有即生效；寵物最多裝備 4 隻。</div>
+
+    <details open><summary>人工製品｜103 件</summary>
       <div class="sys-toolbar"><input id="artifactSearch" placeholder="搜尋人工製品名稱"></div>
       <div class="sys-list" id="artifactList"></div>
     </details>
-    <details data-v23-panel="tree"><summary>魔法樹｜29 節點</summary>
+    <details><summary>魔法樹｜29 節點</summary>
       <div class="tree-point-grid">
         <div class="tree-point"><div class="k">可用點數</div><div class="v" id="treeAvailablePoints">0</div></div>
         <div class="tree-point"><div class="k">已使用點數</div><div class="v" id="treeUsedPoints">0</div></div>
@@ -1735,14 +1714,10 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
       <div class="sys-toolbar"><input id="treeSearch" placeholder="搜尋魔法樹節點"></div>
       <div class="sys-list" id="treeList"></div>
     </details>
-    <details id="v21TitleDetails" data-v23-panel="title"><summary>稱號｜48 個 <span class="formal-title-badge">暫不計入傷害</span></summary>
-      <div class="formal-title-warning">稱號解鎖與能力加成僅供獨立統計；尚未加入角色總屬性、裝備最佳化、03／04 傷害運算。星級及加成的遊戲原生套用規則仍待驗證。</div>
-      <div id="v21TitleRoot" class="v21-title-shell"><div class="v21-title-loading">正在讀取稱號資料…</div></div>
-    </details>
-    <details data-v23-panel="fashion"><summary>時裝｜擁有即生效</summary>
+    <details><summary>時裝｜擁有即生效</summary>
       <div class="sys-list" id="fashionList"></div>
     </details>
-    <details data-v23-panel="pet"><summary>寵物｜最多裝備 4 隻</summary>
+    <details><summary>寵物｜最多裝備 4 隻</summary>
       <div class="sys-list" id="petList"></div>
     </details>
   </div>
@@ -5445,7 +5420,7 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
     'zh-Hant':{
       helpBtn:'操作說明', reportBtn:'問題回報', close:'關閉',
       helpTitle:'模擬器操作說明',
-      updateTitle:'更新資訊｜V2.1', updateText:'已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。 新增 48 個稱號與獨立能力統計，稱號加成目前僅供參考，暫不計入角色屬性、裝備最佳化及傷害計算；遊戲實際稱號加成規則仍待驗證。',
+      updateTitle:'更新資訊｜V2.1', updateText:'已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。',
       intro:'本模擬器依「角色設定 → 系統效果 → 裝備配置 → 分析報告」四個步驟運作。建議先依遊戲實際面板建立角色條件，再進行手動實裝或自動最佳化。設定會儲存在目前瀏覽器中，重新整理後仍會保留。',
       steps:[
         ['01｜角色設定','輸入角色等級、主武固定 ATK 與主武裝備 Lv，再選擇目前要模擬的武器技能。角色等級、裝備等級與技能選擇都會影響後續傷害與最佳化結果，因此請以遊戲目前實際數值為準。'],
@@ -5600,7 +5575,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     'zh-Hant':{
       title:'模擬前使用提示', sub:'依序完成設定，可避免條件遺漏並更快取得正確結果。',
       items:[
-        ['更新資訊｜V2.1','已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。 新增 48 個稱號與獨立能力統計，稱號加成目前僅供參考，暫不計入角色屬性、裝備最佳化及傷害計算；遊戲實際稱號加成規則仍待驗證。','update'],
+        ['更新資訊｜V2.1','已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。','update'],
         ['進入 03 前會重新計算','完成 01「角色設定」或 02「系統效果」的輸入與調整後，進入 03「裝備配置」時，系統會依目前全部條件重新計算；若條件較多，請稍候片刻。'],
         ['角色等級異動請檢查魔法樹','若調整 01 的角色等級，請務必回到 02 檢查「魔法樹」設定，確認等級上限與目前配置仍符合需求。'],
         ['自動最佳化需要搜尋時間','03「裝備配置」是主要計算頁面。使用「自動最佳化」調整最低暴擊率或最低冷卻條件後，系統會重新搜尋最佳配置；條件越嚴格，計算時間可能略長。']
@@ -6340,7 +6315,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 .artifact-preview-note{padding:8px 14px 0;font-size:9px;color:#82939c}.artifact-preview-note b{color:#d8bd7a}
 @media(max-width:980px){.artifact-game-grid{grid-template-columns:repeat(7,minmax(0,1fr))}}
 @media(max-width:620px){
-  .artifact-game-shell{border-radius:14px}.artifact-game-head{padding:10px}.artifact-game-grid-wrap{max-height:430px;padding:10px}.artifact-game-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.artifact-game-item{padding:6px 3px 5px}.artifact-game-icon{width:50px;height:50px}.artifact-game-name{font-size:8px}.artifact-game-lv{font-size:7.5px}
+  .artifact-game-shell{border-radius:14px}.artifact-game-head{padding:10px}.artifact-game-grid-wrap{max-height:430px;padding:10px}.artifact-game-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.artifact-game-item{padding:6px 3px 5px}.artifact-game-icon{width:50px;height:50px}.artifact-game-name{font-size:8px}.artifact-game-lv{font-size:7.5px}
   .artifact-game-detail{grid-template-columns:56px minmax(0,1fr);gap:9px;padding:10px}.artifact-detail-icon{width:56px;height:56px}.artifact-detail-controls{grid-column:1/-1;justify-content:stretch;display:grid;grid-template-columns:44px 1fr 44px 58px 72px}.artifact-level-btn,.artifact-primary-btn{padding:7px 5px;min-width:0}.artifact-level-read{display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.06);border-radius:9px;background:rgba(0,0,0,.18)}
 }
 @media(max-width:360px){.artifact-game-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -6471,7 +6446,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .artifact-game-lv{font-size:6.8px}
 }
 @media(max-width:360px){
-  .artifact-game-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+  .artifact-game-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
   .artifact-game-icon{width:40px;height:40px}
 }
 </style>
@@ -6557,7 +6532,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 .pet-game-shell{border:1px solid rgba(111,174,204,.22);border-radius:14px;background:linear-gradient(180deg,rgba(12,31,42,.90),rgba(8,17,25,.92));overflow:hidden}
 .pet-game-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;border-bottom:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,rgba(21,54,70,.62),rgba(12,31,42,.38))}
 .pet-game-head .small{font-size:10px;color:#9fb9c5;line-height:1.45}.pet-equip-count{font-size:10px;font-weight:850;color:#d9eef6;white-space:nowrap}
-.pet-slot-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:10px;border-bottom:1px solid rgba(255,255,255,.055)}
+.pet-slot-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:10px;border-bottom:1px solid rgba(255,255,255,.055)}
 .pet-slot{min-width:0;min-height:74px;border:1px dashed rgba(154,196,214,.22);border-radius:11px;background:rgba(4,13,19,.45);display:grid;grid-template-columns:46px minmax(0,1fr);align-items:center;gap:8px;padding:7px;text-align:left;color:#dbeaf0}
 .pet-slot.is-filled{border-style:solid;border-color:rgba(111,201,238,.42);background:linear-gradient(180deg,rgba(22,66,83,.54),rgba(6,22,31,.64));box-shadow:inset 0 0 18px rgba(64,178,221,.07)}
 .pet-slot-art{width:46px;height:46px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);display:grid;place-items:center;overflow:hidden}.pet-slot-art img{width:100%;height:100%;object-fit:contain}.pet-slot-empty{font-size:20px;color:#5f7d89}.pet-slot-name{font-size:9px;font-weight:850;line-height:1.25;overflow-wrap:anywhere}.pet-slot-sub{font-size:7.5px;color:#7fa0ad;margin-top:3px}
@@ -6571,9 +6546,9 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 .pet-gallery-note{padding:0 11px 10px;font-size:8px;color:#668591;line-height:1.45}
 @media(max-width:900px){.pet-game-grid{grid-template-columns:repeat(6,minmax(0,1fr))}.pet-slot-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){
- .pet-game-head{padding:8px}.pet-slot-row{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;padding:8px;overflow-x:auto}
+ .pet-game-head{padding:8px}.pet-slot-row{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:8px;overflow-x:auto}
  .pet-slot{display:block;min-width:72px;min-height:78px;padding:5px;text-align:center}.pet-slot-art{width:42px;height:42px;margin:0 auto 3px}.pet-slot-name{font-size:7px}.pet-slot-sub{font-size:6.5px}
- .pet-game-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:8px;max-height:390px}.pet-game-art{width:48px;height:48px}.pet-game-name{font-size:7.5px}.pet-game-effect-mini{display:none}
+ .pet-game-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px;max-height:390px}.pet-game-art{width:48px;height:48px}.pet-game-name{font-size:7.5px}.pet-game-effect-mini{display:none}
  .pet-game-detail{grid-template-columns:58px minmax(0,1fr);padding:9px;gap:9px}.pet-detail-art{width:58px;height:58px}.pet-equip-btn{grid-column:1/-1;width:100%;min-height:42px}.pet-detail-title{font-size:12px}.pet-detail-effect{font-size:9px}
 }
 @media(max-width:360px){.pet-game-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -7158,7 +7133,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
 .v2-share-system{
-  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-top:9px
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:9px
 }
 .v2-share-system-item{
   min-width:0;display:flex;align-items:center;gap:7px;padding:8px;
@@ -7583,7 +7558,7 @@ main>.screen:first-of-type .hero{margin-bottom:10px}
 .v2-p1-dmg.crit{border-color:rgba(218,181,94,.42);background:rgba(60,43,17,.28)}
 .v2-p1-dmg.crit b{color:#efd490}
 .v2-p1-status{
-  margin-top:10px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px
+  margin-top:10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px
 }
 .v2-p1-status>div{
   padding:8px;border:1px solid rgba(57,86,100,.36);border-radius:9px;background:rgba(2,9,13,.30)
@@ -7766,7 +7741,7 @@ main>.screen:first-of-type .hero{margin-bottom:10px}
 </style>
 
 <style id="v2-page01-skillcard-fullstats-mp-layout">
-.skill-preview-stats-v2{grid-template-columns:repeat(5,minmax(0,1fr))!important;margin-top:9px!important}
+.skill-preview-stats-v2{grid-template-columns:repeat(4,minmax(0,1fr))!important;margin-top:9px!important}
 .skill-preview-stat em{display:block;margin-top:2px;font-size:6.5px;font-style:normal;color:#6f8490;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .skill-preview-card:before{right:10px!important;top:9px!important;bottom:auto!important}
 .skill-preview-meta{padding-right:66px!important}
@@ -8008,611 +7983,6 @@ main>.screen:nth-of-type(3) #autoPane>.card{
   document.addEventListener('click',function(e){if(e.target.closest('.release-help-btn'))requestAnimationFrame(clean);});
 })();
 </script>
-<style id="v24-summary-css">
-.v24-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}
-.v24-brief{min-width:0;text-align:left;background:linear-gradient(150deg,rgba(15,36,47,.92),rgba(9,22,34,.92));border:1px solid rgba(109,153,165,.27);border-radius:11px;padding:13px 12px;cursor:pointer;color:inherit;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
-.v24-brief:hover,.v24-brief:focus-visible{border-color:rgba(202,177,112,.72);outline:none}
-.v24-label{font-size:13px;font-weight:800;color:#d9e9e8}.v24-label small{display:block;font-size:10px;font-weight:400;color:#8eaab5;margin-top:5px;line-height:1.4}
-.v24-metrics{display:flex;gap:8px 14px;flex-wrap:wrap;font-size:10px;color:#91aeb7}
-.v24-metrics span{white-space:nowrap}.v24-metrics b{display:block;color:#d9e4ca;font-size:17px;margin-top:4px;font-variant-numeric:tabular-nums}
-.v24-expand{margin-top:12px;border-top:1px solid rgba(112,146,160,.25);padding-top:9px}
-.v24-expand>summary{cursor:pointer;color:#bed3d5;font-size:12px;font-weight:700;list-style:none;padding:9px 4px;display:flex;gap:10px;align-items:center;justify-content:space-between}
-.v24-expand>summary::-webkit-details-marker{display:none}.v24-expand>summary::before{content:'▸';color:#d9c28a;margin-right:4px}.v24-expand[open]>summary::before{content:'▾'}
-.v24-expand>summary span{font-size:10px;font-weight:400;color:#8ca9b3}
-.v24-expand>.v22-stat-tabs{margin-top:8px}
-@media(max-width:850px){.v24-overview{grid-template-columns:1fr 1fr}.v24-brief:first-child{grid-column:1 / -1}}
-@media(max-width:520px){.v24-overview{grid-template-columns:1fr;gap:7px}.v24-brief:first-child{grid-column:auto}.v24-brief{gap:8px;padding:10px 12px}.v24-metrics b{display:inline;font-size:14px;margin-left:4px}.v24-expand>summary span{display:none}}
-</style>
-<style id="v25-refine-css">
-.v24-overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.v24-brief{gap:9px;padding:12px 14px}
-.v24-brief.is-active{border-color:rgba(203,183,129,.8);background:linear-gradient(150deg,rgba(39,53,52,.94),rgba(13,34,44,.94))}
-.v24-expand{margin-top:8px}.v24-expand>summary{font-size:11px;padding:8px 3px}
-.v23-system-tip{display:none}
-.v23-system-tabs button{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:5px;padding:10px 7px;min-height:66px}
-.v25-tab-title{font-weight:850;text-align:center;font-size:11px}
-.v25-tab-progress{font-size:11px;text-align:center;font-variant-numeric:tabular-nums;color:#b8cdd2;font-weight:650}
-.v25-tab-bar{width:100%;height:3px;background:rgba(113,142,149,.28);overflow:hidden;border-radius:10px}
-.v25-tab-bar i{display:block;width:0%;height:100%;background:#9eac8b;border-radius:10px;transition:width .2s}
-#v25ProgressBank{display:none!important}
-@media(max-width:850px){.v24-overview{grid-template-columns:repeat(2,minmax(0,1fr))}.v24-brief:first-child{grid-column:auto}}
-@media(max-width:520px){.v24-overview{grid-template-columns:1fr}.v23-system-tabs button{min-height:65px;padding:7px 3px;gap:4px}.v25-tab-title{font-size:10px}.v25-tab-progress{font-size:9px;letter-spacing:-.2px}}
-</style>
-<style id="v26-navigation-pets-css">
-/* R6: system selector stays accessible while scrolling through long artifact galleries. */
-#v23SystemHub .v23-system-tabs{position:sticky;top:8px;z-index:55;box-shadow:0 8px 22px rgba(0,0,0,.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-/* Larger pet gallery cards, with responsive columns rather than tiny 8-column cards. */
-#v23SystemHub .pet-game-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;max-height:520px}
-#v23SystemHub .pet-game-item{padding:10px 6px 9px;border-radius:12px;min-height:109px}
-#v23SystemHub .pet-game-art{width:min(72px,100%);height:auto;aspect-ratio:1;margin:0 auto 7px}
-#v23SystemHub .pet-game-name{font-size:10px;min-height:24px;line-height:1.3}
-#v23SystemHub .pet-game-effect-mini{font-size:8px;margin-top:5px}
-@media(max-width:1050px){#v23SystemHub .pet-game-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
-@media(max-width:760px){#v23SystemHub .pet-game-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
-@media(max-width:520px){#v23SystemHub .v23-system-tabs{top:3px}#v23SystemHub .pet-game-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;max-height:520px}#v23SystemHub .pet-game-item{min-height:92px;padding:7px 4px}#v23SystemHub .pet-game-art{width:min(68px,100%)}#v23SystemHub .pet-game-name{font-size:9px}}
-@media(max-width:350px){#v23SystemHub .pet-game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-</style>
-<style id="v23-system-tabs-css">
-.v23-system-header{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
-.v23-system-header h3{margin:0!important}.v23-system-header span{font-size:10px;color:#8fa6b0}
-.v23-system-tip{font-size:10px;color:#91a9b3;margin:6px 0 10px;line-height:1.4}
-.v23-system-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:4px;background:rgba(4,15,24,.65);border:1px solid rgba(88,119,134,.3);border-radius:11px;margin-bottom:12px}
-.v23-system-tabs button{min-width:0;min-height:39px;padding:6px 3px;border-radius:8px;border:1px solid transparent;background:transparent;color:#9ab2bd;font-size:11px;font-weight:850;cursor:pointer;white-space:nowrap}
-.v23-system-tabs button.is-active{border-color:rgba(182,160,100,.55);color:#e7d39d;background:rgba(81,64,32,.32)}
-.v23-system-hub>details[data-v23-panel]{display:none!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
-.v23-system-hub>details[data-v23-panel].is-active{display:block!important}
-.v23-system-hub>details[data-v23-panel]>summary{display:none!important}
-@media(max-width:520px){.v23-system-tabs{gap:3px;padding:3px}.v23-system-tabs button{font-size:10px;padding:5px 1px;min-height:36px;letter-spacing:-.3px}}
-@media(max-width:350px){.v23-system-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}}
-</style>
-<style id="formal-ui-layout-patch">
-.v24-overview{grid-template-columns:minmax(0,1fr)!important;max-width:780px}.v24-brief{gap:9px}.v24-metrics{justify-content:flex-start}#v23SystemHub .v23-system-tabs{grid-template-columns:repeat(5,minmax(0,1fr))}.v22-unified-stats .v22-stat-panel[hidden]{display:none!important}
-</style>
-<script id="formal-ui-summary-js">(()=>{const init=()=>{const root=document.getElementById('v22UnifiedStats'),detail=document.getElementById('v24StatDetails');if(!root||!detail)return;const transfer=(a,b,fn)=>{const from=document.getElementById(a),to=document.getElementById(b);if(!from||!to)return;const update=()=>to.textContent=fn?fn(from.textContent):from.textContent.trim();update();new MutationObserver(update).observe(from,{childList:true,characterData:true,subtree:true});};[['sysAtkPct','v24Atk'],['sysCritPct','v24Crit'],['sysCooldownPct','v24Cd']].forEach(([a,b])=>transfer(a,b));transfer('v21TitleStatCount','v24Titles',v=>v.replace(/^.*?已解鎖\s*/,'').trim());transfer('v21TitleStatTypeCount','v24TitleKinds',v=>v.replace(/^.*?生效能力\s*/,'').trim());const cards=[...root.querySelectorAll('[data-v24-open]')],panels=[...root.querySelectorAll('[data-v22-panel]')].filter(e=>e.dataset.v22Panel!=='progress');let active=null;const set=(key,open)=>{active=open?key:null;detail.open=open;cards.forEach(c=>{const ok=open&&c.dataset.v24Open===key;c.classList.toggle('is-active',ok);c.setAttribute('aria-expanded',String(ok));});panels.forEach(e=>e.hidden=e.dataset.v22Panel!==key);};cards.forEach(c=>c.addEventListener('click',()=>set(c.dataset.v24Open,!(active===c.dataset.v24Open&&detail.open))));set('system',false);};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();})();</script>
-<script id="v23-system-tabs-js">
-(()=>{
- const init=()=>{
-  const hub=document.getElementById('v23SystemHub');if(!hub)return;
-  const buttons=[...hub.querySelectorAll('[data-v23-system]')];
-  const panels=[...hub.querySelectorAll('details[data-v23-panel]')];
-  const select=(key)=>{
-   buttons.forEach(b=>{const on=b.dataset.v23System===key;b.classList.toggle('is-active',on);b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;});
-   panels.forEach(p=>{const on=p.dataset.v23Panel===key;p.classList.toggle('is-active',on);if(on&&!p.open)p.open=true;else if(!on&&p.open)p.open=false;});
-  };
-  buttons.forEach(b=>b.addEventListener('click',()=>select(b.dataset.v23System)));
-  // If legacy code opens a system details element, select the matching tab.
-  panels.forEach(p=>p.addEventListener('toggle',()=>{if(p.open&&!p.classList.contains('is-active'))select(p.dataset.v23Panel)}));
-  select('artifact');
- };
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
-<script id="formal-ui-progress-js">(()=>{const init=()=>{for(const [key,fromId] of [['artifact','sysArtifactCount'],['tree','sysTreeCount'],['title','v21TitleStatCount'],['fashion','sysFashionCount'],['pet','sysPetCount']]){const from=document.getElementById(fromId),label=document.getElementById('v25-'+key),bar=document.getElementById('v25-bar-'+key);if(!from||!label)continue;const update=()=>{const raw=from.textContent.trim(),match=raw.match(/(\d+)\s*\/\s*(\d+)/);if(match){const n=Number(match[1]),d=Number(match[2]);label.textContent=n+' / '+d;if(bar)bar.style.width=(d?Math.min(100,Math.max(0,n/d*100)):0)+'%';}else{label.textContent=raw||'—';if(bar)bar.style.width='0%';}};update();new MutationObserver(update).observe(from,{childList:true,characterData:true,subtree:true});}};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init()})();</script>
-<style id="v21-staging-title-system-style">
-.v21-staging-badge{
-  display:inline-flex;align-items:center;margin-left:8px;padding:4px 7px;
-  border:1px solid rgba(216,189,118,.42);border-radius:999px;
-  background:rgba(61,45,17,.45);color:#d9bd75;font-size:8px;
-  font-weight:900;letter-spacing:.08em;vertical-align:middle
-}
-.v21-title-shell{
-  margin:10px!important;border:1px solid rgba(117,150,164,.36);
-  border-radius:15px;overflow:hidden;
-  background:linear-gradient(180deg,rgba(8,21,29,.86),rgba(4,12,18,.92))
-}
-.v21-title-head{
-  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
-  padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.055)
-}
-.v21-title-head strong{display:block;color:#e8edef;font-size:11px}
-.v21-title-head span{display:block;margin-top:3px;color:#78909b;font-size:8px;line-height:1.45}
-.v21-title-mode{
-  flex:0 0 auto;padding:5px 7px;border-radius:999px;
-  border:1px solid rgba(196,126,77,.42);background:rgba(57,31,17,.42);
-  color:#e3a46f;font-size:7.5px;font-weight:900;white-space:nowrap
-}
-.v21-title-effect-preview{display:flex;gap:7px 13px;align-items:center;flex-wrap:wrap;margin:9px 10px 0;padding:9px 11px;border:1px solid rgba(83,151,171,.25);border-radius:9px;background:rgba(8,35,46,.55);font-size:9px;color:#b8d5e2}
-.v21-title-effect-preview b{color:#e9d4a0}.v21-title-effect-preview small{width:100%;font-size:8px;color:#7c9aa5}
-.v21-title-toolbar{display:flex;gap:7px;padding:10px 10px 8px;flex-wrap:wrap}
-.v21-title-search{
-  flex:1 1 220px;min-width:140px;height:36px;border-radius:9px;
-  border:1px solid rgba(88,124,141,.45)!important;background:#07131b!important;
-  color:#e4ecef!important;padding:0 10px!important
-}
-.v21-title-tabs{display:flex;gap:5px;flex-wrap:wrap}
-.v21-title-tab{
-  min-height:34px;padding:0 9px;border-radius:9px;
-  border:1px solid rgba(78,109,123,.42);background:#091821;
-  color:#91a5ae;font-size:8px;font-weight:850;cursor:pointer
-}
-.v21-title-tab.is-active{border-color:rgba(216,189,118,.52);color:#e4c87c;background:rgba(52,40,19,.52)}
-.v21-title-grid-wrap{
-  max-height:520px;overflow:auto;padding:10px;
-  scrollbar-width:thin;scrollbar-color:#586a73 transparent
-}
-.v21-title-grid{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px
-}
-.v21-title-card{
-  appearance:none;position:relative;min-width:0;
-  min-height:88px;padding:7px 10px 7px;
-  border-radius:12px;border:1px solid rgba(76,99,119,.44);
-  background:
-    linear-gradient(180deg,rgba(22,24,42,.94),rgba(14,18,31,.98));
-  color:#eef0f3;text-align:left;cursor:pointer;
-  transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease
-}
-.v21-title-card:hover{transform:translateY(-1px);border-color:rgba(216,189,118,.48)}
-.v21-title-card.is-selected{
-  border-color:rgba(216,189,118,.78);
-  box-shadow:0 0 0 1px rgba(216,189,118,.10),0 0 14px rgba(216,189,118,.08)
-}
-.v21-title-card.is-pop-target{outline:2px solid rgba(99,201,231,.72);outline-offset:1px}
-.v21-title-card.is-locked{
-  background:linear-gradient(180deg,rgba(8,11,17,.96),rgba(4,7,11,.99));
-  border-color:rgba(55,67,76,.42);
-  box-shadow:none;
-}
-.v21-title-card.is-locked .v21-title-card-cat,
-.v21-title-card.is-locked .v21-title-card-name,
-.v21-title-card.is-locked .v21-title-card-bonus{
-  opacity:.34;
-  filter:saturate(.25);
-}
-.v21-title-card.is-locked .v21-title-card-starbadge{
-  color:#53616a;
-  opacity:.72;
-}
-.v21-title-card.is-unlocked{
-  border-color:rgba(95,121,137,.62);
-  background:linear-gradient(180deg,rgba(22,24,42,.96),rgba(14,18,31,.99));
-}
-.v21-title-card.is-unlocked .v21-title-card-starbadge{
-  color:#e7c94f;
-}
-.v21-title-card-top{
-  display:flex;align-items:center;justify-content:space-between;gap:8px
-}
-.v21-title-card-cat{
-  color:#e7ad57;font-size:7.6px;font-weight:950;letter-spacing:.02em
-}
-.v21-title-card-starbadge{
-  color:#e7c94f;font-size:11px;font-weight:950;line-height:1
-}
-.v21-title-card-center{
-  min-height:35px;display:flex;align-items:center;justify-content:center;
-  padding:3px 3px 2px;text-align:center
-}
-.v21-title-card-name{
-  font-size:13px;font-weight:900;line-height:1.3;color:#f2f3f5;
-  white-space:normal;overflow-wrap:anywhere
-}
-.v21-title-card-bonus{
-  min-height:22px;display:flex;align-items:center;justify-content:center;
-  border-top:1px solid rgba(255,255,255,.045);padding:4px 4px 0;
-  color:#69b8d8;font-size:8px;font-weight:900;line-height:1.38;text-align:center
-}
-.v21-title-card-bonus span{white-space:normal;overflow-wrap:anywhere}
-
-/* Floating title editor — mirrors the Artifact interaction pattern. */
-.v21-title-float{
-  position:fixed;width:260px;max-width:calc(100vw - 20px);box-sizing:border-box;
-  z-index:10030;padding:10px;border:1px solid rgba(111,169,192,.58);
-  border-radius:13px;
-  background:linear-gradient(180deg,rgba(12,28,38,.985),rgba(5,14,21,.99));
-  box-shadow:0 12px 30px rgba(0,0,0,.48),0 0 0 1px rgba(255,255,255,.025);
-  color:#dfe8ec
-}
-.v21-title-float:before{
-  content:"";position:absolute;left:-7px;right:auto;top:50%;width:12px;height:12px;
-  transform:translateY(-50%) rotate(45deg);background:rgba(10,24,33,.99);
-  border-left:1px solid rgba(111,169,192,.58);
-  border-bottom:1px solid rgba(111,169,192,.58)
-}
-.v21-title-float.is-left:before{
-  left:auto;right:-7px;transform:translateY(-50%) rotate(225deg)
-}
-.v21-title-float-top{
-  display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:8px;align-items:center
-}
-.v21-title-float-badge{
-  width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;
-  border:1px solid rgba(216,189,118,.44);background:rgba(61,45,17,.48);
-  color:#edce77;font-size:14px;font-weight:950
-}
-.v21-title-float-name{font-size:12px;font-weight:950;color:#f0f3f4;line-height:1.25}
-.v21-title-float-en{font-size:8px;color:#8297a2;margin-top:2px}
-.v21-title-float-close{
-  align-self:start;width:28px;height:28px;border-radius:8px;
-  border:1px solid rgba(92,127,143,.42);background:#091923;color:#9eb1ba;cursor:pointer
-}
-.v21-title-float-desc{
-  margin-top:8px;padding:7px 8px;border:1px solid rgba(255,255,255,.055);
-  border-radius:9px;background:rgba(0,0,0,.18);font-size:8.5px;line-height:1.45;color:#9eb0b9
-}
-.v21-title-float-stars{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px
-}
-.v21-title-float-star{
-  min-height:34px;border-radius:8px;border:1px solid rgba(105,147,165,.46);
-  background:#0a1923;color:#9fb0b8;font-weight:900;cursor:pointer
-}
-.v21-title-float-star.is-active{
-  border-color:rgba(218,180,95,.65);background:rgba(68,49,22,.52);color:#f1d58b
-}
-.v21-title-float-star:disabled{opacity:.28;cursor:not-allowed}
-.v21-title-float-info{
-  margin-top:8px;display:grid;gap:6px
-}
-.v21-title-float-row{
-  padding:7px 8px;border-radius:9px;border:1px solid rgba(61,91,106,.30);
-  background:rgba(10,27,37,.68)
-}
-.v21-title-float-row span{display:block;font-size:6.8px;color:#69808a}
-.v21-title-float-row b{display:block;margin-top:2px;font-size:8px;line-height:1.45;color:#d7e2e6}
-.v21-title-float-warning{
-  margin-top:7px;font-size:7px;line-height:1.4;color:#d4a278
-}
-@media(max-width:1180px){.v21-title-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:760px){.v21-title-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:620px){
-  .v21-title-shell{margin:7px!important}
-  .v21-title-head{padding:9px;flex-direction:column}
-  .v21-title-grid-wrap{padding:8px;max-height:430px}
-  .v21-title-grid{grid-template-columns:1fr;gap:7px}
-  .v21-title-card{min-height:88px;padding:7px 8px 6px}
-  .v21-title-card-name{font-size:12px}
-  .v21-title-card-bonus{font-size:7.6px}
-  .v21-title-float{width:218px;padding:8px}
-  .v21-title-float-top{grid-template-columns:38px minmax(0,1fr) 26px;gap:6px}
-  .v21-title-float-badge{width:38px;height:38px}
-  .v21-title-float-name{font-size:10.5px}
-}
-@media(max-width:380px){.v21-title-grid{grid-template-columns:1fr}}
-</style>
-<style id="v21-title-stats-css">
-.v21-title-stats-panel{border-color:rgba(106,185,182,.28)!important;background:linear-gradient(155deg,rgba(12,34,44,.95),rgba(10,20,34,.96))!important}
-.v21-title-stats-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
-.v21-title-stats-heading h3{margin-bottom:6px}
-.v21-title-stat-pill{border:1px solid rgba(102,177,172,.38);background:rgba(63,130,129,.13);color:#b4dad4;font-size:10px;letter-spacing:.06em;padding:5px 9px;border-radius:8px;white-space:nowrap}
-.v21-title-stat-meta{display:flex;flex-wrap:wrap;gap:8px;margin:13px 0 11px}
-.v21-title-stat-meta span{color:#a7c2ca;background:rgba(120,161,180,.07);border:1px solid rgba(120,161,180,.14);padding:6px 10px;border-radius:7px;font-size:11px}
-.v21-title-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:9px}
-.v21-title-stat-item{padding:12px 13px;border:1px solid rgba(133,167,180,.21);background:rgba(5,16,25,.46);border-radius:10px;min-height:72px}
-.v21-title-stat-item .k{font-size:11px;color:#a4bcc5;margin-bottom:7px}
-.v21-title-stat-item .v{font-size:19px;color:#d5eddf;font-weight:800;font-variant-numeric:tabular-nums}
-.v21-title-stat-detail{margin-top:13px;border-top:1px solid rgba(130,160,170,.18);padding-top:10px}
-.v21-title-stat-detail summary{cursor:pointer;color:#b8d2d9;font-size:12px}
-.v21-title-stat-source-row{padding:10px 1px;border-bottom:1px solid rgba(120,150,165,.14);font-size:12px}
-.v21-title-stat-source-row b{color:#d7e9e8}.v21-title-stat-source-row small{display:block;margin-top:5px;color:#91aeb8;line-height:1.6}
-</style>
-<style id="v22-title-layout">
-.v22-unified-stats{padding:14px!important}
-.v22-stat-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-.v22-stat-head h3{margin:0!important}.v22-stat-head span{font-size:10px;color:#91aab3}
-.v22-stat-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:4px;margin-bottom:12px;background:rgba(4,15,24,.65);border:1px solid rgba(88,119,134,.3);border-radius:11px}
-.v22-stat-tabs button{cursor:pointer;min-width:0;min-height:37px;border-radius:8px;border:1px solid transparent;background:transparent;color:#9ab2bd;font-size:11px;font-weight:850}
-.v22-stat-tabs button.is-active{border-color:rgba(182,160,100,.55);color:#e7d39d;background:rgba(81,64,32,.32)}
-.v22-stat-panel[hidden]{display:none!important}
-.v22-stat-panel>.note{font-size:11px;line-height:1.55;padding:7px 9px}
-.v22-unified-stats .statgrid{gap:7px!important;margin-top:8px!important}
-.v22-unified-stats .stat{min-height:57px!important;padding:8px 10px!important}
-.v22-unified-stats .v21-title-stats-heading h3{font-size:13px}
-.v22-unified-stats .v21-title-stat-item{min-height:59px;padding:9px 10px}
-.v22-unified-stats .v21-title-stat-grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:7px}
-@media(min-width:1181px){.v21-title-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
-@media(min-width:801px) and (max-width:1180px){.v21-title-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
-@media(min-width:551px) and (max-width:800px){.v21-title-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
-@media(min-width:390px) and (max-width:550px){.v21-title-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-@media(max-width:389px){.v21-title-grid{grid-template-columns:1fr!important}}
-</style>
-<script type="application/json" id="v21-inline-titles-json">{"schemaVersion":1,"status":"formal-display-only","calculationEnabled":false,"source":{"titleData":"Tower And Swords v2.60020 TitleDatabase / TitleCondition extraction","targetGameVersion":"2.60060","v260060MetadataCheck":"TitleDatabase / TitleCondition / title condition keys present","bonusRevalidationFor260060":false},"categories":[{"id":"journey","zh":"旅程","en":"Journey"},{"id":"training","zh":"修練","en":"Training"},{"id":"hidden","zh":"隱藏","en":"Hidden"},{"id":"demon_realm","zh":"魔界","en":"Demon Realm"}],"titles":[{"id":1,"key":"wanderer","nameZh":"漫遊者","nameEn":"Wanderer","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積遊玩時間","stars":[{"star":1,"unlock":"累積遊玩 3,000 分鐘（50小時）","effect":"經驗值獲得 +1.98%"},{"star":2,"unlock":"累積遊玩 9,000 分鐘（150小時）","effect":"經驗值獲得 +3.96%"},{"star":3,"unlock":"累積遊玩 30,000 分鐘（500小時）","effect":"經驗值獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":2,"key":"monster_slayer","nameZh":"怪物獵殺者","nameEn":"Monster Slayer","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積怪物擊殺數","stars":[{"star":1,"unlock":"累積擊殺 10,000 隻怪物","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"累積擊殺 100,000 隻怪物","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"累積擊殺 500,000 隻怪物","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":3,"key":"tycoon","nameZh":"大亨","nameEn":"Tycoon","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積取得金幣","stars":[{"star":1,"unlock":"累積取得 1,000,000 Gold","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"累積取得 100,000,000 Gold","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"累積取得 10,000,000,000 Gold","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":4,"key":"legend_finder","nameZh":"傳說發現者","nameEn":"Legend Finder","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"單階段稱號","stars":[{"star":1,"unlock":"第一次取得傳說裝備","effect":"攻擊力 +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":5,"key":"collector","nameZh":"收藏家","nameEn":"Collector","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"特殊傳說裝備收集數","stars":[{"star":1,"unlock":"取得 3 件特殊／Trait 傳說裝備","effect":"掉落率 +1.98%"},{"star":2,"unlock":"取得 10 件特殊／Trait 傳說裝備","effect":"掉落率 +3.96%"},{"star":3,"unlock":"取得 30 件特殊／Trait 傳說裝備","effect":"掉落率 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":6,"key":"destined_challenger","nameZh":"命定挑戰者","nameEn":"Destined Challenger","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"程式原始門檻為 0 / 1 / 2 / 3，共四段；不是一般三星計數","stars":[{"star":1,"unlock":"Difficulty Tier 0","effect":"攻擊力 +1.32%"},{"star":2,"unlock":"Difficulty Tier 1","effect":"攻擊力 +2.64%"},{"star":3,"unlock":"Difficulty Tier 2 / 3","effect":"攻擊力 +4.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":7,"key":"first_step","nameZh":"第一步","nameEn":"First Step","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"Tower Boss／首步進度索引，不是單純擊殺次數","stars":[{"star":1,"unlock":"First Step Progress 0","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"First Step Progress 1","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"First Step Progress 2","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":8,"key":"relic_collector","nameZh":"文物收藏家","nameEn":"Relic Collector","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"不同種類文物收集數","stars":[{"star":1,"unlock":"收集 5 種不同文物","effect":"掉落率 +1.98%"},{"star":2,"unlock":"收集 10 種不同文物","effect":"掉落率 +3.96%"},{"star":3,"unlock":"收集 20 種不同文物","effect":"掉落率 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":9,"key":"adept","nameZh":"熟練者","nameEn":"Adept","category":"training","categoryZh":"修練","categoryEn":"Training","description":"角色等級","stars":[{"star":1,"unlock":"角色 Lv.50","effect":"經驗值獲得 +2.97%"},{"star":2,"unlock":"角色 Lv.150","effect":"經驗值獲得 +5.94%"},{"star":3,"unlock":"角色 Lv.300","effect":"經驗值獲得 +9.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":10,"key":"mana_bearer","nameZh":"魔力承載者","nameEn":"Mana Bearer","category":"training","categoryZh":"修練","categoryEn":"Training","description":"最大 MP","stars":[{"star":1,"unlock":"最大 MP 5,000","effect":"最大 MP +1.98%"},{"star":2,"unlock":"最大 MP 50,000","effect":"最大 MP +3.96%"},{"star":3,"unlock":"最大 MP 250,000","effect":"最大 MP +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":11,"key":"immortal","nameZh":"不死者","nameEn":"Immortal","category":"training","categoryZh":"修練","categoryEn":"Training","description":"角色復活次數","stars":[{"star":1,"unlock":"復活 10 次","effect":"HP 回復 +1.98%"},{"star":2,"unlock":"復活 100 次","effect":"HP 回復 +3.96%"},{"star":3,"unlock":"復活 500 次","effect":"HP 回復 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":12,"key":"flame_breath","nameZh":"火焰吐息","nameEn":"Flame Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"火屬性法術傷害","stars":[{"star":1,"unlock":"火屬性法術傷害 100%","effect":"火屬性傷害 +1.98%"},{"star":2,"unlock":"火屬性法術傷害 300%","effect":"火屬性傷害 +3.96%"},{"star":3,"unlock":"火屬性法術傷害 500%","effect":"火屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":13,"key":"frost_breath","nameZh":"冰霜吐息","nameEn":"Frost Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"冰屬性法術傷害","stars":[{"star":1,"unlock":"冰屬性法術傷害 100%","effect":"冰屬性傷害 +1.98%"},{"star":2,"unlock":"冰屬性法術傷害 300%","effect":"冰屬性傷害 +3.96%"},{"star":3,"unlock":"冰屬性法術傷害 500%","effect":"冰屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":14,"key":"thunder_breath","nameZh":"雷霆吐息","nameEn":"Thunder Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"雷屬性法術傷害","stars":[{"star":1,"unlock":"雷屬性法術傷害 100%","effect":"雷屬性傷害 +1.98%"},{"star":2,"unlock":"雷屬性法術傷害 300%","effect":"雷屬性傷害 +3.96%"},{"star":3,"unlock":"雷屬性法術傷害 500%","effect":"雷屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":15,"key":"soul_breath","nameZh":"靈魂吐息","nameEn":"Soul Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"Normal／Soul 法術傷害","stars":[{"star":1,"unlock":"Normal／Soul 法術傷害 100%","effect":"靈魂屬性傷害 +1.98%"},{"star":2,"unlock":"Normal／Soul 法術傷害 300%","effect":"靈魂屬性傷害 +3.96%"},{"star":3,"unlock":"Normal／Soul 法術傷害 500%","effect":"靈魂屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":16,"key":"gale","nameZh":"疾風","nameEn":"Gale","category":"training","categoryZh":"修練","categoryEn":"Training","description":"移動速度倍率","stars":[{"star":1,"unlock":"移動速度 140%","effect":"移動速度 +1.98%"},{"star":2,"unlock":"移動速度 180%","effect":"移動速度 +3.96%"},{"star":3,"unlock":"移動速度 220%","effect":"移動速度 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":17,"key":"skill_master","nameZh":"技能大師","nameEn":"Skill Master","category":"training","categoryZh":"修練","categoryEn":"Training","description":"技能使用總次數","stars":[{"star":1,"unlock":"使用技能 10,000 次","effect":"技能傷害 +1.98%"},{"star":2,"unlock":"使用技能 100,000 次","effect":"技能傷害 +3.96%"},{"star":3,"unlock":"使用技能 500,000 次","effect":"技能傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":18,"key":"ancient_visitor","nameZh":"遠古訪客","nameEn":"Ancient Visitor","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"進入 Ancient Room 1 次","effect":"最大 HP +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":19,"key":"reaper_hunter","nameZh":"死神獵人","nameEn":"Reaper Hunter","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Reaper 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Reaper 擊破進度 1","effect":"暴擊傷害 +1.98%"},{"star":2,"unlock":"Reaper 擊破進度 2","effect":"暴擊傷害 +3.96%"},{"star":3,"unlock":"Reaper 擊破進度 3","effect":"暴擊傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":20,"key":"demon_lord_slayer","nameZh":"魔王獵殺者","nameEn":"Demon Lord Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Demon Lord／Dark Lord 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Demon Lord 擊破進度 1","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"Demon Lord 擊破進度 2","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"Demon Lord 擊破進度 3","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":21,"key":"dark_dragon_slayer","nameZh":"暗黑龍獵殺者","nameEn":"Dark Dragon Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Dark Dragon 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Dark Dragon 擊破進度 1","effect":"全屬性傷害 +1.98%"},{"star":2,"unlock":"Dark Dragon 擊破進度 2","effect":"全屬性傷害 +3.96%"},{"star":3,"unlock":"Dark Dragon 擊破進度 3","effect":"全屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":22,"key":"goddess_s_blessing","nameZh":"女神的祝福","nameEn":"Goddess's Blessing","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"集齊所有 Goddess Token","effect":"最大 HP +1.00%；最大 MP +1.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":23,"key":"black_market_regular","nameZh":"黑市常客","nameEn":"Black Market Regular","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"黑市購買次數","stars":[{"star":1,"unlock":"黑市購買 100 次","effect":"黑市額外折扣 +3.30%"},{"star":2,"unlock":"黑市購買 500 次","effect":"黑市額外折扣 +6.60%"},{"star":3,"unlock":"黑市購買 2,000 次","effect":"黑市額外折扣 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":24,"key":"treasure_hunter","nameZh":"寶物獵人","nameEn":"Treasure Hunter","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"開啟／破壞寶箱 20 個","effect":"寶箱額外道具 +1 個"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":25,"key":"slime_slayer","nameZh":"史萊姆獵殺者","nameEn":"Slime Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"史萊姆地牢擊殺數","stars":[{"star":1,"unlock":"史萊姆地牢擊殺 5,000 隻","effect":"史萊姆地牢經驗值 +4.95%"},{"star":2,"unlock":"史萊姆地牢擊殺 30,000 隻","effect":"史萊姆地牢經驗值 +9.90%"},{"star":3,"unlock":"史萊姆地牢擊殺 100,000 隻","effect":"史萊姆地牢經驗值 +15.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":26,"key":"flash_executioner","nameZh":"閃擊處刑者","nameEn":"Flash Executioner","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"特殊限時 Boss 判定；時間條件與完成次數同時成立","stars":[{"star":1,"unlock":"30 秒內擊殺 Boss × 1 次","effect":"暴擊傷害 +3.30%"},{"star":2,"unlock":"15 秒內擊殺 Boss × 5 次","effect":"暴擊傷害 +6.60%"},{"star":3,"unlock":"5 秒內擊殺 Boss × 15 次","effect":"暴擊傷害 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":27,"key":"unscathed","nameZh":"毫髮無傷","nameEn":"Unscathed","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"無傷通關次數","stars":[{"star":1,"unlock":"無傷通關 1 次","effect":"防禦力 +3.30%"},{"star":2,"unlock":"無傷通關 10 次","effect":"防禦力 +6.60%"},{"star":3,"unlock":"無傷通關 50 次","effect":"防禦力 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":28,"key":"meditator","nameZh":"冥想者","nameEn":"Meditator","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"累積冥想時間","stars":[{"star":1,"unlock":"累積冥想 1,800 秒（30分）","effect":"MP 回復 +3.30%"},{"star":2,"unlock":"累積冥想 3,600 秒（60分）","effect":"MP 回復 +6.60%"},{"star":3,"unlock":"累積冥想 7,200 秒（120分）","effect":"MP 回復 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":29,"key":"proven_challenger","nameZh":"受證挑戰者","nameEn":"Proven Challenger","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"異界地牢通關次數","stars":[{"star":1,"unlock":"異界／Token Dungeon 通關 10 次","effect":"異界地牢金幣獲得 +4.95%"},{"star":2,"unlock":"異界／Token Dungeon 通關 30 次","effect":"異界地牢金幣獲得 +9.90%"},{"star":3,"unlock":"異界／Token Dungeon 通關 100 次","effect":"異界地牢金幣獲得 +15.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":30,"key":"storyteller","nameZh":"說書人","nameEn":"Storyteller","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"★3 程式原始值確實為 9,999","stars":[{"star":1,"unlock":"看過 30 次 NPC 對話","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"看過 50 次 NPC 對話","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"看過 9,999 次 NPC 對話","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":31,"key":"dawn_riser","nameZh":"拂曉之眠","nameEn":"Dawn Riser","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"凌晨 4:00～5:00 登入 1 次","effect":"經驗值獲得 +5.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":32,"key":"beyond_the_wall","nameZh":"牆外之人","nameEn":"Beyond the Wall","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"秘密房發現數","stars":[{"star":1,"unlock":"發現 10 個 Secret Room","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"發現 30 個 Secret Room","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"發現 50 個 Secret Room","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":33,"key":"unwavering","nameZh":"堅定不移者","nameEn":"Unwavering","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"普通攻擊 Boss 擊殺","stars":[{"star":1,"unlock":"以普通攻擊擊殺 Boss 1 次","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"以普通攻擊擊殺 Boss 5 次","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"以普通攻擊擊殺 Boss 15 次","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":34,"key":"forgotten_name","nameZh":"被遺忘的名字","nameEn":"Forgotten Name","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"不裝備任何稱號持續 20 小時","effect":"掉落率 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":35,"key":"risen_from_defeat","nameZh":"敗北重生者","nameEn":"Risen from Defeat","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"角色死亡次數","stars":[{"star":1,"unlock":"死亡 10 次","effect":"最大 HP +1.98%"},{"star":2,"unlock":"死亡 50 次","effect":"最大 HP +3.96%"},{"star":3,"unlock":"死亡 100 次","effect":"最大 HP +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":36,"key":"oath_shatterer","nameZh":"誓約粉碎者","nameEn":"Oath Shatterer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #1；Tier 是擊破難度／階級，不是擊殺次數","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"防禦力 +1.65%；最大 HP +0.99%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"防禦力 +3.30%；最大 HP +1.98%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"防禦力 +5.00%；最大 HP +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":37,"key":"bone_terminator","nameZh":"骸骨終結者","nameEn":"Bone Terminator","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #2；Tier 是擊破難度／階級","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"HP 吸取機率 +0.66%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"HP 吸取機率 +1.32%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"HP 吸取機率 +2.00%；Signature：死亡時復活機率 +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":38,"key":"ember_suppressor","nameZh":"餘燼鎮壓者","nameEn":"Ember Suppressor","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #3；Tier 是擊破難度／階級","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"MP 吸取機率 +0.66%；最大 MP +0.99%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"MP 吸取機率 +1.32%；最大 MP +1.98%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"MP 吸取機率 +2.00%；最大 MP +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":39,"key":"novice","nameZh":"新手","nameEn":"Novice","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"AlwaysTrue；單階段稱號","stars":[{"star":1,"unlock":"開始遊戲即成立","effect":"經驗值獲得 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":40,"key":"world_guardian","nameZh":"世界守護者","nameEn":"World Guardian","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"單階段稱號","stars":[{"star":1,"unlock":"Challenge 通關","effect":"攻擊力 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":41,"key":"peace_envoy","nameZh":"和平使者","nameEn":"Peace Envoy","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"返回村莊次數","stars":[{"star":1,"unlock":"返回村莊 100 次","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"返回村莊 500 次","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"返回村莊 2,000 次","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":42,"key":"boss_hunter","nameZh":"Boss 獵人","nameEn":"Boss Hunter","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"任意 Boss 擊殺數","stars":[{"star":1,"unlock":"擊殺任意 Boss 50 隻","effect":"普通攻擊傷害 +1.98%"},{"star":2,"unlock":"擊殺任意 Boss 300 隻","effect":"普通攻擊傷害 +3.96%"},{"star":3,"unlock":"擊殺任意 Boss 1,500 隻","effect":"普通攻擊傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":43,"key":"elite_adventurer","nameZh":"菁英冒險者","nameEn":"Elite Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"單階段稱號","stars":[{"star":1,"unlock":"Mythic 通關","effect":"經驗值獲得 +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":44,"key":"flame_adventurer","nameZh":"火焰冒險者","nameEn":"Flame Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"火屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用火屬性技能擊殺 Boss 10 次","effect":"火屬性傷害 +1.98%"},{"star":2,"unlock":"使用火屬性技能擊殺 Boss 50 次","effect":"火屬性傷害 +3.96%"},{"star":3,"unlock":"使用火屬性技能擊殺 Boss 200 次","effect":"火屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":45,"key":"frost_adventurer","nameZh":"冰霜冒險者","nameEn":"Frost Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"冰屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用冰屬性技能擊殺 Boss 10 次","effect":"冰屬性傷害 +1.98%"},{"star":2,"unlock":"使用冰屬性技能擊殺 Boss 50 次","effect":"冰屬性傷害 +3.96%"},{"star":3,"unlock":"使用冰屬性技能擊殺 Boss 200 次","effect":"冰屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":46,"key":"thunder_adventurer","nameZh":"雷霆冒險者","nameEn":"Thunder Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"雷屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用雷屬性技能擊殺 Boss 10 次","effect":"雷屬性傷害 +1.98%"},{"star":2,"unlock":"使用雷屬性技能擊殺 Boss 50 次","effect":"雷屬性傷害 +3.96%"},{"star":3,"unlock":"使用雷屬性技能擊殺 Boss 200 次","effect":"雷屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":47,"key":"soul_adventurer","nameZh":"靈魂冒險者","nameEn":"Soul Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Normal／Soul 技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用 Normal／Soul 技能擊殺 Boss 10 次","effect":"靈魂屬性傷害 +1.98%"},{"star":2,"unlock":"使用 Normal／Soul 技能擊殺 Boss 50 次","effect":"靈魂屬性傷害 +3.96%"},{"star":3,"unlock":"使用 Normal／Soul 技能擊殺 Boss 200 次","effect":"靈魂屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false},{"id":48,"key":"remains_cleaner","nameZh":"遺骸清掃者","nameEn":"Remains Cleaner","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss 系統進度","stars":[{"star":1,"unlock":"Demon Boss 解鎖／擊破進度 5","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"Demon Boss 解鎖／擊破進度 10","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"Demon Boss 解鎖／擊破進度 13","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false}]}</script>
-<script id="v21-staging-title-system-js">
-(()=>{
-  'use strict';
-  const STORAGE='tower-sword-v21-title-preview';
-  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
-  let db=null, category='all', query='', selectedId=1;
-  let titleStars={};
-  let pop=null,targetBtn=null,targetId=null,cleanup=null,raf=0;
-
-  try{
-    const s=JSON.parse(localStorage.getItem(STORAGE)||'{}');
-    if(Number.isFinite(Number(s.selectedId)))selectedId=Number(s.selectedId);
-    if(s.titleStars&&typeof s.titleStars==='object')titleStars={...s.titleStars};
-    /* Old preview builds stored one global star and made every card look unlocked.
-       Do not migrate that value. V2.1 now starts every title at 0 / locked. */
-  }catch(_){}
-
-  function titleStar(id){
-    const n=Number(titleStars[String(id)]??0);
-    return Number.isFinite(n)?Math.max(0,Math.min(3,n)):0;
-  }
-  function setTitleStar(id,value){
-    const t=title(id);
-    let n=Math.max(0,Number(value)||0);
-    n=Math.min(Number(t?.maxStar||3),n);
-    if(n>0&&!starData(t,n))n=0;
-    titleStars[String(id)]=n;
-  }
-  function save(){try{localStorage.setItem(STORAGE,JSON.stringify({selectedId,titleStars}))}catch(_){}}
-  function title(id){return db?.titles?.find(x=>Number(x.id)===Number(id))||null}
-  function selected(){return title(selectedId)||db?.titles?.[0]||null}
-  function starData(t,n){return Number(n)>0?(t?.stars||[]).find(x=>Number(x.star)===Number(n))||null:null}
-  function filtered(){
-    if(!db)return[];
-    const q=query.trim().toLowerCase();
-    return db.titles.filter(t=>{
-      const cat=category==='all'||t.category===category;
-      const hit=!q||String(t.nameZh).toLowerCase().includes(q)||String(t.nameEn).toLowerCase().includes(q);
-      return cat&&hit;
-    });
-  }
-  function titleEffectPreview(){
-    const t=selected(),star=titleStar(t?.id),sd=starData(t,star);
-    const raw=String(sd?.effect||'');
-    const pieces=raw.split(/[；;]/).map(x=>x.trim()).filter(Boolean);
-    return {id:t?.id||null,title:t?.nameZh||'',star,unlocked:star>0,bonuses:pieces.map(piece=>{
-      const match=piece.match(/^(.+?)\s*([+＋-])\s*(\d+(?:\.\d+)?)\s*%/);
-      return match?{stat:match[1].trim(),percent:Number(match[3])*(match[2]==='-'?-1:1),raw:piece,recognized:true}:{raw:piece,recognized:false};
-    }),appliedToDamage:false};
-  }
-  // Title bonuses remain completely separate from the character/system damage chain.
-  function aggregateTitleStats(){
-    const totals=new Map(),sources=new Map(),unknown=[];
-    let unlocked=0;
-    for(const t of (db?.titles||[])){
-      const level=Math.min(titleStar(t.id),Number(t.maxStar)||3);
-      const sd=starData(t,level);
-      if(!sd)continue;
-      unlocked++;
-      for(const part of String(sd.effect||'').split(/[；;]/).map(x=>x.trim()).filter(Boolean)){
-        let m=part.match(/^(.+?)\s*([+＋-])\s*(\d+(?:\.\d+)?)\s*(%|個)\s*$/);
-        if(!m){unknown.push(`${t.nameZh} ★${level}：${part}`);continue}
-        const key=m[1].trim(),unit=m[4],amount=Number(m[3])*(m[2]==='-'?-1:1);
-        const id=key+'\u0000'+unit;
-        totals.set(id,(totals.get(id)||0)+amount);
-        if(!sources.has(id))sources.set(id,[]);
-        sources.get(id).push({name:t.nameZh,level,amount});
-      }
-    }
-    return {totals,sources,unknown,unlocked};
-  }
-  function renderTitleStats(){
-    const grid=document.getElementById('v21TitleStatGrid');
-    if(!grid)return;
-    const {totals,sources,unknown,unlocked}=aggregateTitleStats();
-    const count=document.getElementById('v21TitleStatCount');
-    if(count)count.textContent=`已解鎖 ${unlocked} / ${db?.titles?.length||48}`;
-    const typeCount=document.getElementById('v21TitleStatTypeCount');
-    if(typeCount)typeCount.textContent=`生效能力 ${totals.size} 種`;
-    const fmt=n=>Number(n.toFixed(6)).toLocaleString('en-US',{maximumFractionDigits:2});
-    const entries=[...totals.entries()].sort((a,b)=>a[0].localeCompare(b[0],'zh-Hant'));
-    grid.innerHTML=entries.length?entries.map(([id,value])=>{
-      const [key,unit]=id.split('\u0000');
-      return `<div class="v21-title-stat-item"><div class="k">${esc(key)}</div><div class="v">${value>=0?'+':''}${fmt(value)}${esc(unit)}</div></div>`;
-    }).join(''):'<div class="small">尚無已解鎖稱號，能力加成均為 0。</div>';
-    const details=document.getElementById('v21TitleStatSources');
-    if(details)details.innerHTML=entries.map(([id,value])=>{
-      const [key,unit]=id.split('\u0000');
-      return `<div class="v21-title-stat-source-row"><b>${esc(key)}｜${value>=0?'+':''}${fmt(value)}${esc(unit)}</b><small>${sources.get(id).map(x=>`${esc(x.name)} ★${x.level}：${x.amount>=0?'+':''}${fmt(x.amount)}${esc(unit)}`).join('　｜　')}</small></div>`;
-    }).join('')+(unknown.length?`<div class="v21-title-stat-source-row"><b>未能辨識的特殊效果（未加總）</b><small>${unknown.map(esc).join('　｜　')}</small></div>`:'')||'<div class="small">目前沒有加成來源。</div>';
-    // Read-only inspection interface; deliberately NOT consumed by any damage functions.
-    window.TOWER_SWORDS_STAGING_TITLE_STATS={unlocked,bonuses:Object.fromEntries(entries.map(([id,value])=>[id.replace('\u0000','｜'),value])),unparsed:unknown.slice(),appliedToDamage:false};
-  }
-  function syncProgress(){
-    renderTitleStats();
-    const preview=titleEffectPreview();
-    const unlocked=(db?.titles||[]).filter(t=>titleStar(t.id)>0).length;
-    window.TOWER_SWORDS_STAGING_TITLE_PREVIEW=preview;
-    window.TOWER_SWORDS_STAGING_TITLE_UNLOCKS={...titleStars};
-    const previewEl=document.getElementById('v21TitleEffectPreview');
-    if(previewEl){
-      if(preview.unlocked){
-        const list=preview.bonuses.map(b=>b.recognized?`${esc(b.stat)} ${b.percent>=0?'+':''}${b.percent}%`:esc(b.raw)).join('｜');
-        previewEl.innerHTML=`<b>目前檢視：${esc(preview.title)} ★${preview.star}</b><span>${list||'無可辨識加成'}</span><small>已解鎖 ${unlocked} / ${db?.titles?.length||48}；稱號能力尚未加入傷害計算。</small>`;
-      }else{
-        previewEl.innerHTML=`<b>目前檢視：${esc(preview.title)}｜未解鎖</b><span>請在浮動視窗自訂解鎖 ★1～★3。</span><small>已解鎖 ${unlocked} / ${db?.titles?.length||48}；未解鎖稱號不提供任何能力。</small>`;
-      }
-    }
-    const el=document.getElementById('v21TitleCurrent');
-    if(el)el.textContent=`已解鎖 ${unlocked} / ${db?.titles?.length||48}`;
-  }
-  function clearFollow(){
-    cancelAnimationFrame(raf);
-    if(cleanup){cleanup();cleanup=null}
-  }
-  function closePop(){
-    clearFollow();
-    targetBtn?.classList.remove('is-pop-target');
-    targetBtn=null;targetId=null;
-    pop?.remove();pop=null;
-  }
-  function positionPop(){
-    if(!pop||targetId==null)return;
-    const grid=document.getElementById('v21TitleGrid');
-    const live=grid?.querySelector(`[data-title-id="${targetId}"]`);
-    if(live&&live!==targetBtn){
-      targetBtn?.classList.remove('is-pop-target');
-      targetBtn=live;targetBtn.classList.add('is-pop-target');
-    }
-    if(!targetBtn?.isConnected)return;
-    const r=targetBtn.getBoundingClientRect();
-    const pw=pop.offsetWidth||260,ph=pop.offsetHeight||230;
-    const vw=document.documentElement.clientWidth,vh=document.documentElement.clientHeight;
-    const safe=8,gap=8;
-    const roomRight=vw-r.right-safe,roomLeft=r.left-safe;
-    let left,onLeft=false;
-    if(roomRight>=pw+gap){left=r.right+gap}
-    else if(roomLeft>=pw+gap){left=r.left-pw-gap;onLeft=true}
-    else if(roomRight>=roomLeft){left=vw-pw-safe}
-    else{left=safe;onLeft=true}
-    pop.classList.toggle('is-left',onLeft);
-    let top=r.top+(r.height-ph)/2;
-    top=Math.max(safe,Math.min(vh-ph-safe,top));
-    left=Math.max(safe,Math.min(vw-pw-safe,left));
-    pop.style.left=`${Math.round(left)}px`;
-    pop.style.top=`${Math.round(top)}px`;
-  }
-  function bindFollow(){
-    clearFollow();
-    const wrap=document.querySelector('.v21-title-grid-wrap');
-    const update=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(positionPop)};
-    wrap?.addEventListener('scroll',update,{passive:true});
-    window.addEventListener('scroll',update,{passive:true});
-    window.addEventListener('resize',update,{passive:true});
-    cleanup=()=>{
-      wrap?.removeEventListener('scroll',update);
-      window.removeEventListener('scroll',update);
-      window.removeEventListener('resize',update);
-    };
-    requestAnimationFrame(()=>requestAnimationFrame(positionPop));
-  }
-  function openPop(id,btn=null){
-    const t=title(id);if(!t)return;
-    selectedId=Number(id);
-    const star=titleStar(id);
-    save();syncProgress();
-
-    targetId=Number(id);
-    const grid=document.getElementById('v21TitleGrid');
-    const live=grid?.querySelector(`[data-title-id="${targetId}"]`)||btn;
-    if(!live)return;
-    if(targetBtn!==live){
-      targetBtn?.classList.remove('is-pop-target');
-      targetBtn=live;targetBtn.classList.add('is-pop-target');
-    }
-    if(!pop){
-      pop=document.createElement('div');
-      pop.className='v21-title-float';
-      document.body.appendChild(pop);
-    }
-    const sd=starData(t,star);
-    pop.innerHTML=`
-      <div class="v21-title-float-top">
-        <div class="v21-title-float-badge">${star>0?`★${star}`:'LOCK'}</div>
-        <div><div class="v21-title-float-name">${esc(t.nameZh)}</div><div class="v21-title-float-en">${esc(t.nameEn)}｜${esc(t.categoryZh)}</div></div>
-        <button type="button" class="v21-title-float-close" aria-label="關閉">×</button>
-      </div>
-      <div class="v21-title-float-desc">${esc(t.description||'—')}</div>
-      <div class="v21-title-float-stars">
-        <button type="button" class="v21-title-float-star ${star===0?'is-active':''}" data-title-star="0">未解鎖</button>
-        ${[1,2,3].map(n=>{
-          const x=(t.stars||[]).find(v=>Number(v.star)===n);
-          return `<button type="button" class="v21-title-float-star ${n===star?'is-active':''}" data-title-star="${n}" ${x?'':'disabled'}>★${n}</button>`;
-        }).join('')}
-      </div>
-      <div class="v21-title-float-info">
-        <div class="v21-title-float-row"><span>${star>0?'目前星級解鎖條件':'★1 解鎖條件'}</span><b>${esc((star>0?sd:((t.stars||[])[0]))?.unlock||'—')}</b></div>
-        <div class="v21-title-float-row"><span>能力加成</span><b>${star>0?esc(sd?.effect||'—'):'未解鎖｜能力不生效'}</b></div>
-      </div>
-      <div class="v21-title-float-warning">稱號預設全部未解鎖；自訂 ★1 以上後才視為已解鎖。能力尚未計入傷害。</div>`;
-
-    pop.querySelector('.v21-title-float-close')?.addEventListener('click',closePop);
-    pop.querySelectorAll('[data-title-star]').forEach(b=>b.addEventListener('click',()=>{
-      setTitleStar(id,Number(b.dataset.titleStar));
-      save();syncProgress();
-      renderGrid();
-      requestAnimationFrame(()=>requestAnimationFrame(()=>openPop(id,null)));
-    }));
-    bindFollow();
-  }
-  function renderGrid(){
-    const root=document.getElementById('v21TitleRoot');
-    if(!root||!db)return;
-    const cats=[['all','全部'],['journey','旅程'],['training','修練'],['hidden','隱藏'],['demon_realm','魔界']];
-    const list=filtered();
-    root.innerHTML=`
-      <div class="v21-title-head">
-        <div><strong>稱號系統｜48 個</strong><span>圖卡只保留遊戲正式顯示的分類、星級、稱號名稱與能力加成；完整說明請點擊稱號查看。</span></div>
-        <div class="v21-title-mode">正式版 · 不計入傷害</div>
-      </div>
-      <div id="v21TitleEffectPreview" class="v21-title-effect-preview"></div>
-      <div class="v21-title-toolbar">
-        <input class="v21-title-search" id="v21TitleSearch" value="${esc(query)}" placeholder="搜尋中文／英文稱號">
-        <div class="v21-title-tabs">${cats.map(([id,label])=>`<button type="button" class="v21-title-tab ${category===id?'is-active':''}" data-title-cat="${id}">${label}</button>`).join('')}</div>
-      </div>
-      <div class="v21-title-grid-wrap">
-        <div class="v21-title-grid" id="v21TitleGrid">
-          ${list.map(t=>{
-            const cardStar=titleStar(t.id);
-            const sd=starData(t,cardStar);
-            const previewSd=(t.stars||[])[0];
-            const bonus=cardStar>0?(sd?.effect||'—'):(previewSd?.effect||'—');
-            const stars=cardStar>0?'★'.repeat(Math.max(1,Math.min(3,cardStar))):'☆';
-            const stateClass=cardStar>0?'is-unlocked':'is-locked';
-            return `
-            <button type="button" class="v21-title-card ${stateClass} ${Number(t.id)===Number(selectedId)?'is-selected':''}" data-title-id="${t.id}">
-              <div class="v21-title-card-top">
-                <span class="v21-title-card-cat">${esc(t.categoryZh)}</span>
-                <span class="v21-title-card-starbadge">${stars}</span>
-              </div>
-              <div class="v21-title-card-center">
-                <div class="v21-title-card-name">${esc(t.nameZh)}</div>
-              </div>
-              <div class="v21-title-card-bonus"><span>${esc(bonus)}</span></div>
-            </button>`}).join('')||'<div class="v21-title-loading">沒有符合條件的稱號。</div>'}
-        </div>
-      </div>`;
-    root.querySelector('#v21TitleSearch')?.addEventListener('input',e=>{query=e.target.value;renderGrid();closePop()});
-    root.querySelectorAll('[data-title-cat]').forEach(b=>b.addEventListener('click',()=>{category=b.dataset.titleCat;renderGrid();closePop()}));
-    root.querySelectorAll('[data-title-id]').forEach(b=>b.addEventListener('click',()=>{
-      const id=Number(b.dataset.titleId);
-      selectedId=id;
-      save();syncProgress();renderGrid();
-      requestAnimationFrame(()=>requestAnimationFrame(()=>openPop(id,null)));
-    }));
-    syncProgress();
-  }
-  async function init(){
-    const root=document.getElementById('v21TitleRoot');
-    if(!root)return;
-    try{
-      const inline=document.getElementById('v21-inline-titles-json');
-      if(inline?.textContent){
-        db=JSON.parse(inline.textContent);
-      }
-      if(!db?.titles?.length){
-        const r=await fetch('data/titles.json',{cache:'no-store'});
-        if(!r.ok)throw new Error(`HTTP ${r.status}`);
-        db=await r.json();
-      }
-      if(!Array.isArray(db.titles)||!db.titles.length)throw new Error('titles empty');
-      if(!db.titles.some(x=>Number(x.id)===Number(selectedId)))selectedId=db.titles[0].id;
-      renderGrid();
-    }catch(e){
-      root.innerHTML=`<div class="v21-title-loading">稱號資料讀取失敗：${esc(e.message)}</div>`;
-    }
-  }
-  document.addEventListener('pointerdown',e=>{
-    if(!pop)return;
-    if(pop.contains(e.target)||e.target.closest('[data-title-id]'))return;
-    closePop();
-  },true);
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
-<script id="v22-title-layout-js">
-(()=>{
- const init=()=>{const box=document.getElementById('v22UnifiedStats');if(!box)return;
-  const buttons=[...box.querySelectorAll('[data-v22-stat]')];
-  const panels=[...box.querySelectorAll('[data-v22-panel]')];
-  buttons.forEach(btn=>btn.addEventListener('click',()=>{
-    const key=btn.dataset.v22Stat;
-    buttons.forEach(b=>{const active=b===btn;b.classList.toggle('is-active',active);b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;});
-    panels.forEach(p=>p.hidden=p.dataset.v22Panel!==key);
-  }));
-  buttons.forEach((b,i)=>b.tabIndex=i===0?0:-1);
- };
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
-<style id="formal-titles-notice-css">
-.formal-title-badge,.formal-title-tab-note{font-size:10px;color:#f0cf8e;border:1px solid rgba(228,180,103,.35);border-radius:7px;background:rgba(199,145,59,.1);padding:3px 7px;white-space:nowrap}.formal-title-tab-note{font-size:9px;display:block;text-align:center;padding:2px}.formal-title-warning,.formal-title-info{padding:10px 13px;margin:10px;border:1px solid rgba(225,177,88,.3);border-left:3px solid #d6b16e;border-radius:8px;color:#e9d8b7;background:rgba(119,81,34,.09);font-size:12px;line-height:1.6}.v24-overview{grid-template-columns:repeat(2,minmax(0,1fr))!important;max-width:none}.v23-system-tabs{grid-template-columns:repeat(5,minmax(0,1fr))!important}
-@media(max-width:620px){.v23-system-tabs{grid-template-columns:repeat(5,minmax(0,1fr))!important}.formal-title-tab-note{font-size:8px;white-space:normal}.v24-overview{grid-template-columns:1fr!important}}
-</style>
-<script id="formal-titles-help-note">(()=>{const i18n={'zh-Hant':'新增 48 個稱號與獨立能力統計。稱號目前只顯示已選解鎖星級的加成，不計入角色屬性、裝備最佳化或傷害計算；實際遊戲的星級與疊加規則仍待驗證。',en:'48 titles and separate bonus statistics have been added. Title bonuses are currently display-only and do not affect character stats, equipment optimization or damage calculations. The in-game stacking rules are still under review.',ja:'48種類の称号と独立集計を追加。称号は表示・集計のみで、キャラクター能力値・装備最適化・ダメージ計算には反映されません。実際の加算ルールは検証中です。'};const init=()=>{const container=document.querySelector('#screen0')||document.querySelector('.screen');if(!container)return;const box=document.createElement('div');box.className='formal-title-info';box.setAttribute('role','note');container.querySelector('.hero')?.insertAdjacentElement('afterend',box);if(!box.isConnected)container.prepend(box);const update=()=>{const l=document.documentElement.lang;box.textContent='稱號更新｜'+(i18n[l]||i18n['zh-Hant']);};update();new MutationObserver(update).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();})();</script>
-<style>.v22-stat-panel[hidden]{display:none!important}</style>
 </body></html>
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
