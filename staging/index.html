@@ -3060,11 +3060,16 @@ function refreshManualSummary(){
   const statLabels={fire:'火焰',ice:'冰系',lightning:'閃電',normal:'普通'};
   const livePanel=$('#r23ManualAffixLive');
   if(livePanel){
-    const elemText=elKeyLive
-      ? `${statLabels[elKeyLive]}元素：系統 ${plainNumber(sysLive.stats[elKeyLive]||0)} ＋ 手動 ${plainNumber(mtLive[elKeyLive]||0)} ＝ ${plainNumber((sysLive.stats[elKeyLive]||0)+(mtLive[elKeyLive]||0))}`
-      : `元素傷害：尚未選擇技能元素（手動火 ${plainNumber(mtLive.fire)}／冰 ${plainNumber(mtLive.ice)}／雷 ${plainNumber(mtLive.lightning)}／普通 ${plainNumber(mtLive.normal)}）`;
-    const spellText=`法術傷害：系統 ${plainNumber(sysLive.stats.spell||0)} ＋ 手動 ${plainNumber(mtLive.spell||0)} ＝ ${plainNumber((sysLive.stats.spell||0)+mtLive.spell)}`;
-    livePanel.textContent=elemText+'｜'+spellText;
+    const parts=['fire','ice','lightning','normal'].map(key=>{
+      const fromSystem=Number(sysLive.stats[key]||0);
+      const fromManual=Number(mtLive[key]||0);
+      const total=Math.round((fromSystem+fromManual)*1000)/1000;
+      const selected=key===elKeyLive;
+      return `<div class="r24-manual-item${selected?' is-current':''}"><span>${statLabels[key]}${selected?'（目前技能）':''}</span><b>${plainNumber(total)}</b><small>系統 ${plainNumber(fromSystem)} + 手動 ${plainNumber(fromManual)}</small></div>`;
+    });
+    const spellSystem=Number(sysLive.stats.spell||0),spellManual=Number(mtLive.spell||0);
+    parts.push(`<div class="r24-manual-item is-spell"><span>法術傷害</span><b>${plainNumber(spellSystem+spellManual)}</b><small>系統 ${plainNumber(spellSystem)} + 手動 ${plainNumber(spellManual)}</small></div>`);
+    livePanel.innerHTML=`<strong class="r24-manual-caption">手動實裝即時屬性（各元素分開計算；僅目前技能元素參與技能傷害）</strong><div class="r24-manual-stats">${parts.join('')}</div>${!elKeyLive?'<span class="small">尚未選技能，仍可核對所有詞條總計。</span>':''}`;
   }
   const dmg=manualDamageResult();
   if($('#manualNonCritDamage'))$('#manualNonCritDamage').textContent=dmg.valid?formatDamageR(dmg.nonCrit):'—';
@@ -8749,6 +8754,39 @@ main>.screen:nth-of-type(3) #autoPane>.card{
  const card=document.getElementById('safeStatCard'), extra=document.getElementById('safeTitlesExtra'),briefs=[...document.querySelectorAll('[data-safe-stat]')];let current='';briefs.forEach(b=>b.addEventListener('click',()=>{current=current===b.dataset.safeStat?'':b.dataset.safeStat;card.classList.toggle('show-main',current==='main');extra.hidden=current!=='title';briefs.forEach(x=>x.classList.toggle('is-active',x.dataset.safeStat===current));}));
  const container=document.getElementById('safeSystemCard'), tabs=[...document.querySelectorAll('[data-safe-system]')];const details=[...container.querySelectorAll(':scope > details')].filter(e=>e.id!=='');const all=[...container.querySelectorAll(':scope > details')];const keys=['artifact','tree','title','fashion','pet'];const change=key=>{tabs.forEach(b=>{const active=b.dataset.safeSystem===key;b.classList.toggle('is-active',active);b.setAttribute('aria-selected',String(active));});all.forEach((d,i)=>{const active=keys[i]===key;d.classList.toggle('is-active',active);if(active&&!d.open)d.open=true;else if(!active&&d.open)d.open=false;});};tabs.forEach(b=>b.addEventListener('click',()=>change(b.dataset.safeSystem)));change('artifact');
  }catch(err){console.error('[Safe formal UI]',err);}};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,0),{once:true});else setTimeout(boot,0);})();</script>
+<style id="r24-manual-tree-scroll-style">
+#r23ManualAffixLive .r24-manual-caption{display:block;margin-bottom:8px;color:#c8d9de;font-size:11px}
+.r24-manual-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:7px}
+.r24-manual-item{padding:9px;border:1px solid rgba(87,123,143,.28);border-radius:9px;background:rgba(4,15,23,.5);display:grid;gap:4px}
+.r24-manual-item>span{font-size:10px;color:#b9cbd3;font-weight:800}
+.r24-manual-item>b{font-size:17px;color:#eff5f7}
+.r24-manual-item>small{font-size:9px;color:#839ba8}
+.r24-manual-item.is-current{border-color:rgba(212,176,104,.65);background:rgba(77,61,32,.23)}
+.r24-manual-item.is-spell{border-color:rgba(108,170,179,.5)}
+.magic-tree-map-scroll{max-height:min(510px,65vh)!important;overflow:auto!important;overscroll-behavior:contain!important;scrollbar-width:thin}
+@media(max-width:820px){.magic-tree-map-scroll{max-height:min(420px,60vh)!important}}
+</style>
+<script id="r24-magic-tree-wheel-enhancement">
+(function(){
+ function setup(){
+  document.querySelectorAll('.magic-tree-map-scroll').forEach(el=>{
+   if(el.dataset.r24Wheel==='yes')return;
+   el.dataset.r24Wheel='yes';
+   el.addEventListener('wheel',e=>{
+    if(!e.shiftKey||el.scrollWidth<=el.clientWidth)return;
+    const delta=(e.deltaY||e.deltaX);
+    if(!delta)return;
+    const before=el.scrollLeft;
+    el.scrollLeft+=delta;
+    if(el.scrollLeft!==before)e.preventDefault();
+   },{passive:false});
+  });
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
+ document.addEventListener('tower-page2-enter',setup);
+ new MutationObserver(()=>setup()).observe(document.documentElement,{subtree:true,childList:true});
+})();
+</script>
 </body></html>
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
