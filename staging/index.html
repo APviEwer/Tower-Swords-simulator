@@ -1569,6 +1569,11 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </script>
 
 <script type="application/json" id="v2-mobile-thumb-map">{"assets/v2/img_01_6d29ad637366.png":"assets/mobile/thumb_img_01_6d29ad637366.webp","assets/v2/img_03_f4e8772a4678.png":"assets/mobile/thumb_img_03_f4e8772a4678.webp","assets/v2/img_04_8f574a49ce90.png":"assets/mobile/thumb_img_04_8f574a49ce90.webp","assets/v2/img_05_7fa898ff6370.png":"assets/mobile/thumb_img_05_7fa898ff6370.webp","assets/v2/img_06_c299c2c196a6.png":"assets/mobile/thumb_img_06_c299c2c196a6.webp","assets/v2/img_07_e89aa903d0fd.png":"assets/mobile/thumb_img_07_e89aa903d0fd.webp","assets/v2/img_08_eb1ac20dad65.png":"assets/mobile/thumb_img_08_eb1ac20dad65.webp","assets/v2/img_09_e2041e86df53.png":"assets/mobile/thumb_img_09_e2041e86df53.webp","assets/v2/img_10_4821b5cc70d1.png":"assets/mobile/thumb_img_10_4821b5cc70d1.webp","assets/v2/img_11_23aaa0cb113b.png":"assets/mobile/thumb_img_11_23aaa0cb113b.webp","assets/v2/img_12_dade161c88f8.png":"assets/mobile/thumb_img_12_dade161c88f8.webp","assets/v2/img_13_3fed3fdba812.png":"assets/mobile/thumb_img_13_3fed3fdba812.webp","assets/v2/img_14_49dcbc034da2.png":"assets/mobile/thumb_img_14_49dcbc034da2.webp","assets/v2/img_15_2e107dfc65c3.png":"assets/mobile/thumb_img_15_2e107dfc65c3.webp","assets/v2/img_16_a911b9677468.png":"assets/mobile/thumb_img_16_a911b9677468.webp","assets/v2/img_17_d2b6ef7213c7.png":"assets/mobile/thumb_img_17_d2b6ef7213c7.webp","assets/v2/img_18_c14ead4dbd62.png":"assets/mobile/thumb_img_18_c14ead4dbd62.webp","assets/v2/img_19_dc7473fd9157.png":"assets/mobile/thumb_img_19_dc7473fd9157.webp","assets/v2/img_20_9184315d7b04.png":"assets/mobile/thumb_img_20_9184315d7b04.webp","assets/v2/img_21_47a17fb9639d.png":"assets/mobile/thumb_img_21_47a17fb9639d.webp","assets/v2/img_22_b1bb209c3a0e.png":"assets/mobile/thumb_img_22_b1bb209c3a0e.webp","assets/v2/img_23_6f783037fbfc.png":"assets/mobile/thumb_img_23_6f783037fbfc.webp","assets/v2/img_24_6d0065b6507a.png":"assets/mobile/thumb_img_24_6d0065b6507a.webp","assets/v2/img_25_ba7cfca3d677.png":"assets/mobile/thumb_img_25_ba7cfca3d677.webp","assets/v2/img_26_aaea94205f8b.png":"assets/mobile/thumb_img_26_aaea94205f8b.webp","assets/v2/img_27_0e348424a6a4.png":"assets/mobile/thumb_img_27_0e348424a6a4.webp","assets/v2/img_28_ca32eb15d0a0.png":"assets/mobile/thumb_img_28_ca32eb15d0a0.webp","assets/v2/img_29_6bee2a98be66.png":"assets/mobile/thumb_img_29_6bee2a98be66.webp","assets/v2/img_30_f3b92517b615.png":"assets/mobile/thumb_img_30_f3b92517b615.webp","assets/v2/img_31_73fc165d8964.png":"assets/mobile/thumb_img_31_73fc165d8964.webp"}</script>
+<style id="r19-max-all-style">
+.r19-max-all{border:1px solid rgba(213,173,100,.45);background:rgba(213,173,100,.13);color:#f1d99a;border-radius:9px;padding:9px 12px;font-size:11px;font-weight:800;white-space:nowrap;cursor:pointer;flex:none}
+.r19-max-all:hover{background:rgba(213,173,100,.23)}
+@media(max-width:620px){.r19-max-all{font-size:10px;padding:8px 9px}.sys-toolbar:has(#r19ArtifactMaxAll){flex-wrap:wrap}.sys-toolbar:has(#r19ArtifactMaxAll) input{flex:1;min-width:140px}}
+</style>
 </head>
 <body>
 <script>
@@ -1660,7 +1665,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
       <div class="field"><label>角色等級</label><input id="level" type="number" min="1" max="600"></div>
       <div class="field"><label>主武固定 ATK（照遊戲顯示輸入）</label><input id="displayAtk"></div>
       <div class="field"><label>主武裝備 Lv</label><input id="weaponLv" type="number"></div>
-      <div class="field skill-field"><label>武器技能</label><select id="skill"></select><div class="skill-preview" id="skillPreview" aria-live="polite"></div></div>
+      <div class="field skill-field"><label>武器技能（可留空，用於空裝 ATK 核對）</label><select id="skill"></select><div class="skill-preview" id="skillPreview" aria-live="polite"></div></div>
     </div>
     <div class="card mode-only-card"><h3>模式</h3>
       <div class="seg mode-only-seg"><button class="mode" data-mode="manual">手動實裝</button><button class="mode" data-mode="auto">自動最佳化</button></div>
@@ -1733,7 +1738,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   <button type="button" data-safe-system="pet">寵物 <small id="safe-pet">0 / 4</small><i></i></button>
 </div>
     <details open><summary>人工製品｜103 件</summary>
-      <div class="sys-toolbar"><input id="artifactSearch" placeholder="搜尋人工製品名稱"></div>
+      <div class="sys-toolbar"><input id="artifactSearch" placeholder="搜尋人工製品名稱"><button type="button" id="r19ArtifactMaxAll" class="r19-max-all">一鍵全滿</button></div>
       <div class="sys-list" id="artifactList"></div>
     </details>
     <details><summary>魔法樹｜29 節點</summary>
@@ -2894,7 +2899,7 @@ try{
 }catch(_){}
 
 function initSkills(){
-  $('#skill').innerHTML=skills.map(s=>`<option value="${s.id}">${s.new260060?'【NEW】 ':''}${s.name}｜${s.element}</option>`).join('');
+  $('#skill').innerHTML='<option value="">— 不選擇技能（空裝 ATK 核對）—</option>'+skills.map(s=>`<option value="${s.id}">${s.new260060?'【NEW】 ':''}${s.name}｜${s.element}</option>`).join('');
   $('#skill').value=state.skill.id;
 }
 function activeSkill(){return skills.find(s=>s.id===Number(state.skill.id))||skills.find(s=>s.id===52)||skills[0]}
@@ -4258,6 +4263,13 @@ function renderAutoBreakdown(r){
 
 let betaAutoRefreshing=false;
 function refreshAuto(force=false){
+  if(state.skill.id===''){
+    for(const id of ['autoCrit','autoCd','autoElem','autoSpell','autoDamage'])if($('#'+id))$('#'+id).textContent='—';
+    if($('#autoStatus')){$('#autoStatus').textContent='未選擇技能：停用技能傷害最佳化，可先核對 ATK 來源';$('#autoStatus').className='warn';}
+    for(const id of ['autoEquipmentGrid','autoSummaryList'])if($('#'+id))$('#'+id).innerHTML='<div class="small">請選擇技能後再進行傷害最佳化。</div>';
+    if($('#autoBreakdownNote'))$('#autoBreakdownNote').textContent='未選擇技能，不產生技能配裝及傷害結果';
+    return;
+  }
   if(betaAutoRefreshing)return;
   state.auto.minCrit=Number($('#critTarget')?.value||state.auto.minCrit||0);
   state.auto.minCooldown=Number($('#cdTarget')?.value||state.auto.minCooldown||0);
@@ -4350,9 +4362,12 @@ function r15TitleContribution(){
 }
 function r15MergeTitleStats(stats){
  const t=r15TitleContribution();
+ // 稱號：同類系統屬性加算；不新增獨立傷害倍率。
  for(const k of ['atk','critDamage','fire','ice','lightning','normal'])stats[k]+=t[k];
- // Unverified damage classes remain visible in source details, not falsely relabeled as spell damage.
- for(const [key,v] of [['技能傷害',t.skillDamage],['全屬性傷害',t.allElement]])if(v)stats.special.push(`稱號 ${key} +${v}%（獨立類型，待公式核對）`);
+ // 遊戲對應規則：技能傷害即法術傷害。
+ stats.spell+=Number(t.skillDamage||0);
+ // 全屬性傷害分配到每種法術元素（包含無屬性），不可再加入通用法術傷害。
+ for(const k of ['fire','ice','lightning','normal'])stats[k]+=Number(t.allElement||0);
  for(const a of t.other)stats.special.push(`稱號 ${a.name} ${a.value>=0?'+':''}${a.value}${a.unit}`);
  return t;
 }
@@ -4494,6 +4509,13 @@ function renderPets(){
 function initSystemEffects(){
   ensureSystemState();
   renderArtifacts();renderTree();renderFashions();renderPets();refreshSystemSummary();
+  const maxAll=document.getElementById('r19ArtifactMaxAll');
+  if(maxAll)maxAll.onclick=()=>{
+    systemData.artifacts.forEach(a=>{state.system.artifacts[a.id]=Number(a.maxLevel||0)});
+    saveState(state);renderArtifacts($('#artifactSearch')?.value||'');refreshSystemSummary();
+    const first=$('#artifactList [data-artifact-lv]');if(first)first.dispatchEvent(new Event('input',{bubbles:true}));
+    maxAll.textContent='已全部滿級';setTimeout(()=>{if(maxAll.isConnected)maxAll.textContent='一鍵全滿'},1200);
+  };
   if($('#artifactSearch')) $('#artifactSearch').oninput=e=>renderArtifacts(e.target.value);
   if($('#treeSearch')) $('#treeSearch').oninput=e=>renderTree(e.target.value);
 }
@@ -4580,6 +4602,7 @@ function effectiveAtkResult(extraEquipmentAtk=0n){
   return {valid:true,effectiveAtk,resolved,weaponAtk,levelAtk,flatAtk,atkPool,atkIndependent};
 }
 function manualDamageResult(){
+  if(state.skill.id==='')return {valid:false,reason:'未選擇技能：僅供空裝 ATK 核對'};
   const sk=activeSkill(),sys=systemSelectionSummary(),mt=manualTotals(),elemKey=skillElementKey(sk);
   const resolved=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
   if(!resolved.raw)return {valid:false,reason:'主武 ATK 無法解析'};
@@ -4655,6 +4678,11 @@ function renderSummaryRows(host,groups){
   if(!host)return; const rows=groups.filter(x=>x.count||x.always);host.innerHTML=rows.length?rows.map(x=>`<div class="summary-row"><div class="name">${escHtml(x.name)}</div><div class="count">${x.count} 格</div><div class="total">合計 ${escHtml(x.total)}</div></div>`).join(''):'<div class="small">尚無詞條。</div>';
 }
 function refreshReport(){
+  if(state.skill.id===''){
+    const host=$('#reportTotals'); if(host){host.hidden=true;let note=$('#r18NoSkillReport');if(!note){note=document.createElement('div');note.id='r18NoSkillReport';note.className='note';host.before(note);}note.textContent='未選擇技能：不計算 Skill Lv、Skill ATK 或技能傷害。';note.hidden=false;}
+    for(const id of ['manualCritDamage','manualNonCritDamage','autoDamage'])if($('#'+id))$('#'+id).textContent='—';
+    return;
+  }
   if(!$('#reportTotals'))return;
   const sk=activeSkill(),sys=systemSelectionSummary(),mt=manualTotals(),at=autoEquipmentTotals(),elemKey=skillElementKey(sk),baseSkill=weaponBaseSkillLv();
   const manualElem=mt[elemKey]||0,sysElem=sys.stats[elemKey]||0;
@@ -4705,7 +4733,7 @@ const __v10CommitLevel=()=>{
 };
 $('#level').onchange=__v10CommitLevel; $('#level').onblur=__v10CommitLevel;
 $('#displayAtk').oninput=resolverRefresh; $('#weaponLv').oninput=resolverRefresh;
-$('#skill').onchange=e=>{state.skill.id=Number(e.target.value);saveState(state);if(state.step===2){if(state.mode==='auto')refreshAuto(true);else refreshManualSummary();}if(state.step===3)refreshReport();};
+$('#skill').onchange=e=>{state.skill.id=e.target.value===''?'':Number(e.target.value);saveState(state);if(state.step===2){if(state.mode==='auto')refreshAuto(true);else refreshManualSummary();}if(state.step===3)refreshReport();if(typeof window.r15RefreshSkillCard==='function')window.r15RefreshSkillCard();};
 $('#critTarget').oninput=()=>{state.auto.minCrit=Math.max(0,Number($('#critTarget').value||0));saveState(state);if(state.step===2&&state.mode==='auto')refreshAuto(true);}; $('#cdTarget').oninput=()=>{state.auto.minCooldown=Math.max(0,Number($('#cdTarget').value||0));saveState(state);if(state.step===2&&state.mode==='auto')refreshAuto(true);};
 function __resetCurrentBuildPage(){
   const keepStep=state.step;
@@ -4864,6 +4892,7 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
   }
   function skillPreview(){
     const h=$('#skillPreview'),s=$('#skill'); if(!h||!s)return;
+    if(s.value===''){h.innerHTML='<div class="note">未選擇技能｜空裝 ATK 核對模式（不計算技能等級與技能傷害）</div>';return;}
     const sk=skills.find(x=>String(x.id)===String(s.value))||skills[0]; if(!sk){h.innerHTML='';return;}
     const icon=img('skills',sk.id,sk.id);
     const cd=Number(sk.cd),cdText=Number.isFinite(cd)?`${cd}s CD`:'—';
@@ -7384,6 +7413,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 
   function render(){
     const card=ensureCard();
+    if(state.skill.id===''){if(card)card.innerHTML='<div class="small">未選擇技能｜Skill Lv、Skill ATK 不適用</div>';return;}
     const sk=selectedSkillSafe();
     if(!sk||!card)return;
 
@@ -8577,6 +8607,7 @@ main>.screen:nth-of-type(3) #autoPane>.card{
       </div>
       <div id="v21TitleEffectPreview" class="v21-title-effect-preview"></div>
       <div class="v21-title-toolbar">
+        <button type="button" class="r19-max-all" id="r19TitleMaxAll">一鍵全滿</button>
         <input class="v21-title-search" id="v21TitleSearch" value="${esc(query)}" placeholder="搜尋中文／英文稱號">
         <div class="v21-title-tabs">${cats.map(([id,label])=>`<button type="button" class="v21-title-tab ${category===id?'is-active':''}" data-title-cat="${id}">${label}</button>`).join('')}</div>
       </div>
@@ -8602,6 +8633,13 @@ main>.screen:nth-of-type(3) #autoPane>.card{
             </button>`}).join('')||'<div class="v21-title-loading">沒有符合條件的稱號。</div>'}
         </div>
       </div>`;
+    root.querySelector('#r19TitleMaxAll')?.addEventListener('click',()=>{
+      for(const t of db.titles){
+        const valid=(t.stars||[]).map(st=>Number(st.star)).filter(n=>Number.isFinite(n)&&n>0&&n<=Number(t.maxStar||3));
+        setTitleStar(t.id,valid.length?Math.max(...valid):0);
+      }
+      closePop();save();renderGrid();
+    });
     root.querySelector('#v21TitleSearch')?.addEventListener('input',e=>{query=e.target.value;renderGrid();closePop()});
     root.querySelectorAll('[data-title-cat]').forEach(b=>b.addEventListener('click',()=>{category=b.dataset.titleCat;renderGrid();closePop()}));
     root.querySelectorAll('[data-title-id]').forEach(b=>b.addEventListener('click',()=>{
