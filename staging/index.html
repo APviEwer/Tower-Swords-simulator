@@ -3141,7 +3141,7 @@ function betaEvaluateEquipmentEq(eq,{minCrit=0,minCooldown=0}={}){
   const critDamage=Math.floor(nonCritDamage*(critDamagePct/100));
 
   return {
-    status:'dynamic',crit:Math.min(100,rawCrit),rawCrit,cd,elem,spell,
+    status:'dynamic',crit:rawCrit,rawCrit,cd,elem,spell,
     critDamage,nonCritDamage,critDamagePct,skillLv,skillAtk,
     effectiveAtk:atkResult.effectiveAtk,eq,totals:t
   };
@@ -3276,29 +3276,38 @@ function r10MagicValue(g,slot){
 }
 function r10ChoiceGroups(g){const slots=r9BasicSlots(g);return [[slots[0]],slots.slice(1)].filter(a=>a.length);}
 function r10IsMagic(g,slot){return r9TraitAt(g,slot)==='所有魔法等級';}
+function r12IsSpecial(t){return !!t;}
 function r9RenderTraitSelectors(){
-  const host=document.getElementById('autoTraitGrid');if(!host)return;
-  host.innerHTML=R9_GEAR.map(g=>{
-    const cat=r9Category(g),legal=R9_TRAITS.filter(t=>t[1].includes(cat)).map(t=>t[0]);
-    const groups=r10ChoiceGroups(g);
-    return `<div class="auto-trait-gear"><h4>${g}</h4><div class="auto-trait-slots">${groups.map(slots=>{
-      const key=g+'|'+slots[0];
-      const chosen=r9TraitAt(g,slots[0]);
-      const mg=r10MagicValue(g,slots[0]);
-      const choices=[...(mg?['所有魔法等級']:[]),...legal];
-      return `<div class="auto-trait-slot"><label>${slots.length===1?'Basic 1':`Basic 2～${slots.length+1}`}（${slots.length} 格）</label><select data-r9-gear="${g}" data-r9-slots="${slots.join(',')}" aria-label="${g} ${slots.join(' ')} 特性"><option value="">${slots.length===1?'預設／不指定':'自動選一般詞條'}</option>${choices.map(t=>`<option value="${t}" ${t===chosen?'selected':''}>${t==='所有魔法等級'?`所有魔法等級 +${mg} Lv／格`:t}</option>`).join('')}</select></div>`;
-    }).join('')}</div></div>`;
-  }).join('');
-  host.querySelectorAll('select[data-r9-gear]').forEach(select=>select.addEventListener('change',()=>{
-    const g=select.dataset.r9Gear,slots=select.dataset.r9Slots.split(',');
-    state.auto.basicTraits=state.auto.basicTraits||{};
-    for(const slot of slots){const key=g+'|'+slot;if(select.value)state.auto.basicTraits[key]=select.value;else delete state.auto.basicTraits[key];}
-    betaAutoCache.clear();saveState(state);r9UpdateTraitCount();
-    if(state.mode==='auto')refreshAuto(true);
-  }));
-  r9UpdateTraitCount();
+ const host=document.getElementById('autoTraitGrid');if(!host)return;
+ // Normalize old R10/R12 saved selections, where magic was copied into all grouped slots.
+ const saved=state?.auto?.basicTraits||{};let normalized=false;
+ for(const gear of R9_GEAR){let found=false;for(const sl of r9BasicSlots(gear)){
+   const key=gear+'|'+sl;
+   if(!saved[key])continue;
+   if(found){delete saved[key];normalized=true;}else found=true;
+ }}
+ if(normalized)saveState(state);
+ host.innerHTML=R9_GEAR.map(g=>{
+  const cat=r9Category(g),legal=R9_TRAITS.filter(t=>t[1].includes(cat)).map(t=>t[0]);
+  return `<div class="auto-trait-gear"><h4>${g}</h4><div class="auto-trait-slots">${r10ChoiceGroups(g).map(slots=>{
+   const chosen=r9TraitAt(g,slots[0]);const mg=r10MagicValue(g,slots[0]);
+   const choices=[...(mg?['所有魔法等級']:[]),...legal];
+   return `<div class="auto-trait-slot"><label>${slots.length===1?'Basic 1':`Basic 2～${slots.length+1}`}（${slots.length} 格）</label><select data-r9-gear="${g}" data-r9-slots="${slots.join(',')}" aria-label="${g} ${slots.join(' ')}"><option value="">自動選擇一般數值詞條</option>${choices.map(t=>`<option value="${t}" ${t===chosen?'selected':''}>${t==='所有魔法等級'?`所有魔法等級 +${mg} Lv（佔一格）`:t}</option>`).join('')}</select>${slots.length>1?'<small>包含所有魔法等級在內，每件裝備僅能指定一格特殊特性；其他格由自動最佳化安排一般詞條。</small>':''}</div>`;
+  }).join('')}</div></div>`;
+ }).join('');
+ host.querySelectorAll('select[data-r9-gear]').forEach(sel=>sel.addEventListener('change',()=>{
+  const g=sel.dataset.r9Gear,slots=sel.dataset.r9Slots.split(','),v=sel.value;
+  state.auto.basicTraits=state.auto.basicTraits||{};
+  // Exactly one special trait per equipment; clear earlier special selection.
+  if(r12IsSpecial(v))for(const sl of r9BasicSlots(g))if(r12IsSpecial(r9TraitAt(g,sl)))delete state.auto.basicTraits[g+'|'+sl];
+  for(const sl of slots)delete state.auto.basicTraits[g+'|'+sl];
+  if(v)state.auto.basicTraits[g+'|'+slots[0]]=v;
+  betaAutoCache.clear();saveState(state);r9RenderTraitSelectors();
+  if(state.mode==='auto')refreshAuto(true);
+ }));
+ r9UpdateTraitCount();
 }
-function r9UpdateTraitCount(){const el=document.getElementById('autoTraitCount');if(el)el.textContent=Object.keys(r9SavedTraits()).length+' / 34 格已指定';}
+function r9UpdateTraitCount(){const el=document.getElementById('autoTraitCount');if(el)el.textContent=Object.keys(r9SavedTraits()).length+' 件特性已指定';}
 function r9ConstrainAutoOpts(defs){
   for(const def of defs){
     const tr=r9TraitAt(def.gear,def.slot);
@@ -3307,19 +3316,8 @@ function r9ConstrainAutoOpts(defs){
   }
   return defs;
 }
-function r9ApplyFixedTraits(eq){
-  for(const g of R9_GEAR){
-    const tr=r9TraitAt(g,'Basic1');
-    if(tr)(eq[g]??={}).Basic1=[tr,tr==='所有魔法等級'?r10MagicValue(g,'Basic1'):0];
-    else if(eq[g]?.Basic1?.[0]==='所有魔法等級')eq[g].Basic1[1]=r10MagicValue(g,'Basic1');
-  }
-  return eq;
-}
-function r9FixedMagicLv(){
-  const fixed=betaAutoFixedEq();let n=0;
-  for(const g of R9_GEAR){const a=fixed[g]?.Basic1;if(a?.[0]==='所有魔法等級')n+=Number(a[1]||0);}
-  return n;
-}
+function r9ApplyFixedTraits(eq){return eq;}
+function r9FixedMagicLv(){return 0;}
 function r10SkillMax(sk){const levels=Object.keys(skillLevelAtk?.[String(sk.id)]||{}).map(Number).filter(Number.isFinite);return levels.length?Math.max(...levels):139;}
 function r10AutoSkillLevel(sk,t){const lv=weaponBaseSkillLv()+Number(betaAutoMaxSystemStats().skillLv||0)+r9FixedMagicLv()+Number(t.skillLv||0);return Math.max(1,Math.min(r10SkillMax(sk),Math.round(lv)));}
 // Defer UI creation, without blocking original app boot.
@@ -3329,21 +3327,33 @@ function betaAutoSlotDefs(){
   const E=betaAutoElemType(),defs=[];
   const add=(gear,slot,opts)=>defs.push({gear,slot,key:`${gear}|${slot}`,opts});
 
+  // R12: Basic 1 is selectable by optimizer, NOT fixed to magic level.
+  for(const gear of R9_GEAR){
+    const mg=r10MagicValue(gear,'Basic1');
+    let choices=[];
+    if(['主武','武2','武3'].includes(gear))choices=[betaAutoOpt(E,61),betaAutoOpt('暴擊率',16)];
+    else if(gear==='頭盔')choices=[betaAutoOpt(E,61),betaAutoOpt('冷卻時間',12)];
+    else if(['戒1','戒2'].includes(gear))choices=[betaAutoOpt('法術傷害',51),betaAutoOpt('暴擊率',16),betaAutoOpt('冷卻時間',12)];
+    else if(['項鍊','耳環'].includes(gear))choices=[betaAutoOpt('法術傷害',25),betaAutoOpt('暴擊率',8),betaAutoOpt('冷卻時間',6)];
+    else choices=[betaAutoOpt('未指定',0)];
+    add(gear,'Basic1',choices);
+  }
+
   // Weapon Basic2-3: Crit / current skill element
   for(const gear of ['主武','武2','武3'])
     for(const slot of ['Basic2','Basic3'])
-      add(gear,slot,[betaAutoOpt(E,39),betaAutoOpt('暴擊率',11)]);
+      add(gear,slot,[betaAutoOpt(E,41),betaAutoOpt('暴擊率',11)]);
 
   // Helmet Basic2-3: CD / current skill element
   for(const slot of ['Basic2','Basic3'])
-    add('頭盔',slot,[betaAutoOpt(E,39),betaAutoOpt('冷卻時間',8)]);
+    add('頭盔',slot,[betaAutoOpt(E,41),betaAutoOpt('冷卻時間',8)]);
 
   // Rings Basic2-4: ATK / Spell / Crit / CD
   for(const gear of ['戒1','戒2'])
     for(const slot of ['Basic2','Basic3','Basic4'])
       add(gear,slot,[
         betaAutoOpt('ATK',20083720144218),
-        betaAutoOpt('法術傷害',30),
+        betaAutoOpt('法術傷害',34),
         betaAutoOpt('暴擊率',11),
         betaAutoOpt('冷卻時間',8)
       ]);
@@ -3353,7 +3363,7 @@ function betaAutoSlotDefs(){
     for(const slot of ['Basic2','Basic3','Basic4'])
       add(gear,slot,[
         betaAutoOpt('ATK',10041860072109),
-        betaAutoOpt('法術傷害',15),
+        betaAutoOpt('法術傷害',17),
         betaAutoOpt('暴擊率',5),
         betaAutoOpt('冷卻時間',4)
       ]);
@@ -3362,9 +3372,9 @@ function betaAutoSlotDefs(){
   for(const gear of ['主武','武2','武3','頭盔','盔甲','鞋子','戒1','戒2'])
     for(const slot of ['Plus1','Plus2','Plus3'])
       add(gear,slot,[
-        betaAutoOpt('ATK',10041860072109),
-        betaAutoOpt(E,19),
-        betaAutoOpt('法術傷害',14),
+        betaAutoOpt('ATK',41458000000000),
+        betaAutoOpt(E,20),
+        betaAutoOpt('法術傷害',16),
         betaAutoOpt('暴擊率',5),
         betaAutoOpt('冷卻時間',3)
       ]);
@@ -3373,9 +3383,9 @@ function betaAutoSlotDefs(){
   for(const gear of ['項鍊','耳環'])
     for(const slot of ['Plus1','Plus2','Plus3'])
       add(gear,slot,[
-        betaAutoOpt('ATK',5020930036054),
-        betaAutoOpt(E,9),
-        betaAutoOpt('法術傷害',7),
+        betaAutoOpt('ATK',20828000000000),
+        betaAutoOpt(E,10),
+        betaAutoOpt('法術傷害',8),
         betaAutoOpt('暴擊率',2),
         betaAutoOpt('冷卻時間',1)
       ]);
@@ -3383,19 +3393,7 @@ function betaAutoSlotDefs(){
   return r9ConstrainAutoOpts(defs);
 }
 
-function betaAutoFixedEq(){
-  return r9ApplyFixedTraits({
-    主武:{Basic1:['所有魔法等級',8]},
-    武2:{Basic1:['所有魔法等級',8]},
-    武3:{Basic1:['所有魔法等級',8]},
-    頭盔:{Basic1:['所有魔法等級',8]},
-    戒1:{Basic1:['所有魔法等級',8]},
-    戒2:{Basic1:['所有魔法等級',8]},
-    項鍊:{Basic1:['所有魔法等級',4]},
-    耳環:{Basic1:['所有魔法等級',4]},
-    盔甲:{},鞋子:{}
-  });
-}
+function betaAutoFixedEq(){return Object.fromEntries(R9_GEAR.map(g=>[g,{}]));}
 
 function betaAutoTotals(defs,assign){
   const t={atk:0,elem:0,spell:0,crit:0,cd:0,skillLv:0};
@@ -3440,7 +3438,7 @@ function betaAutoEvalTotals(t,targetCrit,targetCd){
 
   return {
     status:'dynamic',
-    crit:Math.min(100,rawCrit),rawCrit,cd,elem,spell,
+    crit:rawCrit,rawCrit,cd,elem,spell,
     critDamage,nonCritDamage,critDamagePct,
     skillLv,skillAtk,effectiveAtk:atkResult.effectiveAtk
   };
@@ -5787,7 +5785,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   let ctx=null;
   function buildCtx(){
     const sys=rawStats(),sk=activeSkill(),mx=rawElem(sys);
-    const skillLv=Math.max(1,Math.min(139,Math.round(weaponBaseSkillLv()+Number(sys.skillLv||0)+50)));
+    const skillLv=r10AutoSkillLevel(sk,{skillLv:0});
     const skillAtk=skillAtkAtLevel(sk.id,skillLv),resolved=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
     return {sys,sk,mx,skillLv,skillAtk,resolved,weaponAtk:resolved?.raw?Number(resolved.raw):NaN,levelAtk:playerLevelBaseAtk(state.player.level),atkPool:1+Number(sys.atk||0)/100,atkIndependent:manualAtkIndependentMultiplier(),elemBase:Number(mx.value||0),spellBase:Number(sys.spell||0),critDamagePct:150+Number(sys.critDamage||0),bossMultiplier:state.player?.boss?1+Number(sys.boss||0)/100:1,otherMultiplier:manualOtherDamageMultiplier()};
   }
@@ -5795,21 +5793,25 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   betaAutoMaxElementInfo=function(sys=betaAutoMaxSystemStats()){return ctx?ctx.mx:rawElem(sys)};
   betaAutoDamageScore=function(t){
     if(!ctx)return rawScore(t);
-    if(!ctx.resolved?.raw||!Number.isFinite(ctx.skillAtk))return-Infinity;
+    if(!ctx.resolved?.raw)return-Infinity;
+    const dynamicSkillAtk=skillAtkAtLevel(ctx.sk.id,r10AutoSkillLevel(ctx.sk,t));
+    if(!Number.isFinite(dynamicSkillAtk))return -Infinity;
     const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
     const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent);
-    return effectiveAtk*ctx.skillAtk*(1+(ctx.elemBase+t.elem)/100)*(1+(ctx.spellBase+t.spell)/100);
+    return effectiveAtk*dynamicSkillAtk*(1+(ctx.elemBase+t.elem)/100)*(1+(ctx.spellBase+t.spell)/100);
   };
   betaAutoEvalTotals=function(t,targetCrit,targetCd){
     if(!ctx)return rawEval(t,targetCrit,targetCd);
     const rawCritUnits=betaAutoPctUnits(ctx.sys.crit)+betaAutoPctUnits(t.crit),cdUnits=betaAutoPctUnits(ctx.sys.cooldown)+betaAutoPctUnits(t.cd);
     if(rawCritUnits<betaAutoPctUnits(targetCrit)||cdUnits<betaAutoPctUnits(targetCd))return null;
-    if(!ctx.resolved?.raw||!Number.isFinite(ctx.skillAtk))return null;
+    if(!ctx.resolved?.raw)return null;
+    const skillLv=r10AutoSkillLevel(ctx.sk,t),skillAtk=skillAtkAtLevel(ctx.sk.id,skillLv);
+    if(!Number.isFinite(skillAtk))return null;
     const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
     const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent),elem=ctx.elemBase+t.elem,spell=ctx.spellBase+t.spell;
-    const nonCritDamage=Math.floor(effectiveAtk*ctx.skillAtk*(1+elem/100)*(1+spell/100)*ctx.bossMultiplier*ctx.otherMultiplier),critDamage=Math.floor(nonCritDamage*(ctx.critDamagePct/100));
+    const nonCritDamage=Math.floor(effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*ctx.bossMultiplier*ctx.otherMultiplier),critDamage=Math.floor(nonCritDamage*(ctx.critDamagePct/100));
     const rawCrit=betaAutoPctValue(rawCritUnits),cd=betaAutoPctValue(cdUnits);
-    return {status:'dynamic',crit:Math.min(100,rawCrit),rawCrit,cd,elem,spell,critDamage,nonCritDamage,critDamagePct:ctx.critDamagePct,skillLv:ctx.skillLv,skillAtk:ctx.skillAtk,effectiveAtk};
+    return {status:'dynamic',crit:rawCrit,rawCrit,cd,elem,spell,critDamage,nonCritDamage,critDamagePct:ctx.critDamagePct,skillLv,skillAtk,effectiveAtk};
   };
   betaAutoSearch=function(args={}){if(ctx)return rawSearch(args);ctx=buildCtx();try{return rawSearch(args)}finally{ctx=null}};
 })();
