@@ -3427,8 +3427,8 @@ function betaAutoEvalTotals(t,targetCrit,targetCd){
 
   // Use the CURRENT weapon skill element. The optimizer's elemental affix is
   // assigned to that same element.
-  const elem=mx.value+t.elem;
-  const spell=Number(sys.spell||0)+t.spell;
+  const elem=betaAutoPctValue(betaAutoPctUnits(mx.value)+betaAutoPctUnits(t.elem));
+  const spell=betaAutoPctValue(betaAutoPctUnits(sys.spell)+betaAutoPctUnits(t.spell));
   const critDamagePct=150+Number(sys.critDamage||0);
   const bossMultiplier=state.player?.boss?1+Number(sys.boss||0)/100:1;
   const otherMultiplier=manualOtherDamageMultiplier();
@@ -4251,7 +4251,9 @@ function renderAutoBreakdown(r){
   const items=[];for(const e of order)for(const k of slotOrder)if(eq?.[e]?.[k])items.push({type:eq[e][k][0],value:eq[e][k][1]});
   const types=[...new Set(items.map(x=>x.type))];
   sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';const totalText=t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(total)))):`${total}${unit}`;return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${totalText}</div></div>`}).join('');
-  note.textContent=`Basic 魔法等級依每格分別計入技能等級；特殊特性只有佔位、沒有未驗證的傷害倍率。｜${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜目前第二頁系統基準＋合法詞條搜尋｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
+  const page2=betaAutoMaxSystemStats(),elementInfo=betaAutoMaxElementInfo(page2);
+  const elemSystem=elementInfo.value,spellSystem=Number(page2.spell||0);
+  note.textContent=`Basic 魔法等級依每格分別計入技能等級；特殊特性只有佔位、沒有未驗證的傷害倍率。｜${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜元素 ${Math.round(r.elem)}%（02 系統 ${roundStat(elemSystem)}%＋裝備 ${roundStat(r.elem-elemSystem)}%）｜法傷 ${Math.round(r.spell)}%（02 系統 ${roundStat(spellSystem)}%＋裝備 ${roundStat(r.spell-spellSystem)}%）｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
 let betaAutoRefreshing=false;
@@ -4268,8 +4270,10 @@ function refreshAuto(force=false){
   $('#autoStatus').className=r.status==='dynamic'?'pass':'warn';
   $('#autoCrit').textContent=r.crit??'—';
   $('#autoCd').textContent=r.cd??'—';
-  $('#autoElem').textContent=r.elem??'—';
-  $('#autoSpell').textContent=r.spell??'—';
+  // Result tiles show whole percent, rounded to nearest integer. Damage still
+  // uses the unrounded, thousandth-precision values from betaAutoEvalTotals.
+  $('#autoElem').textContent=Number.isFinite(r.elem)?String(Math.round(r.elem)):'—';
+  $('#autoSpell').textContent=Number.isFinite(r.spell)?String(Math.round(r.spell)):'—';
   $('#autoDamage').textContent=r.critDamage!=null?formatDamageR(r.critDamage):'—';
   renderAutoBreakdown(r);
   if(typeof window.r15RefreshSkillCard==='function')window.r15RefreshSkillCard();
