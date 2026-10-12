@@ -591,6 +591,18 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 .release-web-version{display:inline-flex;align-items:center;width:max-content;margin-top:4px;padding:3px 8px;border:1px solid rgba(119,215,239,.34);border-radius:999px;background:rgba(119,215,239,.06);color:#9fd5e2;font-size:10px;letter-spacing:.06em;line-height:1.4}
 .release-game-version{display:inline-flex;align-items:center;width:max-content;margin-top:4px;padding:3px 8px;border:1px solid rgba(217,184,111,.38);border-radius:999px;background:rgba(217,184,111,.07);color:#d8c693;font-size:10px;letter-spacing:.06em;line-height:1.4}
 @media(max-width:620px){.release-web-version,.release-game-version{font-size:9px;padding:2px 7px;margin-top:3px}}
+
+/* R9 trait-condition selectors for Auto */
+#autoTraitConditions{margin:12px 0;border:1px solid #2a4759;border-radius:13px;padding:12px;background:#081923}
+.auto-trait-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.auto-trait-head strong{font-size:13px;color:#e6eff3}
+.auto-trait-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.auto-trait-gear{padding:9px;border-radius:10px;border:1px solid #263d4b;background:#091620}
+.auto-trait-gear h4{margin:0 0 8px;font-size:12px;color:#d5b77e}
+.auto-trait-slots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.auto-trait-slot label{display:block;font-size:10px;color:#9bb2bd;margin-bottom:4px}
+.auto-trait-slot select{min-width:0;width:100%;min-height:38px;border-radius:8px;background:#0e2330;color:#e4f0f1;border:1px solid #385468;font-size:11px;padding:5px}
+@media(max-width:680px){.auto-trait-grid{grid-template-columns:1fr}.auto-trait-slots{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 
 <style id="release-help-style">
@@ -1776,6 +1788,12 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     <div class="card"><h3>自動最佳化</h3>
       <div class="grid two"><div class="field"><label>指定暴擊率 %（0＝不限制）</label><input id="critTarget" type="number" min="0" max="200"></div><div class="field"><label>指定冷卻 %（0＝不限制）</label><input id="cdTarget" type="number" min="0" max="100"></div></div>
       <div class="note">固定第一頁角色／技能與第二頁系統效果；暴擊率、冷卻採 AND 最低條件，達標後只以合法裝備詞條追求最大單次暴擊傷害。</div>
+
+      <div id="autoTraitConditions" class="no-print">
+        <div class="auto-trait-head"><strong>Basic 特性條件｜Lv.750</strong><span class="small" id="autoTraitCount">未指定</span></div>
+        <div class="small" style="margin-bottom:10px">依裝備部位與 Basic 欄位選擇；每格最多一個特性。選擇後該 Basic 欄位會保留給特性，不再配置一般數值詞條。特殊特性的觸發傷害尚未納入公式。</div>
+        <div id="autoTraitGrid" class="auto-trait-grid"></div>
+      </div>
       <div class="result"><div class="small">Optimizer 狀態</div><div id="autoStatus">—</div><strong id="autoDamage">—</strong></div>
       <div class="statgrid"><div class="stat"><div class="k">最終暴擊</div><div class="v" id="autoCrit">—</div></div><div class="stat"><div class="k">最終冷卻</div><div class="v" id="autoCd">—</div></div><div class="stat"><div class="k">元素</div><div class="v" id="autoElem">—</div></div><div class="stat"><div class="k">法傷</div><div class="v" id="autoSpell">—</div></div></div>
       <div class="auto-breakdown" style="margin-top:14px">
@@ -3221,6 +3239,71 @@ function betaAutoOpt(type,value){
   return o;
 }
 
+
+/* R9 Lv750 trait availability (source: equipment reference chart supplied by player).
+   Values below are legal equipment/Basic-slot availability only.
+   Triggered special effects have NO invented damage multipliers. */
+const R9_TRAITS = [
+  ['火焰護甲',['頭盔','盔甲']],
+  ['紅色反擊',['頭盔','盔甲']],
+  ['凍結免疫',['頭盔','盔甲','鞋子']],
+  ['減少傷害',['盔甲']],
+  ['復活',['盔甲']],
+  ['反擊機會',['武器','頭盔','盔甲','鞋子']],
+  ['超額暴擊',['武器','戒指','項鍊']],
+  ['處決者',['戒指','項鍊']],
+  ['吸血鬼',['戒指','項鍊','耳環']],
+  ['金幣爆炸',['耳環']],
+  ['爆炸',['武器','項鍊','耳環']],
+  ['連鎖閃電',['武器','項鍊','耳環']],
+  ['靈魂之刃強化',['戒指','項鍊']],
+  ['獵人天賦',['戒指','項鍊']],
+  ['衝刺冷卻縮減',['鞋子','耳環']],
+  ['衝刺次數增加',['戒指','耳環']],
+  ['幸運兒',['耳環']]
+];
+const R9_GEAR=['主武','武2','武3','頭盔','盔甲','鞋子','戒1','戒2','項鍊','耳環'];
+function r9Category(g){return g.startsWith('武')||g==='主武'?'武器':g.startsWith('戒')?'戒指':g;}
+function r9BasicSlots(g){return ['Basic1','Basic2','Basic3',...(['戒1','戒2','項鍊','耳環'].includes(g)?['Basic4']:[])];}
+function r9SavedTraits(){return state?.auto?.basicTraits||{};}
+function r9TraitAt(g,slot){return String(r9SavedTraits()[g+'|'+slot]||'');}
+function r9RenderTraitSelectors(){
+  const host=document.getElementById('autoTraitGrid');if(!host)return;
+  const selections=r9SavedTraits();
+  host.innerHTML=R9_GEAR.map(g=>{
+    const cat=r9Category(g),legal=R9_TRAITS.filter(t=>t[1].includes(cat)).map(t=>t[0]);
+    return `<div class="auto-trait-gear"><h4>${g}</h4><div class="auto-trait-slots">${r9BasicSlots(g).map(sl=>{
+      const chosen=selections[g+'|'+sl]||'';
+      return `<div class="auto-trait-slot"><label>${sl.replace('Basic','Basic ')}</label><select data-r9-gear="${g}" data-r9-slot="${sl}" aria-label="${g} ${sl} 特性"><option value="">不指定（數值詞條）</option>${legal.map(t=>`<option value="${t}" ${t===chosen?'selected':''}>${t}</option>`).join('')}</select></div>`;
+    }).join('')}</div></div>`;
+  }).join('');
+  host.querySelectorAll('select[data-r9-gear]').forEach(select=>select.addEventListener('change',()=>{
+    const key=select.dataset.r9Gear+'|'+select.dataset.r9Slot;
+    state.auto.basicTraits=state.auto.basicTraits||{};
+    if(select.value)state.auto.basicTraits[key]=select.value;else delete state.auto.basicTraits[key];
+    betaAutoCache.clear();saveState(state);r9UpdateTraitCount();
+    if(state.mode==='auto')refreshAuto(true);
+  }));
+  r9UpdateTraitCount();
+}
+function r9UpdateTraitCount(){const el=document.getElementById('autoTraitCount');if(el)el.textContent=Object.keys(r9SavedTraits()).length+' / 34 格指定特性';}
+// A selected trait occupies the Basic slot. It has zero unverified numeric effect.
+function r9ConstrainAutoOpts(defs){
+  for(const def of defs){const tr=r9TraitAt(def.gear,def.slot);if(tr)def.opts=[betaAutoOpt(tr,0)];}
+  return defs;
+}
+function r9ApplyFixedTraits(eq){
+  for(const g of R9_GEAR){const tr=r9TraitAt(g,'Basic1');if(tr)(eq[g]??={}).Basic1=[tr,0];}
+  return eq;
+}
+function r9FixedMagicLv(){
+  const fixed=betaAutoFixedEq();let n=0;
+  for(const g of R9_GEAR){const a=fixed[g]?.Basic1;if(a?.[0]==='所有魔法等級')n+=Number(a[1]||0);}
+  return n;
+}
+// Defer UI creation, without blocking original app boot.
+window.addEventListener('DOMContentLoaded',()=>{try{r9RenderTraitSelectors();}catch(e){console.warn('R9 trait panel',e);}});
+
 function betaAutoSlotDefs(){
   const E=betaAutoElemType(),defs=[];
   const add=(gear,slot,opts)=>defs.push({gear,slot,key:`${gear}|${slot}`,opts});
@@ -3276,11 +3359,11 @@ function betaAutoSlotDefs(){
         betaAutoOpt('冷卻時間',1)
       ]);
 
-  return defs;
+  return r9ConstrainAutoOpts(defs);
 }
 
 function betaAutoFixedEq(){
-  return {
+  return r9ApplyFixedTraits({
     主武:{Basic1:['所有魔法等級',7]},
     武2:{Basic1:['所有魔法等級',7]},
     武3:{Basic1:['所有魔法等級',7]},
@@ -3290,7 +3373,7 @@ function betaAutoFixedEq(){
     項鍊:{Basic1:['所有魔法等級',4]},
     耳環:{Basic1:['所有魔法等級',4]},
     盔甲:{},鞋子:{}
-  };
+  });
 }
 
 function betaAutoTotals(defs,assign){
@@ -3313,7 +3396,7 @@ function betaAutoEvalTotals(t,targetCrit,targetCd){
   const cd=betaAutoPctValue(cdUnits);
 
   const skillLv=Math.max(1,Math.min(139,Math.round(
-    weaponBaseSkillLv()+Number(sys.skillLv||0)+50
+    weaponBaseSkillLv()+Number(sys.skillLv||0)+r9FixedMagicLv()
   )));
   const skillAtk=skillAtkAtLevel(sk.id,skillLv);
   if(!Number.isFinite(skillAtk))return null;
@@ -3568,7 +3651,7 @@ const betaAutoCache=new Map();
 function betaAutoCacheKey({minCrit=0,minCooldown=0}={}){
   const sys=betaAutoMaxSystemStats(),sk=activeSkill(),mx=betaAutoMaxElementInfo(sys);
   return JSON.stringify({
-    skillId:sk.id,level:state.player.level,weaponAtk:state.weapon.displayAtk,
+    basicTraits:r9SavedTraits(),skillId:sk.id,level:state.player.level,weaponAtk:state.weapon.displayAtk,
     weaponLv:state.weapon.equipmentLevel,boss:!!state.player?.boss,
     minCrit:betaAutoPctValue(betaAutoPctUnits(minCrit)),minCooldown:betaAutoPctValue(betaAutoPctUnits(minCooldown)),
     sysAtk:Number(sys.atk||0),sysFlat:Number(sys.flatAtk||0),
@@ -4135,11 +4218,11 @@ function renderAutoBreakdown(r){
     return;
   }
   const eq=(r?.status==='dynamic'&&r?.eq)?r.eq:makeAutoEquipment(),order=['主武','武2','武3','頭盔','盔甲','鞋子','戒1','戒2','項鍊','耳環'],slotOrder=['Basic1','Basic2','Basic3','Basic4','Plus1','Plus2','Plus3'];
-  host.innerHTML=order.map(e=>{const cells=slotOrder.filter(k=>eq?.[e]?.[k]).map(k=>{const [t,v]=eq[e][k];return `<div class="auto-slot"><b>${k}</b><span>${escHtml(t)} ${t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(Number(v||0))))):`${v}${t==='所有魔法等級'?' Lv':'%'}`}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${e}</div><div class="auto-slots">${cells||'<span class="small">無攻擊向候選</span>'}</div></div>`}).join('');
+  host.innerHTML=order.map(e=>{const cells=slotOrder.filter(k=>eq?.[e]?.[k]).map(k=>{const [t,v]=eq[e][k];return `<div class="auto-slot"><b>${k}</b><span>${escHtml(t)} ${t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(Number(v||0))))):`${R9_TRAITS.some(x=>x[0]===t)?'':`${v}${t==='所有魔法等級'?' Lv':'%'}`}`}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${e}</div><div class="auto-slots">${cells||'<span class="small">無攻擊向候選</span>'}</div></div>`}).join('');
   const items=[];for(const e of order)for(const k of slotOrder)if(eq?.[e]?.[k])items.push({type:eq[e][k][0],value:eq[e][k][1]});
   const types=[...new Set(items.map(x=>x.type))];
   sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';const totalText=t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(total)))):`${total}${unit}`;return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${totalText}</div></div>`}).join('');
-  note.textContent=`${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜目前第二頁系統基準＋合法詞條搜尋｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
+  note.textContent=`已指定的 Basic 特性只保留欄位，特殊效果尚未進入傷害公式。｜${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜目前第二頁系統基準＋合法詞條搜尋｜最佳化後：元素 ${roundStat(r.elem)}%｜法傷 ${roundStat(r.spell)}%｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
 let betaAutoRefreshing=false;
@@ -4509,7 +4592,7 @@ function renderReportGear(host,eq,manual=false){
     host.innerHTML=order.map(gear=>{const slots=map[gear]||{},cells=slotOrder.filter(k=>slots[k]).map(k=>{const it=slots[k],val=String(it.value??'').trim();return `<div class="auto-slot"><b>${k}</b><span>${escHtml(it.type)}${val?` ${escHtml(val)}`:''}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${gear}</div><div class="auto-slots">${cells||'<span class="small">未配置</span>'}</div></div>`}).join('');return;
   }
   if(!eq){host.innerHTML='<div class="small">目前條件沒有已驗證的逐格自動配置。</div>';return;}
-  host.innerHTML=order.map(gear=>{const slots=eq[gear]||{},cells=slotOrder.filter(k=>slots[k]).map(k=>{const [t,v]=slots[k];return `<div class="auto-slot"><b>${k}</b><span>${escHtml(t)} ${t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(Number(v||0))))):`${v}${t==='所有魔法等級'?' Lv':'%'}`}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${gear}</div><div class="auto-slots">${cells||'<span class="small">無攻擊向候選</span>'}</div></div>`}).join('');
+  host.innerHTML=order.map(gear=>{const slots=eq[gear]||{},cells=slotOrder.filter(k=>slots[k]).map(k=>{const [t,v]=slots[k];return `<div class="auto-slot"><b>${k}</b><span>${escHtml(t)} ${t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(Number(v||0))))):`${R9_TRAITS.some(x=>x[0]===t)?'':`${v}${t==='所有魔法等級'?' Lv':'%'}`}`}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${gear}</div><div class="auto-slots">${cells||'<span class="small">無攻擊向候選</span>'}</div></div>`}).join('');
 }
 function renderSummaryRows(host,groups){
   if(!host)return; const rows=groups.filter(x=>x.count||x.always);host.innerHTML=rows.length?rows.map(x=>`<div class="summary-row"><div class="name">${escHtml(x.name)}</div><div class="count">${x.count} 格</div><div class="total">合計 ${escHtml(x.total)}</div></div>`).join(''):'<div class="small">尚無詞條。</div>';
