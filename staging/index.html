@@ -4464,8 +4464,12 @@ function systemSelectionSummary(){
   treeIds.forEach(n=>{const lv=Number(state.system.tree[n.id]||0),x=treeLevelData(n.id,lv);treePoints+=Number(x?.cumulativePoints||0);addTreeStats(stats,n,x,state.system.treeConditions[n.id]===true);});
   fashions.forEach(f=>{stats.spell+=Number(f.spellPct||0);stats.crit+=Number(f.critPct||0);stats.critDamage+=Number(f.critDamagePct||0);stats.cooldown+=Number(f.cooldownPct||0);stats.atk+=Number(f.atkPct||0);});
   pets.forEach(p=>{stats.fire+=Number(p.firePct||0);stats.ice+=Number(p.icePct||0);stats.lightning+=Number(p.lightningPct||0);stats.normal+=Number(p.normalPct||0);stats.boss+=Number(p.bossPct||0);});
-  // R25: 稱號完全獨立顯示；不將稱號能力加入角色、裝備或技能傷害計算。
+  // R42 試驗：稱號 ATK 嚴格隔離；僅可量化的傷害能力加入系統池。
   const titleContribution=r15TitleContribution();
+  for(const k of ['critDamage','fire','ice','lightning','normal'])stats[k]+=Number(titleContribution[k]||0);
+  // 遊戲稱號 SkillDamagePer 作為技能／法術傷害加算池的待驗證假設。
+  stats.spell+=Number(titleContribution.skillDamage||0);
+  for(const k of ['fire','ice','lightning','normal'])stats[k]+=Number(titleContribution.allElement||0);
   return {artifactIds,treeIds,fashions,pets,treePoints,stats,titleContribution};
 }
 function refreshSystemSummary(message=''){
@@ -8977,6 +8981,47 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  };
  const init=()=>{update();document.getElementById('r39-refresh')?.addEventListener('click',update);};
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<script id="r42-double-tap-and-title-damage-js">
+(()=>{
+ 'use strict';
+ const last={key:'',time:0};
+ function doubleTap(key){const now=Date.now();const hit=last.key===key&&now-last.time<390;last.key=key;last.time=now;return hit;}
+ // Delegation works with gallery re-renders and touch devices; native dblclick kept for pointer devices.
+ // Use direct state + existing checkbox changes; not dependent on gallery re-render or CSS escaping.
+ function toggleCurrent(kind,key){
+   const sel=kind==='fashion'?`#fashionList [data-fashion]`:`#petList [data-pet]`;
+   const input=Array.from(document.querySelectorAll(sel)).find(x=>(kind==='fashion'?x.dataset.fashion:x.dataset.pet)===key);
+   if(!input)return;
+   input.checked=!input.checked;
+   input.dispatchEvent(new Event('change',{bubbles:true}));
+   // Existing gallery rebuilds using state; trigger its own rendering by its current selected card click.
+   setTimeout(()=>{document.dispatchEvent(new Event('tower-system-refresh'));},0);
+ }
+ document.addEventListener('click',e=>{
+   const f=e.target.closest('[data-fashion-game]');
+   const p=e.target.closest('[data-pet-game]');
+   if(!f&&!p)return;
+   const kind=f?'fashion':'pet',key=(f||p).getAttribute(f?'data-fashion-game':'data-pet-game');
+   if(doubleTap(kind+':'+key))setTimeout(()=>{
+     const action=Array.from(document.querySelectorAll(kind==='fashion'?'[data-fashion-own]':'[data-pet-toggle]')).find(el=>el.getAttribute(kind==='fashion'?'data-fashion-own':'data-pet-toggle')===key);
+     if(action&&!action.disabled)action.click();else toggleCurrent(kind,key);
+   },0);
+ },true);
+ // Tree node double click/tap increases one level, leaving single tap editor unchanged.
+ document.addEventListener('click',e=>{
+   const btn=e.target.closest('.magic-tree-node-btn');if(!btn)return;
+   const node=btn.closest('[data-preview-tree-node]');if(!node)return;
+   const id=node.dataset.previewTreeNode;
+   if(!doubleTap('tree:'+id))return;
+   setTimeout(()=>{
+     const sel=document.querySelector(`[data-tree-lv="${id}"]`);if(!sel)return;
+     let max=0;for(const option of sel.options)max=Math.max(max,Number(option.value)||0);
+     sel.value=String(Math.min(max,(Number(sel.value)||0)+1));
+     sel.dispatchEvent(new Event('change',{bubbles:true}));
+   },0);
+ },true);
 })();
 </script>
 </body></html>
