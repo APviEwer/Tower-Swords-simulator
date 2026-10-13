@@ -2779,6 +2779,35 @@ function legacyOptimizeMax({minCrit=0,minCooldown=0}={}){
  Final production engine should replace Number arithmetic below with a decimal library.
  The interface is intentionally stable so implementation can be swapped without touching UI.
 */
+
+/* R36: Staging-only set bonuses shared by manual and auto calculations.
+   Set slot selections are independent of affixes, and identical in both modes.
+   Set equipment's own stats remain user-entered; only tier bonuses are added.
+   Black Moon + Crimson Lotus: 3/7 elemental bonuses stack in the matching
+   elemental pool, 9-piece final magic damage is a separate x1.15 multiplier.
+   Bloodshadow's bleeding-only damage is NOT applied without a verified bleed flag. */
+function r36SetDamageBonus(elementKey){
+  const vals=(()=>{try{return JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch(_){return {}}})();
+  const slots=['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings','artifact'];
+  const counts=[0,0,0],swords=[new Set(),new Set(),new Set()];
+  for(const slot of slots){
+    const value=String(vals[slot]??'');if(!['0','1','2'].includes(value))continue;
+    const k=Number(value);
+    if(['weapon','weapon2','weapon3'].includes(slot)){
+      // A set has exactly one unique weapon; invalid duplicated swords cannot inflate tiers.
+      if(swords[k].size)continue;swords[k].add(slot);
+    }
+    counts[k]++;
+  }
+  const isNormal=elementKey==='normal',isFire=elementKey==='fire';
+  const moon=isNormal?counts[0]:0,lotus=isFire?counts[2]:0;
+  const eligible=moon||lotus;
+  const elementPct=(eligible>=3?10:0)+(eligible>=7?15:0);
+  const finalMultiplier=eligible>=9?1.15:1;
+  return {counts,elementPct,finalMultiplier,elementKey,
+    bloodshadowBleedFinalPending:counts[1]>=9};
+}
+
 function calcDamage({panelAtk,skillAtk,elementPct,spellPct,critMultiplier=5.86}){
   const atk=Number(panelAtk);
   const sk=Number(skillAtk);
@@ -3147,7 +3176,7 @@ function betaEvaluateEquipmentEq(eq,{minCrit=0,minCooldown=0}={}){
   const otherMultiplier=manualOtherDamageMultiplier();
 
   const nonCritDamage=Math.floor(
-    atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*bossMultiplier*otherMultiplier
+    atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*bossMultiplier*otherMultiplier*setBonus.finalMultiplier
   );
   const critDamage=Math.floor(nonCritDamage*(critDamagePct/100));
 
@@ -3462,7 +3491,8 @@ function betaAutoEvalTotals(t,targetCrit,targetCd){
 
   // Use the CURRENT weapon skill element. The optimizer's elemental affix is
   // assigned to that same element.
-  const elem=betaAutoPctValue(betaAutoPctUnits(mx.value)+betaAutoPctUnits(t.elem));
+  const setBonus=r36SetDamageBonus(mx.key);
+  const elem=betaAutoPctValue(betaAutoPctUnits(mx.value)+betaAutoPctUnits(t.elem)+betaAutoPctUnits(setBonus.elementPct));
   const spell=betaAutoPctValue(betaAutoPctUnits(sys.spell)+betaAutoPctUnits(t.spell));
   const critDamagePct=150+Number(sys.critDamage||0);
   const bossMultiplier=state.player?.boss?1+Number(sys.boss||0)/100:1;
@@ -3490,9 +3520,10 @@ function betaAutoDamageScore(t){
   const skillAtk=skillAtkAtLevel(sk.id,skillLv);
   const atkResult=betaAutoEffectiveAtkResult(BigInt(Math.max(0,Math.round(t.atk))),sys);
   if(!atkResult.valid||!Number.isFinite(skillAtk))return -Infinity;
-  const elem=mx.value+t.elem;
+  const setBonus=r36SetDamageBonus(mx.key);
+  const elem=mx.value+t.elem+setBonus.elementPct;
   const spell=Number(sys.spell||0)+t.spell;
-  return atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100);
+  return atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*setBonus.finalMultiplier;
 }
 
 function betaAutoMakeDamageSeed(defs,mode='mixed'){
@@ -3716,7 +3747,8 @@ function betaAutoCacheKey({minCrit=0,minCooldown=0}={}){
     sysSpell:Number(sys.spell||0),sysCrit:Number(sys.crit||0),
     sysCd:Number(sys.cooldown||0),sysCritDmg:Number(sys.critDamage||0),
     sysElem:Number(mx.value||0),sysSkill:Number(sys.skillLv||0),
-    systemState:state.system||{}
+    systemState:state.system||{},
+    setSlots:(()=>{try{return localStorage.getItem('tower-swords-r28-set-preview')||'{}'}catch(_){return '{}'}})()
   });
 }
 
@@ -4654,12 +4686,13 @@ function manualDamageResult(){
   const atkResult=effectiveAtkResult(mt.atk);
   if(!atkResult.valid)return atkResult;
   const effectiveAtk=atkResult.effectiveAtk;
-  const element=Number(sys.stats[elemKey]||0)+Number(mt[elemKey]||0);
+  const setBonus=r36SetDamageBonus(elemKey);
+  const element=Number(sys.stats[elemKey]||0)+Number(mt[elemKey]||0)+setBonus.elementPct;
   const spell=Number(sys.stats.spell||0)+Number(mt.spell||0);
   const critDamage=150+Number(sys.stats.critDamage||0);
   const bossMultiplier=state.player?.boss?1+Number(sys.stats.boss||0)/100:1;
   const otherMultiplier=manualOtherDamageMultiplier();
-  const rawNonCrit=effectiveAtk*skillAtk*(1+element/100)*(1+spell/100)*bossMultiplier*otherMultiplier;
+  const rawNonCrit=effectiveAtk*skillAtk*(1+element/100)*(1+spell/100)*bossMultiplier*otherMultiplier*setBonus.finalMultiplier;
   const nonCrit=Math.floor(rawNonCrit);
   const crit=Math.floor(nonCrit*(critDamage/100));
   return {valid:true,nonCrit,crit,skillLv:finalSkillLv,skillAtk,effectiveAtk,element,spell,critDamage,resolverMode:resolved.mode};
@@ -8784,19 +8817,20 @@ function normalizeWeapons(preferred){
 }
 normalizeWeapons();
 function render(){const l=lang(),data=L[l],m=messages[l];const root=document.getElementById('r28-set-panel');if(!root)return;
-root.querySelector('#r28-title').textContent=m.title;root.querySelector('#r28-calcstatus').textContent=m.status;root.querySelector('#r28-explain').textContent=m.desc;root.querySelector('#r28-tier-note').textContent=m.tip;
+root.querySelector('#r28-title').textContent=m.title;root.querySelector('#r28-calcstatus').textContent=l==='chinese'?'已計入手動與自動傷害（黑月／紅蓮）':l==='english'?'Applied to manual & auto damage (Black Moon / Crimson Lotus)':'수동·자동 피해량 적용 (흑월 / 홍련)';root.querySelector('#r28-explain').textContent=(l==='chinese'?'11 個部位可自由混搭。黑月普通、紅蓮火焰的 3／7 件元素加成及 9 件最終傷害已接入手動與自動；血影流血條件傷害仍待驗證。':l==='english'?'Mix 11 equipment slots. Black Moon normal / Crimson Lotus fire bonuses at 3, 7 and 9 pieces are included in manual and auto damage; Bloodshadow bleed-conditional damage awaits validation.':'11개 부위 혼합 가능. 흑월 일반 / 홍련 화염 3·7·9세트 피해량은 수동·자동 계산에 적용됩니다. 혈영 출혈 조건 피해는 미검증 상태입니다.');root.querySelector('#r28-tier-note').textContent=m.tip;
 const inputs=root.querySelector('#r28-slot-inputs');inputs.replaceChildren();
 slots.forEach((slot,i)=>{const wrap=document.createElement('label');wrap.style.cssText='display:flex;flex-direction:column;gap:5px;color:#d4dce4;font-size:13px';const label=document.createElement('span');label.textContent=captions[l][i];const select=document.createElement('select');select.style.cssText='width:100%;padding:9px;border-radius:8px;background:#0a1e2a;color:#e2e8ef;border:1px solid #334d60';let opt=document.createElement('option');opt.value='';opt.textContent=m.none;select.append(opt);
 for(let k=0;k<3;k++){opt=document.createElement('option');opt.value=String(k);opt.textContent=data.pieces[k][pieceIndex[i]]||data.sets[k];select.append(opt)}
-select.value=values[slot]??'';select.addEventListener('change',()=>{values[slot]=select.value;normalizeWeapons(slot);try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{};render();});wrap.append(label,select);inputs.append(wrap)});
+select.value=values[slot]??'';select.addEventListener('change',()=>{values[slot]=select.value;normalizeWeapons(slot);try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{};render();
+  try{if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();if(typeof refreshManualSummary==='function')refreshManualSummary();if(typeof refreshAuto==='function')refreshAuto(true);if(typeof refreshReport==='function'&&state?.step===3)refreshReport();}catch(e){console.error('[R36 set refresh]',e)}});wrap.append(label,select);inputs.append(wrap)});
 renderResults()}
 function renderResults(){
  const l=lang(),d=L[l],m=messages[l],out=document.getElementById('r28-set-results');if(!out)return;
  const translations={
- chinese:{on:'已啟動',off:'未啟動',detail:'主武器、武器 2、武器 3 均可計入對應套裝；同一套專屬武器只能裝備一把。套裝效果 2／5／7／9 件各自累加，僅預覽、不計入傷害。',tier:'套裝階段',names:'已選裝備',pending:'距下一階段',complete:'已達九件'},
- english:{on:'Active',off:'Locked',detail:'All three weapon slots count for their respective sets; duplicate copies of the same set sword are not allowed. Set tiers at 2/5/7/9 stack. Preview only; no damage impact.',tier:'Set tiers',names:'Selected items',pending:'Next tier in',complete:'All nine pieces'},
- korean:{on:'발동',off:'미발동',detail:'세 무기 칸 모두 해당 세트 개수에 포함되지만 같은 세트 무기는 한 자루만 장착할 수 있습니다. 2/5/7/9개 효과는 누적되며 피해 계산에는 포함되지 않습니다.',tier:'세트 단계',names:'착용 장비',pending:'다음 단계까지',complete:'9개 완성'}}[l];
- const tiers=[2,5,7,9],colors=['#8985da','#c17078','#cda052'];
+ chinese:{on:'已啟動',off:'未啟動',detail:'主武器、武器 2、武器 3 均可計入對應套裝；同一套專屬武器只能裝備一把。新版套裝於 3／5／7／9 件啟動，各階段效果累加。黑月九件最終普通魔法傷害 +15% 已由假人數據支持獨立 ×1.15；黑月及紅蓮同樣按此倍率納入手動與自動計算；血影流血條件傷害暫不納入。',tier:'套裝階段',names:'已選裝備',pending:'距下一階段',complete:'已達九件'},
+ english:{on:'Active',off:'Locked',detail:'All three weapon slots count toward their respective sets; only one copy of each set weapon is allowed. Updated tiers: 3/5/7/9, cumulative. The Black Moon 9-piece +15% final normal magic effect is consistent with an independent x1.15 in dummy tests; Black Moon and Crimson Lotus bonuses now apply to manual and auto calculations; Bloodshadow bleed conditional damage does not.',tier:'Set tiers',names:'Selected items',pending:'Next tier in',complete:'All nine pieces'},
+ korean:{on:'발동',off:'미발동',detail:'무기 3칸 모두 세트 수에 포함되며 같은 세트 전용 무기는 한 자루만 착용할 수 있습니다. 변경된 단계는 3/5/7/9개이며 효과는 누적됩니다. 흑월 9세트 최종 일반 마법 피해 +15%는 허수아비 실측에서 독립 x1.15와 일치합니다. 흑월과 홍련은 수동 및 자동 계산에 적용되며, 혈영 출혈 조건 피해는 제외됩니다.',tier:'세트 단계',names:'착용 장비',pending:'다음 단계까지',complete:'9개 완성'}}[l];
+ const tiers=[3,5,7,9],colors=['#8985da','#c17078','#cda052'];
  const effects={
  chinese:[[
  ['普通法術傷害 +10%'],['減少 MP 消耗 +3%'],['普通法術傷害 +15%','最大生命值 +10%'],['普通魔法最終傷害 +15%']
@@ -8843,7 +8877,7 @@ function renderResults(){
    const box=document.createElement('div');box.className='r34-set-pill';box.style.setProperty('--set-color',colors[k]);
    const h=document.createElement('div');h.className='r34-pill-head';const title=document.createElement('strong');title.textContent=short[k];const val=document.createElement('b');val.textContent=count+'/9';h.append(title,val);
    const line=document.createElement('div');line.className='r34-meter';const fill=document.createElement('div');fill.style.width=(100*count/9)+'%';line.append(fill);
-   const next=[2,5,7,9].find(t=>t>count);const tag=document.createElement('small');tag.textContent=next?(l==='chinese'?'下一階段 '+next+' 件':l==='korean'?'다음 단계 '+next+'개':'Next tier '+next):translations.complete;
+   const next=[3,5,7,9].find(t=>t>count);const tag=document.createElement('small');tag.textContent=next?(l==='chinese'?'下一階段 '+next+' 件':l==='korean'?'다음 단계 '+next+'개':'Next tier '+next):translations.complete;
    box.append(h,line,tag);compact.append(box);
   }
  }
@@ -8857,6 +8891,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 </body></html>
+<!-- STAGING R35: three set tiers changed to 3/5/7/9; final magic multiplier stays preview-only. -->
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
   /* Restore the original two-mode selector and mutually exclusive panes. */
