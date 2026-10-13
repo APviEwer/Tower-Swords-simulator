@@ -3074,7 +3074,7 @@ function refreshManualSummary(){
   const dmg=manualDamageResult();
   if($('#manualNonCritDamage'))$('#manualNonCritDamage').textContent=dmg.valid?formatDamageR(dmg.nonCrit):'—';
   if($('#manualCritDamage'))$('#manualCritDamage').textContent=dmg.valid?formatDamageR(dmg.crit):'—';
-  if($('#manualDamageNote'))$('#manualDamageNote').textContent=dmg.valid?`Skill Lv ${dmg.skillLv}｜Skill ATK ${Math.round(dmg.skillAtk*1000)/1000}｜有效 ATK ${formatGameBigInt(BigInt(Math.max(0,Math.floor(dmg.effectiveAtk))))}｜目前元素 ${plainNumber(dmg.element)}%｜法術 ${plainNumber(dmg.spell)}%`:`無法計算：${dmg.reason||'輸入不完整'}`;
+  if($('#manualDamageNote'))$('#manualDamageNote').textContent=dmg.valid?`Skill Lv ${dmg.skillLv}｜Skill ATK ${Math.round(dmg.skillAtk*1000)/1000}｜有效 ATK ${formatGameBigInt(BigInt(Math.max(0,Math.floor(dmg.effectiveAtk))))}｜目前元素（${({fire:"火焰",ice:"冰系",lightning:"閃電",normal:"普通"})[skillElementKey(activeSkill())]}）${plainNumber(dmg.element)}%｜法術 ${plainNumber(dmg.spell)}%`:`無法計算：${dmg.reason||'輸入不完整'}`;
   // R26: every Manual edit reuses the exact same damage result for all live displays.
   // Older compact/bottom UI subscribed only to navigation and could show stale numbers.
   const liveNon=dmg.valid?formatDamageR(dmg.nonCrit):'—';
@@ -4579,7 +4579,13 @@ function manualTotals(){
   }
   return out;
 }
-function skillElementKey(skill){return skill?.element==='火'?'fire':skill?.element==='冰'?'ice':skill?.element==='雷'?'lightning':'normal';}
+function skillElementKey(skill){
+  const e=String(skill?.element??'').trim().toLowerCase();
+  if(['火','火焰','fire','flame','화염','불'].includes(e))return 'fire';
+  if(['冰','冰系','冰霜','ice','frost','얼음','빙결'].includes(e))return 'ice';
+  if(['雷','閃電','雷電','lightning','thunder','electric','번개'].includes(e))return 'lightning';
+  return 'normal';
+}
 function playerLevelBaseAtk(level){
   const lv=Math.max(1,Math.min(500,Math.floor(Number(level||1))));
   const rules=[
@@ -9201,3 +9207,24 @@ main>.screen:nth-of-type(3) #autoPane>.card{
   }catch(e){console.error('Test28 Page03 entry optimization failed',e);}
 })();
 </script>
+
+
+<style id="r27-single-scroll-and-pet-size">
+/* Tabs remain as navigation; never follow the reader or cover editable content. */
+.safe-sys-tabs{position:relative!important;top:auto!important;z-index:2!important;backdrop-filter:none!important}
+/* One main vertical scrollbar for all five system sections. */
+#artifactList,#treeList,#fashionList,#petList,.sys-list,
+.artifact-game-grid-wrap,.fashion-game-grid,.pet-game-grid,
+.magic-tree-map-scroll{max-height:none!important;overflow-y:visible!important;overscroll-behavior-y:auto!important}
+/* Keep only horizontal navigation for the wide magic-tree graphic. */
+.magic-tree-map-scroll{overflow-x:auto!important;overscroll-behavior-x:contain!important}
+/* Pet gallery cards should match the fashion gallery card density and icon scale. */
+.pet-game-grid{grid-template-columns:repeat(7,minmax(0,1fr))!important;gap:7px!important}
+.pet-game-item{padding:5px!important;min-width:0!important}
+.pet-game-art{width:100%!important;height:auto!important;aspect-ratio:1/1!important;max-width:none!important}
+.pet-game-art img{width:100%!important;height:100%!important;object-fit:contain!important}
+.pet-game-name{font-size:9px!important;min-height:unset!important}
+@media(max-width:820px){.pet-game-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
+@media(max-width:620px){.pet-game-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media(max-width:360px){.pet-game-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+</style>
