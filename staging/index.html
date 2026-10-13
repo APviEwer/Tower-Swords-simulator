@@ -1653,10 +1653,20 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </div>
 </div>
 <section class="card no-print" id="r48-title-atk-test" style="margin:12px 0 16px;border:1px solid #6c877f">
-<h3>R49｜稱號 ATK 與 600 級交叉試算（Staging）</h3>
+<h3>R50｜稱號 ATK 星級精度比較（Staging）</h3>
 <p class="small">預設關閉。開啟後暫按「主武固定 ATK × 已選稱號 ATK%」增加有效 ATK；手動及自動最佳化共同套用。這只是候選模型，尚非遊戲驗證公式，正式版不受影響。</p>
 <label style="display:flex;gap:10px;align-items:center;font-weight:600;cursor:pointer"><input type="checkbox" id="r48-title-atk-toggle" style="width:20px;height:20px">啟用稱號 ATK 試算（僅本頁）</label>
 <p id="r48-title-atk-status" class="small" aria-live="polite">試算已關閉，原 ATK／傷害不變</p>
+<div style="border:1px solid #526577;border-radius:10px;padding:12px;margin:10px 0" id="r50-precision-panel">
+  <strong>R50｜稱號 ATK 星級精度比較（僅測試）</strong>
+  <p class="small">遊戲畫面顯示 ★1 2%／★2 4%／★3 6%；實際運算是否為 1.98%／3.96%／6% 尚待遊戲程式證實。只在上方稱號 ATK 試算開啟時生效。</p>
+  <label for="r50-atk-precision-mode">稱號 ATK 候選星級倍率</label>
+  <select id="r50-atk-precision-mode" style="width:100%;margin:5px 0 8px">
+    <option value="display">A｜按顯示值 2%／4%／6%</option>
+    <option value="fractional">B｜按候選內部值 1.98%／3.96%／6%</option>
+  </select>
+  <p id="r50-atk-precision-summary" class="small" aria-live="polite">正在讀取稱號統計…</p>
+</div>
 <div style="margin-top:12px;padding:12px;border:1px solid #4b6975;border-radius:10px">
 <label style="display:flex;gap:10px;align-items:center"><input id="r49-level-trial" type="checkbox" style="width:20px;height:20px">試算角色 510～600 級基礎 ATK（僅測試，預設關閉）</label>
 <p id="r49-level-status" class="small">尚未啟用；角色基礎 ATK 維持原 500 級截斷。</p>
@@ -4717,9 +4727,24 @@ function formatDamageR(n){
 
 /* R48 temporary model; not an official game calculation. */
 function r48TitleAtkEnabled(){return !!window.__r48TitleAtkTrial;}
+/* R50: compare DISPLAY 2/4/6 and POSSIBLE INTERNAL 1.98/3.96/6.
+   Only change AttackPer in the existing opt-in R48 experiment. */
+function r50TitleAtkPercentage(){
+  const t=r15TitleContribution();
+  let value=Number(t.atk||0);
+  if(window.__r50AtkPrecisionMode!=='fractional')return value;
+  const raw=window.__r15TitleEffects||{};
+  const sources=(raw['攻擊力']?.sources||[]);
+  for(const source of sources){
+    const star=Number(source?.level||0),amount=Number(source?.amount||0);
+    if(star===1&&Math.abs(amount-2)<0.000001)value-=0.02;
+    if(star===2&&Math.abs(amount-4)<0.000001)value-=0.04;
+  }
+  return Math.round(value*1000000)/1000000;
+}
 function r48TitleAtkExtra(weaponAtk){
   if(!r48TitleAtkEnabled())return 0;
-  return Number(weaponAtk||0)*Number(r15TitleContribution().atk||0)/100;
+  return Number(weaponAtk||0)*r50TitleAtkPercentage()/100;
 }
 function effectiveAtkResult(extraEquipmentAtk=0n){
   const sys=systemSelectionSummary();
@@ -9115,7 +9140,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(!box||!label)return;
     window.__r48TitleAtkTrial=box.checked;
     let pct=0;
-    try{pct=Number(r15TitleContribution().atk||0)}catch(e){}
+    try{pct=Number(r50TitleAtkPercentage())}catch(e){}
     label.textContent=box.checked?'試算啟用：主武固定 ATK × '+pct.toFixed(2)+'%（候選模型，非正式公式）':'試算已關閉，原 ATK／傷害不變';
     try{if(typeof refreshReport==='function')refreshReport();}catch(e){}
     try{if(typeof refreshSystemSummary==='function')refreshSystemSummary();}catch(e){}
@@ -9123,6 +9148,28 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.addEventListener('DOMContentLoaded',function(){
     const el=document.getElementById('r48-title-atk-toggle');
     if(el){el.checked=false;window.__r48TitleAtkTrial=false;el.addEventListener('change',update);update();}
+    const precision=document.getElementById('r50-atk-precision-mode');
+    const summary=document.getElementById('r50-atk-precision-summary');
+    window.__r50AtkPrecisionMode='display';
+    function showPrecision(){
+      if(!summary)return;
+      const source=window.__r15TitleEffects?.['攻擊力']?.sources||[];
+      const low=source.filter(x=>Number(x.level)===1 && Math.abs(Number(x.amount)-2)<1e-6).length;
+      const mid=source.filter(x=>Number(x.level)===2 && Math.abs(Number(x.amount)-4)<1e-6).length;
+      const a=Number(r15TitleContribution().atk||0);
+      const b=Math.round((a-low*.02-mid*.04)*1e6)/1e6;
+      summary.textContent='目前符合條件的 ATK 稱號：★1 '+low+' 個、★2 '+mid+' 個；模式 A：+'+a.toFixed(2)+'%，模式 B：+'+b.toFixed(2)+'%。當前採用：+'+r50TitleAtkPercentage().toFixed(2)+'%。';
+    }
+    if(precision){
+      precision.value='display';
+      precision.addEventListener('change',function(){
+        window.__r50AtkPrecisionMode=precision.value;
+        showPrecision();
+        update();
+      });
+      showPrecision();
+      document.addEventListener('click',function(){setTimeout(showPrecision,0);},true);
+    }
     const lv=document.getElementById('r49-level-trial');
     const status=document.getElementById('r49-level-status');
     if(lv){
