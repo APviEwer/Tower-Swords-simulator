@@ -1758,7 +1758,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
       <div class="sys-toolbar"><input id="treeSearch" placeholder="搜尋魔法樹節點"></div>
       <div class="sys-list" id="treeList"></div>
     </details>
-    <details id="v21TitleDetails"><summary>稱號｜48 個 <span class="safe-title-warning">加成已併入系統</span></summary>
+    <details id="v21TitleDetails"><summary>稱號｜48 個 <span class="safe-title-warning">加成獨立統計・不參與傷害</span></summary>
       <div class="note">稱號已取各自選定最高星級，將攻擊力、暴擊傷害、火／冰／雷屬性加成計入 02 系統能力，並參與 03／04 傷害計算。其餘特殊能力僅列來源，待確定正確倍率及公式後再接入。</div>
       <div id="v21TitleCurrent" hidden>未設定</div>
       <div id="v21TitleRoot" class="v21-title-shell"><div class="v21-title-loading">稱號資料準備中…</div></div>
@@ -4372,7 +4372,7 @@ function highLevelTreeUnlocked(){
 function treeNodeAvailableForRole(node){
   return !(highLevelTreeNode(node?.id)&&!highLevelTreeUnlocked());
 }
-/* R15: normalized title contribution, included exactly once in Page-02 pools. */
+/* R25: normalized title contribution for independent title panel only. */
 function r15TitleContribution(){
  const raw=window.__r15TitleEffects||{};
  const stats={atk:0,critDamage:0,fire:0,ice:0,lightning:0,normal:0,spell:0,skillDamage:0,allElement:0,other:[]};
@@ -4387,6 +4387,7 @@ function r15TitleContribution(){
  return stats;
 }
 function r15MergeTitleStats(stats){
+ // Legacy helper kept for compatibility; R25 never invokes it in damage calculations.
  const t=r15TitleContribution();
  // 稱號：同類系統屬性加算；不新增獨立傷害倍率。
  for(const k of ['atk','critDamage','fire','ice','lightning','normal'])stats[k]+=t[k];
@@ -4408,7 +4409,8 @@ function systemSelectionSummary(){
   treeIds.forEach(n=>{const lv=Number(state.system.tree[n.id]||0),x=treeLevelData(n.id,lv);treePoints+=Number(x?.cumulativePoints||0);addTreeStats(stats,n,x,state.system.treeConditions[n.id]===true);});
   fashions.forEach(f=>{stats.spell+=Number(f.spellPct||0);stats.crit+=Number(f.critPct||0);stats.critDamage+=Number(f.critDamagePct||0);stats.cooldown+=Number(f.cooldownPct||0);stats.atk+=Number(f.atkPct||0);});
   pets.forEach(p=>{stats.fire+=Number(p.firePct||0);stats.ice+=Number(p.icePct||0);stats.lightning+=Number(p.lightningPct||0);stats.normal+=Number(p.normalPct||0);stats.boss+=Number(p.bossPct||0);});
-  const titleContribution=r15MergeTitleStats(stats);
+  // R25: 稱號完全獨立顯示；不將稱號能力加入角色、裝備或技能傷害計算。
+  const titleContribution=r15TitleContribution();
   return {artifactIds,treeIds,fashions,pets,treePoints,stats,titleContribution};
 }
 function refreshSystemSummary(message=''){
@@ -8453,7 +8455,7 @@ main>.screen:nth-of-type(3) #autoPane>.card{
     return {id:t?.id||null,title:t?.nameZh||'',star,unlocked:star>0,bonuses:pieces.map(piece=>{
       const match=piece.match(/^(.+?)\s*([+＋-])\s*(\d+(?:\.\d+)?)\s*%/);
       return match?{stat:match[1].trim(),percent:Number(match[3])*(match[2]==='-'?-1:1),raw:piece,recognized:true}:{raw:piece,recognized:false};
-    }),appliedToDamage:true};
+    }),appliedToDamage:false};
   }
   // Title bonuses remain completely separate from the character/system damage chain.
   function aggregateTitleStats(){
@@ -8503,8 +8505,8 @@ main>.screen:nth-of-type(3) #autoPane>.card{
       const [key,unit]=id.split('\u0000');
       return `<div class="v21-title-stat-source-row"><b>${esc(key)}｜${value>=0?'+':''}${fmt(value)}${esc(unit)}</b><small>${sources.get(id).map(x=>`${esc(x.name)} ★${x.level}：${x.amount>=0?'+':''}${fmt(x.amount)}${esc(unit)}`).join('　｜　')}</small></div>`;
     }).join('')+(unknown.length?`<div class="v21-title-stat-source-row"><b>未能辨識的特殊效果（未加總）</b><small>${unknown.map(esc).join('　｜　')}</small></div>`:'')||'<div class="small">目前沒有加成來源。</div>';
-    // Title detail is source attribution; only mapped properties join systemSelectionSummary().
-    window.TOWER_SWORDS_STAGING_TITLE_STATS={unlocked,bonuses:Object.fromEntries(entries.map(([id,value])=>[id.replace('\u0000','｜'),value])),unparsed:unknown.slice(),appliedToDamage:true};
+    // R25: Title detail is for independent display only; no title property joins damage calculations.
+    window.TOWER_SWORDS_STAGING_TITLE_STATS={unlocked,bonuses:Object.fromEntries(entries.map(([id,value])=>[id.replace('\u0000','｜'),value])),unparsed:unknown.slice(),appliedToDamage:false};
   }
   function syncProgress(){
     renderTitleStats();
@@ -8516,7 +8518,7 @@ main>.screen:nth-of-type(3) #autoPane>.card{
     if(previewEl){
       if(preview.unlocked){
         const list=preview.bonuses.map(b=>b.recognized?`${esc(b.stat)} ${b.percent>=0?'+':''}${b.percent}%`:esc(b.raw)).join('｜');
-        previewEl.innerHTML=`<b>目前檢視：${esc(preview.title)} ★${preview.star}</b><span>${list||'無可辨識加成'}</span><small>已解鎖 ${unlocked} / ${db?.titles?.length||48}；稱號已對應屬性併入系統總數；未對應效果僅列來源。</small>`;
+        previewEl.innerHTML=`<b>目前檢視：${esc(preview.title)} ★${preview.star}</b><span>${list||'無可辨識加成'}</span><small>已解鎖 ${unlocked} / ${db?.titles?.length||48}；稱號能力獨立統計，不併入角色屬性及傷害計算。</small>`;
       }else{
         previewEl.innerHTML=`<b>目前檢視：${esc(preview.title)}｜未解鎖</b><span>請在浮動視窗自訂解鎖 ★1～★3。</span><small>已解鎖 ${unlocked} / ${db?.titles?.length||48}；未解鎖稱號不提供任何能力。</small>`;
       }
