@@ -3074,7 +3074,14 @@ function refreshManualSummary(){
   const dmg=manualDamageResult();
   if($('#manualNonCritDamage'))$('#manualNonCritDamage').textContent=dmg.valid?formatDamageR(dmg.nonCrit):'—';
   if($('#manualCritDamage'))$('#manualCritDamage').textContent=dmg.valid?formatDamageR(dmg.crit):'—';
-  if($('#manualDamageNote'))$('#manualDamageNote').textContent=dmg.valid?`Skill Lv ${dmg.skillLv}｜Skill ATK ${Math.round(dmg.skillAtk*1000)/1000}｜有效 ATK ${formatGameBigInt(BigInt(Math.max(0,Math.floor(dmg.effectiveAtk))))}`:`無法計算：${dmg.reason||'輸入不完整'}`;
+  if($('#manualDamageNote'))$('#manualDamageNote').textContent=dmg.valid?`Skill Lv ${dmg.skillLv}｜Skill ATK ${Math.round(dmg.skillAtk*1000)/1000}｜有效 ATK ${formatGameBigInt(BigInt(Math.max(0,Math.floor(dmg.effectiveAtk))))}｜目前元素 ${plainNumber(dmg.element)}%｜法術 ${plainNumber(dmg.spell)}%`:`無法計算：${dmg.reason||'輸入不完整'}`;
+  // R26: every Manual edit reuses the exact same damage result for all live displays.
+  // Older compact/bottom UI subscribed only to navigation and could show stale numbers.
+  const liveNon=dmg.valid?formatDamageR(dmg.nonCrit):'—';
+  const liveCrit=dmg.valid?formatDamageR(dmg.crit):'—';
+  for(const id of ['betaLiveNormal','v10LiveManualNon']){const el=$('#'+id);if(el&&el.textContent!==liveNon)el.textContent=liveNon;}
+  for(const id of ['betaLiveCrit','v10LiveManualCrit']){const el=$('#'+id);if(el&&el.textContent!==liveCrit)el.textContent=liveCrit;}
+  if($('#betaLiveMode'))$('#betaLiveMode').textContent='手動實裝';
   if(state.step===3) refreshReport();
 }
 
@@ -4615,6 +4622,8 @@ function manualOtherDamageMultiplier(){
 function formatDamageR(n){
   if(!Number.isFinite(Number(n)))return '—';
   const r=Number(n)/1e18;
+  if(r===0)return '0R';
+  if(Math.abs(r)<0.001)return `${Number(r.toPrecision(5))}R`;
   return `${Math.round(r*1000)/1000}R`;
 }
 function effectiveAtkResult(extraEquipmentAtk=0n){
