@@ -1659,7 +1659,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 
 <main>
 <section class="screen active">
-  <div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div><div class="note" style="border-left:3px solid #cfaa62;margin:12px 0 16px">正式版 R8 更新：稱號 48 項的星級與能力維持獨立統計，<strong>目前不計入角色 ATK、手動／自動最佳化及傷害計算</strong>。03 手動元素／法傷輸入、02 系統單一捲動、寵物圖卡尺寸與自動最佳化新特性說明已同步更新。尚未全部更新完成。</div>
+  <div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div><div class="note" style="border-left:3px solid #cfaa62;margin:12px 0 16px">正式版 R12 更新：稱號 48 項的星級與能力維持獨立統計，<strong>目前不計入角色 ATK、手動／自動最佳化及傷害計算</strong>。03 手動元素／法傷輸入、02 系統單一捲動、寵物圖卡尺寸與自動最佳化新特性說明已同步更新。尚未全部更新完成。</div>
   <div class="grid two">
     <div class="card"><h3>角色／主武</h3>
       <div class="field"><label>角色等級</label><input id="level" type="number" min="1" max="600"></div>
@@ -1687,7 +1687,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 
 <section class="screen">
   <div class="hero"><h2>02｜系統效果</h2><p>依角色實際進度逐項設定。新手預設全部未取得／Lv0／未裝備；不再強制使用 MAX。資料由獨立後台檔載入，之後可直接擴充。</p></div>
-<div class="note safe-title-announcement" role="note" data-safe-lang="title-announcement">更新資訊｜正式版 R11：48 個稱號保留圖卡、星級與獨立能力統計；稱號暫不計入角色 ATK、手動／自動最佳化及技能傷害。已整合手動輸入修正、系統單一捲動及寵物圖卡版面；原生稱號加成規則尚待驗證。</div>
+<div class="note safe-title-announcement" role="note" data-safe-lang="title-announcement">更新資訊｜正式版 R12：48 個稱號保留圖卡、星級與獨立能力統計；稱號暫不計入角色 ATK、手動／自動最佳化及技能傷害。已整合手動輸入修正、系統單一捲動及寵物圖卡版面；原生稱號加成規則尚待驗證。</div>
 
 
   <div class="card safe-stat-card" id="safeStatCard"><h3>系統統計總覽</h3>
@@ -1697,7 +1697,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     <button class="safe-brief" type="button" data-safe-stat="title"><strong>稱號來源明細</strong><small>稱號加成僅獨立統計，不列入角色 ATK 與傷害</small><span>已解鎖 <b id="safeTitles">0 / 48</b>　能力種類 <b id="safeKinds">0</b></span></button>
   </div>
   <div class="safe-stat-extra" id="safeTitlesExtra" hidden>
-    <div class="v21-title-stat-meta"><span id="v21TitleStatCount">已解鎖 0 / 48</span><span id="v21TitleStatTypeCount">生效能力 0 種</span><span>已併入系統能力；此處僅顯示稱號貢獻及來源，不重複計入</span></div>
+    <div class="v21-title-stat-meta"><span id="v21TitleStatCount">已解鎖 0 / 48</span><span id="v21TitleStatTypeCount">生效能力 0 種</span><span>稱號能力僅獨立統計，不參與角色 ATK、最佳化與傷害計算</span></div>
     <div class="v21-title-stat-grid" id="v21TitleStatGrid" hidden></div>
     <details open><summary>查看各稱號能力貢獻</summary><div id="v21TitleStatSources"></div></details>
   </div>
@@ -1759,7 +1759,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
       <div class="sys-list" id="treeList"></div>
     </details>
     <details id="v21TitleDetails"><summary>稱號｜48 個 <span class="safe-title-warning">加成獨立統計・不參與傷害</span></summary>
-      <div class="note">稱號已取各自選定最高星級，將攻擊力、暴擊傷害、火／冰／雷屬性加成計入 02 系統能力，並參與 03／04 傷害計算。其餘特殊能力僅列來源，待確定正確倍率及公式後再接入。</div>
+      <div class="note">稱號依選定星級獨立統計。所有稱號能力暫不計入角色 ATK、手動／自動最佳化或技能傷害；遊戲原生加成規則仍待驗證。</div>
       <div id="v21TitleCurrent" hidden>未設定</div>
       <div id="v21TitleRoot" class="v21-title-shell"><div class="v21-title-loading">稱號資料準備中…</div></div>
     </details>
@@ -8921,6 +8921,18 @@ function init(){
  }));
  window.addEventListener('tower-language-changed',()=>setTimeout(run,50));
 }
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script><script id="r12-interface-copy-completion">
+(()=>{'use strict';
+const dict={"操作說明": ["Instructions", "사용 설명"], "問題回報": ["Report an Issue", "문제 신고"], "版本資訊": ["Version Information", "버전 정보"], "01 角色設定": ["01 Character", "01 캐릭터 설정"], "02 系統效果": ["02 Systems", "02 시스템 효과"], "03 裝備配置": ["03 Equipment", "03 장비 설정"], "04 分析報告": ["04 Report", "04 분석 보고서"], "模擬器操作說明": ["Simulator Guide", "시뮬레이터 이용 안내"], "01｜角色設定": ["01 ", " Character Settings|01 | 캐릭터 설정"], "02｜武器技能": ["02 ", " Weapon Skills|02 | 무기 스킬"], "03｜系統效果": ["03 ", " System Effects|03 | 시스템 효과"], "04｜手動實裝": ["04 ", " Manual Equipment|04 | 수동 장비 설정"], "05｜自動最佳化": ["05 ", " Auto Optimization|05 | 자동 최적화"], "06｜暴擊／冷卻門檻": ["06 ", " Crit / Cooldown Requirements|06 | 치명타 / 재사용 대기시간 조건"], "07｜元素詞條": ["07 ", " Elemental Options|07 | 속성 옵션"], "08｜即時傷害與分析報告": ["08 ", " Live Damage and Report|08 | 실시간 피해량 및 분석 보고서"], "09｜儲存、重設與問題比對": ["09 ", " Save, Reset and Troubleshooting|09 | 저장, 초기화 및 문제 비교"], "角色／主武": ["Character / Main Weapon", "캐릭터 / 주무기"], "角色等級": ["Character Level", "캐릭터 레벨"], "主武固定 ATK（照遊戲顯示輸入）": ["Main Weapon Fixed ATK (in-game value)", "주무기 고정 ATK (게임 표시값)"], "主武裝備 Lv": ["Main Weapon Equipment Lv", "주무기 장비 Lv"], "武器技能（可留空）": ["Weapon Skill (optional)", "무기 스킬 (선택 사항)"], "模式": ["Mode", "모드"], "手動實裝": ["Manual Equipment", "수동 장비 설정"], "自動最佳化": ["Auto Optimization", "자동 최적화"], "系統效果": ["System Effects", "시스템 효과"], "裝備配置": ["Equipment Setup", "장비 설정"], "分析報告": ["Analysis Report", "분석 보고서"], "模擬器版本": ["Simulator Version", "시뮬레이터 버전"], "適用遊戲版本": ["Supported Game Version", "지원 게임 버전"], "只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。": ["Only frequently edited character inputs are shown. Optimization settings are in Page 03.", "자주 변경하는 캐릭터 입력 항목만 표시합니다. 최적화 조건은 03페이지에서 설정합니다."], "未暴擊傷害": ["Noncritical Damage", "일반 피해량"], "最終暴擊傷害": ["Final Critical Damage", "최종 치명타 피해량"], "手動實裝即時傷害": ["Manual Live Damage", "수동 장비 실시간 피해량"], "手動詞條統計｜格數＋合計值": ["Manual Options ", " Slots and Totals|수동 옵션 | 슬롯 및 합계"], "指定暴擊率 %（0＝不限制）": ["Minimum Crit Rate % (0 = unrestricted)", "최소 치명타 확률 % (0 = 제한 없음)"], "指定冷卻 %（0＝不限制）": ["Minimum Cooldown % (0 = unrestricted)", "최소 재사용 대기시간 감소 % (0 = 제한 없음)"], "Basic 詞條／特性條件｜Lv.750": ["Basic Option / Trait Rules ", " Lv.750|기본 옵션 / 특성 조건 | Lv.750"], "未指定": ["Not specified", "지정 안 함"], "Optimizer 狀態": ["Optimizer Status", "최적화 상태"], "最終暴擊": ["Final Critical Rate", "최종 치명타 확률"], "最終冷卻": ["Final Cooldown", "최종 재사용 대기시간 감소"], "最佳配裝明細｜系統模擬，只看不填": ["Optimized Equipment ", " Preview Only|최적화 장비 | 미리보기 전용"], "最佳化詞條統計｜格數＋合計值": ["Optimized Options ", " Slots and Totals|최적화 옵션 | 슬롯 및 합계"], "匯出 PDF": ["Export PDF", "PDF 내보내기"], "角色條件": ["Character Conditions", "캐릭터 조건"], "目前角色重要總合": ["Current Character Summary", "현재 캐릭터 요약"], "查看系統效果來源摘要": ["Show System Effect Sources", "시스템 효과 출처 보기"], "手動實裝 vs 自動最佳化": ["Manual vs Auto Optimization", "수동 설정 vs 자동 최적화"], "差異（自動－手動）": ["Difference (Auto − Manual)", "차이 (자동 − 수동)"], "手動配裝方案": ["Manual Equipment Build", "수동 장비 구성"], "自動最佳化方案": ["Auto-optimized Build", "자동 최적화 구성"], "詞條統計": ["Option Statistics", "옵션 통계"], "分享": ["Share", "공유"], "上一步": ["Previous", "이전"], "下一步": ["Next", "다음"], "重置目前頁": ["Reset Current Page", "현재 페이지 초기화"], "重置全部 Build": ["Reset All Builds", "전체 빌드 초기화"], "目前自訂進度": ["Current Progress", "현재 설정 진행도"], "人工製品": ["Artifacts", "아티팩트"], "魔法樹": ["Magic Tree", "마법 트리"], "時裝": ["Costumes", "코스튬"], "寵物": ["Pets", "펫"], "稱號": ["Titles", "칭호"], "可用點數": ["Available Points", "사용 가능 포인트"], "已使用點數": ["Spent Points", "사용한 포인트"], "剩餘點數": ["Remaining Points", "남은 포인트"], "系統統計總覽": ["System Statistics Overview", "시스템 능력치 개요"], "稱號來源明細": ["Title Bonus Breakdown", "칭호 보너스 상세"], "稱號已取各自選定最高星級，將攻擊力、暴擊傷害、火／冰／雷屬性加成計入 02 系統能力，並參與 03／04 傷害計算。其餘特殊能力僅列來源，待確定正確倍率及公式後再接入。": ["Titles are summarized by the highest selected star per title. All title bonuses are tracked separately and excluded from character ATK, optimization, and damage calculations pending game verification.", "칭호별 선택한 최고 별 등급을 집계합니다. 모든 칭호 보너스는 별도로 표시되며 게임 검증 전까지 캐릭터 ATK, 최적화 및 피해 계산에 반영되지 않습니다."], "稱號僅獨立統計；不納入角色 ATK 或傷害計算。": ["Titles are tracked separately and excluded from ATK and damage calculations.", "칭호는 별도 집계되며 ATK 및 피해 계산에 반영되지 않습니다."], "已併入系統能力；此處僅顯示稱號貢獻及來源，不重複計入": ["Titles are tracked separately and are not included in ATK or damage calculations.", "칭호 능력치는 별도 집계되며 ATK 및 피해 계산에 반영되지 않습니다."], "稱號加成僅獨立統計，不列入角色 ATK 與傷害": ["Title bonuses are separately recorded and excluded from ATK and damage", "칭호 보너스는 별도 집계되며 ATK 및 피해 계산에서 제외됩니다"], "稱號｜48 個": ["Titles ", " 48|칭호 | 48개"], "寵物｜最多裝備 4 隻": ["Pets ", " Equip up to 4|펫 | 최대 4마리 장착"], "時裝｜擁有即生效": ["Costumes ", " Active when owned|코스튬 | 보유 시 적용"], "MAX 回歸參考｜僅供驗證，不參與目前值": ["MAX Reference ", " Verification Only|최대값 참조 | 검증 전용"], "元素｜不含寵物": ["Elements ", " Excluding Pets|속성 | 펫 제외"], "元素寵物": ["Elemental Pets", "속성 펫"], "法傷": ["Spell Damage", "마법 피해"], "暴擊／冷卻": ["Critical / Cooldown", "치명타 / 재사용 대기시간 감소"], "加成獨立統計・不參與傷害": ["Separate Statistics · Excluded from Damage", "별도 집계 · 피해 계산 제외"], "未設定": ["Not configured", "설정 안 됨"], "稱號資料準備中…": ["Loading titles…", "칭호 데이터 불러오는 중…"], "已選 0 格": ["0 slots selected", "선택한 슬롯 0개"], "元素及法傷：等待輸入。": ["Element and spell damage: waiting for input.", "속성 및 마법 피해: 입력 대기 중"], "稱號依選定星級獨立統計。所有稱號能力暫不計入角色 ATK、手動／自動最佳化或技能傷害；遊戲原生加成規則仍待驗證。": ["Title bonuses are tracked by selected stars and excluded from ATK, optimization and skill damage pending game verification.", "칭호 보너스는 선택한 별 등급별로 별도 집계되며 게임 검증 전까지 ATK, 최적화 및 스킬 피해에 반영되지 않습니다."], "稱號能力僅獨立統計，不參與角色 ATK、最佳化與傷害計算": ["Titles are tracked separately and excluded from ATK, optimization and damage.", "칭호는 별도 집계되며 ATK, 최적화 및 피해 계산에서 제외됩니다."]};
+const snapshots=new WeakMap();
+let busy=false,scheduled=false;
+function lang(){return localStorage.getItem('towerSword.language') || document.querySelector('.lang-btn.active')?.dataset.lang || 'zh-Hant';}
+function translate(v,l){if(l!=='ko'&&l!=='en')return v;const ix=l==='en'?0:1;if(dict[v])return dict[v][ix];let r=v;for(const [k,vv] of Object.entries(dict)){if(k.length<4||!r.includes(k)||r===k||r.length-k.length>140)continue;r=r.split(k).join(vv[ix]);}return r;}
+function apply(){if(busy)return;busy=true;try{const l=lang();const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode(n){return n.parentElement&&!n.parentElement.closest('script,style,svg,.language-switch')?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});let n;while(n=w.nextNode()){let now=n.nodeValue;let old=snapshots.get(n);if(old===undefined){old=now;snapshots.set(n,old)}else if(now!==old&&now!==translate(old,'en')&&now!==translate(old,'ko')&&/[\u3400-\u9fff]/.test(now)){old=now;snapshots.set(n,old)}let target=translate(old,l);if(now!==target)n.nodeValue=target;} }finally{busy=false}}
+function queue(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;apply()})}
+function init(){apply();new MutationObserver(changes=>{if(!busy&&changes.some(x=>x.addedNodes.length||x.type==='characterData'))queue()}).observe(document.body,{subtree:true,childList:true,characterData:true});document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>{setTimeout(apply,0);setTimeout(apply,160)}));window.addEventListener('tower-language-changed',()=>setTimeout(apply,60));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script></body></html>
