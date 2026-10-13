@@ -3188,7 +3188,8 @@ function betaEvaluateEquipmentEq(eq,{minCrit=0,minCooldown=0}={}){
   const atkResult=betaAutoEffectiveAtkResult(t.atk,sys.stats);
   if(!atkResult.valid)return null;
 
-  const elem=mx.value+Number(t[mx.key]||0);
+  const setBonus=r36SetDamageBonus(mx.key);
+  const elem=mx.value+Number(t[mx.key]||0)+setBonus.elementPct;
   const spell=Number(sys.stats.spell||0)+t.spell;
   const critDamagePct=150+Number(sys.stats.critDamage||0);
   const bossMultiplier=state.player?.boss?1+Number(sys.stats.boss||0)/100:1;
@@ -3520,7 +3521,7 @@ function betaAutoEvalTotals(t,targetCrit,targetCd){
   const nonCritDamage=Math.floor(
     atkResult.effectiveAtk*skillAtk*
     (1+elem/100)*(1+spell/100)*
-    bossMultiplier*otherMultiplier
+    bossMultiplier*otherMultiplier*setBonus.finalMultiplier
   );
   const critDamage=Math.floor(nonCritDamage*(critDamagePct/100));
 
@@ -3542,7 +3543,9 @@ function betaAutoDamageScore(t){
   const setBonus=r36SetDamageBonus(mx.key);
   const elem=mx.value+t.elem+setBonus.elementPct;
   const spell=Number(sys.spell||0)+t.spell;
-  return atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*setBonus.finalMultiplier;
+  const bossMultiplier=state.player?.boss?1+Number(sys.boss||0)/100:1;
+  const otherMultiplier=manualOtherDamageMultiplier();
+  return atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*bossMultiplier*otherMultiplier*setBonus.finalMultiplier;
 }
 
 function betaAutoMakeDamageSeed(defs,mode='mixed'){
@@ -4786,7 +4789,7 @@ function refreshReport(){
   if($('#manualNonCritDamage'))$('#manualNonCritDamage').textContent=manualDmg.valid?formatDamageR(manualDmg.nonCrit):'—';
   if($('#manualCritDamage'))$('#manualCritDamage').textContent=manualDmg.valid?formatDamageR(manualDmg.crit):'—';
   if($('#manualDamageNote'))$('#manualDamageNote').textContent=manualDmg.valid?`Skill Lv ${manualDmg.skillLv}｜Skill ATK ${Math.round(manualDmg.skillAtk*1000)/1000}｜有效 ATK ${formatGameBigInt(BigInt(Math.max(0,Math.floor(manualDmg.effectiveAtk))))}`:`無法計算：${manualDmg.reason||'輸入不完整'}`;
-  const manualFinal={skillLv:manualDmg.valid?manualDmg.skillLv:Math.min(139,Math.max(1,Math.round(baseSkill+sys.stats.skillLv+mt.skillLv))),element:sysElem+manualElem,spell:sys.stats.spell+mt.spell,crit:Math.min(100,sys.stats.crit+mt.crit),critDamage:150+sys.stats.critDamage,cooldown:sys.stats.cooldown+mt.cooldown,mpReduce:sys.stats.mpReduce+mt.mpReduce};
+  const manualFinal={skillLv:manualDmg.valid?manualDmg.skillLv:Math.min(139,Math.max(1,Math.round(baseSkill+sys.stats.skillLv+mt.skillLv))),element:sysElem+manualElem+r36SetDamageBonus(elemKey).elementPct,spell:sys.stats.spell+mt.spell,crit:Math.min(100,sys.stats.crit+mt.crit),critDamage:150+sys.stats.critDamage,cooldown:sys.stats.cooldown+mt.cooldown,mpReduce:sys.stats.mpReduce+mt.mpReduce};
   const autoFinal=at.available&&at.result?{skillLv:at.result.skillLv,element:at.result.elem,spell:at.result.spell,crit:at.result.crit,critDamage:at.result.critDamagePct,cooldown:at.result.cd,mpReduce:sys.stats.mpReduce}:null;
   const current=state.mode==='auto'&&autoFinal?autoFinal:manualFinal;
   $('#reportModeBadge').textContent=state.mode==='auto'?'目前模式：自動最佳化':'目前模式：手動實裝';
