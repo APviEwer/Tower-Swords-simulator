@@ -4563,6 +4563,7 @@ function renderArtifacts(filter=''){
     state.system.artifactPrimary=inp.checked&&lv>0?id:null; saveState(state);
     el.querySelectorAll('[data-artifact-primary]').forEach(x=>{const xid=Number(x.dataset.artifactPrimary);x.checked=xid===Number(state.system.artifactPrimary)&&Number(state.system.artifacts[xid]||0)>0;});
     refreshSystemSummary();
+    if(window.__r46MirrorPrimary)window.__r46MirrorPrimary();
   });
 }
 function renderTree(filter=''){
@@ -8862,7 +8863,7 @@ root.querySelector('#r28-title').textContent=m.title;root.querySelector('#r28-ca
 const inputs=root.querySelector('#r28-slot-inputs');inputs.replaceChildren();
 slots.forEach((slot,i)=>{const wrap=document.createElement('label');wrap.style.cssText='display:flex;flex-direction:column;gap:5px;color:#d4dce4;font-size:13px';const label=document.createElement('span');label.textContent=captions[l][i];const select=document.createElement('select');select.style.cssText='width:100%;padding:9px;border-radius:8px;background:#0a1e2a;color:#e2e8ef;border:1px solid #334d60';let opt=document.createElement('option');opt.value='';opt.textContent=m.none;select.append(opt);
 for(let k=0;k<3;k++){opt=document.createElement('option');opt.value=String(k);opt.textContent=data.pieces[k][pieceIndex[i]]||data.sets[k];select.append(opt)}
-select.value=values[slot]??'';select.addEventListener('change',()=>{values[slot]=select.value;normalizeWeapons(slot);if(slot==='artifact'&&typeof window.__tsSetArtifactPrimaryFromSet==='function')window.__tsSetArtifactPrimaryFromSet(values.artifact);try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{};render();
+select.value=values[slot]??'';select.addEventListener('change',()=>{values[slot]=select.value;normalizeWeapons(slot);if(slot==='artifact'&&window.__r46PrimaryFromSet)window.__r46PrimaryFromSet(values.artifact);try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{};render();
   try{if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();if(typeof refreshManualSummary==='function')refreshManualSummary();if(typeof refreshAuto==='function')refreshAuto(true);if(typeof refreshReport==='function'&&state?.step===3)refreshReport();}catch(e){console.error('[R36 set refresh]',e)}});wrap.append(label,select);inputs.append(wrap)});
 renderResults()}
 function renderResults(){
@@ -8927,81 +8928,38 @@ function renderResults(){
  if(sum2)sum2.textContent=l==='chinese'?'檢視已啟動／未啟動套裝效果':l==='korean'?'발동 및 미발동 세트 효과 보기':'View active / inactive set effects';
   const tip=document.getElementById('r28-tier-note');if(tip)tip.textContent=translations.detail;
 }
-function setup(){render();window.__tsRenderSetPreview=render;window.__tsSetPreviewArtifactChoice=(code)=>{values.artifact=code;render()};const select=document.querySelector('#langSelect,#languageSelect,select[data-language]');if(select)select.addEventListener('change',()=>setTimeout(render,0));new MutationObserver(()=>{const l=lang();if(window.__r28Lang!==l){window.__r28Lang=l;render()}}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
-})();
-</script>
-<script id="r45-primary-artifact-sync">
-/* R45: set-preview artifact slot and system primary artifact are ONE selection.
-   The 1.5x artifact factor is applied solely by systemSelectionSummary;
-   the set counter only sees a slot type and never re-applies that factor. */
-(function(){'use strict';
-const IDS=[99,100,101], KEY='tower-swords-r28-set-preview';
-let syncing=false;
-function slotOf(id){const pos=IDS.indexOf(Number(id));return pos<0?'':String(pos)}
-function saveSetChoice(code){
- let vals={};try{vals=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(_){vals={}}
- if(String(vals.artifact??'')===code)return false;
- vals.artifact=code;
- try{localStorage.setItem(KEY,JSON.stringify(vals))}catch(_){return false}
- return true;
-}
-function refresh(){
- try{if(typeof window.__tsSetPreviewArtifactChoice==='function')window.__tsSetPreviewArtifactChoice(slotOf(state.system?.artifactPrimary))}catch(e){console.warn('[R45] set redraw',e)}
- try{if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();if(typeof refreshManualSummary==='function')refreshManualSummary();if(typeof refreshAuto==='function')refreshAuto(true)}catch(e){console.warn('[R45] damage refresh',e)}
-}
-function setPrimaryFromSet(code){
- if(syncing)return;
- syncing=true;
- try{
-  const idx=Number(code), chosen=(String(code??'')!==''&&Number.isInteger(idx)&&idx>=0&&idx<3)?IDS[idx]:null;
-  // Do not invent a max-level item: a selected, previously unowned main artifact is Lv1.
-  if(chosen!==null){
-   const lv=Number(state.system.artifacts?.[chosen]||0);
-   if(lv<=0){state.system.artifacts[chosen]=1;const input=document.querySelector(`[data-artifact-lv="${chosen}"]`);if(input)input.value='1'}
-   state.system.artifactPrimary=chosen;
-  }else if(IDS.includes(Number(state.system.artifactPrimary))){state.system.artifactPrimary=null}
-  if(typeof saveState==='function')saveState(state);
-  if(typeof renderArtifacts==='function')renderArtifacts(document.querySelector('#artifactSearch')?.value||'');
-  if(typeof refreshSystemSummary==='function')refreshSystemSummary();
- }finally{syncing=false}
-}
-window.__tsSetArtifactPrimaryFromSet=setPrimaryFromSet;
-function mirrorSystemPrimary(){
- if(syncing)return;
- syncing=true;
- let changed=false;
- try{changed=saveSetChoice(slotOf(state.system?.artifactPrimary))}finally{syncing=false}
- if(changed)refresh();
-}
-// A primary artifact chosen in section 02 or the artifact cards automatically updates section 03.
-document.addEventListener('change',e=>{
- if(e.target?.matches?.('[data-artifact-primary]'))queueMicrotask(mirrorSystemPrimary);
- if(e.target?.matches?.('[data-artifact-lv],[data-artifact-max]'))queueMicrotask(mirrorSystemPrimary);
-});
-document.addEventListener('input',e=>{
- if(e.target?.matches?.('[data-artifact-lv]'))queueMicrotask(mirrorSystemPrimary);
-});
-function setup(){
- const primary=Number(state.system?.artifactPrimary||0);
- let oldChoice='';try{oldChoice=String((JSON.parse(localStorage.getItem(KEY)||'{}')||{}).artifact??'')}catch(_){}
- if(primary){mirrorSystemPrimary()}
- else if(['0','1','2'].includes(oldChoice)){setPrimaryFromSet(oldChoice);refresh()}
- else mirrorSystemPrimary();
- const mount=document.getElementById('r28-set-panel');
- if(mount){
- const note=document.createElement('div');note.id='r45-artifact-sync-note';note.style.cssText='margin:8px 0;color:#a4c0d2;font-size:12px;line-height:1.55';
- mount.appendChild(note);
- const renderNote=()=>{const code=slotOf(state.system?.artifactPrimary);const l=String(document.documentElement.lang||'').toLowerCase();const name=code===''?'':(['黑月印章','血影之心','紅蓮火種'][Number(code)]);
- note.textContent=l.startsWith('ko')?'주 유물은 유물 시스템과 동기화됩니다. 주 유물 보너스 1.5배는 한 번만 계산합니다.':l.startsWith('en')?'Main artifact is synchronized with the Artifact system. The primary 1.5× bonus is applied once only.':`主要人工製品與 02 人工製品同步${name?'（'+name+'）':''}；主要加成 ×1.5 僅計算一次。`};
- renderNote();const observer=new MutationObserver(renderNote);observer.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
- document.addEventListener('change',e=>{if(e.target?.matches?.('[data-artifact-primary],#r28-slot-inputs select'))queueMicrotask(renderNote)});
- }
-}
+function setup(){render();window.__r46UpdateSetArtifact=(code)=>{const next=String(code??'');if(values.artifact!==next){values.artifact=next;render()}};const select=document.querySelector('#langSelect,#languageSelect,select[data-language]');if(select)select.addEventListener('change',()=>setTimeout(render,0));new MutationObserver(()=>{const l=lang();if(window.__r28Lang!==l){window.__r28Lang=l;render()}}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 })();
 </script>
 
+<script id="r46-primary-sync-safe">
+(function(){'use strict';
+ const IDS=[99,100,101],KEY='tower-swords-r28-set-preview';
+ let busy=false;
+ function slot(id){const i=IDS.indexOf(Number(id));return i<0?'':String(i)}
+ function persist(code){let v={};try{v=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+   if(String(v.artifact??'')===code)return;v.artifact=code;try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}
+ }
+ window.__r46MirrorPrimary=function(){if(busy)return;busy=true;try{
+  const code=slot(state.system.artifactPrimary);persist(code);window.__r46UpdateSetArtifact?.(code);
+ }finally{busy=false}};
+ window.__r46PrimaryFromSet=function(code){if(busy)return;busy=true;try{
+  const index=Number(code),id=(String(code)!==''&&Number.isInteger(index)&&index>=0&&index<3)?IDS[index]:null;
+  if(id!==null){if(Number(state.system.artifacts[id]||0)<=0)state.system.artifacts[id]=1;state.system.artifactPrimary=id;}
+  else if(IDS.includes(Number(state.system.artifactPrimary)))state.system.artifactPrimary=null;
+  if(typeof saveState==='function')saveState(state);
+  if(typeof renderArtifacts==='function')renderArtifacts(document.querySelector('#artifactSearch')?.value||'');
+  if(typeof refreshSystemSummary==='function')refreshSystemSummary();
+  // Deliberately do NOT call refreshAuto(true): optimization remains lazy.
+ }finally{busy=false}};
+ function setup(){
+  // 02 is the single authoritative source; never trigger an initial optimizer run.
+  window.__r46MirrorPrimary();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+})();
+</script>
 <script id="r39-title-atk-compare-js">
 (()=>{'use strict';
 const $=id=>document.getElementById(id);const fmt=n=>typeof formatGameBigInt==='function'?formatGameBigInt(BigInt(Math.floor(n))):Number(n).toPrecision(8);
