@@ -3,8 +3,8 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
-<title>Tower &amp; Swords｜Build &amp; Damage Analysis｜V2.1</title>
-<meta content="Tower &amp; Swords Build &amp; Damage Analysis｜V2.1｜APviEwer 建置實驗室" name="description"/>
+<title>Tower &amp; Swords｜Build &amp; Damage Analysis｜V2.2</title>
+<meta content="Tower &amp; Swords Build &amp; Damage Analysis｜V2.2｜APviEwer 建置實驗室" name="description"/>
 <meta content="no-referrer" name="referrer"/>
 <meta content="#0b0f14" name="theme-color"/>
 <meta content="website" property="og:type"/>
@@ -1628,7 +1628,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <div class="release-help-panel release-version-panel">
 <div class="release-help-head"><h2 id="releaseVersionTitle">版本資訊</h2><button aria-label="關閉" class="release-version-close release-help-close" type="button">×</button></div>
 <div class="release-help-steps release-version-rows">
-<div class="release-help-step"><strong id="releaseVersionSimulatorLabel">模擬器版本</strong><span id="releaseVersionSimulatorValue">V. 2.1</span></div>
+<div class="release-help-step"><strong id="releaseVersionSimulatorLabel">模擬器版本</strong><span id="releaseVersionSimulatorValue">V. 2.2</span></div>
 <div class="release-help-step"><strong id="releaseVersionGameLabel">適用遊戲版本</strong><span id="releaseVersionGameValue">V. 2.6</span></div>
 </div>
 </div>
@@ -5732,7 +5732,7 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
     'zh-Hant':{
       helpBtn:'操作說明', reportBtn:'問題回報', close:'關閉',
       helpTitle:'模擬器操作說明',
-      updateTitle:'更新資訊｜V2.1', updateText:'已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。稱號 48 項已完成三語名稱校正，但稱號能力目前僅獨立統計、不納入 ATK 與傷害；手動詞條與系統操作介面已更新。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。',
+      updateTitle:'更新資訊｜V2.2', updateText:'已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。稱號 48 項已完成三語名稱校正，但稱號能力目前僅獨立統計、不納入 ATK 與傷害；手動詞條與系統操作介面已更新。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。',
       intro:'本模擬器依「角色設定 → 系統效果 → 裝備配置 → 分析報告」四個步驟運作。建議先依遊戲實際面板建立角色條件，再進行手動實裝或自動最佳化。設定會儲存在目前瀏覽器中，重新整理後仍會保留。',
       steps:[
         ['01｜角色設定','輸入角色等級、主武固定 ATK 與主武裝備 Lv，再選擇目前要模擬的武器技能。角色等級、裝備等級與技能選擇都會影響後續傷害與最佳化結果，因此請以遊戲目前實際數值為準。'],
@@ -9198,6 +9198,42 @@ document.addEventListener('DOMContentLoaded',()=>{
   function readAtk(value){let s=String(value||'').trim().replaceAll(',','').replace(/\s/g,'');const m=s.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))([BbQq])?$/);if(!m)return NaN;return Number(m[1])*(m[2]?({b:1e9,q:1e15})[m[2].toLowerCase()]:1);}
   function update(){const input=document.getElementById('r51-game-atk'),result=document.getElementById('r51-atk-compare-result');if(!input||!result)return;let sim;try{sim=effectiveAtkResult(0n);}catch(e){}const game=readAtk(input.value);if(!sim?.valid){result.textContent='請先在 01 輸入主武固定 ATK，再比較。';return;}if(!Number.isFinite(game)){result.textContent='模擬器目前 ATK：'+format(sim.effectiveAtk)+'；填入遊戲面板 ATK 即可比較。';return;}let delta=sim.effectiveAtk-game;let p=game?100*delta/game:NaN;result.textContent='模擬器 '+format(sim.effectiveAtk)+' ｜ 遊戲 '+format(game)+' ｜ 差值 '+format(delta)+'（'+(Number.isFinite(p)?p.toFixed(5)+'%':'—')+'）。正值代表模擬器偏高。';}
   document.addEventListener('DOMContentLoaded',function(){let input=document.getElementById('r51-game-atk');input?.addEventListener('input',update);document.getElementById('r50-atk-precision-mode')?.addEventListener('change',update);document.getElementById('r48-title-atk-toggle')?.addEventListener('change',update);document.getElementById('displayAtk')?.addEventListener('input',update);document.getElementById('r39-refresh')?.addEventListener('click',update);update();});
+})();
+</script>
+
+<style id="v22-section-identities">
+/* V2.2 | Quiet game UI identifiers, presentational only */
+.top .steps .step{display:flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;letter-spacing:.025em}
+.top .steps .step::before{content:attr(data-v22-mark);display:inline-flex;align-items:center;justify-content:center;flex:0 0 25px;width:25px;height:25px;border-radius:7px;border:1px solid color-mix(in srgb,var(--v22-tint) 48%,transparent);color:var(--v22-tint);background:color-mix(in srgb,var(--v22-tint) 9%,#09141c);font-size:13px;font-weight:700;line-height:1}
+.top .steps .step.active::before{background:color-mix(in srgb,var(--v22-tint) 20%,#111922);border-color:var(--v22-tint)}
+.top .steps .step:nth-child(1){--v22-tint:#d6b979}.top .steps .step:nth-child(2){--v22-tint:#81bdb3}.top .steps .step:nth-child(3){--v22-tint:#8cbed0}.top .steps .step:nth-child(4){--v22-tint:#bb9abf}
+main>.screen[data-v22-page]{--page-tint:#a1bdc6}
+main>.screen[data-v22-page="0"]{--page-tint:#d6b979}main>.screen[data-v22-page="1"]{--page-tint:#81bdb3}main>.screen[data-v22-page="2"]{--page-tint:#8cbed0}main>.screen[data-v22-page="3"]{--page-tint:#bb9abf}
+main>.screen[data-v22-page]>.hero{border-left:3px solid var(--page-tint);background-image:linear-gradient(105deg,color-mix(in srgb,var(--page-tint) 8%,transparent),transparent 56%)}
+main>.screen[data-v22-page]>.hero h2::after{background:linear-gradient(90deg,var(--page-tint),transparent)}
+/* System headers use the same restrained identification vocabulary as the set cards. */
+[data-v22-system] {--sys-tint:#8fb9c9}
+[data-v22-system="artifact"]{--sys-tint:#92b4d4}
+[data-v22-system="tree"]{--sys-tint:#87bb91}
+[data-v22-system="title"]{--sys-tint:#d0ad7d}
+[data-v22-system="fashion"]{--sys-tint:#be9fcb}
+[data-v22-system="pet"]{--sys-tint:#c6a0a6}
+[data-v22-system]>summary{display:flex;align-items:center;gap:9px;border-left:3px solid var(--sys-tint)!important;background:linear-gradient(90deg,color-mix(in srgb,var(--sys-tint) 10%,#0b1821),#0b1821 64%)!important}
+[data-v22-system]>summary::before{content:attr(data-v22-mark);display:inline-flex;align-items:center;justify-content:center;flex:0 0 29px;width:29px;height:29px;border:1px solid color-mix(in srgb,var(--sys-tint) 36%,transparent);border-radius:8px;color:var(--sys-tint);font-size:14px;background:color-mix(in srgb,var(--sys-tint) 10%,#09141c)}
+[data-v22-system]>summary::after{margin-left:auto}
+@media(max-width:620px){.top .steps .step{gap:6px}.top .steps .step::before{width:23px;height:23px;flex-basis:23px}.top .steps .step{min-width:135px}.top .steps{scroll-padding:8px}[data-v22-system]>summary{gap:7px;font-size:11px}[data-v22-system]>summary::before{flex-basis:25px;width:25px;height:25px}}
+@media print{.top .steps .step::before,[data-v22-system]>summary::before{display:none!important}}
+</style>
+<script id="v22-section-identities-js">
+(function(){
+ function apply(){
+  const marks=['◇','✣','▣','▤'];
+  document.querySelectorAll('.top .steps .step').forEach((button,i)=>{button.setAttribute('data-v22-mark',marks[i]||'◇');});
+  document.querySelectorAll('main > .screen').forEach((screen,i)=>screen.setAttribute('data-v22-page',String(i)));
+  const ids=[['artifactList','artifact','◆'],['treeList','tree','✣'],['v21TitleDetails','title','✦'],['fashionList','fashion','◇'],['petList','pet','♧']];
+  ids.forEach(([id,key,mark])=>{const element=document.getElementById(id);const details=element?.matches('details')?element:element?.closest('details');if(details){details.dataset.v22System=key;details.dataset.v22Mark=mark;}});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
 })();
 </script>
 </body></html>
