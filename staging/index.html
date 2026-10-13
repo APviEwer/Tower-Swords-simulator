@@ -1756,9 +1756,11 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <section id="r28-set-panel" class="card no-print" style="margin:14px 0;border:1px solid #8c784f">
  <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><h3 id="r28-title" style="margin:0">新增套裝｜配置與效果預覽</h3><span id="r28-calcstatus" style="border:1px solid #aa8645;border-radius:16px;padding:4px 10px;color:#e8c77d;font-size:12px">僅統計，尚未納入任何傷害計算</span></div>
  <p id="r28-explain" class="small" style="margin-top:10px">請依實際裝備選擇各部位的套裝；武器最多計入 1 件，人工製品僅指定為主人工製品的 1 件列入。九件計數、可混搭；此區目前不連動原裝備詞條及傷害公式。</p>
- <div id="r28-slot-inputs" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:9px;margin:14px 0"></div>
+ <div id="r34-set-summary" class="r34-summaries" aria-live="polite"></div>
+ <details id="r34-gear-details" class="r34-set-details"><summary id="r34-gear-summary">配置 11 個裝備部位 / Configure gear / 장비 구성</summary> <div id="r28-slot-inputs" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:9px;margin:14px 0"></div> </details>
+ <details id="r34-effects-details" class="r34-set-details"><summary id="r34-effect-summary">檢視分階段套裝效果 / View set tiers / 세트 효과 보기</summary> <div id="r28-set-results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px"></div> </details>
  <div id="r28-set-results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px"></div>
- <div class="note" id="r28-tier-note" style="margin-top:12px">官方已確認套裝效果會依件數分階段累加，但目前資料無法確證各效果對應的啟動件數；因此本區只列官方效果供核對，不會宣稱達成任何未驗證門檻。</div>
+ <div class="note" id="r28-tier-note" style="margin-top:8px">官方已確認套裝效果會依件數分階段累加，但目前資料無法確證各效果對應的啟動件數；因此本區只列官方效果供核對，不會宣稱達成任何未驗證門檻。</div>
 </section>
 <div id="manualPane">
 <div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><h3>手動實裝</h3><span class="version" id="manualPicked">已選 0 格</span></div>
@@ -8835,7 +8837,20 @@ function renderResults(){
   card.append(list);out.append(card);
  }
  const note=document.createElement('div');note.style.cssText='grid-column:1/-1;color:#b6cad5;background:#0a1c28;border:1px solid #314a5b;padding:12px;border-radius:9px;font-size:12px;line-height:1.6';note.textContent=translations.detail;out.append(note);
- const tip=document.getElementById('r28-tier-note');if(tip)tip.textContent=translations.detail;
+ const compact=document.getElementById('r34-set-summary');if(compact){
+  compact.replaceChildren();const short=l==='chinese'?['黑月','血影','紅蓮']:l==='korean'?['흑월','혈영','홍련']:['Black Moon','Bloodshadow','Crimson Lotus'];
+  for(let k=0;k<3;k++){const count=countedSlots.reduce((n,slot)=>n+(values[slot]===String(k)?1:0),0);
+   const box=document.createElement('div');box.className='r34-set-pill';box.style.setProperty('--set-color',colors[k]);
+   const h=document.createElement('div');h.className='r34-pill-head';const title=document.createElement('strong');title.textContent=short[k];const val=document.createElement('b');val.textContent=count+'/9';h.append(title,val);
+   const line=document.createElement('div');line.className='r34-meter';const fill=document.createElement('div');fill.style.width=(100*count/9)+'%';line.append(fill);
+   const next=[2,5,7,9].find(t=>t>count);const tag=document.createElement('small');tag.textContent=next?(l==='chinese'?'下一階段 '+next+' 件':l==='korean'?'다음 단계 '+next+'개':'Next tier '+next):translations.complete;
+   box.append(h,line,tag);compact.append(box);
+  }
+ }
+ const sum1=document.getElementById('r34-gear-summary'),sum2=document.getElementById('r34-effect-summary');
+ if(sum1)sum1.textContent=l==='chinese'?'裝備部位配置（11 欄）':l==='korean'?'장비 부위 구성 (11칸)':'Gear slot configuration (11 slots)';
+ if(sum2)sum2.textContent=l==='chinese'?'檢視已啟動／未啟動套裝效果':l==='korean'?'발동 및 미발동 세트 효과 보기':'View active / inactive set effects';
+  const tip=document.getElementById('r28-tier-note');if(tip)tip.textContent=translations.detail;
 }
 function setup(){render();const select=document.querySelector('#langSelect,#languageSelect,select[data-language]');if(select)select.addEventListener('change',()=>setTimeout(render,0));new MutationObserver(()=>{const l=lang();if(window.__r28Lang!==l){window.__r28Lang=l;render()}}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
@@ -9263,4 +9278,52 @@ const texts={
 function update(){const el=document.querySelector('.safe-title-announcement');if(!el)return;el.setAttribute('data-no-translate','');const l=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';const text=texts[l]||texts['zh-Hant'];if(el.textContent!==text)el.textContent=text;}
 function init(){update();document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>{setTimeout(update,0);setTimeout(update,120)}));window.addEventListener('tower-language-changed',()=>setTimeout(update,75));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();</script>
+
+
+<style id="r34-compact-localization">
+#r28-set-panel{padding:13px!important;margin:10px 0!important}
+#r28-set-panel #r28-explain{font-size:11px;line-height:1.4;margin:5px 0!important}
+#r28-set-panel #r28-tier-note{font-size:11px;line-height:1.4;padding:8px!important}
+.r34-summaries{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+.r34-set-pill{border:1px solid #385062;background:#091c28;border-left:3px solid var(--set-color);padding:9px 11px;border-radius:9px;min-width:0}
+.r34-pill-head{display:flex;align-items:center;justify-content:space-between;gap:5px;font-size:13px}
+.r34-pill-head strong{color:var(--set-color)}
+.r34-meter{height:5px;background:#263743;border-radius:10px;overflow:hidden;margin:7px 0 4px}
+.r34-meter div{height:100%;background:var(--set-color);border-radius:10px}
+.r34-set-pill small{font-size:10px;color:#9fb4c0}
+.r34-set-details{border:1px solid #334c5c;border-radius:8px;margin-top:7px;padding:0 10px}
+.r34-set-details>summary{cursor:pointer;padding:10px 3px;color:#d9e2e8;font-weight:600;font-size:12px}
+#r28-slot-inputs{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))!important;gap:7px!important;margin:7px 0 10px!important}
+#r28-slot-inputs select{padding:6px!important;font-size:12px}
+#r28-set-results{grid-template-columns:repeat(auto-fit,minmax(225px,1fr))!important;gap:7px!important;margin:7px 0 10px}
+@media(max-width:600px){.r34-summaries{gap:5px}.r34-set-pill{padding:7px}.r34-pill-head{font-size:11px}}
+</style>
+<script id="r34-manual-option-localization">(()=>{'use strict';
+const names={
+'所有魔法等級':['All Magic Levels','모든 마법 레벨'],
+'火焰魔法等級':['Fire Magic Level','화염 마법 레벨'],
+'閃電魔法等級':['Lightning Magic Level','번개 마법 레벨'],
+'冰系魔法等級':['Ice Magic Level','얼음 마법 레벨'],
+'普通魔法等級':['Normal Magic Level','일반 마법 레벨'],
+'法術傷害':['Spell Damage','마법 피해'],
+'火焰法術傷害':['Fire Spell Damage','화염 마법 피해'],
+'閃電法術傷害':['Lightning Spell Damage','번개 마법 피해'],
+'冰系法術傷害':['Ice Spell Damage','얼음 마법 피해'],
+'普通法術傷害':['Normal Spell Damage','일반 마법 피해'],
+'暴擊率':['Critical Rate','치명타 확률'],
+'冷卻時間':['Cooldown Reduction','재사용 대기시간 감소'],
+'MP消耗降低':['MP Cost Reduction','MP 소모 감소'],
+'ATK':['ATK','ATK']};
+function lang(){const v=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';return v==='en'?0:v==='ko'?1:-1}
+let active=false,queued=false;
+function apply(){if(active)return;active=true;try{const l=lang();document.querySelectorAll('#manualPane .manual-slot select option').forEach(opt=>{
+ const key=opt.value;if(!Object.prototype.hasOwnProperty.call(names,key))return;
+ const label=l===-1?key:names[key][l];if(opt.textContent!==label)opt.textContent=label;
+});}finally{active=false}}
+function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;apply()})}
+function init(){apply();const root=document.querySelector('#manualPane');if(root)new MutationObserver(schedule).observe(root,{childList:true,subtree:true});
+ document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(apply,20)));
+ window.addEventListener('tower-language-changed',()=>setTimeout(apply,20));}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();</script>
