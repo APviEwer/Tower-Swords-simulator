@@ -1658,6 +1658,11 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <p class="small" id="r39-detail">等待資料載入</p>
 <h4>兩組既有遊戲測試（歷史快照，不隨目前設定改變）</h4><div style="overflow-x:auto"><table style="width:100%;font-size:12px;min-width:770px"><thead><tr><th>武器</th><th>遊戲</th><th>不含稱號</th><th>A：同池×獨立倍率</th><th>B：武器直接 +31%</th><th>觀測差額</th></tr></thead><tbody id="r39-history"></tbody></table></div>
 <p class="small">歷史 A 使用截圖中 ×2.4 的獨立倍率；歷史 B 只增加武器原值 × 稱號%。C 模型需目前 03 實際裝備資料，不能拿不同時點的存檔硬推歷史結果。誤差不等於已證實的稱號作用方式。</p>
+<div id="r40-level-diagnostic" style="border:1px solid #57758a;border-radius:12px;padding:14px;margin:16px 0;background:rgba(20,51,69,.24)"><h4>R40｜600 級基礎 ATK 截斷診斷（僅分析，不參與傷害）</h4>
+<p class="small">目前核心函式會把 Lv600 強制當成 Lv500。以下的「600 級舊曲線延伸」只是以 Lv480–509 每級 +256,000 的規則延伸測試；尚未取得新版遊戲 510–600 的官方成長數據，不能把延伸值當成正確公式。</p>
+<div class="statgrid"><div class="stat"><div class="k">01 角色等級</div><div class="v" id="r40-lv">—</div></div><div class="stat"><div class="k">目前核心使用的角色基礎 ATK</div><div class="v" id="r40-clamped">—</div></div><div class="stat"><div class="k">假設依舊曲線延伸至 600 的基礎 ATK</div><div class="v" id="r40-extrapolated">—</div></div><div class="stat"><div class="k">乘上目前系統倍率的假設增量</div><div class="v" id="r40-effect">—</div></div></div>
+<p class="small" id="r40-detail">等待重新驗算。這不是遊戲確認值，也不會調整面板或稱號統計。</p>
+</div>
 <button class="btn secondary" type="button" id="r39-refresh">重新驗算</button></section>
 <div aria-hidden="true" class="card" hidden="" id="r20BareAtkPanel" style="display:none!important">
 <h3>空裝 ATK 核對｜診斷模式</h3>
@@ -8916,6 +8921,31 @@ $('r39-detail').textContent=`目前 ATK 池 ×${a.atkPool.toFixed(5)}，獨立�
 }catch(e){$('r39-detail').textContent='無法完成即時驗算：'+String(e?.message||e)}}
 function start(){$('r39-refresh')?.addEventListener('click',update);window.r39RefreshTitleAtkAudit=update;update();setTimeout(update,800)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
+<script id="r40-level-diagnostic-script">
+(()=>{
+ const $=id=>document.getElementById(id);
+ function refresh(){
+  try{
+   if(typeof state==='undefined'||typeof playerLevelBaseAtk!=='function')return;
+   const level=Number(state.player?.level||1);
+   const current=Number(playerLevelBaseAtk(level));
+   // Diagnostic extrapolation only. This must never be used by the simulation formula.
+   const extrapolated=level<=509?current:7679050+(level-480)*256000;
+   const stats=typeof systemSelectionSummary==='function'?systemSelectionSummary().stats:{};
+   const pool=1+Number(stats?.atk||0)/100;
+   const mul=typeof manualAtkIndependentMultiplier==='function'?Number(manualAtkIndependentMultiplier()):1;
+   const gain=(extrapolated-current)*pool*mul;
+   $('r40-lv').textContent='Lv'+level;
+   $('r40-clamped').textContent=current.toLocaleString('en-US');
+   $('r40-extrapolated').textContent=extrapolated.toLocaleString('en-US');
+   $('r40-effect').textContent=(gain/1e9).toFixed(3)+'B（假設）';
+   $('r40-detail').textContent='現在的角色等級上限截斷：'+Math.min(level,500)+'；ATK 池 ×'+pool.toFixed(5)+'、獨立倍率 ×'+mul.toFixed(5)+'。僅測試舊曲線延伸的影響，沒有驗證新版 510–600 級公式。';
+  }catch(e){if($('r40-detail'))$('r40-detail').textContent='診斷未能計算：'+e.message}
+ }
+ function init(){refresh();$('r39-refresh')?.addEventListener('click',refresh);document.querySelectorAll('input,select').forEach(el=>el.addEventListener('change',()=>setTimeout(refresh,0)));}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
 </body></html>
