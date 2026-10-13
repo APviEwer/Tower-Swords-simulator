@@ -1687,7 +1687,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 
 <section class="screen">
   <div class="hero"><h2>02｜系統效果</h2><p>依角色實際進度逐項設定。新手預設全部未取得／Lv0／未裝備；不再強制使用 MAX。資料由獨立後台檔載入，之後可直接擴充。</p></div>
-<div class="note safe-title-announcement" role="note" data-safe-lang="title-announcement">更新資訊｜正式版 R8：48 個稱號保留圖卡、星級與獨立能力統計；稱號暫不計入角色 ATK、手動／自動最佳化及技能傷害。已整合手動輸入修正、系統單一捲動及寵物圖卡版面；原生稱號加成規則尚待驗證。</div>
+<div class="note safe-title-announcement" role="note" data-safe-lang="title-announcement">更新資訊｜正式版 R11：48 個稱號保留圖卡、星級與獨立能力統計；稱號暫不計入角色 ATK、手動／自動最佳化及技能傷害。已整合手動輸入修正、系統單一捲動及寵物圖卡版面；原生稱號加成規則尚待驗證。</div>
 
 
   <div class="card safe-stat-card" id="safeStatCard"><h3>系統統計總覽</h3>
@@ -8854,7 +8854,76 @@ function init(){schedule();
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-</body></html>
+<script id="r11-comprehensive-ui-i18n">
+(()=>{'use strict';
+const D={"更新資訊｜正式版 R8：48 個稱號保留圖卡、星級與獨立能力統計；稱號暫不計入角色 ATK、手動／自動最佳化及技能傷害。已整合手動輸入修正、系統單一捲動及寵物圖卡版面；原生稱號加成規則尚待驗證。":["Update | R11: 48 titles retain cards, stars and independent stats. Titles are excluded from character ATK, optimization and skill damage. Manual input and single-page scrolling are included; title mechanics remain under review.","업데이트 | R11: 칭호 48개는 카드, 등급 및 독립 능력치 통계를 유지합니다. 칭호 능력은 캐릭터 ATK, 최적화, 스킬 피해에 반영되지 않습니다. 수동 입력과 단일 스크롤 개선을 포함하며 칭호 계산 규칙은 검증 중입니다."],"系統統計總覽":["System Statistics Overview","시스템 능력치 개요"],"系統能力":["System Attributes","시스템 능력치"],"人工製品・魔法樹・時裝・寵物・稱號":["Artifacts · Magic Tree · Costumes · Pets · Titles","아티팩트 · 마법 트리 · 코스튬 · 펫 · 칭호"],"稱號來源明細":["Title Bonus Breakdown","칭호 보너스 상세"],"稱號加成僅獨立統計，不列入角色 ATK 與傷害":["Title bonuses are reported separately and excluded from ATK and damage.","칭호 보너스는 별도 집계하며 ATK와 피해 계산에서 제외합니다."],"已解鎖":["Unlocked","해금"],"能力種類":["Bonus Types","능력 종류"],"生效能力":["Active Bonuses","적용 능력"],"已併入系統能力；此處僅顯示稱號貢獻及來源，不重複計算。":["Title breakdown only; excluded from character ATK and damage.","칭호 기여도 및 출처만 표시하며 캐릭터 ATK와 피해 계산에는 포함하지 않습니다."],"查看各稱號能力貢獻":["View Bonus by Title","칭호별 능력치 기여도 보기"],"此區以遊戲初始屬性為起點，再累加「人工製品／魔法樹／時裝／寵物」效果；稱號另行統計，不列入角色 ATK、最佳化或技能傷害。稱號貢獻可於「稱號來源明細」查看。":["Starting from the game base attributes, adds effects from artifacts, magic tree, costumes and pets. Titles are tracked separately and do not affect ATK, optimization or skill damage. See Title Bonus Breakdown.","게임 기본 능력치에 아티팩트, 마법 트리, 코스튬, 펫 효과를 더합니다. 칭호는 별도 집계되며 캐릭터 ATK, 최적화 및 스킬 피해에 적용되지 않습니다. 상세 정보는 칭호 보너스 상세에서 확인하세요."],"目前自訂進度":["Current Progress","현재 설정 진행도"],"魔法樹已投入：":["Magic tree invested: ","마법 트리 투자: "],"系統設定":["System Settings","시스템 설정"],"所有設定都會保存於瀏覽器草稿。人工製品輸入 Lv 後不會再跳回清單頂端。魔法樹使用等級下拉；「魔法強化」會依主控台角色 Lv 自動限制可用上限。時裝擁有即生效；寵物最多裝備 4 隻。":["Settings are saved in the browser. Changing artifact levels retains the list position. Magic tree levels have a character-level cap. Owned costumes apply automatically; equip up to four pets.","모든 설정은 브라우저에 저장됩니다. 아티팩트 레벨을 변경해도 목록 위치가 유지됩니다. 마법 트리 레벨은 캐릭터 레벨에 따라 제한됩니다. 코스튬은 보유 시 적용되며 펫은 최대 4마리 장착할 수 있습니다."],"獨立統計・不計傷害":["Separate stats · No damage","별도 집계 · 피해 제외"],"獨立統計・不計傷害。":["Separate stats · No damage","별도 집계 · 피해 제외"],"人工製品｜103 件":["Artifacts | 103","아티팩트 | 103개"],"魔法樹｜29 節點":["Magic Tree | 29 Nodes","마법 트리 | 노드 29개"],"一鍵全滿":["Max All","모두 최대"],"可用技能點":["Available Skill Points","사용 가능 스킬 포인트"],"角色 Lv ":["Character Lv ","캐릭터 Lv "],"技能點":["Skill Points","스킬 포인트"],"時裝｜22 件":["Costumes | 22","코스튬 | 22개"],"寵物｜12 隻":["Pets | 12","펫 | 12마리"],"稱號｜48 個":["Titles | 48","칭호 | 48개"],"尚未解鎖":["Not unlocked","미해금"],"已選擇":["Selected","선택됨"],"普通法術傷害":["Normal Spell Damage","일반 마법 피해"],"火焰法術傷害":["Fire Spell Damage","화염 마법 피해"],"冰系法術傷害":["Ice Spell Damage","얼음 마법 피해"],"閃電法術傷害":["Lightning Spell Damage","번개 마법 피해"],"法術傷害":["Spell Damage","마법 피해"],"系統統計":["System Statistics","시스템 능력치"],"更新資訊":["Updates","업데이트"],"已合併屬性":["Separate stats (not damage)","독립 통계 (피해 제외)"],"每件裝備僅能指定一格特殊特性":["Only one special trait slot per item","장비당 특수 특성 슬롯 1개만 지정 가능"],"稱號加成僅獨立統計":["Title bonuses are tracked separately","칭호 보너스는 별도 집계"],"不列入角色 ATK 與傷害":["Excluded from ATK and damage","캐릭터 ATK 및 피해 계산에서 제외"],"系統能力統計":["System Attribute Statistics","시스템 능력치 통계"],"稱號另行統計":["Titles tracked separately","칭호 별도 집계"],"搜尋人工製品名稱":["Search artifacts","아티팩트 검색"],"搜尋魔法樹節點":["Search magic tree","마법 트리 노드 검색"],"屬性傷害":["Elemental Damage","속성 피해"],"獨立統計":["Separate Statistics","독립 통계"],"不計傷害":["Excluded from Damage","피해 계산 제외"],"已投入：":["Invested: ","투자: "],"點":["points","포인트"],"剩餘":["Remaining","남음"],"取得":["Obtained","획득"],"裝備":["Equipped","장착"],"未取得":["Not obtained","미획득"],"未選擇":["Not selected","미선택"],"傷害":["Damage","피해"]};
+const langs=['en','ko'];
+const originals=new WeakMap();
+let active=false, queued=false;
+const lang=()=>document.querySelector('.lang-btn.active')?.dataset.lang||localStorage.getItem('towerSword.language')||'zh-Hant';
+function tr(value,l){
+ if(l!=='en'&&l!=='ko')return value;
+ const direct=D[value];if(direct)return direct[l==='en'?0:1];
+ let r=value;
+ // The dynamic labels have numeric suffixes, never translate numeric values.
+ for(const [k,v] of Object.entries(D)){
+   if(k.length<3 || r.indexOf(k)<0) continue;
+   if(r===k)continue;
+   if((r.length-k.length)>90)continue;
+   r=r.split(k).join(v[l==='en'?0:1]);
+ }
+ return r;
+}
+function run(root=document){
+ if(active)return;active=true;
+ try{
+  const l=lang();
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(n){
+   if(!n.parentElement||n.parentElement.closest('script,style,.language-switch'))return NodeFilter.FILTER_REJECT;
+   if(!/[\u3400-\u9fff]/.test(n.nodeValue)&&!originals.has(n))return NodeFilter.FILTER_REJECT;
+   return NodeFilter.FILTER_ACCEPT;
+  }});
+  const nodes=[];while(w.nextNode())nodes.push(w.currentNode);
+  for(const n of nodes){
+   const v=n.nodeValue;
+   if(!originals.has(n))originals.set(n,v);
+   // if the underlying calculator re-rendered the node, new text is the new source.
+   const old=originals.get(n);
+   const previous=tr(old,l);
+   if(v!==old&&v!==previous&&/[\u3400-\u9fff]/.test(v))originals.set(n,v);
+   const source=originals.get(n);
+   const result=tr(source,l);
+   if(n.nodeValue!==result)n.nodeValue=result;
+  }
+  root.querySelectorAll?.('[title],[aria-label],[placeholder]').forEach(e=>{
+   for(const a of ['title','aria-label','placeholder']){
+    if(!e.hasAttribute(a))continue;
+    const id='r11_'+a.replace('-','_');
+    const val=e.getAttribute(a);
+    if(!e.dataset[id])e.dataset[id]=val;
+    const source=e.dataset[id];const target=tr(source,l);
+    if(val!==target)e.setAttribute(a,target);
+   }
+  });
+ }finally{active=false;}
+}
+function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;run()})}
+function init(){
+ run();
+ // Other components replace text within existing nodes, which childList-only observers miss.
+ new MutationObserver(m=>{
+  if(active)return;
+  if(m.some(x=>x.type==='characterData'||x.addedNodes.length))schedule();
+ }).observe(document.body,{childList:true,characterData:true,subtree:true});
+ document.querySelectorAll('.lang-btn').forEach(x=>x.addEventListener('click',()=>{
+   // Let the primary i18n handler run first, then translate supplemental content.
+   setTimeout(()=>{run();setTimeout(run,130)},0);
+ }));
+ window.addEventListener('tower-language-changed',()=>setTimeout(run,50));
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script></body></html>
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
   /* Restore the original two-mode selector and mutually exclusive panes. */
