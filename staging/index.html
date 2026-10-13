@@ -1555,6 +1555,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 .r19-max-all:hover{background:rgba(213,173,100,.23)}
 @media(max-width:620px){.r19-max-all{font-size:10px;padding:8px 9px}.sys-toolbar:has(#r19ArtifactMaxAll){flex-wrap:wrap}.sys-toolbar:has(#r19ArtifactMaxAll) input{flex:1;min-width:140px}}
 </style>
+<!-- STAGING R53 DIAGNOSTIC: provisional Black Moon 8-piece multiplier test; not a verified final game rule. -->
 </head>
 <body>
 <script>
@@ -2850,7 +2851,9 @@ function r36SetDamageBonus(elementKey){
   const moon=isNormal?counts[0]:0,lotus=isFire?counts[2]:0;
   const eligible=moon||lotus;
   const elementPct=(eligible>=3?10:0)+(eligible>=7?15:0);
-  const finalMultiplier=eligible>=9?1.15:1;
+  // R53 diagnostic only: field measurements suggest Black Moon at 8 pieces retains an effective x1.15.
+  // Do not merge to production until the eight-piece game rule is independently confirmed.
+  const finalMultiplier=(eligible>=9 || (isNormal && counts[0]===8))?1.15:1;
   return {counts,elementPct,finalMultiplier,elementKey,
     bloodshadowBleedFinalPending:counts[1]>=9};
 }
