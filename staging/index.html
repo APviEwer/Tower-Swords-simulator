@@ -1653,10 +1653,15 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </div>
 </div>
 <section class="card no-print" id="r48-title-atk-test" style="margin:12px 0 16px;border:1px solid #6c877f">
-<h3>R48｜稱號 ATK 試算開關（Staging）</h3>
+<h3>R49｜稱號 ATK 與 600 級交叉試算（Staging）</h3>
 <p class="small">預設關閉。開啟後暫按「主武固定 ATK × 已選稱號 ATK%」增加有效 ATK；手動及自動最佳化共同套用。這只是候選模型，尚非遊戲驗證公式，正式版不受影響。</p>
 <label style="display:flex;gap:10px;align-items:center;font-weight:600;cursor:pointer"><input type="checkbox" id="r48-title-atk-toggle" style="width:20px;height:20px">啟用稱號 ATK 試算（僅本頁）</label>
 <p id="r48-title-atk-status" class="small" aria-live="polite">試算已關閉，原 ATK／傷害不變</p>
+<div style="margin-top:12px;padding:12px;border:1px solid #4b6975;border-radius:10px">
+<label style="display:flex;gap:10px;align-items:center"><input id="r49-level-trial" type="checkbox" style="width:20px;height:20px">試算角色 510～600 級基礎 ATK（僅測試，預設關閉）</label>
+<p id="r49-level-status" class="small">尚未啟用；角色基礎 ATK 維持原 500 級截斷。</p>
+<p class="small">實驗假設：510～600 級沿用 480～509 級每級 +256,000 的舊曲線。這不是已證實的遊戲成長規則，也不會修改正式版。</p>
+</div>
 </section>
 <section class="card no-print" id="r38-title-atk-audit" style="border:1px solid #6b818e;margin:12px 0 16px">
 <h3>稱號 ATK｜三模型對照（R39 Staging）</h3><p class="small">只進行平行驗算，不改動面板、手動／自動配裝、稱號或傷害公式。歷史資料採原先量測值；當前設定使用目前 01／02／03 配置。</p>
@@ -4658,14 +4663,14 @@ function skillElementKey(skill){
   return 'normal';
 }
 function playerLevelBaseAtk(level){
-  const lv=Math.max(1,Math.min(500,Math.floor(Number(level||1))));
+  const lv=Math.max(1,Math.min(window.__r49LevelTrial===true?600:500,Math.floor(Number(level||1))));
   const rules=[
     [1,29,2,2],[30,59,40,5],[60,89,190,12],[90,119,550,30],[120,149,1450,60],
     [150,179,3250,120],[180,209,6850,240],[210,239,14050,500],[240,269,29050,1000],
     [270,299,59050,2000],[300,329,119050,4000],[330,359,239050,8000],[360,389,479050,16000],
     [390,419,959050,32000],[420,449,1919050,64000],[450,479,3839050,128000],[480,509,7679050,256000]
   ];
-  const r=rules.find(x=>lv>=x[0]&&lv<=x[1])||rules[0];
+  const r=rules.find(x=>lv>=x[0]&&lv<=x[1])||(window.__r49LevelTrial===true&&lv>509?rules[rules.length-1]:rules[0]);
   return r[2]+(lv-r[0])*r[3];
 }
 function skillAtkAtLevel(skillId,level){
@@ -9118,10 +9123,23 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.addEventListener('DOMContentLoaded',function(){
     const el=document.getElementById('r48-title-atk-toggle');
     if(el){el.checked=false;window.__r48TitleAtkTrial=false;el.addEventListener('change',update);update();}
+    const lv=document.getElementById('r49-level-trial');
+    const status=document.getElementById('r49-level-status');
+    if(lv){
+      lv.checked=false;window.__r49LevelTrial=false;
+      lv.addEventListener('change',function(){
+        window.__r49LevelTrial=lv.checked;
+        if(status)status.textContent=lv.checked?'600 級舊曲線延伸試算已開啟；不是遊戲驗證公式':'維持原 500 級截斷';
+        try{if(typeof refreshManualSummary==='function')refreshManualSummary();}catch(e){}
+        try{if(typeof refreshReport==='function')refreshReport();}catch(e){}
+        try{if(typeof refreshSystemSummary==='function')refreshSystemSummary();}catch(e){}
+      });
+    }
   });
 })();
 </script>
 </body></html>
+<!-- STAGING R49: testing only, Lv600 optional extrapolation; title formula untouched -->
 <!-- STAGING R35: three set tiers changed to 3/5/7/9; final magic multiplier stays preview-only. -->
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
