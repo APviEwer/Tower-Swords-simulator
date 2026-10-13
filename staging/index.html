@@ -1652,6 +1652,12 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </div>
 </div>
 </div>
+<section class="card no-print" id="r48-title-atk-test" style="margin:12px 0 16px;border:1px solid #6c877f">
+<h3>R48｜稱號 ATK 試算開關（Staging）</h3>
+<p class="small">預設關閉。開啟後暫按「主武固定 ATK × 已選稱號 ATK%」增加有效 ATK；手動及自動最佳化共同套用。這只是候選模型，尚非遊戲驗證公式，正式版不受影響。</p>
+<label style="display:flex;gap:10px;align-items:center;font-weight:600;cursor:pointer"><input type="checkbox" id="r48-title-atk-toggle" style="width:20px;height:20px">啟用稱號 ATK 試算（僅本頁）</label>
+<p id="r48-title-atk-status" class="small" aria-live="polite">試算已關閉，原 ATK／傷害不變</p>
+</section>
 <section class="card no-print" id="r38-title-atk-audit" style="border:1px solid #6b818e;margin:12px 0 16px">
 <h3>稱號 ATK｜三模型對照（R39 Staging）</h3><p class="small">只進行平行驗算，不改動面板、手動／自動配裝、稱號或傷害公式。歷史資料採原先量測值；當前設定使用目前 01／02／03 配置。</p>
 <div class="statgrid"><div class="stat"><div class="k">稱號 ATK</div><div class="v" id="r39-pct">—</div></div><div class="stat"><div class="k">目前不含稱號 ATK（01 原模型）</div><div class="v" id="r39-base">—</div></div><div class="stat"><div class="k">模型 A｜同池後乘獨立倍率</div><div class="v" id="r39-pool">—</div></div><div class="stat"><div class="k">模型 B｜武器原值直接加算</div><div class="v" id="r39-weapon">—</div></div><div class="stat"><div class="k">模型 C｜全裝備 ATK 同池加算</div><div class="v" id="r39-full">—</div></div></div>
@@ -3291,7 +3297,7 @@ function betaAutoEffectiveAtkResult(extraEquipmentAtk=0n,sys=betaAutoMaxSystemSt
   // Current Page-2 system state supplies ATK%; keep the independent
   // Berserker multiplier in the same damage chain when its current condition applies.
   const atkIndependent=manualAtkIndependentMultiplier();
-  const effectiveAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent);
+  const effectiveAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent+r48TitleAtkExtra(weaponAtk));
   return {valid:true,effectiveAtk,resolved,weaponAtk,levelAtk,flatAtk,atkPool,atkIndependent};
 }
 
@@ -4703,6 +4709,13 @@ function formatDamageR(n){
   if(Math.abs(r)<0.001)return `${Number(r.toPrecision(5))}R`;
   return `${Math.round(r*1000)/1000}R`;
 }
+
+/* R48 temporary model; not an official game calculation. */
+function r48TitleAtkEnabled(){return !!window.__r48TitleAtkTrial;}
+function r48TitleAtkExtra(weaponAtk){
+  if(!r48TitleAtkEnabled())return 0;
+  return Number(weaponAtk||0)*Number(r15TitleContribution().atk||0)/100;
+}
 function effectiveAtkResult(extraEquipmentAtk=0n){
   const sys=systemSelectionSummary();
   const resolved=resolveNativeAtk(state.weapon.equipmentLevel,state.weapon.displayAtk);
@@ -4712,7 +4725,7 @@ function effectiveAtkResult(extraEquipmentAtk=0n){
   const flatAtk=Number(extraEquipmentAtk||0n)+Number(sys.stats.flatAtk||0);
   const atkPool=1+Number(sys.stats.atk||0)/100;
   const atkIndependent=manualAtkIndependentMultiplier();
-  const effectiveAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent);
+  const effectiveAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent+r48TitleAtkExtra(weaponAtk));
   return {valid:true,effectiveAtk,resolved,weaponAtk,levelAtk,flatAtk,atkPool,atkIndependent};
 }
 function manualDamageResult(){
@@ -5273,10 +5286,19 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
     formatDamageR = function(n){
       const v=Number(n);
       if(!Number.isFinite(v)) return '—';
-      const whole=Math.max(0,Math.floor(v));
-      return formatGameBigInt(BigInt(whole));
+      // Damage units advance R -> V at 1,000R, with no change to actual damage.
+      // Do not call formatGameBigInt here: it stops at R and cannot output V.
+      const r=v/1e18;
+      if(Math.abs(r)>=1000){
+        const valueV=r/1000;
+        return `${(Math.trunc(valueV*1000)/1000).toFixed(3)}V`;
+      }
+      if(Math.abs(r)>=0.001){
+        return `${(Math.trunc(r*1000)/1000).toFixed(3)}R`;
+      }
+      return formatGameBigInt(BigInt(Math.max(0,Math.floor(v))));
     };
-  } catch(e) { console.error('DebugFix22 adaptive damage formatter failed',e); }
+  } catch(e) { console.error('R47 V-unit damage formatter failed',e); }
 
   /* Existing optimizer benchmark damage values were recorded with Skill 52 Lv139.
      Keep the verified equipment/stat benchmark untouched, but rescale the displayed
@@ -5912,7 +5934,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     const dynamicSkillAtk=skillAtkAtLevel(ctx.sk.id,r10AutoSkillLevel(ctx.sk,t));
     if(!Number.isFinite(dynamicSkillAtk))return -Infinity;
     const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
-    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent);
+    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent+r48TitleAtkExtra(ctx.weaponAtk));
     return effectiveAtk*dynamicSkillAtk*(1+(ctx.elemBase+t.elem)/100)*(1+(ctx.spellBase+t.spell)/100);
   };
   betaAutoEvalTotals=function(t,targetCrit,targetCd){
@@ -5923,7 +5945,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     const skillLv=r10AutoSkillLevel(ctx.sk,t),skillAtk=skillAtkAtLevel(ctx.sk.id,skillLv);
     if(!Number.isFinite(skillAtk))return null;
     const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
-    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent),elem=ctx.elemBase+t.elem,spell=ctx.spellBase+t.spell;
+    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent+r48TitleAtkExtra(ctx.weaponAtk)),elem=ctx.elemBase+t.elem,spell=ctx.spellBase+t.spell;
     const nonCritDamage=Math.floor(effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*ctx.bossMultiplier*ctx.otherMultiplier),critDamage=Math.floor(nonCritDamage*(ctx.critDamagePct/100));
     const rawCrit=betaAutoPctValue(rawCritUnits),cd=betaAutoPctValue(cdUnits);
     return {status:'dynamic',crit:rawCrit,rawCrit,cd,elem,spell,critDamage,nonCritDamage,critDamagePct:ctx.critDamagePct,skillLv,skillAtk,effectiveAtk};
@@ -9079,6 +9101,25 @@ document.addEventListener('DOMContentLoaded',()=>{
  panel.insertAdjacentElement('afterend',el);
  if(typeof refreshManualSummary==='function')refreshManualSummary();
 });
+</script>
+<script id="r48-title-atk-trial-ui">
+(function(){
+  function update(){
+    const box=document.getElementById('r48-title-atk-toggle');
+    const label=document.getElementById('r48-title-atk-status');
+    if(!box||!label)return;
+    window.__r48TitleAtkTrial=box.checked;
+    let pct=0;
+    try{pct=Number(r15TitleContribution().atk||0)}catch(e){}
+    label.textContent=box.checked?'試算啟用：主武固定 ATK × '+pct.toFixed(2)+'%（候選模型，非正式公式）':'試算已關閉，原 ATK／傷害不變';
+    try{if(typeof refreshReport==='function')refreshReport();}catch(e){}
+    try{if(typeof refreshSystemSummary==='function')refreshSystemSummary();}catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    const el=document.getElementById('r48-title-atk-toggle');
+    if(el){el.checked=false;window.__r48TitleAtkTrial=false;el.addEventListener('change',update);update();}
+  });
+})();
 </script>
 </body></html>
 <!-- STAGING R35: three set tiers changed to 3/5/7/9; final magic multiplier stays preview-only. -->
