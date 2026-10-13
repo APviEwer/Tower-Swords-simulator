@@ -1629,7 +1629,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
       <div class="release-help-step"><strong>08｜即時傷害與分析報告</strong><span>頁面會同步顯示未暴擊與暴擊傷害；第四頁彙整角色條件、系統效果、裝備配置與最終結果。切換手動／自動模式時，報告會讀取各自獨立的配置，不會互相污染。</span></div>
       <div class="release-help-step"><strong>09｜儲存、重設與問題比對</strong><span>目前設定會自動保存在瀏覽器。若要重新建立測試條件，可使用重置功能。若模擬值與遊戲不一致，請先確認角色 Lv、主武 ATK、裝備 Lv、技能、系統效果、裝備詞條與暴擊／冷卻條件是否完全相同。</span></div>
     </div>
-    <div class="release-help-tip">重要：正式版的傷害結果以目前已驗證的計算核心為準。手動實裝用於重現你的實際裝備；自動最佳化則獨立搜尋最大傷害配置。兩種模式不會互相改寫裝備詞條。</div>
+    <div class="release-help-tip">重要：稱號僅獨立顯示加成，暫不納入角色 ATK、手動／自動最佳化與技能傷害。正式版的傷害結果以目前已驗證的計算核心為準。手動實裝用於重現你的實際裝備；自動最佳化則獨立搜尋最大傷害配置。兩種模式不會互相改寫裝備詞條。</div>
   </div>
 </div>
 
@@ -1659,13 +1659,13 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 
 <main>
 <section class="screen active">
-  <div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div>
+  <div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div><div class="note" style="border-left:3px solid #cfaa62;margin:12px 0 16px">正式版 R8 更新：稱號 48 項的星級與能力維持獨立統計，<strong>目前不計入角色 ATK、手動／自動最佳化及傷害計算</strong>。03 手動元素／法傷輸入、02 系統單一捲動、寵物圖卡尺寸與自動最佳化新特性說明已同步更新。尚未全部更新完成。</div>
   <div class="grid two">
     <div class="card"><h3>角色／主武</h3>
       <div class="field"><label>角色等級</label><input id="level" type="number" min="1" max="600"></div>
       <div class="field"><label>主武固定 ATK（照遊戲顯示輸入）</label><input id="displayAtk"></div>
       <div class="field"><label>主武裝備 Lv</label><input id="weaponLv" type="number"></div>
-      <div class="field skill-field"><label>武器技能（可留空，用於空裝 ATK 核對）</label><select id="skill"></select><div class="skill-preview" id="skillPreview" aria-live="polite"></div></div>
+      <div class="field skill-field"><label>武器技能（可留空）</label><select id="skill"></select><div class="skill-preview" id="skillPreview" aria-live="polite"></div></div>
     </div>
     <div class="card mode-only-card"><h3>模式</h3>
       <div class="seg mode-only-seg"><button class="mode" data-mode="manual">手動實裝</button><button class="mode" data-mode="auto">自動最佳化</button></div>
@@ -1676,7 +1676,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
       </div>
     </div>
   </div>
-  <div class="card" id="r20BareAtkPanel">
+  <div class="card" id="r20BareAtkPanel" hidden aria-hidden="true" style="display:none!important">
     <h3>空裝 ATK 核對｜診斷模式</h3>
     <p class="small">完全排除武器、裝備詞條與寵物；保留角色等級、人工製品、魔法樹、時裝及稱號。此為依模擬器現有 ATK 公式推算的測試值，尚未證實與遊戲空裝面板同口徑，不參與原傷害計算。</p>
     <div class="statgrid"><div class="stat"><div class="k">模擬器空裝 ATK（推算）</div><div class="v" id="r20BareAtkValue">待計算</div></div><div class="stat"><div class="k">遊戲實測空裝 ATK</div><div class="v">1.444B</div></div></div>
@@ -1687,14 +1687,14 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 
 <section class="screen">
   <div class="hero"><h2>02｜系統效果</h2><p>依角色實際進度逐項設定。新手預設全部未取得／Lv0／未裝備；不再強制使用 MAX。資料由獨立後台檔載入，之後可直接擴充。</p></div>
-<div class="note safe-title-announcement" role="note" data-safe-lang="title-announcement">更新資訊：已新增 48 個稱號與獨立能力統計，稱號暫不計入角色總屬性、裝備最佳化或傷害計算；遊戲原生疊加規則尚待驗證。</div>
+<div class="note safe-title-announcement" role="note" data-safe-lang="title-announcement">更新資訊｜正式版 R8：48 個稱號保留圖卡、星級與獨立能力統計；稱號暫不計入角色 ATK、手動／自動最佳化及技能傷害。已整合手動輸入修正、系統單一捲動及寵物圖卡版面；原生稱號加成規則尚待驗證。</div>
 
 
   <div class="card safe-stat-card" id="safeStatCard"><h3>系統統計總覽</h3>
 <div id="safeStatUI" class="safe-stat-ui">
   <div class="safe-brief-grid">
     <button class="safe-brief" type="button" data-safe-stat="main"><strong>系統能力</strong><small>人工製品・魔法樹・時裝・寵物・稱號</small><span>ATK <b id="safeAtk">0%</b>　暴擊 <b id="safeCrit">0%</b>　冷卻 <b id="safeCd">0%</b></span></button>
-    <button class="safe-brief" type="button" data-safe-stat="title"><strong>稱號來源明細</strong><small>稱號加成已包含在系統能力總數</small><span>已解鎖 <b id="safeTitles">0 / 48</b>　能力種類 <b id="safeKinds">0</b></span></button>
+    <button class="safe-brief" type="button" data-safe-stat="title"><strong>稱號來源明細</strong><small>稱號加成僅獨立統計，不列入角色 ATK 與傷害</small><span>已解鎖 <b id="safeTitles">0 / 48</b>　能力種類 <b id="safeKinds">0</b></span></button>
   </div>
   <div class="safe-stat-extra" id="safeTitlesExtra" hidden>
     <div class="v21-title-stat-meta"><span id="v21TitleStatCount">已解鎖 0 / 48</span><span id="v21TitleStatTypeCount">生效能力 0 種</span><span>已併入系統能力；此處僅顯示稱號貢獻及來源，不重複計入</span></div>
@@ -1702,7 +1702,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
     <details open><summary>查看各稱號能力貢獻</summary><div id="v21TitleStatSources"></div></details>
   </div>
 </div>
-    <div class="note">此區以遊戲初始屬性為起點，再累加「人工製品／魔法樹／時裝／寵物／稱號」效果。稱號貢獻可於「稱號來源明細」查看。暴擊傷害初始 150%；其餘本頁追蹤項目未取得效果時為 0。</div>
+    <div class="note">此區以遊戲初始屬性為起點，再累加「人工製品／魔法樹／時裝／寵物」效果；稱號另行統計，不列入角色 ATK、最佳化或技能傷害。稱號貢獻可於「稱號來源明細」查看。暴擊傷害初始 150%；其餘本頁追蹤項目未取得效果時為 0。</div>
     <div class="statgrid" style="margin-top:12px">
       <div class="stat"><div class="k">ATK %</div><div class="v" id="sysAtkPct">0%</div></div>
       <div class="stat"><div class="k">法術傷害</div><div class="v" id="sysSpellPct">0%</div></div>
@@ -1740,7 +1740,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <div class="safe-sys-tabs" id="safeSysTabs" role="tablist" aria-label="五大系統分類">
   <button type="button" data-safe-system="artifact" class="is-active">人工製品 <small id="safe-artifact">0 / 103</small><i></i></button>
   <button type="button" data-safe-system="tree">魔法樹 <small id="safe-tree">0 / 29</small><i></i></button>
-  <button type="button" data-safe-system="title">稱號 <small id="safe-title">0 / 48</small><em>已合併屬性</em><i></i></button>
+  <button type="button" data-safe-system="title">稱號 <small id="safe-title">0 / 48</small><em>獨立統計・不計傷害</em><i></i></button>
   <button type="button" data-safe-system="fashion">時裝 <small id="safe-fashion">0 / 22</small><i></i></button>
   <button type="button" data-safe-system="pet">寵物 <small id="safe-pet">0 / 4</small><i></i></button>
 </div>
@@ -1804,7 +1804,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 
       <div id="autoTraitConditions" class="no-print">
         <div class="auto-trait-head"><strong>Basic 詞條／特性條件｜Lv.750</strong><span class="small" id="autoTraitCount">未指定</span></div>
-        <div class="small" style="margin-bottom:10px">每個 Basic 欄位只能選一項；Basic 2～3／2～4 共用一組選擇，但實際仍各自佔一格，魔法等級依欄位逐格加總。特殊特性觸發傷害暫不計入公式。</div>
+        <div class="small" style="margin-bottom:12px;padding:12px 14px;border:1px solid #b49350;border-radius:10px;background:rgba(177,138,68,.13);color:#f1dfa9;line-height:1.7">【自動最佳化・新特性規則】每件裝備最多指定一格特殊特性（包含「所有魔法等級」）；其餘格由最佳化配置一般詞條。Basic 欄位逐格計入，魔法等級依各格加總。特殊特性的觸發傷害目前不納入公式。</div>
         <div id="autoTraitGrid" class="auto-trait-grid"></div>
       </div>
       <div class="result"><div class="small">Optimizer 狀態</div><div id="autoStatus">—</div><strong id="autoDamage">—</strong></div>
@@ -3334,7 +3334,7 @@ function r9RenderTraitSelectors(){
   return `<div class="auto-trait-gear"><h4>${g}</h4><div class="auto-trait-slots">${r10ChoiceGroups(g).map(slots=>{
    const chosen=r9TraitAt(g,slots[0]);const mg=r10MagicValue(g,slots[0]);
    const choices=[...(mg?['所有魔法等級']:[]),...legal];
-   return `<div class="auto-trait-slot"><label>${slots.length===1?'Basic 1':`Basic 2～${slots.length+1}`}（${slots.length} 格）</label><select data-r9-gear="${g}" data-r9-slots="${slots.join(',')}" aria-label="${g} ${slots.join(' ')}"><option value="">自動選擇一般數值詞條</option>${choices.map(t=>`<option value="${t}" ${t===chosen?'selected':''}>${t==='所有魔法等級'?`所有魔法等級 +${mg} Lv（佔一格）`:t}</option>`).join('')}</select>${slots.length>1?'<small>包含所有魔法等級在內，每件裝備僅能指定一格特殊特性；其他格由自動最佳化安排一般詞條。</small>':''}</div>`;
+   return `<div class="auto-trait-slot"><label>${slots.length===1?'Basic 1':`Basic 2～${slots.length+1}`}（${slots.length} 格）</label><select data-r9-gear="${g}" data-r9-slots="${slots.join(',')}" aria-label="${g} ${slots.join(' ')}"><option value="">自動選擇一般數值詞條</option>${choices.map(t=>`<option value="${t}" ${t===chosen?'selected':''}>${t==='所有魔法等級'?`所有魔法等級 +${mg} Lv（佔一格）`:t}</option>`).join('')}</select></div>`;
   }).join('')}</div></div>`;
  }).join('');
  host.querySelectorAll('select[data-r9-gear]').forEach(sel=>sel.addEventListener('change',()=>{
@@ -5632,7 +5632,7 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
     'zh-Hant':{
       helpBtn:'操作說明', reportBtn:'問題回報', close:'關閉',
       helpTitle:'模擬器操作說明',
-      updateTitle:'更新資訊｜V2.1', updateText:'已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。',
+      updateTitle:'更新資訊｜V2.1', updateText:'已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。稱號 48 項已完成三語名稱校正，但稱號能力目前僅獨立統計、不納入 ATK 與傷害；手動詞條與系統操作介面已更新。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。',
       intro:'本模擬器依「角色設定 → 系統效果 → 裝備配置 → 分析報告」四個步驟運作。建議先依遊戲實際面板建立角色條件，再進行手動實裝或自動最佳化。設定會儲存在目前瀏覽器中，重新整理後仍會保留。',
       steps:[
         ['01｜角色設定','輸入角色等級、主武固定 ATK 與主武裝備 Lv，再選擇目前要模擬的武器技能。角色等級、裝備等級與技能選擇都會影響後續傷害與最佳化結果，因此請以遊戲目前實際數值為準。'],
@@ -5645,7 +5645,7 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
         ['08｜即時傷害與分析報告','頁面會同步顯示未暴擊與暴擊傷害；第四頁彙整角色條件、系統效果、裝備配置與最終結果。切換手動／自動模式時，報告會讀取各自獨立的配置，不會互相污染。'],
         ['09｜儲存、重設與問題比對','目前設定會自動保存在瀏覽器。若要重新建立測試條件，可使用重置功能。若模擬值與遊戲不一致，請先確認角色 Lv、主武 ATK、裝備 Lv、技能、系統效果、裝備詞條與暴擊／冷卻條件是否完全相同。']
       ],
-      tip:'重要：正式版的傷害結果以目前已驗證的計算核心為準。手動實裝用於重現你的實際裝備；自動最佳化則獨立搜尋最大傷害配置。兩種模式不會互相改寫裝備詞條。',
+      tip:'重要：稱號僅獨立顯示加成，暫不納入角色 ATK、手動／自動最佳化與技能傷害。正式版的傷害結果以目前已驗證的計算核心為準。手動實裝用於重現你的實際裝備；自動最佳化則獨立搜尋最大傷害配置。兩種模式不會互相改寫裝備詞條。',
       reportTitle:'問題回報', reportIntro:'若發現模擬結果或操作異常，請在發布本模擬器的 Discord 頻道回報。為了方便快速重現問題，建議附上以下資訊。',
       reportSteps:[['① 角色條件','角色等級、主武 ATK、主武 Lv、武器技能。'],['② 使用模式','手動實裝或自動最佳化，以及暴擊率／冷卻條件。'],['③ 問題內容','預期結果、實際顯示結果，以及問題發生在哪一頁。'],['④ 截圖與裝置','請附畫面截圖，並註明手機／桌面與瀏覽器。']],
       reportTip:'回報範例：Lv 500｜主武 ATK 178｜冰月斬｜手動實裝｜第 3 頁最終傷害顯示異常｜iPhone Safari｜附截圖。'
@@ -5787,7 +5787,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     'zh-Hant':{
       title:'模擬前使用提示', sub:'依序完成設定，可避免條件遺漏並更快取得正確結果。',
       items:[
-        ['更新資訊｜V2.1','已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。','update'],
+        ['更新資訊｜V2.1','已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。稱號 48 項已完成三語名稱校正，但稱號能力目前僅獨立統計、不納入 ATK 與傷害；手動詞條與系統操作介面已更新。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。','update'],
         ['進入 03 前會重新計算','完成 01「角色設定」或 02「系統效果」的輸入與調整後，進入 03「裝備配置」時，系統會依目前全部條件重新計算；若條件較多，請稍候片刻。'],
         ['角色等級異動請檢查魔法樹','若調整 01 的角色等級，請務必回到 02 檢查「魔法樹」設定，確認等級上限與目前配置仍符合需求。'],
         ['自動最佳化需要搜尋時間','03「裝備配置」是主要計算頁面。使用「自動最佳化」調整最低暴擊率或最低冷卻條件後，系統會重新搜尋最佳配置；條件越嚴格，計算時間可能略長。']
@@ -8804,6 +8804,22 @@ main>.screen:nth-of-type(3) #autoPane>.card{
  new MutationObserver(()=>setup()).observe(document.documentElement,{subtree:true,childList:true});
 })();
 </script>
+<style id="r9-formal-layout-fix">
+#r20BareAtkPanel{display:none!important}
+.v21-title-grid-wrap,.v21-title-shell .v21-title-grid-wrap{max-height:none!important;height:auto!important;overflow:visible!important;overflow-y:visible!important;overscroll-behavior:auto!important}
+#safeSystemCard details,#safeSystemCard .v21-title-shell{max-height:none!important;overflow:visible!important}
+</style>
+<script id="r9-artifact-name-display-i18n">(()=>{'use strict';
+const names={"1":{"zh-Hant":"輕羽","en":"Light Feather"},"2":{"zh-Hant":"活力之羽","en":"Red Feather"},"3":{"zh-Hant":"黑暗之羽","en":"Black Feather"},"4":{"zh-Hant":"七彩羽毛","en":"Wonderful Feather"},"5":{"zh-Hant":"綠水晶","en":"Green Crystal"},"6":{"zh-Hant":"黃水晶","en":"Yellow Crystal"},"7":{"zh-Hant":"紅水晶","en":"Red Crystal"},"8":{"zh-Hant":"藍水晶","en":"Blue Crystal"},"9":{"zh-Hant":"金枝","en":"Golden Twig"},"10":{"zh-Hant":"紅鍵","en":"Red Key"},"11":{"zh-Hant":"獬豸面具","en":"Haetae Mask"},"12":{"zh-Hant":"魔龍最初的蹤跡","en":"Black Dragon Trace1"},"13":{"zh-Hant":"魔龍第二蹤跡","en":"Black Dragon Trace2"},"14":{"zh-Hant":"魔龍第三痕","en":"Black Dragon Trace3"},"15":{"zh-Hant":"魔龍第四痕","en":"Black Dragon Trace4"},"16":{"zh-Hant":"魔龍第五痕","en":"Black Dragon Trace5"},"17":{"zh-Hant":"魔龍第六痕","en":"Black Dragon Trace6"},"18":{"zh-Hant":"魔龍第七痕","en":"Black Dragon Trace7"},"19":{"zh-Hant":"翼之水晶","en":"Wing Crystal"},"20":{"zh-Hant":"月之水晶","en":"Moon Crystal"},"21":{"zh-Hant":"魔法石","en":"Magic Stone"},"22":{"zh-Hant":"維度立方體","en":"Dimension Cube"},"23":{"zh-Hant":"龍盾","en":"Dragon Shield"},"24":{"zh-Hant":"魔法眼鏡","en":"Magic Glasses"},"25":{"zh-Hant":"魔王核心","en":"Core Of Dark Overlord"},"26":{"zh-Hant":"死亡寶藏","en":"Treasure Of Death"},"27":{"zh-Hant":"魔龍最後的蹤跡","en":"Black Dragon Trace8"},"28":{"zh-Hant":"魔龍之牙","en":"Dragons Fang"},"29":{"zh-Hant":"魔龍之角","en":"Dragons Horn"},"30":{"zh-Hant":"魔龍鱗片","en":"Dragons Scale"},"31":{"zh-Hant":"魔龍之核","en":"Dragons Core"},"32":{"zh-Hant":"魔龍熔煉石","en":"Black Dragon Trace9"},"33":{"zh-Hant":"深淵之眼","en":"Darkness Eye"},"34":{"zh-Hant":"古代四面體","en":"Ancient Triangle"},"35":{"zh-Hant":"死亡之杯","en":"Cup Of Death"},"36":{"zh-Hant":"死亡之書","en":"Book Of Death"},"37":{"zh-Hant":"死亡之冠","en":"Crown Of Death"},"38":{"zh-Hant":"魔王之杯","en":"Cup Of Dark Over Lord"},"39":{"zh-Hant":"魔王之羽","en":"Feather Of Dark Over Lord"},"40":{"zh-Hant":"古代寶藏","en":"Ancient Treasure"},"41":{"zh-Hant":"血寶石","en":"Blood Crystal"},"42":{"zh-Hant":"魔王之角","en":"Horn Of Dark Overlord"},"43":{"zh-Hant":"靈魂之書","en":"Book Of Soul"},"44":{"zh-Hant":"魔龍煉石","en":"Black Dragon Trace10"},"45":{"zh-Hant":"古代面具","en":"Ancient Of Mask"},"46":{"zh-Hant":"死亡之眼","en":"Eye Of Death"},"47":{"zh-Hant":"魔王之魂","en":"Soul Of Dark Over Lord"},"48":{"zh-Hant":"黑暗魔法珠","en":"Magic Ball Of Dark"},"49":{"zh-Hant":"魔龍進化石","en":"Black Dragon Trace11"},"50":{"zh-Hant":"古代寶石","en":"Ancient Jewel"},"51":{"zh-Hant":"死亡符文","en":"Rune Of Death"},"52":{"zh-Hant":"魔王之眼","en":"Eye Of Dark Over Lord"},"53":{"zh-Hant":"魔龍之眼","en":"Eye Of Demon Dragon"},"54":{"zh-Hant":"魔龍覺醒石","en":"Black Dragon Trace12"},"55":{"zh-Hant":"史萊姆王子的王冠","en":"Slime Artifact00"},"56":{"zh-Hant":"史萊姆之王的王冠","en":"Slime Artifact01"},"57":{"zh-Hant":"史萊姆騎士的頭盔","en":"Slime Artifact02"},"58":{"zh-Hant":"史萊姆騎士之劍","en":"Slime Artifact03"},"59":{"zh-Hant":"火岩史萊姆之牙","en":"Slime Artifact04"},"60":{"zh-Hant":"火岩史萊姆的核心","en":"Slime Artifact05"},"61":{"zh-Hant":"熔岩史萊姆的結晶","en":"Slime Artifact06"},"62":{"zh-Hant":"熔岩史萊姆的核心","en":"Slime Artifact07"},"63":{"zh-Hant":"水史萊姆精華","en":"Slime Artifact08"},"64":{"zh-Hant":"水史萊姆的殘渣","en":"Slime Artifact09"},"65":{"zh-Hant":"冰川史萊姆的結晶","en":"Slime Artifact10"},"66":{"zh-Hant":"冰川史萊姆的核心結晶","en":"Slime Artifact11"},"67":{"zh-Hant":"電波史萊姆的電線","en":"Slime Artifact12"},"68":{"zh-Hant":"電波史萊姆的心臟","en":"Slime Artifact13"},"69":{"zh-Hant":"閃電史萊姆的黏液","en":"Slime Artifact14"},"70":{"zh-Hant":"閃電史萊姆的能量","en":"Slime Artifact15"},"71":{"zh-Hant":"閃耀之石","en":"Shining Stone"},"72":{"zh-Hant":"火焰能量","en":"Fire Energy"},"73":{"zh-Hant":"冰之能量","en":"Ice Energy"},"74":{"zh-Hant":"閃電能量","en":"Lightning Energy"},"75":{"zh-Hant":"靈魂能量","en":"Soul Energy"},"76":{"zh-Hant":"黃金捲軸","en":"Golden Scroll"},"77":{"zh-Hant":"經驗之書","en":"Experience Book"},"78":{"zh-Hant":"金幣","en":"Golden Coin"},"79":{"zh-Hant":"紅爪","en":"Red Claw"},"80":{"zh-Hant":"惡魔之牙","en":"Demons Fang"},"81":{"zh-Hant":"惡魔之角","en":"Demons Horn"},"82":{"zh-Hant":"惡魔核心","en":"Demons Core"},"83":{"zh-Hant":"金色水晶","en":"Golden Crystal"},"84":{"zh-Hant":"恢復七弦琴","en":"Recovery Lyre"},"85":{"zh-Hant":"堅固的盾牌","en":"Sturdy Shield"},"86":{"zh-Hant":"法力手鐲","en":"Mana Bracelet"},"87":{"zh-Hant":"健康項鍊","en":"Life Necklace"},"88":{"zh-Hant":"惡魔之骨","en":"Demons Bone"},"89":{"zh-Hant":"惡魔印記","en":"Demons Emblem"},"90":{"zh-Hant":"奇怪的骰子","en":"Odd Dice"},"91":{"zh-Hant":"惡魔的明亮號角","en":"Demons Bright Horn"},"92":{"zh-Hant":"遠古之翼","en":"Ancient Wings"},"93":{"zh-Hant":"魔王的王冠","en":"Crown Of Dark Over Lord"},"94":{"zh-Hant":"死亡之印","en":"Mark Of Death"},"95":{"zh-Hant":"魔龍之息","en":"Breath Of Demon Dragon"},"96":{"zh-Hant":"魔龍超越石","en":"Black Dragon Trace13"},"97":{"zh-Hant":"史萊姆惡魔之翼","en":"Slime Artifact16"},"98":{"zh-Hant":"史萊姆惡魔的核心","en":"Slime Artifact17"},"99":{"zh-Hant":"黑月印章","en":"Demon Relic Black Moon"},"100":{"zh-Hant":"血影之心","en":"Demon Relic Bloodshadow"},"101":{"zh-Hant":"紅蓮火種","en":"Demon Relic Crimson Lotus"},"102":{"zh-Hant":"魔界精華","en":"Demon Realm Essence"},"103":{"zh-Hant":"魔界殘片","en":"Demon Realm Remnant"}};
+function lang(){return document.querySelector('.lang-btn.active')?.dataset.lang||localStorage.getItem('towerSword.language')||'zh-Hant'}
+function localName(id){const x=names[String(id)];return x?.[lang()]||x?.['zh-Hant']||''}
+function paint(){document.querySelectorAll('[data-game-artifact]').forEach(b=>{const id=b.dataset.gameArtifact,n=localName(id),label=b.querySelector('.artifact-game-name');if(label&&n){label.textContent=n;b.title=n;}});
+ const active=document.querySelector('.artifact-game-item.is-selected');const selected=active?.dataset.gameArtifact;
+ if(selected){const n=localName(selected);document.querySelectorAll('.artifact-detail-name,.artifact-float-name').forEach(e=>{if(n)e.textContent=n})}
+}
+let pending=false;function schedule(){if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;paint()})}
+document.addEventListener('DOMContentLoaded',()=>{schedule();const grid=document.getElementById('artifactGameGrid');if(grid)new MutationObserver(schedule).observe(grid,{childList:true,subtree:true});document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',schedule));window.addEventListener('tower-language-changed',schedule);document.addEventListener('click',e=>{if(e.target.closest('[data-game-artifact]'))setTimeout(schedule,0)},true);});
+})();</script>
 </body></html>
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
