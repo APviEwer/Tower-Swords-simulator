@@ -8760,13 +8760,16 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 (()=>{
 'use strict';
 const L={"chinese": {"sets": ["黑月之主套裝", "血影之主套裝", "紅蓮之主套裝"], "pieces": [["黑月", "黑月胸甲", "黑月頭盔", "黑月戰靴", "黑月戒指", "黑月項鍊", "黑月耳飾", "黑月印章"], ["血牙", "血影胸甲", "血影頭盔", "血影戰靴", "血影戒指", "血影項鍊", "血影耳飾", "血影之心"], ["紅蓮", "紅蓮法袍", "紅蓮法帽", "紅蓮戰靴", "紅蓮戒指", "紅蓮項鍊", "紅蓮耳飾", "紅蓮火種"]], "effects": ["最大生命值 +10%", "普通魔法最終傷害 +15%", "對流血中的敵人造成的最終傷害 +10%", "火焰魔法最終傷害 +15%"]}, "english": {"sets": ["Lord of the Black Moon Set", "Lord of Bloodshadow Set", "Lord of the Crimson Lotus Set"], "pieces": [["Blackmoon", "Black Moon Cuirass", "Black Moon Helm", "Black Moon Boots", "Black Moon Ring", "Black Moon Necklace", "Black Moon Earrings", "Seal of the Black Moon"], ["Bloodfang", "Bloodshadow Cuirass", "Bloodshadow Helm", "Bloodshadow Boots", "Bloodshadow Ring", "Bloodshadow Necklace", "Bloodshadow Earrings", "Heart of Bloodshadow"], ["Crimson Lotus", "Crimson Lotus Robe", "Crimson Lotus Hat", "Crimson Lotus Boots", "Crimson Lotus Ring", "Crimson Lotus Necklace", "Crimson Lotus Earrings", "Ember of the Crimson Lotus"]], "effects": ["Maximum HP +10%", "Normal magic final damage +15%", "Final damage to bleeding enemies +10%", "Fire magic final damage +15%"]}, "korean": {"sets": ["흑월의 주인 세트", "혈영의 주인 세트", "홍련의 주인 세트"], "pieces": [["흑월", "흑월의 흉갑", "흑월의 투구", "흑월의 장화", "흑월의 반지", "흑월의 목걸이", "흑월의 귀걸이", "흑월의 인장"], ["혈아", "혈영의 흉갑", "혈영의 투구", "혈영의 장화", "혈영의 반지", "혈영의 목걸이", "혈영의 귀걸이", "혈영의 심장"], ["홍련", "홍련의 예복", "홍련의 고깔", "홍련의 장화", "홍련의 반지", "홍련의 목걸이", "홍련의 귀걸이", "홍련의 불씨"]], "effects": ["최대 체력 +10%", "일반 마법 최종 피해 +15%", "출혈 중인 적에게 최종 피해 +10%", "화염 마법 최종 피해 +15%"]}};
-const slots=['weapon','armor','helmet','boots','ring','ring2','necklace','earrings','artifact'];
-const pieceIndex=[0,1,2,3,4,4,5,6,7];
-const captions={chinese:['主武器','盔甲','頭盔','鞋子','戒指 1','戒指 2','項鍊','耳環','主要人工製品'],english:['Main weapon','Armor','Helmet','Boots','Ring 1','Ring 2','Necklace','Earrings','Main artifact'],korean:['주무기','갑옷','투구','신발','반지 1','반지 2','목걸이','귀걸이','주 유물']};
+const slots=['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings','artifact'];
+// All three weapons may be equipped. Official set rule caps the weapon contribution at one.
+// Until weapon-switch behavior is verified, only the designated main weapon contributes.
+const countedSlots=slots.filter(slot=>slot!=='weapon2'&&slot!=='weapon3');
+const pieceIndex=[0,0,0,1,2,3,4,4,5,6,7];
+const captions={chinese:['主武器','武器 2','武器 3','盔甲','頭盔','鞋子','戒指 1','戒指 2','項鍊','耳環','主要人工製品'],english:['Main weapon','Weapon 2','Weapon 3','Armor','Helmet','Boots','Ring 1','Ring 2','Necklace','Earrings','Main artifact'],korean:['주무기','무기 2','무기 3','갑옷','투구','신발','반지 1','반지 2','목걸이','귀걸이','주 유물']};
 const messages={
-chinese:{title:'新增套裝｜配置與效果預覽',status:'獨立預覽・不計入 ATK／傷害／最佳化',desc:'九個欄位可分別選擇不同套裝（兩個戒指獨立計數），支援黑月／血影／紅蓮混搭。武器最多計 1 件；僅指定的主人工製品可計入套裝。此設定與手動詞條各自獨立，尚未連動傷害公式。',none:'未裝備套裝',count:'已選件數',parts:'官方裝備名稱',effects:'官方效果原文（啟動條件尚待核實）',tip:'官方規則：各套裝獨立計算 0～9 件，允許混搭；各階段效果依其門檻累加。目前尚未核實各階段啟動件數，故只統計件數，不虛構啟動效果，也不納入傷害計算。',other:'其他已確認效果文字'},
-english:{title:'New Sets | Gear Preview',status:'Preview only · excluded from ATK, damage & optimization',desc:'Select from nine equipment slots (two independent rings). Mixing different sets is supported. Weapons count as one piece; only the designated main artifact counts. This is separate from manual affixes and does not affect calculations.',none:'No set item',count:'Selected pieces',parts:'Official item names',effects:'Official effects (tier thresholds unverified)',tip:'Official rule: each set counts its own 0–9 pieces and mixed sets are allowed. Bonuses stack at their respective tiers. Exact thresholds remain unverified; no effects are activated or applied to damage.',other:'Other confirmed effect descriptions'},
-korean:{title:'신규 세트 | 장비 미리보기',status:'독립 미리보기 · 공격력/피해량/최적화 미적용',desc:'9개 장비 칸(반지 2개)에 각각 세트를 선택하여 혼합 착용할 수 있습니다. 무기는 최대 1개, 유물은 주 유물 1개만 계산합니다. 옵션 및 피해량 계산과는 별개입니다.',none:'세트 장비 없음',count:'선택한 장비 수',parts:'공식 장비 이름',effects:'공식 효과 (발동 장비 수 미확인)',tip:'공식 규칙: 세트별 착용 수(0~9개)를 개별 집계하며 혼합 착용할 수 있습니다. 단계별 효과는 누적되지만 정확한 조건이 확인되지 않아 효과를 적용하지 않으며 피해량 계산에도 포함하지 않습니다.',other:'확인된 기타 효과 설명'}};
+chinese:{title:'新增套裝｜配置與效果預覽',status:'獨立預覽・不計入 ATK／傷害／最佳化',desc:'共 11 個裝備欄位（3 把武器、2 枚戒指），可分別選擇不同套裝（兩個戒指獨立計數），支援黑月／血影／紅蓮混搭。三把武器可配置，但套裝計數暫只採主武器，武器最多計 1 件；僅指定的主人工製品可計入套裝。此設定與手動詞條各自獨立，尚未連動傷害公式。',none:'未裝備套裝',count:'已選件數',parts:'官方裝備名稱',effects:'官方效果原文（啟動條件尚待核實）',tip:'官方規則：各套裝獨立計算 0～9 件，允許混搭；各階段效果依其門檻累加。目前尚未核實各階段啟動件數，故只統計件數，不虛構啟動效果，也不納入傷害計算。',other:'其他已確認效果文字'},
+english:{title:'New Sets | Gear Preview',status:'Preview only · excluded from ATK, damage & optimization',desc:'Select 11 equipment slots (three weapons and two independent rings). Mixing different sets is supported. Only the main weapon counts toward set tiers (one weapon maximum); Weapon 2 and 3 are recorded but excluded. Only the designated main artifact counts. This is separate from manual affixes and does not affect calculations.',none:'No set item',count:'Selected pieces',parts:'Official item names',effects:'Official effects (tier thresholds unverified)',tip:'Official rule: each set counts its own 0–9 pieces and mixed sets are allowed. Bonuses stack at their respective tiers. Exact thresholds remain unverified; no effects are activated or applied to damage.',other:'Other confirmed effect descriptions'},
+korean:{title:'신규 세트 | 장비 미리보기',status:'독립 미리보기 · 공격력/피해량/최적화 미적용',desc:'11개 장비 칸(무기 3개, 반지 2개)에 각각 세트를 선택하여 혼합 착용할 수 있습니다. 무기 2, 3은 저장하지만 세트 개수에는 주무기만 1개 계산하며, 유물은 주 유물 1개만 계산합니다. 옵션 및 피해량 계산과는 별개입니다.',none:'세트 장비 없음',count:'선택한 장비 수',parts:'공식 장비 이름',effects:'공식 효과 (발동 장비 수 미확인)',tip:'공식 규칙: 세트별 착용 수(0~9개)를 개별 집계하며 혼합 착용할 수 있습니다. 단계별 효과는 누적되지만 정확한 조건이 확인되지 않아 효과를 적용하지 않으며 피해량 계산에도 포함하지 않습니다.',other:'확인된 기타 효과 설명'}};
 function lang(){let e=document.documentElement.lang?.toLowerCase()||''; if(e.startsWith('ko'))return 'korean';if(e.startsWith('en'))return 'english'; const selector=document.querySelector('#langSelect,#languageSelect,select[data-language]');const val=(selector?.value||'').toLowerCase();return val.includes('ko')?'korean':val.includes('en')?'english':'chinese';}
 let values={};try{values=JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch{}
 function render(){const l=lang(),data=L[l],m=messages[l];const root=document.getElementById('r28-set-panel');if(!root)return;
@@ -8779,9 +8782,9 @@ renderResults()}
 function renderResults(){
  const l=lang(),d=L[l],m=messages[l],out=document.getElementById('r28-set-results');if(!out)return;
  const translations={
- chinese:{on:'已啟動',off:'未啟動',detail:'套裝效果依各套實際件數分別啟動，各階段累加；僅預覽、不計入傷害計算。',tier:'套裝階段',names:'已選裝備',pending:'距下一階段',complete:'已達九件'},
- english:{on:'Active',off:'Locked',detail:'Effects activate at 2, 5, 7 and 9 pieces for each set independently and stack across tiers. Preview only; excluded from damage.',tier:'Set tiers',names:'Selected items',pending:'Next tier in',complete:'All nine pieces'},
- korean:{on:'발동',off:'미발동',detail:'세트마다 2, 5, 7, 9개 보너스가 각각 적용되며 단계별 효과는 누적됩니다. 표시만 하며 피해 계산에는 포함되지 않습니다.',tier:'세트 단계',names:'착용 장비',pending:'다음 단계까지',complete:'9개 완성'}}[l];
+ chinese:{on:'已啟動',off:'未啟動',detail:'三把武器均可選擇；依遊戲武器最多計一件的規則，目前只計主武器，武器 2／3 不重複計入。套裝效果 2／5／7／9 件各自累加，僅預覽、不計入傷害。',tier:'套裝階段',names:'已選裝備',pending:'距下一階段',complete:'已達九件'},
+ english:{on:'Active',off:'Locked',detail:'All three weapon slots can be selected. Only the main weapon counts (one weapon maximum); Weapons 2 and 3 never double-count. Set tiers at 2/5/7/9 stack. Preview only; no damage impact.',tier:'Set tiers',names:'Selected items',pending:'Next tier in',complete:'All nine pieces'},
+ korean:{on:'발동',off:'미발동',detail:'무기 3개를 모두 선택할 수 있지만 세트 수에는 주무기만 1개 계산합니다. 무기 2/3은 중복 계산하지 않습니다. 2/5/7/9개 효과는 누적되며 피해 계산에는 포함되지 않습니다.',tier:'세트 단계',names:'착용 장비',pending:'다음 단계까지',complete:'9개 완성'}}[l];
  const tiers=[2,5,7,9],colors=['#8985da','#c17078','#cda052'];
  const effects={
  chinese:[[
@@ -8807,13 +8810,13 @@ function renderResults(){
  ]]};
  out.replaceChildren();
  for(let k=0;k<3;k++){
-  const count=slots.reduce((n,slot)=>n+(values[slot]===String(k)?1:0),0);
+  const count=countedSlots.reduce((n,slot)=>n+(values[slot]===String(k)?1:0),0);
   const card=document.createElement('section');card.style.cssText='border:1px solid #365368;background:#081923;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px';
   const head=document.createElement('div');head.style.cssText='display:flex;justify-content:space-between;gap:8px';
   const name=document.createElement('strong');name.style.cssText='color:'+colors[k]+';font-size:16px';name.textContent=d.sets[k];
   const qty=document.createElement('strong');qty.style.cssText='font-size:18px;color:#e7eef4';qty.textContent=count+'/9';head.append(name,qty);card.append(head);
   const track=document.createElement('div');track.style.cssText='height:8px;background:#23323c;border-radius:99px;overflow:hidden';const fill=document.createElement('div');fill.style.cssText='height:100%;width:'+(100*count/9)+'%;background:'+colors[k]+';border-radius:99px';track.append(fill);card.append(track);
-  const names=document.createElement('div');names.style.cssText='font-size:12px;line-height:1.6;color:#a6bac8';names.textContent=translations.names+': '+(slots.filter(slot=>values[slot]===String(k)).map(slot=>d.pieces[k][pieceIndex[slots.indexOf(slot)]]).join('、')||'—');card.append(names);
+  const names=document.createElement('div');names.style.cssText='font-size:12px;line-height:1.6;color:#a6bac8';names.textContent=translations.names+': '+(countedSlots.filter(slot=>values[slot]===String(k)).map(slot=>d.pieces[k][pieceIndex[slots.indexOf(slot)]]).join('、')||'—');card.append(names);
   const list=document.createElement('div');list.style.cssText='display:flex;flex-direction:column;gap:8px;border-top:1px solid #263a48;padding-top:10px';
   for(let j=0;j<tiers.length;j++){
     const active=count>=tiers[j],item=document.createElement('div');item.style.cssText='border:1px solid '+(active?colors[k]:'#304351')+';border-radius:8px;padding:9px 10px;background:'+(active?'#142b32':'#0b1a23')+';opacity:'+(active?'1':'0.68');
