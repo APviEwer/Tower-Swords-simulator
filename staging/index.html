@@ -1663,6 +1663,13 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <div class="statgrid"><div class="stat"><div class="k">01 角色等級</div><div class="v" id="r40-lv">—</div></div><div class="stat"><div class="k">目前核心使用的角色基礎 ATK</div><div class="v" id="r40-clamped">—</div></div><div class="stat"><div class="k">假設依舊曲線延伸至 600 的基礎 ATK</div><div class="v" id="r40-extrapolated">—</div></div><div class="stat"><div class="k">乘上目前系統倍率的假設增量</div><div class="v" id="r40-effect">—</div></div></div>
 <p class="small" id="r40-detail">等待重新驗算。這不是遊戲確認值，也不會調整面板或稱號統計。</p>
 </div>
+<div id="r41-auto-result" style="border:1px solid #5b847b;border-radius:12px;padding:14px;margin:14px 0;background:rgba(20,49,49,.25)">
+<h4>R41｜自動判讀：角色 600 級與稱號 ATK</h4>
+<p class="small">已代入你提供的兩把武器遊戲實測，不用再自行輸入。這是獨立診斷，不修改角色面板或傷害公式。</p>
+<div class="statgrid"><div class="stat"><div class="k">確定問題</div><div class="v" style="font-size:17px">600 級被當成 500 級</div></div><div class="stat"><div class="k">舊曲線延伸，低武器假設可補</div><div class="v" id="r41-gain">—</div></div><div class="stat"><div class="k">低武器補完後仍差遊戲</div><div class="v" id="r41-residual">—</div></div><div class="stat"><div class="k">目前可否確定新版公式</div><div class="v" style="font-size:17px">尚不能</div></div></div>
+<p class="small" id="r41-detail">待載入</p>
+<p class="small">判讀：歷史低 ATK 武器 21.899B｜遊戲 516.472B、原模擬器 508.540B；稱號 +31% 的武器直接加算模型約 515.329B。即使再補舊曲線推估的等級 ATK，也未必完全相符；因此不能把推估公式直接替換成遊戲公式。高 ATK 武器的 Q 單位顯示精度不足以精確校準 B 級的基礎值。</p>
+</div>
 <button class="btn secondary" type="button" id="r39-refresh">重新驗算</button></section>
 <div aria-hidden="true" class="card" hidden="" id="r20BareAtkPanel" style="display:none!important">
 <h3>空裝 ATK 核對｜診斷模式</h3>
@@ -8945,6 +8952,30 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }catch(e){if($('r40-detail'))$('r40-detail').textContent='診斷未能計算：'+e.message}
  }
  function init(){refresh();$('r39-refresh')?.addEventListener('click',refresh);document.querySelectorAll('input,select').forEach(el=>el.addEventListener('change',()=>setTimeout(refresh,0)));}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<script id="r41-auto-analysis">
+(()=>{
+ const update=()=>{
+  try{
+   const lv=Number(state?.player?.level||1);
+   const stats=systemSelectionSummary().stats||{};
+   const pool=1+Number(stats.atk||0)/100;
+   const independent=Number(manualAtkIndependentMultiplier());
+   const current=Number(playerLevelBaseAtk(lv));
+   const future=lv>509?7679050+(lv-480)*256000:current;
+   const gain=(future-current)*pool*independent/1e9;
+   const titlePct=31;
+   const original=508.540, weapon=21.899, observed=516.472;
+   const predicted=original+weapon*titlePct/100+gain;
+   const remaining=observed-predicted;
+   document.getElementById('r41-gain').textContent='+'+gain.toFixed(3)+'B（假設）';
+   document.getElementById('r41-residual').textContent=(remaining>=0?'+':'')+remaining.toFixed(3)+'B（估計）';
+   document.getElementById('r41-detail').textContent='依目前系統 ATK 池 ×'+pool.toFixed(5)+'、獨立倍率 ×'+independent.toFixed(5)+' 試算：低武器歷史模型 B '+(original+weapon*.31).toFixed(3)+'B，加上 600 級舊曲線增量 '+gain.toFixed(3)+'B，得到 '+predicted.toFixed(3)+'B；遊戲 '+observed.toFixed(3)+'B。此計算只適用於與先前實測相同的系統配置。角色等級目前 Lv'+lv+'。';
+  }catch(err){const e=document.getElementById('r41-detail');if(e)e.textContent='診斷失敗：'+err.message;}
+ };
+ const init=()=>{update();document.getElementById('r39-refresh')?.addEventListener('click',update);};
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
