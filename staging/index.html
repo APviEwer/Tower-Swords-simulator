@@ -1652,6 +1652,20 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </div>
 </div>
 </div>
+<section class="card no-print" id="r38-title-atk-audit" style="border:1px solid #6b818e;margin:12px 0 16px">
+<h3>稱號 ATK｜獨立驗算（R38 Staging）</h3>
+<p class="small">僅預測稱號 ATK 加入原有 ATK% 加算池的結果。<strong>不會改動角色面板、手動／自動最佳化或傷害計算。</strong>先保持 01、02、03 的裝備與系統設定不變。</p>
+<div class="statgrid">
+<div class="stat"><div class="k">目前稱號 ATK 加成</div><div class="v" id="r38-title-pct">讀取中</div></div>
+<div class="stat"><div class="k">目前設定：未含稱號</div><div class="v" id="r38-current-original">讀取中</div></div>
+<div class="stat"><div class="k">目前設定：加算稱號預測</div><div class="v" id="r38-current-additive">讀取中</div></div>
+</div>
+<p class="small" id="r38-current-details" aria-live="polite">等待角色資料載入</p>
+<h4 style="margin:12px 0 7px">兩組既有實測對照（快照，不會隨目前輸入改變）</h4>
+<div style="overflow-x:auto"><table style="width:100%;font-size:12px;border-collapse:collapse"><thead><tr><th>主武固定 ATK</th><th>模擬器原值</th><th>遊戲實測</th><th>加算 +31% 預測</th><th>預測－遊戲</th></tr></thead><tbody id="r38-history-rows"></tbody></table></div>
+<p class="small" id="r38-history-note">使用先前已提供的兩組數據；預測假設其他乘數不變、稱號 ATK% 直接加在武器 ATK 加算池。它是待驗證模型，不是遊戲公式的證明。</p>
+<button class="btn secondary" type="button" id="r38-audit-refresh">重新驗算</button>
+</section>
 <div aria-hidden="true" class="card" hidden="" id="r20BareAtkPanel" style="display:none!important">
 <h3>空裝 ATK 核對｜診斷模式</h3>
 <p class="small">完全排除武器、裝備詞條與寵物；保留角色等級、人工製品、魔法樹、時裝及稱號。此為依模擬器現有 ATK 公式推算的測試值，尚未證實與遊戲空裝面板同口徑，不參與原傷害計算。</p>
@@ -8888,6 +8902,43 @@ function renderResults(){
 }
 function setup(){render();const select=document.querySelector('#langSelect,#languageSelect,select[data-language]');if(select)select.addEventListener('change',()=>setTimeout(render,0));new MutationObserver(()=>{const l=lang();if(window.__r28Lang!==l){window.__r28Lang=l;render()}}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+})();
+</script>
+<script id="r38-title-atk-independent-audit-js">
+(()=>{'use strict';
+ const refs=[{weapon:17.855,unit:'Q',sim:414.390,game:419.912},{weapon:21.899,unit:'B',sim:508.540,game:516.472}];
+ const $=id=>document.getElementById(id);
+ const fmt=(x,unit)=>Number.isFinite(x)?x.toFixed(3)+unit:'—';
+ function compute(){
+  const title=$('r38-title-pct'),base=$('r38-current-original'),pred=$('r38-current-additive'),detail=$('r38-current-details'),rows=$('r38-history-rows');
+  if(!title||!base||!pred||!detail||!rows)return;
+  try{
+   if(typeof effectiveAtkResult!=='function'||typeof r15TitleContribution!=='function')throw Error('ATK 核心尚未載入');
+   const t=Number(r15TitleContribution().atk||0);
+   title.textContent='+'+t.toFixed(2)+'%';
+   // Historical snapshots are comparison data, NOT a substitute for the current simulator state.
+   rows.innerHTML=refs.map(r=>{
+    const est=r.sim+r.weapon*t/100;
+    const diff=est-r.game;
+    return `<tr><td>${r.weapon.toFixed(3)}${r.unit}</td><td>${fmt(r.sim,r.unit)}</td><td>${fmt(r.game,r.unit)}</td><td>${fmt(est,r.unit)}</td><td>${diff>=0?'+':''}${fmt(diff,r.unit)}</td></tr>`;
+   }).join('');
+   const a=effectiveAtkResult(0n);
+   if(!a.valid){base.textContent='—';pred.textContent='—';detail.textContent=a.reason+'；上方既有實測對照仍可查看。';return;}
+   // Compare parallel ATK pools; never mutate state, title selection, damage, or optimization.
+   const newAtk=Math.floor((a.weaponAtk+a.levelAtk+a.flatAtk)*(a.atkPool+t/100)*a.atkIndependent);
+   base.textContent=typeof formatGameBigInt==='function'?formatGameBigInt(BigInt(Math.floor(a.effectiveAtk))):String(a.effectiveAtk);
+   pred.textContent=typeof formatGameBigInt==='function'?formatGameBigInt(BigInt(newAtk)):String(newAtk);
+   detail.textContent=`原系統 ATK 池 ×${a.atkPool.toFixed(5)} → 假設稱號加算後 ×${(a.atkPool+t/100).toFixed(5)}；獨立 ATK 倍率 ×${a.atkIndependent.toFixed(5)}。原主武值取自 01，目前試算不含 03 其他額外固定裝備 ATK。`;
+  }catch(err){base.textContent='—';pred.textContent='—';detail.textContent='驗算未完成：'+String(err?.message||err);}
+ }
+ function start(){
+  $('r38-audit-refresh')?.addEventListener('click',compute);
+  // Only updates diagnostic text; never triggers simulator recalculation.
+  ['displayAtk','weaponLv','level'].forEach(id=>$(id)?.addEventListener('change',compute));
+  window.r38RefreshTitleAtkAudit=compute;
+  compute();setTimeout(compute,900);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
 </script>
 </body></html>
