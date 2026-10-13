@@ -1635,7 +1635,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </div>
 <main>
 <section class="screen active">
-<div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div><div class="note" style="border-left:3px solid #cfaa62;margin:12px 0 16px">正式版 R12 更新：稱號 48 項的星級與能力維持獨立統計，<strong>目前不計入角色 ATK、手動／自動最佳化及傷害計算</strong>。03 手動元素／法傷輸入、02 系統單一捲動、寵物圖卡尺寸與自動最佳化新特性說明已同步更新。尚未全部更新完成。</div>
+<div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div><div class="note" style="border-left:3px solid #cfaa62;margin:12px 0 16px">正式版基準：稱號能力獨立統計；<strong>Staging R51 僅將稱號 ATK 以候選 B 模型加入試算，其他已驗證的稱號傷害加成照既有測試流程。</strong>03 手動元素／法傷輸入、02 系統單一捲動、寵物圖卡尺寸與自動最佳化新特性說明已同步更新。尚未全部更新完成。</div>
 <div class="grid two">
 <div class="card"><h3>角色／主武</h3>
 <div class="field"><label>角色等級</label><input id="level" max="600" min="1" type="number"/></div>
@@ -1653,17 +1653,24 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </div>
 </div>
 <section class="card no-print" id="r48-title-atk-test" style="margin:12px 0 16px;border:1px solid #6c877f">
-<h3>R50｜稱號 ATK 星級精度比較（Staging）</h3>
-<p class="small">預設關閉。開啟後暫按「主武固定 ATK × 已選稱號 ATK%」增加有效 ATK；手動及自動最佳化共同套用。這只是候選模型，尚非遊戲驗證公式，正式版不受影響。</p>
+<h3>R51｜稱號 ATK 跨武器驗證（Staging）</h3>
+<p class="small">Staging 預設啟用候選模型 B；暫按「主武固定 ATK × 已選稱號 ATK%」增加有效 ATK；手動及自動最佳化共同套用。這只是候選模型，尚非遊戲驗證公式，正式版不受影響。</p>
 <label style="display:flex;gap:10px;align-items:center;font-weight:600;cursor:pointer"><input type="checkbox" id="r48-title-atk-toggle" style="width:20px;height:20px">啟用稱號 ATK 試算（僅本頁）</label>
 <p id="r48-title-atk-status" class="small" aria-live="polite">試算已關閉，原 ATK／傷害不變</p>
+<div style="margin:8px 0 12px;padding:10px;border:1px solid #4b776b;border-radius:9px" id="r51-weapon-compare">
+  <strong>R51｜第二把武器交叉核對</strong>
+  <p class="small">切換武器後，其他設定維持一致。下方可輸入新測得的遊戲面板 ATK，直接查看與目前模擬器的差距。這只比對數字，<strong>不會將遊戲數值寫進 ATK 或傷害公式</strong>。</p>
+  <label for="r51-game-atk">此武器的遊戲面板 ATK（例如 516.472B）</label>
+  <input id="r51-game-atk" placeholder="輸入遊戲面板 ATK" autocomplete="off" />
+  <p id="r51-atk-compare-result" class="small" aria-live="polite">輸入遊戲面板後顯示差異。</p>
+</div>
 <div style="border:1px solid #526577;border-radius:10px;padding:12px;margin:10px 0" id="r50-precision-panel">
-  <strong>R50｜稱號 ATK 星級精度比較（僅測試）</strong>
+  <strong>R51｜稱號星級精度（B 為預設候選模型）</strong>
   <p class="small">遊戲畫面顯示 ★1 2%／★2 4%／★3 6%；實際運算是否為 1.98%／3.96%／6% 尚待遊戲程式證實。只在上方稱號 ATK 試算開啟時生效。</p>
   <label for="r50-atk-precision-mode">稱號 ATK 候選星級倍率</label>
   <select id="r50-atk-precision-mode" style="width:100%;margin:5px 0 8px">
     <option value="display">A｜按顯示值 2%／4%／6%</option>
-    <option value="fractional">B｜按候選內部值 1.98%／3.96%／6%</option>
+    <option value="fractional" selected>B｜按候選內部值 1.98%／3.96%／6%</option>
   </select>
   <p id="r50-atk-precision-summary" class="small" aria-live="polite">正在讀取稱號統計…</p>
 </div>
@@ -9147,10 +9154,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
   document.addEventListener('DOMContentLoaded',function(){
     const el=document.getElementById('r48-title-atk-toggle');
-    if(el){el.checked=false;window.__r48TitleAtkTrial=false;el.addEventListener('change',update);update();}
+    if(el){el.checked=true;window.__r48TitleAtkTrial=true;el.addEventListener('change',update);update();}
     const precision=document.getElementById('r50-atk-precision-mode');
     const summary=document.getElementById('r50-atk-precision-summary');
-    window.__r50AtkPrecisionMode='display';
+    window.__r50AtkPrecisionMode='fractional';
     function showPrecision(){
       if(!summary)return;
       const source=window.__r15TitleEffects?.['攻擊力']?.sources||[];
@@ -9161,7 +9168,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       summary.textContent='目前符合條件的 ATK 稱號：★1 '+low+' 個、★2 '+mid+' 個；模式 A：+'+a.toFixed(2)+'%，模式 B：+'+b.toFixed(2)+'%。當前採用：+'+r50TitleAtkPercentage().toFixed(2)+'%。';
     }
     if(precision){
-      precision.value='display';
+      precision.value='fractional';
       precision.addEventListener('change',function(){
         window.__r50AtkPrecisionMode=precision.value;
         showPrecision();
@@ -9183,6 +9190,14 @@ document.addEventListener('DOMContentLoaded',()=>{
       });
     }
   });
+})();
+</script>
+<script id="r51-weapon-live-compare">
+(function(){
+  function format(n){if(!Number.isFinite(n))return '—';const abs=Math.abs(n);if(abs>=1e15)return (n/1e15).toFixed(6)+'Q';if(abs>=1e9)return (n/1e9).toFixed(6)+'B';return n.toFixed(3);}
+  function readAtk(value){let s=String(value||'').trim().replaceAll(',','').replace(/\s/g,'');const m=s.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))([BbQq])?$/);if(!m)return NaN;return Number(m[1])*(m[2]?({b:1e9,q:1e15})[m[2].toLowerCase()]:1);}
+  function update(){const input=document.getElementById('r51-game-atk'),result=document.getElementById('r51-atk-compare-result');if(!input||!result)return;let sim;try{sim=effectiveAtkResult(0n);}catch(e){}const game=readAtk(input.value);if(!sim?.valid){result.textContent='請先在 01 輸入主武固定 ATK，再比較。';return;}if(!Number.isFinite(game)){result.textContent='模擬器目前 ATK：'+format(sim.effectiveAtk)+'；填入遊戲面板 ATK 即可比較。';return;}let delta=sim.effectiveAtk-game;let p=game?100*delta/game:NaN;result.textContent='模擬器 '+format(sim.effectiveAtk)+' ｜ 遊戲 '+format(game)+' ｜ 差值 '+format(delta)+'（'+(Number.isFinite(p)?p.toFixed(5)+'%':'—')+'）。正值代表模擬器偏高。';}
+  document.addEventListener('DOMContentLoaded',function(){let input=document.getElementById('r51-game-atk');input?.addEventListener('input',update);document.getElementById('r50-atk-precision-mode')?.addEventListener('change',update);document.getElementById('r48-title-atk-toggle')?.addEventListener('change',update);document.getElementById('displayAtk')?.addEventListener('input',update);document.getElementById('r39-refresh')?.addEventListener('click',update);update();});
 })();
 </script>
 </body></html>
