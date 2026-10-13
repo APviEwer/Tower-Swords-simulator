@@ -1,17 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Tower & Swords｜Build & Damage Analysis｜V2.1</title>
-<meta name="description" content="Tower & Swords Build & Damage Analysis｜V2.1｜APviEwer 建置實驗室">
-<meta name="referrer" content="no-referrer">
-<meta name="theme-color" content="#0b0f14">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Tower & Swords｜Build & Damage Analysis">
-<meta property="og:description" content="Tower & Swords 角色傷害、系統效果與裝備最佳化模擬器。">
-<meta name="twitter:card" content="summary">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self';">
-<link rel="icon" type="image/png" href="assets/img/0404e1bb61043bbc.png"><style>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<title>Tower &amp; Swords｜Build &amp; Damage Analysis｜V2.1</title>
+<meta content="Tower &amp; Swords Build &amp; Damage Analysis｜V2.1｜APviEwer 建置實驗室" name="description"/>
+<meta content="no-referrer" name="referrer"/>
+<meta content="#0b0f14" name="theme-color"/>
+<meta content="website" property="og:type"/>
+<meta content="Tower &amp; Swords｜Build &amp; Damage Analysis" property="og:title"/>
+<meta content="Tower &amp; Swords 角色傷害、系統效果與裝備最佳化模擬器。" property="og:description"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="default-src 'self' data: blob:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self';" http-equiv="Content-Security-Policy"/>
+<link href="assets/img/0404e1bb61043bbc.png" rel="icon" type="image/png"/><style>
 /* Tower & Swords — UI Skeleton Rebuild
    Visual-only rebuild based on DebugFix13.
    Existing ids, data attributes, DOM interaction classes and JS logic remain untouched. */
@@ -604,7 +605,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 .auto-trait-slot select{min-width:0;width:100%;min-height:38px;border-radius:8px;background:#0e2330;color:#e4f0f1;border:1px solid #385468;font-size:11px;padding:5px}
 @media(max-width:680px){.auto-trait-grid{grid-template-columns:1fr}.auto-trait-slots{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
-
 <style id="release-help-style">
 /* Release R1.1 — compact operation guide */
 .release-help-btn,.release-report-btn{appearance:none;border:1px solid rgba(217,184,111,.48);background:linear-gradient(180deg,rgba(32,43,51,.96),rgba(13,22,28,.96));color:#f1dfb4;border-radius:10px;padding:7px 11px;font:800 11px/1 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.04em;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,.2);white-space:nowrap}
@@ -739,8 +739,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 }
 
 </style>
-
-
 <style id="beta-01-ui">
 /* Beta 0.1 UX/UI override — presentation only; existing core ids/state/calculations preserved. */
 :root{--beta-gold:#d9b86f;--beta-gold-hi:#f1dda7;--beta-blue:#78c9d8}
@@ -882,8 +880,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 @media(prefers-reduced-motion:reduce){.step.active:before,.beta-live:after{animation:none!important}}
 @media print{.release-version-btn,.release-version-modal,.beta-live,.beta-system-jump,.beta-build-strip{display:none!important}}
 </style>
-
-
 <style id="beta-01-header-fix">
 /* Beta 0.1 header correction:
    version is shown only in Version Info dialog;
@@ -1047,8 +1043,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   .step{font-size:7.3px!important}
 }
 </style>
-
-
 <style id="beta-01-brand-height-fix">
 /* Header height follows the logo height; text/controls must fit inside it instead of expanding it. */
 .brand{
@@ -1157,8 +1151,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   .lang-btn{height:14px!important;min-height:14px!important;font-size:5.8px!important}
 }
 </style>
-
-
 <style id="beta-01-header-real-compact">
 /* Real compact header: outer .top padding was the remaining source of excess height. */
 .top{
@@ -1285,8 +1277,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   }
 }
 </style>
-
-
 <style id="beta-01-live-damage-fix">
 .beta-live{
   position:relative!important;
@@ -1323,8 +1313,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 }
 @media print{.beta-live{display:none!important}}
 </style>
-
-
 <style id="beta-01-footer-social">
 .site-footer{padding:14px 10px 15px!important;text-align:center!important;border-top:1px solid rgba(217,184,111,.16)!important}
 .footer-social{display:flex!important;align-items:center!important;justify-content:center!important;flex-wrap:wrap!important;gap:7px!important;margin:0 auto 9px!important}
@@ -1336,7 +1324,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 @media(max-width:620px){.site-footer{padding:12px 7px 13px!important}.footer-social{gap:5px!important;margin-bottom:7px!important}.footer-social-link{min-height:27px!important;padding:4px 8px!important;font-size:8px!important}.footer-social-icon{min-width:17px!important;width:17px!important;height:17px!important}.footer-social-icon svg{width:11px!important;height:11px!important}.footer-social-icon-youtube svg{width:12px!important;height:12px!important}.footer-social-icon-share svg{width:10px!important;height:10px!important}.footer-copyright{font-size:7.2px!important}}
 @media print{.footer-social{display:none!important}}
 </style>
-
 <style id="beta-01-damage-card-flow">
 /* Bottom live-damage cards: wider, centered, white/red flowing highlight. */
 .beta-live{
@@ -1427,8 +1414,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   .beta-live-cell::after{animation:none!important;display:none!important}
 }
 </style>
-
-
 <style id="beta-01-damage-card-flow-v2">
 /* Width-only correction: center the pair and widen horizontally, without increasing height. */
 .beta-live{
@@ -1489,9 +1474,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   .beta-live-cell::after{animation:none!important;display:none!important}
 }
 </style>
-
 <style id="v10-test22-no-bottom-live">#betaLive{display:none!important}</style>
-
 <style id="fashion-game-gallery-preview">
 /* PREVIEW ONLY — Game-style Fashion Gallery. Calculation state remains original. */
 #fashionList{display:none!important}
@@ -1517,7 +1500,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 @media(max-width:620px){.fashion-game-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px;max-height:390px}.fashion-game-item{padding:4px;border-radius:9px}.fashion-game-name{font-size:9px}.fashion-game-detail{padding:10px;gap:9px}}
 @media(max-width:360px){.fashion-game-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
 </style>
-
 <style id="v2-mobile-first-paint-gate">
 @media screen and (max-width:620px){
   html.v2-mobile-booting body{
@@ -1567,8 +1549,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   }catch(e){}
 })();
 </script>
-
-<script type="application/json" id="v2-mobile-thumb-map">{"assets/v2/img_01_6d29ad637366.png":"assets/mobile/thumb_img_01_6d29ad637366.webp","assets/v2/img_03_f4e8772a4678.png":"assets/mobile/thumb_img_03_f4e8772a4678.webp","assets/v2/img_04_8f574a49ce90.png":"assets/mobile/thumb_img_04_8f574a49ce90.webp","assets/v2/img_05_7fa898ff6370.png":"assets/mobile/thumb_img_05_7fa898ff6370.webp","assets/v2/img_06_c299c2c196a6.png":"assets/mobile/thumb_img_06_c299c2c196a6.webp","assets/v2/img_07_e89aa903d0fd.png":"assets/mobile/thumb_img_07_e89aa903d0fd.webp","assets/v2/img_08_eb1ac20dad65.png":"assets/mobile/thumb_img_08_eb1ac20dad65.webp","assets/v2/img_09_e2041e86df53.png":"assets/mobile/thumb_img_09_e2041e86df53.webp","assets/v2/img_10_4821b5cc70d1.png":"assets/mobile/thumb_img_10_4821b5cc70d1.webp","assets/v2/img_11_23aaa0cb113b.png":"assets/mobile/thumb_img_11_23aaa0cb113b.webp","assets/v2/img_12_dade161c88f8.png":"assets/mobile/thumb_img_12_dade161c88f8.webp","assets/v2/img_13_3fed3fdba812.png":"assets/mobile/thumb_img_13_3fed3fdba812.webp","assets/v2/img_14_49dcbc034da2.png":"assets/mobile/thumb_img_14_49dcbc034da2.webp","assets/v2/img_15_2e107dfc65c3.png":"assets/mobile/thumb_img_15_2e107dfc65c3.webp","assets/v2/img_16_a911b9677468.png":"assets/mobile/thumb_img_16_a911b9677468.webp","assets/v2/img_17_d2b6ef7213c7.png":"assets/mobile/thumb_img_17_d2b6ef7213c7.webp","assets/v2/img_18_c14ead4dbd62.png":"assets/mobile/thumb_img_18_c14ead4dbd62.webp","assets/v2/img_19_dc7473fd9157.png":"assets/mobile/thumb_img_19_dc7473fd9157.webp","assets/v2/img_20_9184315d7b04.png":"assets/mobile/thumb_img_20_9184315d7b04.webp","assets/v2/img_21_47a17fb9639d.png":"assets/mobile/thumb_img_21_47a17fb9639d.webp","assets/v2/img_22_b1bb209c3a0e.png":"assets/mobile/thumb_img_22_b1bb209c3a0e.webp","assets/v2/img_23_6f783037fbfc.png":"assets/mobile/thumb_img_23_6f783037fbfc.webp","assets/v2/img_24_6d0065b6507a.png":"assets/mobile/thumb_img_24_6d0065b6507a.webp","assets/v2/img_25_ba7cfca3d677.png":"assets/mobile/thumb_img_25_ba7cfca3d677.webp","assets/v2/img_26_aaea94205f8b.png":"assets/mobile/thumb_img_26_aaea94205f8b.webp","assets/v2/img_27_0e348424a6a4.png":"assets/mobile/thumb_img_27_0e348424a6a4.webp","assets/v2/img_28_ca32eb15d0a0.png":"assets/mobile/thumb_img_28_ca32eb15d0a0.webp","assets/v2/img_29_6bee2a98be66.png":"assets/mobile/thumb_img_29_6bee2a98be66.webp","assets/v2/img_30_f3b92517b615.png":"assets/mobile/thumb_img_30_f3b92517b615.webp","assets/v2/img_31_73fc165d8964.png":"assets/mobile/thumb_img_31_73fc165d8964.webp"}</script>
+<script id="v2-mobile-thumb-map" type="application/json">{"assets/v2/img_01_6d29ad637366.png":"assets/mobile/thumb_img_01_6d29ad637366.webp","assets/v2/img_03_f4e8772a4678.png":"assets/mobile/thumb_img_03_f4e8772a4678.webp","assets/v2/img_04_8f574a49ce90.png":"assets/mobile/thumb_img_04_8f574a49ce90.webp","assets/v2/img_05_7fa898ff6370.png":"assets/mobile/thumb_img_05_7fa898ff6370.webp","assets/v2/img_06_c299c2c196a6.png":"assets/mobile/thumb_img_06_c299c2c196a6.webp","assets/v2/img_07_e89aa903d0fd.png":"assets/mobile/thumb_img_07_e89aa903d0fd.webp","assets/v2/img_08_eb1ac20dad65.png":"assets/mobile/thumb_img_08_eb1ac20dad65.webp","assets/v2/img_09_e2041e86df53.png":"assets/mobile/thumb_img_09_e2041e86df53.webp","assets/v2/img_10_4821b5cc70d1.png":"assets/mobile/thumb_img_10_4821b5cc70d1.webp","assets/v2/img_11_23aaa0cb113b.png":"assets/mobile/thumb_img_11_23aaa0cb113b.webp","assets/v2/img_12_dade161c88f8.png":"assets/mobile/thumb_img_12_dade161c88f8.webp","assets/v2/img_13_3fed3fdba812.png":"assets/mobile/thumb_img_13_3fed3fdba812.webp","assets/v2/img_14_49dcbc034da2.png":"assets/mobile/thumb_img_14_49dcbc034da2.webp","assets/v2/img_15_2e107dfc65c3.png":"assets/mobile/thumb_img_15_2e107dfc65c3.webp","assets/v2/img_16_a911b9677468.png":"assets/mobile/thumb_img_16_a911b9677468.webp","assets/v2/img_17_d2b6ef7213c7.png":"assets/mobile/thumb_img_17_d2b6ef7213c7.webp","assets/v2/img_18_c14ead4dbd62.png":"assets/mobile/thumb_img_18_c14ead4dbd62.webp","assets/v2/img_19_dc7473fd9157.png":"assets/mobile/thumb_img_19_dc7473fd9157.webp","assets/v2/img_20_9184315d7b04.png":"assets/mobile/thumb_img_20_9184315d7b04.webp","assets/v2/img_21_47a17fb9639d.png":"assets/mobile/thumb_img_21_47a17fb9639d.webp","assets/v2/img_22_b1bb209c3a0e.png":"assets/mobile/thumb_img_22_b1bb209c3a0e.webp","assets/v2/img_23_6f783037fbfc.png":"assets/mobile/thumb_img_23_6f783037fbfc.webp","assets/v2/img_24_6d0065b6507a.png":"assets/mobile/thumb_img_24_6d0065b6507a.webp","assets/v2/img_25_ba7cfca3d677.png":"assets/mobile/thumb_img_25_ba7cfca3d677.webp","assets/v2/img_26_aaea94205f8b.png":"assets/mobile/thumb_img_26_aaea94205f8b.webp","assets/v2/img_27_0e348424a6a4.png":"assets/mobile/thumb_img_27_0e348424a6a4.webp","assets/v2/img_28_ca32eb15d0a0.png":"assets/mobile/thumb_img_28_ca32eb15d0a0.webp","assets/v2/img_29_6bee2a98be66.png":"assets/mobile/thumb_img_29_6bee2a98be66.webp","assets/v2/img_30_f3b92517b615.png":"assets/mobile/thumb_img_30_f3b92517b615.webp","assets/v2/img_31_73fc165d8964.png":"assets/mobile/thumb_img_31_73fc165d8964.webp"}</script>
 <style id="r19-max-all-style">
 .r19-max-all{border:1px solid rgba(213,173,100,.45);background:rgba(213,173,100,.13);color:#f1d99a;border-radius:9px;padding:9px 12px;font-size:11px;font-weight:800;white-space:nowrap;cursor:pointer;flex:none}
 .r19-max-all:hover{background:rgba(213,173,100,.23)}
@@ -1589,296 +1570,274 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
   } catch (e) {}
 })();
 </script>
-
 <div class="app">
 <header class="top">
-  <div class="brand">
-    <div class="brand-crest" aria-hidden="true"><img src="assets/v2/img_01_6d29ad637366.png" alt=""></div><div class="brand-stack">
-      <span class="brand-lab">APviEwer 建置實驗室</span>
-      <h1>Tower &amp; Swords</h1>
-      <span class="brand-function">Build &amp; Damage Analysis</span>
-    </div>
-    <button type="button" class="release-help-btn no-print" aria-haspopup="dialog" aria-expanded="false">操作說明</button>
-    <button type="button" class="release-report-btn no-print" aria-haspopup="dialog" aria-expanded="false">問題回報</button>
-    <button type="button" class="release-version-btn no-print" aria-haspopup="dialog" aria-expanded="false">版本資訊</button>
-    <div class="language-switch no-print" role="group" aria-label="Language / 語言">
-      <button type="button" class="lang-btn active" data-lang="zh-Hant" aria-pressed="true">繁中</button>
-      <span class="lang-divider" aria-hidden="true">/</span>
-      <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
-      <span class="lang-divider" aria-hidden="true">/</span>
-      <button type="button" class="lang-btn" data-lang="ko" aria-pressed="false">한국어</button>
-    </div>
-  </div>
-  <nav class="steps">
-    <button class="step active">01 角色設定</button><button class="step">02 系統效果</button><button class="step">03 裝備配置</button><button class="step">04 分析報告</button>
-  </nav>
+<div class="brand">
+<div aria-hidden="true" class="brand-crest"><img alt="" src="assets/v2/img_01_6d29ad637366.png"/></div><div class="brand-stack">
+<span class="brand-lab">APviEwer 建置實驗室</span>
+<h1>Tower &amp; Swords</h1>
+<span class="brand-function">Build &amp; Damage Analysis</span>
+</div>
+<button aria-expanded="false" aria-haspopup="dialog" class="release-help-btn no-print" type="button">操作說明</button>
+<button aria-expanded="false" aria-haspopup="dialog" class="release-report-btn no-print" type="button">問題回報</button>
+<button aria-expanded="false" aria-haspopup="dialog" class="release-version-btn no-print" type="button">版本資訊</button>
+<div aria-label="Language / 語言" class="language-switch no-print" role="group">
+<button aria-pressed="true" class="lang-btn active" data-lang="zh-Hant" type="button">繁中</button>
+<span aria-hidden="true" class="lang-divider">/</span>
+<button aria-pressed="false" class="lang-btn" data-lang="en" type="button">EN</button>
+<span aria-hidden="true" class="lang-divider">/</span>
+<button aria-pressed="false" class="lang-btn" data-lang="ko" type="button">한국어</button>
+</div>
+</div>
+<nav class="steps">
+<button class="step active">01 角色設定</button><button class="step">02 系統效果</button><button class="step">03 裝備配置</button><button class="step">04 分析報告</button>
+</nav>
 </header>
-
-<div class="release-help-modal no-print" role="dialog" aria-modal="true" aria-label="操作說明">
-  <div class="release-help-panel">
-    <div class="release-help-head"><h2>模擬器操作說明</h2><button type="button" class="release-help-close" aria-label="關閉">×</button></div>
-    <p class="release-help-intro">本模擬器依「角色設定 → 系統效果 → 裝備配置 → 分析報告」四個步驟運作。建議先依遊戲實際面板建立角色條件，再進行手動實裝或自動最佳化。設定會儲存在目前瀏覽器中，重新整理後仍會保留。</p>
-    <div class="release-help-steps">
-      <div class="release-help-step"><strong>01｜角色設定</strong><span>輸入角色等級、主武固定 ATK 與主武裝備 Lv，再選擇目前要模擬的武器技能。角色等級、裝備等級與技能選擇都會影響後續傷害與最佳化結果，因此請以遊戲目前實際數值為準。</span></div>
-      <div class="release-help-step"><strong>02｜武器技能</strong><span>技能切換後，技能等級、Skill ATK、元素類型與即時傷害會重新計算。自動最佳化的元素詞條也會依目前技能所屬的普通／火／冰／雷屬性配置。</span></div>
-      <div class="release-help-step"><strong>03｜系統效果</strong><span>依角色實際持有狀態設定人工製品、魔法樹、時裝與寵物。手動實裝會使用第二頁目前設定；魔法樹點數與角色等級限制請依遊戲實際可用範圍配置。</span></div>
-      <div class="release-help-step"><strong>04｜手動實裝</strong><span>手動實裝用來重現遊戲中目前裝備。逐件選擇合法 Basic／Plus 詞條並輸入實際數值；所有變更都只作用於手動實裝，不會被自動最佳化覆寫。</span></div>
-      <div class="release-help-step"><strong>05｜自動最佳化</strong><span>自動最佳化與手動實裝完全獨立。它會依目前角色等級、主武 ATK、裝備 Lv、武器技能，以及第二頁當下的人工製品／魔法樹／時裝／寵物配置作為基準，只搜尋合法裝備詞條，目標為取得最高單次暴擊傷害。</span></div>
-      <div class="release-help-step"><strong>06｜暴擊／冷卻門檻</strong><span>「指定暴擊率」與「指定冷卻」都是最低條件，兩者同時輸入時採 AND 判定。輸入 0 代表不限制；例如暴擊 100、冷卻 95，表示搜尋結果必須同時達到暴擊率至少 100% 與冷卻至少 95%。</span></div>
-      <div class="release-help-step"><strong>07｜元素詞條</strong><span>自動最佳化會依所選武器技能配置對應元素法術傷害：普通技能使用普通法術傷害、火技能使用火焰法術傷害、冰技能使用冰系法術傷害、雷技能使用閃電法術傷害。</span></div>
-      <div class="release-help-step"><strong>08｜即時傷害與分析報告</strong><span>頁面會同步顯示未暴擊與暴擊傷害；第四頁彙整角色條件、系統效果、裝備配置與最終結果。切換手動／自動模式時，報告會讀取各自獨立的配置，不會互相污染。</span></div>
-      <div class="release-help-step"><strong>09｜儲存、重設與問題比對</strong><span>目前設定會自動保存在瀏覽器。若要重新建立測試條件，可使用重置功能。若模擬值與遊戲不一致，請先確認角色 Lv、主武 ATK、裝備 Lv、技能、系統效果、裝備詞條與暴擊／冷卻條件是否完全相同。</span></div>
-    </div>
-    <div class="release-help-tip">重要：稱號僅獨立顯示加成，暫不納入角色 ATK、手動／自動最佳化與技能傷害。正式版的傷害結果以目前已驗證的計算核心為準。手動實裝用於重現你的實際裝備；自動最佳化則獨立搜尋最大傷害配置。兩種模式不會互相改寫裝備詞條。</div>
-  </div>
+<div aria-label="操作說明" aria-modal="true" class="release-help-modal no-print" role="dialog">
+<div class="release-help-panel">
+<div class="release-help-head"><h2>模擬器操作說明</h2><button aria-label="關閉" class="release-help-close" type="button">×</button></div>
+<p class="release-help-intro">本模擬器依「角色設定 → 系統效果 → 裝備配置 → 分析報告」四個步驟運作。建議先依遊戲實際面板建立角色條件，再進行手動實裝或自動最佳化。設定會儲存在目前瀏覽器中，重新整理後仍會保留。</p>
+<div class="release-help-steps">
+<div class="release-help-step"><strong>01｜角色設定</strong><span>輸入角色等級、主武固定 ATK 與主武裝備 Lv，再選擇目前要模擬的武器技能。角色等級、裝備等級與技能選擇都會影響後續傷害與最佳化結果，因此請以遊戲目前實際數值為準。</span></div>
+<div class="release-help-step"><strong>02｜武器技能</strong><span>技能切換後，技能等級、Skill ATK、元素類型與即時傷害會重新計算。自動最佳化的元素詞條也會依目前技能所屬的普通／火／冰／雷屬性配置。</span></div>
+<div class="release-help-step"><strong>03｜系統效果</strong><span>依角色實際持有狀態設定人工製品、魔法樹、時裝與寵物。手動實裝會使用第二頁目前設定；魔法樹點數與角色等級限制請依遊戲實際可用範圍配置。</span></div>
+<div class="release-help-step"><strong>04｜手動實裝</strong><span>手動實裝用來重現遊戲中目前裝備。逐件選擇合法 Basic／Plus 詞條並輸入實際數值；所有變更都只作用於手動實裝，不會被自動最佳化覆寫。</span></div>
+<div class="release-help-step"><strong>05｜自動最佳化</strong><span>自動最佳化與手動實裝完全獨立。它會依目前角色等級、主武 ATK、裝備 Lv、武器技能，以及第二頁當下的人工製品／魔法樹／時裝／寵物配置作為基準，只搜尋合法裝備詞條，目標為取得最高單次暴擊傷害。</span></div>
+<div class="release-help-step"><strong>06｜暴擊／冷卻門檻</strong><span>「指定暴擊率」與「指定冷卻」都是最低條件，兩者同時輸入時採 AND 判定。輸入 0 代表不限制；例如暴擊 100、冷卻 95，表示搜尋結果必須同時達到暴擊率至少 100% 與冷卻至少 95%。</span></div>
+<div class="release-help-step"><strong>07｜元素詞條</strong><span>自動最佳化會依所選武器技能配置對應元素法術傷害：普通技能使用普通法術傷害、火技能使用火焰法術傷害、冰技能使用冰系法術傷害、雷技能使用閃電法術傷害。</span></div>
+<div class="release-help-step"><strong>08｜即時傷害與分析報告</strong><span>頁面會同步顯示未暴擊與暴擊傷害；第四頁彙整角色條件、系統效果、裝備配置與最終結果。切換手動／自動模式時，報告會讀取各自獨立的配置，不會互相污染。</span></div>
+<div class="release-help-step"><strong>09｜儲存、重設與問題比對</strong><span>目前設定會自動保存在瀏覽器。若要重新建立測試條件，可使用重置功能。若模擬值與遊戲不一致，請先確認角色 Lv、主武 ATK、裝備 Lv、技能、系統效果、裝備詞條與暴擊／冷卻條件是否完全相同。</span></div>
 </div>
-
-<div class="release-help-modal release-report-modal no-print" role="dialog" aria-modal="true" aria-label="問題回報">
-  <div class="release-help-panel">
-    <div class="release-help-head"><h2>問題回報</h2><button type="button" class="release-report-close release-help-close" aria-label="關閉">×</button></div>
-    <p class="release-help-intro">若發現模擬結果或操作異常，請在發布本模擬器的 Discord 頻道回報。為了方便快速重現問題，建議附上以下資訊。</p>
-    <div class="release-help-steps">
-      <div class="release-help-step"><strong>① 角色條件</strong><span>角色等級、主武 ATK、主武 Lv、武器技能。</span></div>
-      <div class="release-help-step"><strong>② 使用模式</strong><span>手動實裝或自動最佳化，以及暴擊率／冷卻條件。</span></div>
-      <div class="release-help-step"><strong>③ 問題內容</strong><span>預期結果、實際顯示結果，以及問題發生在哪一頁。</span></div>
-      <div class="release-help-step"><strong>④ 截圖與裝置</strong><span>請附畫面截圖，並註明手機／桌面與瀏覽器。</span></div>
-    </div>
-    <div class="release-help-tip">回報範例：Lv 500｜主武 ATK 178｜冰月斬｜手動實裝｜第 3 頁最終傷害顯示異常｜iPhone Safari｜附截圖。</div>
-  </div>
+<div class="release-help-tip">重要：稱號僅獨立顯示加成，暫不納入角色 ATK、手動／自動最佳化與技能傷害。正式版的傷害結果以目前已驗證的計算核心為準。手動實裝用於重現你的實際裝備；自動最佳化則獨立搜尋最大傷害配置。兩種模式不會互相改寫裝備詞條。</div>
 </div>
-
-<div class="release-help-modal release-version-modal no-print" role="dialog" aria-modal="true" aria-label="版本資訊">
-  <div class="release-help-panel release-version-panel">
-    <div class="release-help-head"><h2 id="releaseVersionTitle">版本資訊</h2><button type="button" class="release-version-close release-help-close" aria-label="關閉">×</button></div>
-    <div class="release-help-steps release-version-rows">
-      <div class="release-help-step"><strong id="releaseVersionSimulatorLabel">模擬器版本</strong><span id="releaseVersionSimulatorValue">V. 2.1</span></div>
-      <div class="release-help-step"><strong id="releaseVersionGameLabel">適用遊戲版本</strong><span id="releaseVersionGameValue">V. 2.6</span></div>
-    </div>
-  </div>
 </div>
-
+<div aria-label="問題回報" aria-modal="true" class="release-help-modal release-report-modal no-print" role="dialog">
+<div class="release-help-panel">
+<div class="release-help-head"><h2>問題回報</h2><button aria-label="關閉" class="release-report-close release-help-close" type="button">×</button></div>
+<p class="release-help-intro">若發現模擬結果或操作異常，請在發布本模擬器的 Discord 頻道回報。為了方便快速重現問題，建議附上以下資訊。</p>
+<div class="release-help-steps">
+<div class="release-help-step"><strong>① 角色條件</strong><span>角色等級、主武 ATK、主武 Lv、武器技能。</span></div>
+<div class="release-help-step"><strong>② 使用模式</strong><span>手動實裝或自動最佳化，以及暴擊率／冷卻條件。</span></div>
+<div class="release-help-step"><strong>③ 問題內容</strong><span>預期結果、實際顯示結果，以及問題發生在哪一頁。</span></div>
+<div class="release-help-step"><strong>④ 截圖與裝置</strong><span>請附畫面截圖，並註明手機／桌面與瀏覽器。</span></div>
+</div>
+<div class="release-help-tip">回報範例：Lv 500｜主武 ATK 178｜冰月斬｜手動實裝｜第 3 頁最終傷害顯示異常｜iPhone Safari｜附截圖。</div>
+</div>
+</div>
+<div aria-label="版本資訊" aria-modal="true" class="release-help-modal release-version-modal no-print" role="dialog">
+<div class="release-help-panel release-version-panel">
+<div class="release-help-head"><h2 id="releaseVersionTitle">版本資訊</h2><button aria-label="關閉" class="release-version-close release-help-close" type="button">×</button></div>
+<div class="release-help-steps release-version-rows">
+<div class="release-help-step"><strong id="releaseVersionSimulatorLabel">模擬器版本</strong><span id="releaseVersionSimulatorValue">V. 2.1</span></div>
+<div class="release-help-step"><strong id="releaseVersionGameLabel">適用遊戲版本</strong><span id="releaseVersionGameValue">V. 2.6</span></div>
+</div>
+</div>
+</div>
 <main>
 <section class="screen active">
-  <div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div><div class="note" style="border-left:3px solid #cfaa62;margin:12px 0 16px">正式版 R12 更新：稱號 48 項的星級與能力維持獨立統計，<strong>目前不計入角色 ATK、手動／自動最佳化及傷害計算</strong>。03 手動元素／法傷輸入、02 系統單一捲動、寵物圖卡尺寸與自動最佳化新特性說明已同步更新。尚未全部更新完成。</div>
-  <div class="grid two">
-    <div class="card"><h3>角色／主武</h3>
-      <div class="field"><label>角色等級</label><input id="level" type="number" min="1" max="600"></div>
-      <div class="field"><label>主武固定 ATK（照遊戲顯示輸入）</label><input id="displayAtk"></div>
-      <div class="field"><label>主武裝備 Lv</label><input id="weaponLv" type="number"></div>
-      <div class="field skill-field"><label>武器技能（可留空）</label><select id="skill"></select><div class="skill-preview" id="skillPreview" aria-live="polite"></div></div>
-    </div>
-    <div class="card mode-only-card"><h3>模式</h3>
-      <div class="seg mode-only-seg"><button class="mode" data-mode="manual">手動實裝</button><button class="mode" data-mode="auto">自動最佳化</button></div>
-      <div class="core-debug-hidden" aria-hidden="true">
-        <div id="resolverMode">—</div>
-        <div id="resolverConfidence">—</div>
-        <input id="nativeRaw" readonly tabindex="-1">
-      </div>
-    </div>
-  </div>
-  <div class="card" id="r20BareAtkPanel" hidden aria-hidden="true" style="display:none!important">
-    <h3>空裝 ATK 核對｜診斷模式</h3>
-    <p class="small">完全排除武器、裝備詞條與寵物；保留角色等級、人工製品、魔法樹、時裝及稱號。此為依模擬器現有 ATK 公式推算的測試值，尚未證實與遊戲空裝面板同口徑，不參與原傷害計算。</p>
-    <div class="statgrid"><div class="stat"><div class="k">模擬器空裝 ATK（推算）</div><div class="v" id="r20BareAtkValue">待計算</div></div><div class="stat"><div class="k">遊戲實測空裝 ATK</div><div class="v">1.444B</div></div></div>
-    <div class="small" id="r20BareAtkBreakdown">等待系統資料載入…</div>
-    <button class="btn secondary" type="button" id="r20BareAtkRefresh">重新核對空裝 ATK</button>
-  </div>
-</section>
-
-<section class="screen">
-  <div class="hero"><h2>02｜系統效果</h2><p>依角色實際進度逐項設定。新手預設全部未取得／Lv0／未裝備；不再強制使用 MAX。資料由獨立後台檔載入，之後可直接擴充。</p></div>
-<div class="note safe-title-announcement" role="note" data-safe-lang="title-announcement">更新資訊｜正式版 R12：48 個稱號保留圖卡、星級與獨立能力統計；稱號暫不計入角色 ATK、手動／自動最佳化及技能傷害。已整合手動輸入修正、系統單一捲動及寵物圖卡版面；原生稱號加成規則尚待驗證。</div>
-
-
-  <div class="card safe-stat-card" id="safeStatCard"><h3>系統統計總覽</h3>
-<div id="safeStatUI" class="safe-stat-ui">
-  <div class="safe-brief-grid">
-    <button class="safe-brief" type="button" data-safe-stat="main"><strong>系統能力</strong><small>人工製品・魔法樹・時裝・寵物・稱號</small><span>ATK <b id="safeAtk">0%</b>　暴擊 <b id="safeCrit">0%</b>　冷卻 <b id="safeCd">0%</b></span></button>
-    <button class="safe-brief" type="button" data-safe-stat="title"><strong>稱號來源明細</strong><small>稱號加成僅獨立統計，不列入角色 ATK 與傷害</small><span>已解鎖 <b id="safeTitles">0 / 48</b>　能力種類 <b id="safeKinds">0</b></span></button>
-  </div>
-  <div class="safe-stat-extra" id="safeTitlesExtra" hidden>
-    <div class="v21-title-stat-meta"><span id="v21TitleStatCount">已解鎖 0 / 48</span><span id="v21TitleStatTypeCount">生效能力 0 種</span><span>稱號能力僅獨立統計，不參與角色 ATK、最佳化與傷害計算</span></div>
-    <div class="v21-title-stat-grid" id="v21TitleStatGrid" hidden></div>
-    <details open><summary>查看各稱號能力貢獻</summary><div id="v21TitleStatSources"></div></details>
-  </div>
+<div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div><div class="note" style="border-left:3px solid #cfaa62;margin:12px 0 16px">正式版 R12 更新：稱號 48 項的星級與能力維持獨立統計，<strong>目前不計入角色 ATK、手動／自動最佳化及傷害計算</strong>。03 手動元素／法傷輸入、02 系統單一捲動、寵物圖卡尺寸與自動最佳化新特性說明已同步更新。尚未全部更新完成。</div>
+<div class="grid two">
+<div class="card"><h3>角色／主武</h3>
+<div class="field"><label>角色等級</label><input id="level" max="600" min="1" type="number"/></div>
+<div class="field"><label>主武固定 ATK（照遊戲顯示輸入）</label><input id="displayAtk"/></div>
+<div class="field"><label>主武裝備 Lv</label><input id="weaponLv" type="number"/></div>
+<div class="field skill-field"><label>武器技能（可留空）</label><select id="skill"></select><div aria-live="polite" class="skill-preview" id="skillPreview"></div></div>
 </div>
-    <div class="note">此區以遊戲初始屬性為起點，再累加「人工製品／魔法樹／時裝／寵物」效果；稱號另行統計，不列入角色 ATK、最佳化或技能傷害。稱號貢獻可於「稱號來源明細」查看。暴擊傷害初始 150%；其餘本頁追蹤項目未取得效果時為 0。</div>
-    <div class="statgrid" style="margin-top:12px">
-      <div class="stat"><div class="k">ATK %</div><div class="v" id="sysAtkPct">0%</div></div>
-      <div class="stat"><div class="k">法術傷害</div><div class="v" id="sysSpellPct">0%</div></div>
-      <div class="stat"><div class="k">暴擊率</div><div class="v" id="sysCritPct">0%</div></div>
-      <div class="stat"><div class="k">暴擊傷害</div><div class="v" id="sysCritDmgPct">150%</div></div>
-      <div class="stat"><div class="k">冷卻減少</div><div class="v" id="sysCooldownPct">0%</div></div>
-      <div class="stat"><div class="k">MP 減耗</div><div class="v" id="sysMpReducePct">0%</div></div>
-      <div class="stat"><div class="k">所有技能等級</div><div class="v" id="sysSkillLv">+0</div></div>
-      <div class="stat"><div class="k">BOSS 傷害</div><div class="v" id="sysBossPct">0%</div></div>
-    </div>
-    <div class="statgrid" style="margin-top:12px">
-      <div class="stat"><div class="k">火元素</div><div class="v" id="sysFirePct">0%</div></div>
-      <div class="stat"><div class="k">冰元素</div><div class="v" id="sysIcePct">0%</div></div>
-      <div class="stat"><div class="k">雷元素</div><div class="v" id="sysLightningPct">0%</div></div>
-      <div class="stat"><div class="k">普通／無屬性</div><div class="v" id="sysNormalPct">0%</div></div>
-    </div>
-    <div class="small" id="sysFlatAtk" style="margin-top:10px">ATK 固定值增量：+0</div>
-    <div class="small" id="sysSpecialEffects" style="margin-top:5px">特殊／條件效果：無</div>
-  </div>
-
-  <div class="card safe-progress-bank"><h3>目前自訂進度</h3>
-    <div class="statgrid">
-      <div class="stat"><div class="k">人工製品</div><div class="v" id="sysArtifactCount">0 / 103</div></div>
-      <div class="stat"><div class="k">魔法樹</div><div class="v" id="sysTreeCount">0 / 29</div></div>
-      <div class="stat"><div class="k">時裝</div><div class="v" id="sysFashionCount">0 / 22</div></div>
-      <div class="stat"><div class="k">寵物</div><div class="v" id="sysPetCount">0 / 4</div></div>
-    </div>
-    <div class="small" id="sysTreePoints" style="margin-top:10px">魔法樹已投入：0 點</div>
-    <div class="warn small" id="sysWarning" style="margin-top:5px"></div>
-  </div>
-
-  <div class="card safe-system-card" id="safeSystemCard"><h3>系統設定</h3>
-    <div class="note">所有設定都會保存於瀏覽器草稿。人工製品輸入 Lv 後不會再跳回清單頂端。魔法樹使用等級下拉；「魔法強化」會依主控台角色 Lv 自動限制可用上限。時裝擁有即生效；寵物最多裝備 4 隻。</div>
-
-<div class="safe-sys-tabs" id="safeSysTabs" role="tablist" aria-label="五大系統分類">
-  <button type="button" data-safe-system="artifact" class="is-active">人工製品 <small id="safe-artifact">0 / 103</small><i></i></button>
-  <button type="button" data-safe-system="tree">魔法樹 <small id="safe-tree">0 / 29</small><i></i></button>
-  <button type="button" data-safe-system="title">稱號 <small id="safe-title">0 / 48</small><em>獨立統計・不計傷害</em><i></i></button>
-  <button type="button" data-safe-system="fashion">時裝 <small id="safe-fashion">0 / 22</small><i></i></button>
-  <button type="button" data-safe-system="pet">寵物 <small id="safe-pet">0 / 4</small><i></i></button>
+<div class="card mode-only-card"><h3>模式</h3>
+<div class="seg mode-only-seg"><button class="mode" data-mode="manual">手動實裝</button><button class="mode" data-mode="auto">自動最佳化</button></div>
+<div aria-hidden="true" class="core-debug-hidden">
+<div id="resolverMode">—</div>
+<div id="resolverConfidence">—</div>
+<input id="nativeRaw" readonly="" tabindex="-1"/>
 </div>
-    <details open><summary>人工製品｜103 件</summary>
-      <div class="sys-toolbar"><input id="artifactSearch" placeholder="搜尋人工製品名稱"><button type="button" id="r19ArtifactMaxAll" class="r19-max-all">一鍵全滿</button></div>
-      <div class="sys-list" id="artifactList"></div>
-    </details>
-    <details><summary>魔法樹｜29 節點</summary>
-      <div class="tree-point-grid">
-        <div class="tree-point"><div class="k">可用點數</div><div class="v" id="treeAvailablePoints">0</div></div>
-        <div class="tree-point"><div class="k">已使用點數</div><div class="v" id="treeUsedPoints">0</div></div>
-        <div class="tree-point"><div class="k">剩餘點數</div><div class="v" id="treeRemainingPoints">0</div></div>
-      </div>
-      <div class="small tree-point-note" id="treePointRule">角色 Lv 1：可用技能點 0</div>
-      <div class="sys-toolbar"><input id="treeSearch" placeholder="搜尋魔法樹節點"></div>
-      <div class="sys-list" id="treeList"></div>
-    </details>
-    <details id="v21TitleDetails"><summary>稱號｜48 個 <span class="safe-title-warning">加成獨立統計・不參與傷害</span></summary>
-      <div class="note">稱號依選定星級獨立統計。所有稱號能力暫不計入角色 ATK、手動／自動最佳化或技能傷害；遊戲原生加成規則仍待驗證。</div>
-      <div id="v21TitleCurrent" hidden>未設定</div>
-      <div id="v21TitleRoot" class="v21-title-shell"><div class="v21-title-loading">稱號資料準備中…</div></div>
-    </details>
-    <details><summary>時裝｜擁有即生效</summary>
-      <div class="sys-list" id="fashionList"></div>
-    </details>
-    <details><summary>寵物｜最多裝備 4 隻</summary>
-      <div class="sys-list" id="petList"></div>
-    </details>
-  </div>
-  <details class="card"><summary>MAX 回歸參考｜僅供驗證，不參與目前值</summary>
-    <div class="statgrid" style="margin-top:12px">
-      <div class="stat"><div class="k">元素｜不含寵物</div><div class="v">233%</div></div>
-      <div class="stat"><div class="k">元素寵物</div><div class="v">+20%</div></div>
-      <div class="stat"><div class="k">法傷</div><div class="v">346%</div></div>
-      <div class="stat"><div class="k">暴擊／冷卻</div><div class="v">56% / 62%</div></div>
-    </div>
-    <div class="note" style="margin-top:10px">這些數值只用於 MAX 回歸測試，不會灌入目前角色。角色目前值依遊戲初始基準與玩家實際選擇逐項累加。</div>
-  </details>
-
+</div>
+</div>
+<div aria-hidden="true" class="card" hidden="" id="r20BareAtkPanel" style="display:none!important">
+<h3>空裝 ATK 核對｜診斷模式</h3>
+<p class="small">完全排除武器、裝備詞條與寵物；保留角色等級、人工製品、魔法樹、時裝及稱號。此為依模擬器現有 ATK 公式推算的測試值，尚未證實與遊戲空裝面板同口徑，不參與原傷害計算。</p>
+<div class="statgrid"><div class="stat"><div class="k">模擬器空裝 ATK（推算）</div><div class="v" id="r20BareAtkValue">待計算</div></div><div class="stat"><div class="k">遊戲實測空裝 ATK</div><div class="v">1.444B</div></div></div>
+<div class="small" id="r20BareAtkBreakdown">等待系統資料載入…</div>
+<button class="btn secondary" id="r20BareAtkRefresh" type="button">重新核對空裝 ATK</button>
+</div>
 </section>
-
 <section class="screen">
-  <div class="hero"><h2>03｜裝備配置</h2><p>自動最佳化與手動實裝共用同一套已驗證裝備規則；所有輸入即時同步全域 Build State。</p></div><div id="betaBuildStrip" class="beta-build-strip no-print"></div><div id="betaModeMount"></div>
-  <div id="manualPane">
-    <div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><h3>手動實裝</h3><span class="version" id="manualPicked">已選 0 格</span></div>
-      <div class="manual-damage" style="margin-top:12px;margin-bottom:14px">
-        <div class="small" style="margin-bottom:8px">手動實裝即時傷害</div>
-        <div class="statgrid"><div class="stat"><div class="k">未暴擊傷害</div><div class="v" id="manualNonCritDamage">—</div></div><div class="stat"><div class="k">最終暴擊傷害</div><div class="v" id="manualCritDamage">—</div></div></div>
-        <div class="note" id="manualDamageNote" style="margin-top:10px">—</div>
-        <div class="note" id="r23ManualAffixLive" style="margin-top:8px">元素及法傷：等待輸入。</div>
-      </div>
-      <div class="note">手動實裝：武器的 ATK 已為固定詞條、頭盔的 DEF 已為固定詞條，因此這些裝備只有三個可選詞條位置。唯一會影響角色面板 ATK 的武器為主武器；主武 ATK 請直接於 01「角色設定」輸入，不需在此重複設定。每格先選合法詞條，再於下方輸入遊戲實際值；ATK 支援 K／M／B／T／Q／R。</div>
-      <div class="eq-table" id="equipmentGrid" style="margin-top:12px"></div>
-      <div class="manual-summary" style="margin-top:14px"><div class="small" style="margin-bottom:8px">手動詞條統計｜格數＋合計值</div><div id="manualSummaryList" class="summary-list"></div></div>
-    </div>
-  </div>
-  <div id="autoPane" hidden>
-    <div class="card"><h3>自動最佳化</h3>
-      <div class="grid two"><div class="field"><label>指定暴擊率 %（0＝不限制）</label><input id="critTarget" type="number" min="0" max="200"></div><div class="field"><label>指定冷卻 %（0＝不限制）</label><input id="cdTarget" type="number" min="0" max="100"></div></div>
-      <div class="note">固定第一頁角色／技能與第二頁系統效果；暴擊率、冷卻採 AND 最低條件，達標後只以合法裝備詞條追求最大單次暴擊傷害。</div>
-
-      <div id="autoTraitConditions" class="no-print">
-        <div class="auto-trait-head"><strong>Basic 詞條／特性條件｜Lv.750</strong><span class="small" id="autoTraitCount">未指定</span></div>
-        <div class="small" style="margin-bottom:12px;padding:12px 14px;border:1px solid #b49350;border-radius:10px;background:rgba(177,138,68,.13);color:#f1dfa9;line-height:1.7">【自動最佳化・新特性規則】每件裝備最多指定一格特殊特性（包含「所有魔法等級」）；其餘格由最佳化配置一般詞條。Basic 欄位逐格計入，魔法等級依各格加總。特殊特性的觸發傷害目前不納入公式。</div>
-        <div id="autoTraitGrid" class="auto-trait-grid"></div>
-      </div>
-      <div class="result"><div class="small">Optimizer 狀態</div><div id="autoStatus">—</div><strong id="autoDamage">—</strong></div>
-      <div class="statgrid"><div class="stat"><div class="k">最終暴擊</div><div class="v" id="autoCrit">—</div></div><div class="stat"><div class="k">最終冷卻</div><div class="v" id="autoCd">—</div></div><div class="stat"><div class="k">元素</div><div class="v" id="autoElem">—</div></div><div class="stat"><div class="k">法傷</div><div class="v" id="autoSpell">—</div></div></div>
-      <div class="auto-breakdown" style="margin-top:14px">
-        <div class="small" style="margin-bottom:8px">最佳配裝明細｜系統模擬，只看不填</div>
-        <div id="autoEquipmentGrid" class="auto-eq-list"></div>
-        <div class="small" style="margin:14px 0 8px">最佳化詞條統計｜格數＋合計值</div>
-        <div id="autoSummaryList" class="summary-list"></div>
-        <div id="autoBreakdownNote" class="note" style="margin-top:10px"></div>
-      </div>
-    </div>
-  </div>
+<div class="hero"><h2>02｜系統效果</h2><p>依角色實際進度逐項設定。新手預設全部未取得／Lv0／未裝備；不再強制使用 MAX。資料由獨立後台檔載入，之後可直接擴充。</p></div>
+<div class="note safe-title-announcement" data-safe-lang="title-announcement" role="note">更新資訊｜正式版 R12：48 個稱號保留圖卡、星級與獨立能力統計；稱號暫不計入角色 ATK、手動／自動最佳化及技能傷害。已整合手動輸入修正、系統單一捲動及寵物圖卡版面；原生稱號加成規則尚待驗證。</div>
+<div class="card safe-stat-card" id="safeStatCard"><h3>系統統計總覽</h3>
+<div class="safe-stat-ui" id="safeStatUI">
+<div class="safe-brief-grid">
+<button class="safe-brief" data-safe-stat="main" type="button"><strong>系統能力</strong><small>人工製品・魔法樹・時裝・寵物・稱號</small><span>ATK <b id="safeAtk">0%</b>　暴擊 <b id="safeCrit">0%</b>　冷卻 <b id="safeCd">0%</b></span></button>
+<button class="safe-brief" data-safe-stat="title" type="button"><strong>稱號來源明細</strong><small>稱號加成僅獨立統計，不列入角色 ATK 與傷害</small><span>已解鎖 <b id="safeTitles">0 / 48</b>　能力種類 <b id="safeKinds">0</b></span></button>
+</div>
+<div class="safe-stat-extra" hidden="" id="safeTitlesExtra">
+<div class="v21-title-stat-meta"><span id="v21TitleStatCount">已解鎖 0 / 48</span><span id="v21TitleStatTypeCount">生效能力 0 種</span><span>稱號能力僅獨立統計，不參與角色 ATK、最佳化與傷害計算</span></div>
+<div class="v21-title-stat-grid" hidden="" id="v21TitleStatGrid"></div>
+<details open=""><summary>查看各稱號能力貢獻</summary><div id="v21TitleStatSources"></div></details>
+</div>
+</div>
+<div class="note">此區以遊戲初始屬性為起點，再累加「人工製品／魔法樹／時裝／寵物」效果；稱號另行統計，不列入角色 ATK、最佳化或技能傷害。稱號貢獻可於「稱號來源明細」查看。暴擊傷害初始 150%；其餘本頁追蹤項目未取得效果時為 0。</div>
+<div class="statgrid" style="margin-top:12px">
+<div class="stat"><div class="k">ATK %</div><div class="v" id="sysAtkPct">0%</div></div>
+<div class="stat"><div class="k">法術傷害</div><div class="v" id="sysSpellPct">0%</div></div>
+<div class="stat"><div class="k">暴擊率</div><div class="v" id="sysCritPct">0%</div></div>
+<div class="stat"><div class="k">暴擊傷害</div><div class="v" id="sysCritDmgPct">150%</div></div>
+<div class="stat"><div class="k">冷卻減少</div><div class="v" id="sysCooldownPct">0%</div></div>
+<div class="stat"><div class="k">MP 減耗</div><div class="v" id="sysMpReducePct">0%</div></div>
+<div class="stat"><div class="k">所有技能等級</div><div class="v" id="sysSkillLv">+0</div></div>
+<div class="stat"><div class="k">BOSS 傷害</div><div class="v" id="sysBossPct">0%</div></div>
+</div>
+<div class="statgrid" style="margin-top:12px">
+<div class="stat"><div class="k">火元素</div><div class="v" id="sysFirePct">0%</div></div>
+<div class="stat"><div class="k">冰元素</div><div class="v" id="sysIcePct">0%</div></div>
+<div class="stat"><div class="k">雷元素</div><div class="v" id="sysLightningPct">0%</div></div>
+<div class="stat"><div class="k">普通／無屬性</div><div class="v" id="sysNormalPct">0%</div></div>
+</div>
+<div class="small" id="sysFlatAtk" style="margin-top:10px">ATK 固定值增量：+0</div>
+<div class="small" id="sysSpecialEffects" style="margin-top:5px">特殊／條件效果：無</div>
+</div>
+<div class="card safe-progress-bank"><h3>目前自訂進度</h3>
+<div class="statgrid">
+<div class="stat"><div class="k">人工製品</div><div class="v" id="sysArtifactCount">0 / 103</div></div>
+<div class="stat"><div class="k">魔法樹</div><div class="v" id="sysTreeCount">0 / 29</div></div>
+<div class="stat"><div class="k">時裝</div><div class="v" id="sysFashionCount">0 / 22</div></div>
+<div class="stat"><div class="k">寵物</div><div class="v" id="sysPetCount">0 / 4</div></div>
+</div>
+<div class="small" id="sysTreePoints" style="margin-top:10px">魔法樹已投入：0 點</div>
+<div class="warn small" id="sysWarning" style="margin-top:5px"></div>
+</div>
+<div class="card safe-system-card" id="safeSystemCard"><h3>系統設定</h3>
+<div class="note">所有設定都會保存於瀏覽器草稿。人工製品輸入 Lv 後不會再跳回清單頂端。魔法樹使用等級下拉；「魔法強化」會依主控台角色 Lv 自動限制可用上限。時裝擁有即生效；寵物最多裝備 4 隻。</div>
+<div aria-label="五大系統分類" class="safe-sys-tabs" id="safeSysTabs" role="tablist">
+<button class="is-active" data-safe-system="artifact" type="button">人工製品 <small id="safe-artifact">0 / 103</small><i></i></button>
+<button data-safe-system="tree" type="button">魔法樹 <small id="safe-tree">0 / 29</small><i></i></button>
+<button data-safe-system="title" type="button">稱號 <small id="safe-title">0 / 48</small><em>獨立統計・不計傷害</em><i></i></button>
+<button data-safe-system="fashion" type="button">時裝 <small id="safe-fashion">0 / 22</small><i></i></button>
+<button data-safe-system="pet" type="button">寵物 <small id="safe-pet">0 / 4</small><i></i></button>
+</div>
+<details open=""><summary>人工製品｜103 件</summary>
+<div class="sys-toolbar"><input id="artifactSearch" placeholder="搜尋人工製品名稱"/><button class="r19-max-all" id="r19ArtifactMaxAll" type="button">一鍵全滿</button></div>
+<div class="sys-list" id="artifactList"></div>
+</details>
+<details><summary>魔法樹｜29 節點</summary>
+<div class="tree-point-grid">
+<div class="tree-point"><div class="k">可用點數</div><div class="v" id="treeAvailablePoints">0</div></div>
+<div class="tree-point"><div class="k">已使用點數</div><div class="v" id="treeUsedPoints">0</div></div>
+<div class="tree-point"><div class="k">剩餘點數</div><div class="v" id="treeRemainingPoints">0</div></div>
+</div>
+<div class="small tree-point-note" id="treePointRule">角色 Lv 1：可用技能點 0</div>
+<div class="sys-toolbar"><input id="treeSearch" placeholder="搜尋魔法樹節點"/></div>
+<div class="sys-list" id="treeList"></div>
+</details>
+<details id="v21TitleDetails"><summary>稱號｜48 個 <span class="safe-title-warning">加成獨立統計・不參與傷害</span></summary>
+<div class="note">稱號依選定星級獨立統計。所有稱號能力暫不計入角色 ATK、手動／自動最佳化或技能傷害；遊戲原生加成規則仍待驗證。</div>
+<div hidden="" id="v21TitleCurrent">未設定</div>
+<div class="v21-title-shell" id="v21TitleRoot"><div class="v21-title-loading">稱號資料準備中…</div></div>
+</details>
+<details><summary>時裝｜擁有即生效</summary>
+<div class="sys-list" id="fashionList"></div>
+</details>
+<details><summary>寵物｜最多裝備 4 隻</summary>
+<div class="sys-list" id="petList"></div>
+</details>
+</div>
+<details class="card"><summary>MAX 回歸參考｜僅供驗證，不參與目前值</summary>
+<div class="statgrid" style="margin-top:12px">
+<div class="stat"><div class="k">元素｜不含寵物</div><div class="v">233%</div></div>
+<div class="stat"><div class="k">元素寵物</div><div class="v">+20%</div></div>
+<div class="stat"><div class="k">法傷</div><div class="v">346%</div></div>
+<div class="stat"><div class="k">暴擊／冷卻</div><div class="v">56% / 62%</div></div>
+</div>
+<div class="note" style="margin-top:10px">這些數值只用於 MAX 回歸測試，不會灌入目前角色。角色目前值依遊戲初始基準與玩家實際選擇逐項累加。</div>
+</details>
 </section>
-
+<section class="screen">
+<div class="hero"><h2>03｜裝備配置</h2><p>自動最佳化與手動實裝共用同一套已驗證裝備規則；所有輸入即時同步全域 Build State。</p></div><div class="beta-build-strip no-print" id="betaBuildStrip"></div><div id="betaModeMount"></div>
+<div id="manualPane">
+<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><h3>手動實裝</h3><span class="version" id="manualPicked">已選 0 格</span></div>
+<div class="manual-damage" style="margin-top:12px;margin-bottom:14px">
+<div class="small" style="margin-bottom:8px">手動實裝即時傷害</div>
+<div class="statgrid"><div class="stat"><div class="k">未暴擊傷害</div><div class="v" id="manualNonCritDamage">—</div></div><div class="stat"><div class="k">最終暴擊傷害</div><div class="v" id="manualCritDamage">—</div></div></div>
+<div class="note" id="manualDamageNote" style="margin-top:10px">—</div>
+<div class="note" id="r23ManualAffixLive" style="margin-top:8px">元素及法傷：等待輸入。</div>
+</div>
+<div class="note">手動實裝：武器的 ATK 已為固定詞條、頭盔的 DEF 已為固定詞條，因此這些裝備只有三個可選詞條位置。唯一會影響角色面板 ATK 的武器為主武器；主武 ATK 請直接於 01「角色設定」輸入，不需在此重複設定。每格先選合法詞條，再於下方輸入遊戲實際值；ATK 支援 K／M／B／T／Q／R。</div>
+<div class="eq-table" id="equipmentGrid" style="margin-top:12px"></div>
+<div class="manual-summary" style="margin-top:14px"><div class="small" style="margin-bottom:8px">手動詞條統計｜格數＋合計值</div><div class="summary-list" id="manualSummaryList"></div></div>
+</div>
+</div>
+<div hidden="" id="autoPane">
+<div class="card"><h3>自動最佳化</h3>
+<div class="grid two"><div class="field"><label>指定暴擊率 %（0＝不限制）</label><input id="critTarget" max="200" min="0" type="number"/></div><div class="field"><label>指定冷卻 %（0＝不限制）</label><input id="cdTarget" max="100" min="0" type="number"/></div></div>
+<div class="note">固定第一頁角色／技能與第二頁系統效果；暴擊率、冷卻採 AND 最低條件，達標後只以合法裝備詞條追求最大單次暴擊傷害。</div>
+<div class="no-print" id="autoTraitConditions">
+<div class="auto-trait-head"><strong>Basic 詞條／特性條件｜Lv.750</strong><span class="small" id="autoTraitCount">未指定</span></div>
+<div class="small" style="margin-bottom:12px;padding:12px 14px;border:1px solid #b49350;border-radius:10px;background:rgba(177,138,68,.13);color:#f1dfa9;line-height:1.7">【自動最佳化・新特性規則】每件裝備最多指定一格特殊特性（包含「所有魔法等級」）；其餘格由最佳化配置一般詞條。Basic 欄位逐格計入，魔法等級依各格加總。特殊特性的觸發傷害目前不納入公式。</div>
+<div class="auto-trait-grid" id="autoTraitGrid"></div>
+</div>
+<div class="result"><div class="small">Optimizer 狀態</div><div id="autoStatus">—</div><strong id="autoDamage">—</strong></div>
+<div class="statgrid"><div class="stat"><div class="k">最終暴擊</div><div class="v" id="autoCrit">—</div></div><div class="stat"><div class="k">最終冷卻</div><div class="v" id="autoCd">—</div></div><div class="stat"><div class="k">元素</div><div class="v" id="autoElem">—</div></div><div class="stat"><div class="k">法傷</div><div class="v" id="autoSpell">—</div></div></div>
+<div class="auto-breakdown" style="margin-top:14px">
+<div class="small" style="margin-bottom:8px">最佳配裝明細｜系統模擬，只看不填</div>
+<div class="auto-eq-list" id="autoEquipmentGrid"></div>
+<div class="small" style="margin:14px 0 8px">最佳化詞條統計｜格數＋合計值</div>
+<div class="summary-list" id="autoSummaryList"></div>
+<div class="note" id="autoBreakdownNote" style="margin-top:10px"></div>
+</div>
+</div>
+</div>
+</section>
 <section class="screen report-screen" id="reportScreen">
-  <div class="hero report-hero"><div><h2>04｜分析報告</h2><p>集中顯示目前角色的重要總合、手動／自動配裝差異與完整配裝方案；可直接輸出成 PDF。</p></div><button class="btn primary no-print" id="exportPdf">匯出 PDF</button></div>
-
-  <div class="card report-section"><div class="report-title"><h3>角色條件</h3><span class="small" id="reportModeBadge">—</span></div>
-    <div class="report-condition-grid" id="reportConditions"></div>
-  </div>
-
-  <div class="card report-section"><h3>目前角色重要總合</h3>
-    <div class="note">只顯示傷害／配裝判斷的重要屬性。此區依「角色初始值＋目前系統效果＋目前模式裝備」彙總；不重要的移速、掉落率、HP、DEF 不佔主畫面。</div>
-    <div class="report-stat-grid" id="reportTotals"></div>
-    <details class="report-detail"><summary>查看系統效果來源摘要</summary><div id="reportSystemSources" class="source-grid"></div></details>
-  </div>
-
-  <div class="card report-section"><h3>手動實裝 vs 自動最佳化</h3>
-    <div class="note">裝備貢獻採同一口徑比較；自動欄固定沿用目前角色與系統效果，只最佳化合法裝備詞條。</div>
-    <div class="compare-wrap"><table class="compare-table"><thead><tr><th>項目</th><th>手動實裝</th><th>自動最佳化</th><th>差異（自動－手動）</th></tr></thead><tbody id="reportCompareBody"></tbody></table></div>
-  </div>
-
-  <div class="grid two report-builds">
-    <div class="card report-section"><h3>手動配裝方案</h3><div id="reportManualGear" class="report-gear-list"></div><div class="small report-subtitle">詞條統計</div><div id="reportManualStats" class="summary-list"></div></div>
-    <div class="card report-section"><h3>自動最佳化方案</h3><div id="reportAutoGear" class="report-gear-list"></div><div class="small report-subtitle">詞條統計</div><div id="reportAutoStats" class="summary-list"></div><div id="reportAutoNote" class="note" style="margin-top:10px"></div></div>
-  </div>
-
-  <div id="reportMeta" hidden></div>
+<div class="hero report-hero"><div><h2>04｜分析報告</h2><p>集中顯示目前角色的重要總合、手動／自動配裝差異與完整配裝方案；可直接輸出成 PDF。</p></div><button class="btn primary no-print" id="exportPdf">匯出 PDF</button></div>
+<div class="card report-section"><div class="report-title"><h3>角色條件</h3><span class="small" id="reportModeBadge">—</span></div>
+<div class="report-condition-grid" id="reportConditions"></div>
+</div>
+<div class="card report-section"><h3>目前角色重要總合</h3>
+<div class="note">只顯示傷害／配裝判斷的重要屬性。此區依「角色初始值＋目前系統效果＋目前模式裝備」彙總；不重要的移速、掉落率、HP、DEF 不佔主畫面。</div>
+<div class="report-stat-grid" id="reportTotals"></div>
+<details class="report-detail"><summary>查看系統效果來源摘要</summary><div class="source-grid" id="reportSystemSources"></div></details>
+</div>
+<div class="card report-section"><h3>手動實裝 vs 自動最佳化</h3>
+<div class="note">裝備貢獻採同一口徑比較；自動欄固定沿用目前角色與系統效果，只最佳化合法裝備詞條。</div>
+<div class="compare-wrap"><table class="compare-table"><thead><tr><th>項目</th><th>手動實裝</th><th>自動最佳化</th><th>差異（自動－手動）</th></tr></thead><tbody id="reportCompareBody"></tbody></table></div>
+</div>
+<div class="grid two report-builds">
+<div class="card report-section"><h3>手動配裝方案</h3><div class="report-gear-list" id="reportManualGear"></div><div class="small report-subtitle">詞條統計</div><div class="summary-list" id="reportManualStats"></div></div>
+<div class="card report-section"><h3>自動最佳化方案</h3><div class="report-gear-list" id="reportAutoGear"></div><div class="small report-subtitle">詞條統計</div><div class="summary-list" id="reportAutoStats"></div><div class="note" id="reportAutoNote" style="margin-top:10px"></div></div>
+</div>
+<div hidden="" id="reportMeta"></div>
 </section>
 </main>
-
-<div class="beta-live no-print" id="betaLive" aria-live="polite">
-  <div class="beta-live-head"><div class="beta-live-label">即時傷害</div><div class="beta-live-mode" id="betaLiveMode">手動實裝</div></div>
-  <div class="beta-live-grid">
-    <div class="beta-live-cell"><div class="beta-live-k" id="betaLiveNormalLabel">未暴擊</div><div class="beta-live-v" id="betaLiveNormal">—</div></div>
-    <div class="beta-live-cell crit"><div class="beta-live-k" id="betaLiveCritLabel">暴擊</div><div class="beta-live-v" id="betaLiveCrit">—</div></div>
-  </div>
-  <div class="beta-live-meta"><span id="betaLiveAtk">ATK —</span><span id="betaLiveSkill">—</span></div>
+<div aria-live="polite" class="beta-live no-print" id="betaLive">
+<div class="beta-live-head"><div class="beta-live-label">即時傷害</div><div class="beta-live-mode" id="betaLiveMode">手動實裝</div></div>
+<div class="beta-live-grid">
+<div class="beta-live-cell"><div class="beta-live-k" id="betaLiveNormalLabel">未暴擊</div><div class="beta-live-v" id="betaLiveNormal">—</div></div>
+<div class="beta-live-cell crit"><div class="beta-live-k" id="betaLiveCritLabel">暴擊</div><div class="beta-live-v" id="betaLiveCrit">—</div></div>
+</div>
+<div class="beta-live-meta"><span id="betaLiveAtk">ATK —</span><span id="betaLiveSkill">—</span></div>
 </div>
 </div>
-
 <div class="footer-note site-footer">
-  <div class="footer-social no-print" aria-label="APviEwer 社群連結">
-    <a class="footer-social-link" href="https://discord.gg/3BTU7WwPK3" target="_blank" rel="noopener noreferrer" aria-label="Discord">
-      <span class="footer-social-icon footer-social-icon-discord" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-  <path fill="currentColor" d="M20.32 4.37A16.9 16.9 0 0 0 16.1 3a11.8 11.8 0 0 0-.54 1.12a15.7 15.7 0 0 0-7.1 0A11.8 11.8 0 0 0 7.92 3A16.84 16.84 0 0 0 3.7 4.37C1.03 8.4.32 12.32.68 16.2a16.96 16.96 0 0 0 5.18 2.63c.42-.58.8-1.2 1.12-1.85c-.62-.24-1.22-.55-1.77-.92c.15-.11.3-.22.44-.34c3.41 1.6 7.1 1.6 10.47 0c.15.12.29.23.44.34c-.55.37-1.15.68-1.78.92c.33.65.7 1.27 1.12 1.85a16.88 16.88 0 0 0 5.19-2.63c.42-4.49-.71-8.37-2.67-11.83ZM9.55 13.82c-1 0-1.82-.92-1.82-2.05c0-1.13.8-2.05 1.82-2.05c1.01 0 1.83.92 1.82 2.05c0 1.13-.81 2.05-1.82 2.05Zm4.9 0c-1 0-1.82-.92-1.82-2.05c0-1.13.8-2.05 1.82-2.05c1.01 0 1.83.92 1.82 2.05c0 1.13-.8 2.05-1.82 2.05Z"/>
+<div aria-label="APviEwer 社群連結" class="footer-social no-print">
+<a aria-label="Discord" class="footer-social-link" href="https://discord.gg/3BTU7WwPK3" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="footer-social-icon footer-social-icon-discord"><svg aria-hidden="true" focusable="false" viewbox="0 0 24 24">
+<path d="M20.32 4.37A16.9 16.9 0 0 0 16.1 3a11.8 11.8 0 0 0-.54 1.12a15.7 15.7 0 0 0-7.1 0A11.8 11.8 0 0 0 7.92 3A16.84 16.84 0 0 0 3.7 4.37C1.03 8.4.32 12.32.68 16.2a16.96 16.96 0 0 0 5.18 2.63c.42-.58.8-1.2 1.12-1.85c-.62-.24-1.22-.55-1.77-.92c.15-.11.3-.22.44-.34c3.41 1.6 7.1 1.6 10.47 0c.15.12.29.23.44.34c-.55.37-1.15.68-1.78.92c.33.65.7 1.27 1.12 1.85a16.88 16.88 0 0 0 5.19-2.63c.42-4.49-.71-8.37-2.67-11.83ZM9.55 13.82c-1 0-1.82-.92-1.82-2.05c0-1.13.8-2.05 1.82-2.05c1.01 0 1.83.92 1.82 2.05c0 1.13-.81 2.05-1.82 2.05Zm4.9 0c-1 0-1.82-.92-1.82-2.05c0-1.13.8-2.05 1.82-2.05c1.01 0 1.83.92 1.82 2.05c0 1.13-.8 2.05-1.82 2.05Z" fill="currentColor"></path>
 </svg></span>
-      <span>Discord</span>
-    </a>
-    <a class="footer-social-link" href="https://www.youtube.com/@apviewer" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-      <span class="footer-social-icon footer-social-icon-youtube" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-  <path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.12C19.55 3.6 12 3.6 12 3.6s-7.55 0-9.4.48A3 3 0 0 0 .5 6.2A31.9 31.9 0 0 0 0 12a31.9 31.9 0 0 0 .5 5.8a3 3 0 0 0 2.1 2.12C4.45 20.4 12 20.4 12 20.4s7.55 0 9.4-.48a3 3 0 0 0 2.1-2.12A31.9 31.9 0 0 0 24 12a31.9 31.9 0 0 0-.5-5.8ZM9.6 15.62V8.38L15.84 12L9.6 15.62Z"/>
+<span>Discord</span>
+</a>
+<a aria-label="YouTube" class="footer-social-link" href="https://www.youtube.com/@apviewer" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="footer-social-icon footer-social-icon-youtube"><svg aria-hidden="true" focusable="false" viewbox="0 0 24 24">
+<path d="M23.5 6.2a3 3 0 0 0-2.1-2.12C19.55 3.6 12 3.6 12 3.6s-7.55 0-9.4.48A3 3 0 0 0 .5 6.2A31.9 31.9 0 0 0 0 12a31.9 31.9 0 0 0 .5 5.8a3 3 0 0 0 2.1 2.12C4.45 20.4 12 20.4 12 20.4s7.55 0 9.4-.48a3 3 0 0 0 2.1-2.12A31.9 31.9 0 0 0 24 12a31.9 31.9 0 0 0-.5-5.8ZM9.6 15.62V8.38L15.84 12L9.6 15.62Z" fill="currentColor"></path>
 </svg></span>
-      <span>YouTube</span>
-    </a>
-    <button type="button" class="footer-social-link footer-share-btn" id="footerShareBtn" aria-label="分享">
-      <span class="footer-social-icon footer-social-icon-share" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-  <path fill="currentColor" d="M18 16a3 3 0 0 0-2.4 1.2l-6.54-3.27a3.2 3.2 0 0 0 0-1.86L15.6 8.8A3 3 0 1 0 15 7a3.2 3.2 0 0 0 .06.57L8.52 10.84a3 3 0 1 0 0 2.32l6.54 3.27A3.2 3.2 0 0 0 15 17a3 3 0 1 0 3-3Z"/>
+<span>YouTube</span>
+</a>
+<button aria-label="分享" class="footer-social-link footer-share-btn" id="footerShareBtn" type="button">
+<span aria-hidden="true" class="footer-social-icon footer-social-icon-share"><svg aria-hidden="true" focusable="false" viewbox="0 0 24 24">
+<path d="M18 16a3 3 0 0 0-2.4 1.2l-6.54-3.27a3.2 3.2 0 0 0 0-1.86L15.6 8.8A3 3 0 1 0 15 7a3.2 3.2 0 0 0 .06.57L8.52 10.84a3 3 0 1 0 0 2.32l6.54 3.27A3.2 3.2 0 0 0 15 17a3 3 0 1 0 3-3Z" fill="currentColor"></path>
 </svg></span>
-      <span id="footerShareText">分享</span>
-    </button>
-  </div>
-  <div class="footer-copyright">Copyright © APviEwer. All Rights Reserved.</div>
+<span id="footerShareText">分享</span>
+</button>
+</div>
+<div class="footer-copyright">Copyright © APviEwer. All Rights Reserved.</div>
 </div>
 <div class="actions"><div class="inner"><button class="btn secondary" id="prev">上一步</button><button class="btn secondary" id="reset">重置目前頁</button><button class="btn secondary" id="resetAllBuild">重置全部 Build</button><button class="btn primary" id="next">下一步</button></div></div>
 <script>
@@ -4853,7 +4812,6 @@ window.towerSwordSkillMpAtLevel=function(skillId,level){
   return Number.isFinite(Number(v))?Number(v):null;
 };
 </script>
-
 <script>
 window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98dfc4e81c0.png","status":"verified","source":"APK Texture2D"},"2":{"path":"assets/img/eefa17d9af7ccd1c.png","status":"verified","source":"APK Texture2D"},"3":{"path":"assets/img/9864d246b0fa07f9.png","status":"verified","source":"APK Texture2D"},"4":{"path":"assets/img/fde92c0258e913ea.png","status":"verified","source":"APK Texture2D"},"5":{"path":"assets/img/3544d29db14cf2ac.png","status":"verified","source":"APK Texture2D"},"6":{"path":"assets/img/c748ba896ccd15fe.png","status":"verified","source":"APK Texture2D"},"7":{"path":"assets/img/68d30d224979cb0e.png","status":"verified","source":"APK Texture2D"},"8":{"path":"assets/img/93d3e78ca29436a4.png","status":"verified","source":"APK Texture2D"},"9":{"path":"assets/img/0b329e1341749d67.png","status":"verified","source":"APK Texture2D"},"10":{"path":"assets/img/27b0b9a764fb28f7.png","status":"verified","source":"APK Texture2D"},"11":{"path":"assets/img/96c2068c91d748e4.png","status":"verified","source":"APK Texture2D"},"12":{"path":"assets/img/94f1e784ad0caeea.png","status":"verified","source":"APK Texture2D"},"13":{"path":"assets/img/35edeaa58a68a9ff.png","status":"verified","source":"APK Texture2D"},"14":{"path":"assets/img/06b85641680ae1bc.png","status":"verified","source":"APK Texture2D"},"15":{"path":"assets/img/6305fb2f5bb752cd.png","status":"verified","source":"APK Texture2D"},"16":{"path":"assets/img/7837085f47b5d330.png","status":"verified","source":"APK Texture2D"},"17":{"path":"assets/img/6cd470e97c8541b7.png","status":"verified","source":"APK Texture2D"},"18":{"path":"assets/img/5d016e2440d4984e.png","status":"verified","source":"APK Texture2D"},"19":{"path":"assets/img/e2c9db7a4f484859.png","status":"verified","source":"APK Texture2D"},"20":{"path":"assets/img/892dbe65209360e6.png","status":"verified","source":"APK Texture2D"},"21":{"path":"assets/img/e63ff40392574041.png","status":"verified","source":"APK Texture2D"},"22":{"path":"assets/img/a1b020105ad97389.png","status":"verified","source":"APK Texture2D"},"23":{"path":"assets/img/5fd1308019623ff6.png","status":"verified","source":"APK Texture2D"},"24":{"path":"assets/img/fdb5ae6749fd2224.png","status":"verified","source":"APK Texture2D"},"25":{"path":"assets/img/0b3a80979f521896.png","status":"verified","source":"APK Texture2D"},"26":{"path":"assets/img/af24b9b45c8ae8d8.png","status":"verified","source":"APK Texture2D"},"27":{"path":"assets/img/04f6a01de8c02bc7.png","status":"verified","source":"APK Texture2D"},"28":{"path":"assets/img/eab43bd564a90d75.png","status":"verified","source":"APK Texture2D"},"29":{"path":"assets/img/da36d2398b894794.png","status":"verified","source":"APK Texture2D"},"30":{"path":"assets/img/b511b59968b89c98.png","status":"verified","source":"APK Texture2D"},"31":{"path":"assets/img/540181fc02f90b07.png","status":"verified","source":"APK Texture2D"},"32":{"path":"assets/img/2492b7120a784a75.png","status":"verified","source":"APK Texture2D"},"33":{"path":"assets/img/95ae335a91dca107.png","status":"verified","source":"APK Texture2D"},"34":{"path":"assets/img/d4de8ccd81a0cd9e.png","status":"verified","source":"APK Texture2D"},"35":{"path":"assets/img/ee7ab1259f9ad463.png","status":"verified","source":"APK Texture2D"},"36":{"path":"assets/img/675a9dd1c8e5f5e4.png","status":"verified","source":"APK Texture2D"},"37":{"path":"assets/img/c748ba896ccd15fe.png","status":"verified","source":"APK Texture2D"},"38":{"path":"assets/img/a1b020105ad97389.png","status":"verified","source":"APK Texture2D"},"39":{"path":"assets/img/27b0b9a764fb28f7.png","status":"verified","source":"APK Texture2D"},"40":{"path":"assets/img/94f1e784ad0caeea.png","status":"verified","source":"APK Texture2D"},"41":{"path":"assets/img/fdb5ae6749fd2224.png","status":"verified","source":"APK Texture2D"},"42":{"path":"assets/img/7837085f47b5d330.png","status":"verified","source":"APK Texture2D"},"43":{"path":"assets/img/06b85641680ae1bc.png","status":"verified","source":"APK Texture2D"},"44":{"path":"assets/img/93d3e78ca29436a4.png","status":"verified","source":"APK Texture2D"},"45":{"path":"assets/img/eab43bd564a90d75.png","status":"verified","source":"APK Texture2D"},"46":{"path":"assets/img/e2c9db7a4f484859.png","status":"verified","source":"APK Texture2D"},"47":{"path":"assets/img/e63ff40392574041.png","status":"verified","source":"APK Texture2D"},"48":{"path":"assets/img/35edeaa58a68a9ff.png","status":"verified","source":"APK Texture2D"},"49":{"path":"assets/img/68d30d224979cb0e.png","status":"verified","source":"APK Texture2D"},"50":{"path":"assets/img/b511b59968b89c98.png","status":"verified","source":"APK Texture2D"},"51":{"path":"assets/img/44ee0564aa11b2dd.png","status":"verified","source":"APK Texture2D"},"52":{"path":"assets/img/7815d54dc4787e4c.png","status":"verified","source":"APK Texture2D"}},"artifacts":{"1":{"path":"assets/img/81ee8f260e899ce8.png","status":"verified","sourceTexture":"rotany_9","size":[256,256]},"2":{"path":"assets/img/4dee6a99147beadc.png","status":"verified","sourceTexture":"rotany_11","size":[256,256]},"3":{"path":"assets/img/34643dea72371d7e.png","status":"verified","sourceTexture":"rotany_10","size":[256,256]},"4":{"path":"assets/img/10e4b549ca754077.png","status":"verified","sourceTexture":"rotany_18","size":[256,256]},"5":{"path":"assets/img/56bf090e7e7887c4.png","status":"verified","sourceTexture":"crystal_35","size":[256,256]},"6":{"path":"assets/img/60bba713ce8f84b7.png","status":"verified","sourceTexture":"crystal_33","size":[256,256]},"7":{"path":"assets/img/3fd40e5e47e07ce7.png","status":"verified","sourceTexture":"crystal_29","size":[256,256]},"8":{"path":"assets/img/0704bad605a0f226.png","status":"verified","sourceTexture":"crystal_37","size":[256,256]},"9":{"path":"assets/img/e8986c8bdc3c91dc.png","status":"verified","sourceTexture":"GoldenTwig","size":[256,256]},"10":{"path":"assets/img/d08f3f6d533c3321.png","status":"verified","sourceTexture":"RedKey","size":[256,256]},"11":{"path":"assets/img/835b6255490a0ee7.png","status":"verified","sourceTexture":"HaetaeMask","size":[256,256]},"12":{"path":"assets/img/d71d5b2a439e3783.png","status":"verified","sourceTexture":"crystal_21","size":[256,256]},"13":{"path":"assets/img/1f09784b03fc54df.png","status":"verified","sourceTexture":"crystal_23","size":[256,256]},"14":{"path":"assets/img/aa5c54b04b67c7a4.png","status":"verified","sourceTexture":"crystal_24","size":[256,256]},"15":{"path":"assets/img/6f1da75bdd55dbbf.png","status":"verified","sourceTexture":"crystal_25","size":[256,256]},"16":{"path":"assets/img/9a3691f2505f7c79.png","status":"verified","sourceTexture":"crystal_22","size":[256,256]},"17":{"path":"assets/img/d67ca55b00b5273a.png","status":"verified","sourceTexture":"crystal_26","size":[256,256]},"18":{"path":"assets/img/33734e96c78afc6a.png","status":"verified","sourceTexture":"crystal_27","size":[256,256]},"19":{"path":"assets/img/513b5678b653e86c.png","status":"verified","sourceTexture":"WingCrystal","size":[256,256]},"20":{"path":"assets/img/8f935e5db1e798ec.png","status":"verified","sourceTexture":"MoonCrystal","size":[256,256]},"21":{"path":"assets/img/f5b5e6cce4e60110.png","status":"verified","sourceTexture":"MagicStone","size":[256,256]},"22":{"path":"assets/img/13b996a5590b667a.png","status":"verified","sourceTexture":"DimensionCube","size":[256,256]},"23":{"path":"assets/img/d19b2a95263743d8.png","status":"verified","sourceTexture":"DragonShield","size":[256,256]},"24":{"path":"assets/img/8cbe241cbec110f0.png","status":"verified","sourceTexture":"MagicGlasses","size":[256,256]},"25":{"path":"assets/img/04a4b848b9164ddb.png","status":"verified","sourceTexture":"CoreOfDarkOverlord","size":[256,256]},"26":{"path":"assets/img/361dff34b13ef0c2.png","status":"verified","sourceTexture":"TreasureOfDeath","size":[256,256]},"27":{"path":"assets/img/19a5dff7a6cbb497.png","status":"verified","sourceTexture":"crystal_27Copy","size":[256,256]},"28":{"path":"assets/img/7abfc0a81b4ddcbd.png","status":"verified","sourceTexture":"DragonsFang","size":[256,256]},"29":{"path":"assets/img/9b15d1a638875652.png","status":"verified","sourceTexture":"DragonsHorn","size":[256,256]},"30":{"path":"assets/img/a48e12e87cbc617a.png","status":"verified","sourceTexture":"DragonsScale","size":[256,256]},"31":{"path":"assets/img/9752ace7a1c0d93b.png","status":"verified","sourceTexture":"DragonsCore","size":[256,256]},"32":{"path":"assets/img/af67dafb07bc356d.png","status":"verified","sourceTexture":"DemonDragonTrace","size":[256,256]},"33":{"path":"assets/img/acb9c947556f8e7f.png","status":"verified","sourceTexture":"DarknessEye","size":[256,256]},"34":{"path":"assets/img/5da874595b0543e2.png","status":"verified","sourceTexture":"AncientTriangle","size":[256,256]},"35":{"path":"assets/img/e4e6f0d9e900047c.png","status":"verified","sourceTexture":"CupOfDeath","size":[256,256]},"36":{"path":"assets/img/477b0e1f200f9ac5.png","status":"verified","sourceTexture":"BookOfDeath","size":[256,256]},"37":{"path":"assets/img/8c3d377ff28eab62.png","status":"verified","sourceTexture":"CrownOfDeath","size":[256,256]},"38":{"path":"assets/img/418d6ccb2a83ab7a.png","status":"verified","sourceTexture":"CupOfDarkOverLord","size":[256,256]},"39":{"path":"assets/img/4a564180172cfffc.png","status":"verified","sourceTexture":"FeatherOfDarkOverLord","size":[256,256]},"40":{"path":"assets/img/49d2a84e6ce652a1.png","status":"verified","sourceTexture":"AncientTreasure","size":[256,256]},"41":{"path":"assets/img/2c0d1acb06c3ff06.png","status":"verified","sourceTexture":"BloodCrystal","size":[256,256]},"42":{"path":"assets/img/270ad42f4becc8cd.png","status":"verified","sourceTexture":"HornOfDarkOverlord","size":[256,256]},"43":{"path":"assets/img/7d03942c4d5b18ea.png","status":"verified","sourceTexture":"BookOfSoul","size":[256,256]},"44":{"path":"assets/img/d646999bd38303c4.png","status":"verified","sourceTexture":"DemonDragonTrace2","size":[256,256]},"45":{"path":"assets/img/b5c74120e817b638.png","status":"verified","sourceTexture":"AncientOfMask","size":[256,256]},"46":{"path":"assets/img/59dfc0bcd7591857.png","status":"verified","sourceTexture":"EyeOfDeath","size":[256,256]},"47":{"path":"assets/img/2292876b294a83bd.png","status":"verified","sourceTexture":"SoulOfDarkOverLord","size":[256,256]},"48":{"path":"assets/img/16d2c36d229d55d5.png","status":"verified","sourceTexture":"MagicBallOfDark","size":[256,256]},"49":{"path":"assets/img/e1704207eabc7c3a.png","status":"verified","sourceTexture":"DemonDragonTrace3","size":[256,256]},"50":{"path":"assets/img/c95e8880a9d7113d.png","status":"verified","sourceTexture":"AncientJewel","size":[256,256]},"51":{"path":"assets/img/c1928069a0a2d3a2.png","status":"verified","sourceTexture":"RuneOfDeath","size":[256,256]},"52":{"path":"assets/img/31ca1634ff722e0e.png","status":"verified","sourceTexture":"EyeOfDarkOverLord","size":[256,256]},"53":{"path":"assets/img/74caf63de3751aec.png","status":"verified","sourceTexture":"EyeOfDemonDragon","size":[256,256]},"54":{"path":"assets/img/323bee67ed8da31f.png","status":"verified","sourceTexture":"DemonDragonTrace4","size":[256,256]},"55":{"path":"assets/img/17204888d6b49e7a.png","status":"verified","sourceTexture":"SlimeArtifact00","size":[256,256]},"56":{"path":"assets/img/ffdc5aec38329c4e.png","status":"verified","sourceTexture":"SlimeArtifact01","size":[256,256]},"57":{"path":"assets/img/a67da18b88c45045.png","status":"verified","sourceTexture":"SlimeArtifact02","size":[256,256]},"58":{"path":"assets/img/39bb5c00b3339e40.png","status":"verified","sourceTexture":"SlimeArtifact03","size":[256,256]},"59":{"path":"assets/img/d343198b06e753dc.png","status":"verified","sourceTexture":"SlimeArtifact04","size":[256,256]},"60":{"path":"assets/img/dd27cca08b8f22a1.png","status":"verified","sourceTexture":"SlimeArtifact05","size":[256,256]},"61":{"path":"assets/img/db97d2eb3fb181ea.png","status":"verified","sourceTexture":"SlimeArtifact06","size":[256,256]},"62":{"path":"assets/img/b0cc71095d5f725d.png","status":"verified","sourceTexture":"SlimeArtifact07","size":[256,256]},"63":{"path":"assets/img/31ecbec08f7600c1.png","status":"verified","sourceTexture":"SlimeArtifact08","size":[256,256]},"64":{"path":"assets/img/75e2964d31949c1c.png","status":"verified","sourceTexture":"SlimeArtifact09","size":[256,256]},"65":{"path":"assets/img/59e102149e4dce0d.png","status":"verified","sourceTexture":"SlimeArtifact10","size":[256,256]},"66":{"path":"assets/img/bd01f55e932a5607.png","status":"verified","sourceTexture":"SlimeArtifact11","size":[256,256]},"67":{"path":"assets/img/41e7d79b898b23b7.png","status":"verified","sourceTexture":"SlimeArtifact12","size":[256,256]},"68":{"path":"assets/img/672436d8166d38cd.png","status":"verified","sourceTexture":"SlimeArtifact13","size":[256,256]},"69":{"path":"assets/img/ced096d5e36e4e2b.png","status":"verified","sourceTexture":"SlimeArtifact14","size":[256,256]},"70":{"path":"assets/img/ae1d72b1703c9cd5.png","status":"verified","sourceTexture":"SlimeArtifact15","size":[256,256]},"71":{"path":"assets/img/57738380a4ad1a24.png","status":"verified","sourceTexture":"ShiningStone","size":[256,256]},"72":{"path":"assets/img/e31f12d2079103c6.png","status":"verified","sourceTexture":"FireEnergy","size":[256,256]},"73":{"path":"assets/img/ece0574c86949d86.png","status":"verified","sourceTexture":"IceEnergy","size":[256,256]},"74":{"path":"assets/img/f953b3d36f21e644.png","status":"verified","sourceTexture":"LightningEnergy","size":[256,256]},"75":{"path":"assets/img/7a1e016abdd0e5eb.png","status":"verified","sourceTexture":"SoulEnergy","size":[256,256]},"76":{"path":"assets/img/c3826b1edcf08f0b.png","status":"verified","sourceTexture":"GoldenScroll","size":[256,256]},"77":{"path":"assets/img/122f5cb0f3345715.png","status":"verified","sourceTexture":"ExperienceBook","size":[256,256]},"78":{"path":"assets/img/72e000e2fd98b3c5.png","status":"verified","sourceTexture":"GoldCoin","size":[256,256]},"79":{"path":"assets/img/d30dc65acbbf41bd.png","status":"verified","sourceTexture":"RedClaw","size":[256,256]},"80":{"path":"assets/img/02f6a7c3f3fe72d1.png","status":"verified","sourceTexture":"DemonsFang","size":[256,256]},"81":{"path":"assets/img/b73bcefceb30cb4c.png","status":"verified","sourceTexture":"DemonsHorn","size":[256,256]},"82":{"path":"assets/img/17a948b383e7bb90.png","status":"verified","sourceTexture":"DemonsCore","size":[256,256]},"83":{"path":"assets/img/0bb61af105fa6a9a.png","status":"verified","sourceTexture":"GoldenCrystal","size":[256,256]},"84":{"path":"assets/img/24f7b180f68f69a3.png","status":"verified","sourceTexture":"RecoveryLyre","size":[256,256]},"85":{"path":"assets/img/cb4c9b4394058288.png","status":"verified","sourceTexture":"SturdyShield","size":[256,256]},"86":{"path":"assets/img/26e83a22dd6c0cd8.png","status":"verified","sourceTexture":"ManaBracelet","size":[256,256]},"87":{"path":"assets/img/6480897cd79b1b3a.png","status":"verified","sourceTexture":"LifeNecklace","size":[256,256]},"88":{"path":"assets/img/fa35188339dfa862.png","status":"verified","sourceTexture":"DemonsBone","size":[256,256]},"89":{"path":"assets/img/7c76b692af0e5680.png","status":"verified","sourceTexture":"DemonsEmblem","size":[256,256]},"90":{"path":"assets/img/b7be41cd3a141f24.png","status":"verified","sourceTexture":"OddDice","size":[256,256]},"91":{"path":"assets/img/fca6cc5f77fd7b69.png","status":"verified","sourceTexture":"DemonsBrightHorn","size":[256,256]}},"tree":{"0":{"path":"assets/img/f4e8772a46781779.png","status":"verified","sourceTexture":"HpUp2","size":[512,512]},"1":{"path":"assets/img/8f574a49ce9036f4.png","status":"verified","sourceTexture":"HpRecovery","size":[512,512]},"2":{"path":"assets/img/7fa898ff63706529.png","status":"verified","sourceTexture":"DamageUp3","size":[512,512]},"3":{"path":"assets/img/c299c2c196a60a57.png","status":"verified","sourceTexture":"CriticalUp","size":[512,512]},"4":{"path":"assets/img/e89aa903d0fd13bd.png","status":"verified","sourceTexture":"AttackPowerUp","size":[512,512]},"5":{"path":"assets/img/eb1ac20dad65236d.png","status":"verified","sourceTexture":"SecondChance","size":[512,512]},"6":{"path":"assets/img/e2041e86df53c91b.png","status":"verified","sourceTexture":"Resurrection","size":[512,512]},"7":{"path":"assets/img/4821b5cc70d19f14.png","status":"verified","sourceTexture":"AttackNumberUp","size":[512,512]},"8":{"path":"assets/img/23aaa0cb113b3f17.png","status":"verified","sourceTexture":"AttackDashUp","size":[512,512]},"9":{"path":"assets/img/dade161c88f8c9ce.png","status":"verified","sourceTexture":"HpDownDamageUp","size":[512,512]},"10":{"path":"assets/img/3fed3fdba8124bc2.png","status":"verified","sourceTexture":"HpLessPerDamageUp","size":[512,512]},"11":{"path":"assets/img/49dcbc034da2589c.png","status":"verified","sourceTexture":"BeAttackedDamageUp","size":[512,512]},"12":{"path":"assets/img/2e107dfc65c37c28.png","status":"verified","sourceTexture":"Bleeding","size":[512,512]},"13":{"path":"assets/img/a911b967746801a9.png","status":"verified","sourceTexture":"BleedingUp","size":[512,512]},"14":{"path":"assets/img/d2b6ef7213c7cfd0.png","status":"verified","sourceTexture":"StealHp","size":[512,512]},"15":{"path":"assets/img/c14ead4dbd620366.png","status":"verified","sourceTexture":"Avenger","size":[512,512]},"16":{"path":"assets/img/dc7473fd91573fd8.png","status":"verified","sourceTexture":"MpUp","size":[512,512]},"17":{"path":"assets/img/9184315d7b04bc20.png","status":"verified","sourceTexture":"MpRecovery","size":[512,512]},"18":{"path":"assets/img/47a17fb9639d9aa1.png","status":"verified","sourceTexture":"DecreaseSkillMp","size":[512,512]},"19":{"path":"assets/img/b1bb209c3a0edb76.png","status":"verified","sourceTexture":"IncreaseSkillDamage","size":[512,512]},"20":{"path":"assets/img/6f783037fbfc08a6.png","status":"verified","sourceTexture":"DecreaseSkillDelay","size":[512,512]},"21":{"path":"assets/img/6d0065b6507a2646.png","status":"verified","sourceTexture":"SupportOrb","size":[512,512]},"22":{"path":"assets/img/ba7cfca3d677f20e.png","status":"verified","sourceTexture":"ManaVestige","size":[512,512]},"23":{"path":"assets/img/aaea94205f8bec24.png","status":"verified","sourceTexture":"ManaWave","size":[512,512]},"24":{"path":"assets/img/0e348424a6a4681f.png","status":"verified","sourceTexture":"공격력1","size":[512,512]},"25":{"path":"assets/img/ca32eb15d0a01f42.png","status":"verified","sourceTexture":"Magic_52","size":[512,512]},"26":{"path":"assets/img/6bee2a98be667eec.png","status":"verified","sourceTexture":"Sparkle_1063","size":[512,512]},"27":{"path":"assets/img/f3b92517b615a96b.png","status":"verified","sourceTexture":"Sparkle_1062","size":[512,512]},"28":{"path":"assets/img/73fc165d89642354.png","status":"verified","sourceTexture":"SkillUp","size":[512,512]}},"fashions":{"SatgatCharacter":{"path":"assets/img/fa43d278f08fca6f.png","status":"verified","sourceTexture":"SatgatCostume","size":[256,256]},"HolyKnight0":{"path":"assets/img/562afc230689354b.png","status":"verified","sourceTexture":"HolyKnight0Costume","size":[256,256]},"HolyKnight1":{"path":"assets/img/5e0f2a036fd050c9.png","status":"verified","sourceTexture":"HolyKnight1Costume","size":[256,256]},"DarkKnight0":{"path":"assets/img/a4a981634fa570ae.png","status":"verified","sourceTexture":"DarkKnight0Costume","size":[256,256]},"DarkKnight1":{"path":"assets/img/ea86ab29ff1ca7e4.png","status":"verified","sourceTexture":"DarkKnight1Costume","size":[256,256]},"GoldenKnight0":{"path":"assets/img/805bee8090d0d6ed.png","status":"verified","sourceTexture":"GoldenKnight0Costume","size":[256,256]},"GoldenKnight1":{"path":"assets/img/075d6fff288b1c88.png","status":"verified","sourceTexture":"GoldenKnight1Costume","size":[256,256]},"SkeletonKnight":{"path":"assets/img/f70c67a20277117f.png","status":"verified","sourceTexture":"SkeletonKnightCostume","size":[256,256]},"GeomsungKnight":{"path":"assets/img/e61d729b2a2aaba4.png","status":"verified","sourceTexture":"GeomsungKnightCostume","size":[256,256]},"BerserkerKnight":{"path":"assets/img/680bb7f1bcaae786.png","status":"verified","sourceTexture":"BerserkerKnightCostume","size":[256,256]},"SantaKnight":{"path":"assets/img/148e88c1ea4e9929.png","status":"verified","sourceTexture":"SantaKnightCostume","size":[256,256]}},"pets":{"LittleAngelPet":{"path":"assets/img/afc240e99f16ceb6.png","status":"verified","sourceTexture":"LittleAngelPet","size":[256,256]},"LittleDevilPet":{"path":"assets/img/b82343c3a4e4cbd7.png","status":"verified","sourceTexture":"LittleDevilPet","size":[256,256]},"LittleGrimReaperPet":{"path":"assets/img/7e58b113035bf84d.png","status":"verified","sourceTexture":"LittleGrimReaperPet","size":[256,256]},"FireFairyPet":{"path":"assets/img/ac572d7f2241c8b5.png","status":"verified","sourceTexture":"FireFairyPet","size":[256,256]},"SoulFairyPet":{"path":"assets/img/a935fb774947dbcc.png","status":"verified","sourceTexture":"SoulFairyPet","size":[256,256]},"WaterFairyPet":{"path":"assets/img/07b2516b2aae8408.png","status":"verified","sourceTexture":"WaterFairyPet","size":[256,256]},"LightningFairyPet":{"path":"assets/img/6e7761be1ae9fc18.png","status":"verified","sourceTexture":"LightningFairyPet","size":[256,256]},"LittleDemonDragonPet":{"path":"assets/img/e79ee24fe9f530ea.png","status":"verified","sourceTexture":"LittleDemonDragonPet","size":[256,256]},"TornadoFairyPet":{"path":"assets/img/6865077a0fe9e74e.png","status":"verified","sourceTexture":"TornadoFairyPet","size":[256,256]},"MerchantFairyPet":{"path":"assets/img/acaf696eab89b81e.png","status":"verified","sourceTexture":"MerchantFairyPet","size":[256,256]},"ChristmasTreeFairyPet":{"path":"assets/img/16ffeb75fa6d57b8.png","status":"verified","sourceTexture":"ChristmasTreeFairyPet","size":[256,256]},"LittleRudolphPet":{"path":"assets/img/33bebde73ae98f93.png","status":"verified","sourceTexture":"LittleRudolphPet","size":[256,256]}},"meta":{"policy":"official-apk-only","apk":"Tower And Swords 2.55400","unverifiedBehavior":"no icon is displayed","artifactMappingEvidence":"ArtifactName enum + ArtifactPanel ListPopup ItemBox hierarchy and Sprite PPtr","treeMappingEvidence":"CharSkill button GameObject -> Image Sprite PPtr","fashionScope":"Sword APK only; 11 archer costumes intentionally omitted per project scope"}};
 
@@ -4878,7 +4836,6 @@ window.TOWER_SWORD_OFFICIAL_ICONS = {"skills":{"1":{"path":"assets/img/f7c6d98df
   });
 })();
 </script>
-
 <script id="v21-production-weapons-260060-data">
 /* V2.1 Production Patch 02 | Game V2.6 new weapon skills 53–55 | APK 2.60060 verified data */
 window.__TS260060_SKILL_ATK_EXT = {"53":{"1":13.8,"2":14.63,"3":15.51,"4":16.44,"5":17.42,"6":18.47,"7":19.58,"8":20.75,"9":22.0,"10":23.31,"11":24.71,"12":26.2,"13":27.77,"14":29.43,"15":31.2,"16":33.07,"17":35.06,"18":37.16,"19":39.39,"20":41.75,"21":44.26,"22":46.91,"23":49.73,"24":52.71,"25":55.88,"26":59.23,"27":62.78,"28":66.55,"29":70.54,"30":74.77,"31":79.26,"32":84.02,"33":89.06,"34":94.4,"35":100.06,"36":106.07,"37":112.43,"38":119.18,"39":126.33,"40":133.91,"41":141.94,"42":150.46,"43":159.49,"44":169.06,"45":179.2,"46":189.95,"47":201.35,"48":213.43,"49":226.24,"50":239.81,"51":254.2,"52":269.45,"53":285.62,"54":302.75,"55":320.92,"56":340.17,"57":360.58,"58":382.22,"59":405.15,"60":429.46,"61":455.23,"62":482.54,"63":511.5,"64":542.19,"65":574.72,"66":609.2,"67":645.75,"68":684.5,"69":725.57,"70":769.1,"71":815.25,"72":864.16,"73":916.01,"74":970.97,"75":1029.23,"76":1090.99,"77":1156.44,"78":1225.83,"79":1299.38,"80":1377.34,"81":1459.98,"82":1547.58,"83":1640.44,"84":1738.87,"85":1843.2,"86":1953.79,"87":2071.02,"88":2195.28,"89":2326.99,"90":2466.61,"91":2614.61,"92":2771.49,"93":2937.78,"94":3114.04,"95":3300.89,"96":3498.94,"97":3708.87,"98":3931.41,"99":4167.29,"100":4417.33,"101":4682.37,"102":4963.31,"103":5261.11,"104":5576.78,"105":5911.38,"106":6266.07,"107":6642.03,"108":7040.55,"109":7462.98,"110":7910.76,"111":8385.41,"112":8888.53,"113":9421.85,"114":9987.16,"115":10586.39,"116":11221.57,"117":11894.86,"118":12608.56,"119":13365.07,"120":14166.97,"121":15016.99,"122":15918.01,"123":16873.09,"124":17885.48,"125":18958.61,"126":20096.12,"127":21301.89,"128":22580.0,"129":23934.8,"130":25370.89,"131":26893.14,"132":28506.73,"133":30217.14,"134":32030.16,"135":33951.97,"136":35989.09,"137":38148.44,"138":40437.34,"139":42863.59,"140":45435.4,"141":48161.52,"142":51051.22,"143":54114.29,"144":57361.15,"145":60802.81,"146":64450.98,"147":68318.04,"148":72417.13,"149":76762.15,"150":81367.88,"151":86249.95,"152":91424.95,"153":96910.45,"154":102725.08,"155":108888.58,"156":115421.9,"157":122347.21,"158":129688.04,"159":137469.32,"160":145717.48,"161":154460.53,"162":163728.16,"163":173551.85,"164":183964.97,"165":195002.86,"166":206703.04,"167":219105.22,"168":232251.53,"169":246186.62,"170":260961.85},"54":{"1":4.8,"2":5.09,"3":5.39,"4":5.72,"5":6.06,"6":6.42,"7":6.81,"8":7.22,"9":7.65,"10":8.11,"11":8.6,"12":9.11,"13":9.66,"14":10.24,"15":10.85,"16":11.5,"17":12.19,"18":12.93,"19":13.7,"20":14.52,"21":15.39,"22":16.32,"23":17.3,"24":18.33,"25":19.43,"26":20.6,"27":21.84,"28":23.15,"29":24.54,"30":26.01,"31":27.57,"32":29.22,"33":30.98,"34":32.83,"35":34.8,"36":36.89,"37":39.11,"38":41.45,"39":43.94,"40":46.58,"41":49.37,"42":52.33,"43":55.47,"44":58.8,"45":62.33,"46":66.07,"47":70.03,"48":74.24,"49":78.69,"50":83.41,"51":88.42,"52":93.72,"53":99.35,"54":105.31,"55":111.62,"56":118.32,"57":125.42,"58":132.95,"59":140.92,"60":149.38,"61":158.34,"62":167.84,"63":177.91,"64":188.59,"65":199.9,"66":211.9,"67":224.61,"68":238.09,"69":252.37,"70":267.51,"71":283.56,"72":300.58,"73":318.61,"74":337.73,"75":357.99,"76":379.47,"77":402.24,"78":426.38,"79":451.96,"80":479.08,"81":507.82,"82":538.29,"83":570.59,"84":604.82,"85":641.11,"86":679.58,"87":720.35,"88":763.57,"89":809.39,"90":857.95,"91":909.43,"92":964.0,"93":1021.84,"94":1083.15,"95":1148.13,"96":1217.02,"97":1290.04,"98":1367.45,"99":1449.49,"100":1536.46,"101":1628.65,"102":1726.37,"103":1829.95,"104":1939.75,"105":2056.13,"106":2179.5,"107":2310.27,"108":2448.89,"109":2595.82,"110":2751.57,"111":2916.66,"112":3091.66,"113":3277.16,"114":3473.79,"115":3682.22,"116":3903.15,"117":4137.34,"118":4385.58,"119":4648.72,"120":4927.64,"121":5223.3,"122":5536.7,"123":5868.9,"124":6221.04,"125":6594.3,"126":6989.96,"127":7409.35,"128":7853.91,"129":8325.15,"130":8824.66,"131":9354.14,"132":9915.39,"133":10510.31,"134":11140.93,"135":11809.38,"136":12517.95,"137":13269.02,"138":14065.16,"139":14909.07,"140":15803.62,"141":16751.83,"142":17756.94,"143":18822.36,"144":19951.7,"145":21148.81,"146":22417.73,"147":23762.8,"148":25188.57,"149":26699.88,"150":28301.87,"151":29999.98,"152":31799.98,"153":33707.98,"154":35730.46,"155":37874.29,"156":40146.75,"157":42555.55,"158":45108.88,"159":47815.42,"160":50684.34,"161":53725.4,"162":56948.93,"163":60365.86,"164":63987.81,"165":67827.08,"166":71896.71,"167":76210.51,"168":80783.14,"169":85630.13,"170":90769.34},"55":{"1":16.8,"2":17.81,"3":18.88,"4":20.01,"5":21.21,"6":22.48,"7":23.83,"8":25.26,"9":26.78,"10":28.38,"11":30.09,"12":31.89,"13":33.8,"14":35.83,"15":37.98,"16":40.26,"17":42.68,"18":45.24,"19":47.95,"20":50.83,"21":53.88,"22":57.11,"23":60.54,"24":64.17,"25":68.02,"26":72.1,"27":76.43,"28":81.02,"29":85.88,"30":91.03,"31":96.49,"32":102.28,"33":108.42,"34":114.92,"35":121.82,"36":129.13,"37":136.87,"38":145.09,"39":153.79,"40":163.02,"41":172.8,"42":183.17,"43":194.16,"44":205.81,"45":218.16,"46":231.25,"47":245.12,"48":259.83,"49":275.42,"50":291.94,"51":309.46,"52":328.03,"53":347.71,"54":368.57,"55":390.68,"56":414.13,"57":438.97,"58":465.31,"59":493.23,"60":522.82,"61":554.19,"62":587.44,"63":622.69,"64":660.05,"65":699.66,"66":741.64,"67":786.13,"68":833.3,"69":883.3,"70":936.3,"71":992.48,"72":1052.02,"73":1115.15,"74":1182.05,"75":1252.98,"76":1328.16,"77":1407.85,"78":1492.32,"79":1581.86,"80":1676.77,"81":1777.37,"82":1884.02,"83":1997.06,"84":2116.88,"85":2243.89,"86":2378.53,"87":2521.24,"88":2672.51,"89":2832.86,"90":3002.83,"91":3183.0,"92":3373.98,"93":3576.42,"94":3791.01,"95":4018.47,"96":4259.58,"97":4515.15,"98":4786.06,"99":5073.22,"100":5377.62,"101":5700.28,"102":6042.29,"103":6404.83,"104":6789.12,"105":7196.47,"106":7628.25,"107":8085.95,"108":8571.11,"109":9085.37,"110":9630.49,"111":10208.32,"112":10820.82,"113":11470.07,"114":12158.28,"115":12887.77,"116":13661.04,"117":14480.7,"118":15349.55,"119":16270.52,"120":17246.75,"121":18281.55,"122":19378.45,"123":20541.15,"124":21773.62,"125":23080.04,"126":24464.84,"127":25932.73,"128":27488.7,"129":29138.02,"130":30886.3,"131":32739.48,"132":34703.85,"133":36786.08,"134":38993.24,"135":41332.84,"136":43812.81,"137":46441.58,"138":49228.07,"139":52181.76,"140":55312.66,"141":58631.42,"142":62149.31,"143":65878.26,"144":69830.96,"145":74020.82,"146":78462.07,"147":83169.79,"148":88159.98,"149":93449.58,"150":99056.55,"151":104999.94,"152":111299.94,"153":117977.94,"154":125056.61,"155":132560.01,"156":140513.61,"157":148944.43,"158":157881.09,"159":167353.96,"160":177395.2,"161":188038.91,"162":199321.24,"163":211280.52,"164":223957.35,"165":237394.79,"166":251638.48,"167":266736.79,"168":282740.99,"169":299705.45,"170":317692.69}};
@@ -5144,7 +5101,6 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
 })();
 
 </script>
-
 <script>
 /* DebugFix21b — presentation-only mobile skill picker. */
 (()=>{
@@ -5190,8 +5146,6 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
   sync();
 })();
 </script>
-
-
 <script>
 /* DebugFix22 — page 3 damage refresh/display regression fix.
  * Additive UI/controller patch only; DebugFix13 calculation/data functions are not edited.
@@ -5246,8 +5200,6 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
      Page-3 refreshes when it is actually entered or its own controls change. */
 })();
 </script>
-
-
 <script>
 /* Release R1.1 — operation guide controller (presentation only). */
 (()=>{
@@ -5265,7 +5217,6 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open')) close();});
 })();
 </script>
-
 <script>
 /* Web Release 1.0 — issue report controller (presentation only). */
 (()=>{
@@ -5283,8 +5234,6 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open')) close();});
 })();
 </script>
-
-
 <script id="beta-01-controller">
 /* Beta 0.1 UX controller.
    Presentation/navigation/synchronization only. Existing DebugFix13 calculation/data functions remain authoritative. */
@@ -5440,8 +5389,6 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
   setTimeout(refreshBeta,80);
 })();
 </script>
-
-
 <script id="beta-01-dynamic-refresh-hook">
 (()=>{
   'use strict';
@@ -5457,8 +5404,6 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
   queueMicrotask(()=>{try{refreshManualSummary();}catch(e){console.error('Beta 0.1 initial manual refresh',e)}});
 })();
 </script>
-
-
 <script id="beta-01-footer-social-js">
 (()=>{
   'use strict';
@@ -5503,8 +5448,6 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
   refresh();
 })();
 </script>
-
-
 <script>
 /* Beta 0.1 Final Debug — Auto element presentation + Manual/Auto isolation guard.
    IMPORTANT: presentation/state-isolation patch only.
@@ -5577,15 +5520,8 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
   }));
 })();
 </script>
-
-
 <!-- V1.0 Test03: dual Manual/Auto view + deferred Auto repaint + display-only ATK/MP fixes.
      IMPORTANT: no damage formula, optimizer candidate/scoring, Manual equipment, or system-stat math is changed. -->
-
-
-
-
-
 <!-- V1.0 Test04: UX performance + restore Manual/Auto pane switch + dual live damage + MP display floor.
      Display/trigger timing only. Damage formulas and optimizer search/scoring are untouched. -->
 <style id="v10-test04-ux-style">
@@ -5612,16 +5548,8 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
     .v10-live-panel{padding:7px 8px}.v10-live-v{font-size:12px}
   }
 </style>
-
-
-
-
 <!-- V1.0 Test05: final interaction scheduler + true simultaneous Manual/Auto equipment view.
      Trigger timing / presentation only. Damage formulas, optimizer candidates, scoring and equipment rules are untouched. -->
-
-
-
-
 <script id="v10-test22-modal-i18n-only">(()=>{
   'use strict';
   const q=s=>document.querySelector(s);
@@ -5718,7 +5646,6 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
   renderModalI18n();
 })();
 </script>
-
 <script id="v10-test22-skill-i18n-approved">
 (()=>{
   'use strict';
@@ -5741,7 +5668,6 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
 })();
 </script>
 <!-- V1.0 Test24: Test23 event-cascade fix + fast in-place i18n + Page-3 no hidden-report rebuild. -->
-
 <style id="test27-hints-style">
 /* Page 01 uses the right column for guidance; mode selection remains only on Page 03. */
 main > .screen:first-of-type .mode-only-card{display:none!important}
@@ -5774,7 +5700,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   #test27HintCard .hint-text{font-size:11.5px}
 }
 </style>
-
 <style id="v21-page01-update-highlight">
 #test27HintCard .hint-item.hint-update{border-color:rgba(241,199,89,.76);background:linear-gradient(135deg,rgba(91,68,17,.68),rgba(29,38,38,.96));box-shadow:inset 0 0 0 1px rgba(255,222,126,.10),0 0 24px rgba(222,173,53,.12)}
 #test27HintCard .hint-item.hint-update .hint-num{width:auto;min-width:42px;padding:0 7px;border-color:rgba(255,216,100,.72);background:rgba(219,167,35,.20);color:#ffe5a1;box-shadow:0 0 14px rgba(225,174,48,.16)}
@@ -5835,9 +5760,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   document.addEventListener('click',e=>{if(e.target.closest('.lang-btn')) requestAnimationFrame(()=>requestAnimationFrame(render));},{passive:true});
 })();
 </script>
-
 <!-- V1.0 Test27: Page01 default + right-side hint cards + idle Page03 prewarm + responsive parity. -->
-
 <!-- V1.0 Test29 — mobile header geometry fix + math-identical Auto invariant caching. -->
 <style id="v10-test29-mobile-header-fix">
 @media(max-width:620px){
@@ -5895,7 +5818,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   betaAutoSearch=function(args={}){if(ctx)return rawSearch(args);ctx=buildCtx();try{return rawSearch(args)}finally{ctx=null}};
 })();
 </script>
-
 <!-- V1.0 Test30 — mobile visual hierarchy: page navigation emphasized, utility actions subdued. -->
 <style id="v10-test30-mobile-nav-hierarchy">
 @media(max-width:620px){
@@ -5933,9 +5855,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .step{font-size:10.6px!important}
 }
 </style>
-
 <!-- V1.0 Test31: Manual Basic magic-level affix expansion. Auto optimizer/formulas unchanged. -->
-
 <style id="test34-artifact-max-style">
 #artifactList .artifact-actions{grid-column:1/-1;grid-row:3;display:flex;align-items:center;gap:16px;min-height:27px;color:#91a7b2}
 #artifactList .artifact-actions label.toggle{display:flex;align-items:center;gap:7px;justify-content:flex-start;margin:0}
@@ -5953,8 +5873,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',paint,{once:true});else paint();
 })();
 </script>
-
-
 <!-- V1.0 Mobile Welcome Landing — presentation/navigation only; calculation core untouched -->
 <style id="v10-mobile-welcome-style">
 #v10MobileWelcome{display:none}
@@ -6003,31 +5921,27 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 @media screen and (min-width:621px){#v10MobileWelcome{display:none!important}}
 @media (prefers-reduced-motion:reduce){.v10-welcome-hotspot::after,.v10-welcome-card::before{transition:none!important}}
 </style>
-<div id="v10MobileWelcome" class="no-print" aria-label="Tower & Swords mobile welcome" aria-hidden="true">
-  <div class="v10-welcome-stage">
-    <img class="v10-welcome-art" alt="Tower & Swords mobile welcome" src="assets/mobile/welcome_v2_mobile.webp" fetchpriority="high" decoding="async">
-
-    <!-- Language selector hotspots -->
-    <button type="button" class="v10-welcome-hotspot v10-welcome-lang" data-welcome-lang="zh-Hant" aria-label="繁中" style="left:57.6%;top:3.1%;width:14.8%;height:5.2%"></button>
-    <button type="button" class="v10-welcome-hotspot v10-welcome-lang" data-welcome-lang="en" aria-label="English" style="left:72.8%;top:3.1%;width:8.7%;height:5.2%"></button>
-    <button type="button" class="v10-welcome-hotspot v10-welcome-lang" data-welcome-lang="ko" aria-label="한국어" style="left:81.2%;top:3.1%;width:12.8%;height:5.2%"></button>
-
-    <!-- Four main pages -->
-    <button type="button" class="v10-welcome-hotspot v10-welcome-card" data-welcome-step="0" aria-label="01 角色設定" style="left:7.4%;top:33.6%;width:40.5%;height:24.1%"></button>
-    <button type="button" class="v10-welcome-hotspot v10-welcome-card" data-welcome-step="1" aria-label="02 系統效果" style="left:50.4%;top:33.6%;width:40.5%;height:24.1%"></button>
-    <button type="button" class="v10-welcome-hotspot v10-welcome-card" data-welcome-step="2" aria-label="03 裝備配置" style="left:7.4%;top:59.1%;width:40.5%;height:22.5%"></button>
-    <button type="button" class="v10-welcome-hotspot v10-welcome-card" data-welcome-step="3" aria-label="04 分析報告" style="left:50.4%;top:59.1%;width:40.5%;height:22.5%"></button>
-
-    <!-- Utility controls -->
-    <button type="button" class="v10-welcome-hotspot" data-welcome-proxy=".release-help-btn" aria-label="操作說明" style="left:6.0%;top:82.9%;width:28.4%;height:5.1%"></button>
-    <button type="button" class="v10-welcome-hotspot" data-welcome-proxy=".release-report-btn" aria-label="問題回報" style="left:35.6%;top:82.9%;width:28.5%;height:5.1%"></button>
-    <button type="button" class="v10-welcome-hotspot" data-welcome-proxy=".release-version-btn" aria-label="版本資訊" style="left:64.2%;top:82.9%;width:28.6%;height:5.1%"></button>
-
-    <!-- Desktop-style social controls -->
-    <a class="v10-welcome-hotspot" href="https://discord.gg/3BTU7WwPK3" target="_blank" rel="noopener noreferrer" aria-label="Discord" style="left:8.3%;top:89.9%;width:25.3%;height:4.3%"></a>
-    <a class="v10-welcome-hotspot" href="https://www.youtube.com/@apviewer" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="left:35.7%;top:89.9%;width:25.3%;height:4.3%"></a>
-    <button type="button" class="v10-welcome-hotspot" data-welcome-share aria-label="分享" style="left:64.4%;top:89.9%;width:25.9%;height:4.3%"></button>
-  </div>
+<div aria-hidden="true" aria-label="Tower &amp; Swords mobile welcome" class="no-print" id="v10MobileWelcome">
+<div class="v10-welcome-stage">
+<img alt="Tower &amp; Swords mobile welcome" class="v10-welcome-art" decoding="async" fetchpriority="high" src="assets/mobile/welcome_v2_mobile.webp"/>
+<!-- Language selector hotspots -->
+<button aria-label="繁中" class="v10-welcome-hotspot v10-welcome-lang" data-welcome-lang="zh-Hant" style="left:57.6%;top:3.1%;width:14.8%;height:5.2%" type="button"></button>
+<button aria-label="English" class="v10-welcome-hotspot v10-welcome-lang" data-welcome-lang="en" style="left:72.8%;top:3.1%;width:8.7%;height:5.2%" type="button"></button>
+<button aria-label="한국어" class="v10-welcome-hotspot v10-welcome-lang" data-welcome-lang="ko" style="left:81.2%;top:3.1%;width:12.8%;height:5.2%" type="button"></button>
+<!-- Four main pages -->
+<button aria-label="01 角色設定" class="v10-welcome-hotspot v10-welcome-card" data-welcome-step="0" style="left:7.4%;top:33.6%;width:40.5%;height:24.1%" type="button"></button>
+<button aria-label="02 系統效果" class="v10-welcome-hotspot v10-welcome-card" data-welcome-step="1" style="left:50.4%;top:33.6%;width:40.5%;height:24.1%" type="button"></button>
+<button aria-label="03 裝備配置" class="v10-welcome-hotspot v10-welcome-card" data-welcome-step="2" style="left:7.4%;top:59.1%;width:40.5%;height:22.5%" type="button"></button>
+<button aria-label="04 分析報告" class="v10-welcome-hotspot v10-welcome-card" data-welcome-step="3" style="left:50.4%;top:59.1%;width:40.5%;height:22.5%" type="button"></button>
+<!-- Utility controls -->
+<button aria-label="操作說明" class="v10-welcome-hotspot" data-welcome-proxy=".release-help-btn" style="left:6.0%;top:82.9%;width:28.4%;height:5.1%" type="button"></button>
+<button aria-label="問題回報" class="v10-welcome-hotspot" data-welcome-proxy=".release-report-btn" style="left:35.6%;top:82.9%;width:28.5%;height:5.1%" type="button"></button>
+<button aria-label="版本資訊" class="v10-welcome-hotspot" data-welcome-proxy=".release-version-btn" style="left:64.2%;top:82.9%;width:28.6%;height:5.1%" type="button"></button>
+<!-- Desktop-style social controls -->
+<a aria-label="Discord" class="v10-welcome-hotspot" href="https://discord.gg/3BTU7WwPK3" rel="noopener noreferrer" style="left:8.3%;top:89.9%;width:25.3%;height:4.3%" target="_blank"></a>
+<a aria-label="YouTube" class="v10-welcome-hotspot" href="https://www.youtube.com/@apviewer" rel="noopener noreferrer" style="left:35.7%;top:89.9%;width:25.3%;height:4.3%" target="_blank"></a>
+<button aria-label="分享" class="v10-welcome-hotspot" data-welcome-share="" style="left:64.4%;top:89.9%;width:25.9%;height:4.3%" type="button"></button>
+</div>
 </div>
 <script id="v10-mobile-welcome-script">
 (()=>{
@@ -6085,8 +5999,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   window.__v10ShowMobileWelcome=showWelcome;
 })();
 </script>
-
-
 <style id="preview-game-magic-tree-css">
 /* PREVIEW ONLY — game-style magic tree visualizer. Core rules/formulas untouched. */
 .magic-tree-preview-shell{margin-top:12px}
@@ -6132,9 +6044,8 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 }
 @media(prefers-reduced-motion:reduce){.magic-tree-node-btn{transition:none}}
 </style>
-<script type="application/json" id="v2-magic-tree-icons-json">{"0":"assets/v2/img_03_f4e8772a4678.png","1":"assets/v2/img_04_8f574a49ce90.png","2":"assets/v2/img_05_7fa898ff6370.png","3":"assets/v2/img_06_c299c2c196a6.png","4":"assets/v2/img_07_e89aa903d0fd.png","5":"assets/v2/img_08_eb1ac20dad65.png","6":"assets/v2/img_09_e2041e86df53.png","7":"assets/v2/img_10_4821b5cc70d1.png","8":"assets/v2/img_11_23aaa0cb113b.png","9":"assets/v2/img_12_dade161c88f8.png","10":"assets/v2/img_13_3fed3fdba812.png","11":"assets/v2/img_14_49dcbc034da2.png","12":"assets/v2/img_15_2e107dfc65c3.png","13":"assets/v2/img_16_a911b9677468.png","14":"assets/v2/img_17_d2b6ef7213c7.png","15":"assets/v2/img_18_c14ead4dbd62.png","16":"assets/v2/img_19_dc7473fd9157.png","17":"assets/v2/img_20_9184315d7b04.png","18":"assets/v2/img_21_47a17fb9639d.png","19":"assets/v2/img_22_b1bb209c3a0e.png","20":"assets/v2/img_23_6f783037fbfc.png","21":"assets/v2/img_24_6d0065b6507a.png","22":"assets/v2/img_25_ba7cfca3d677.png","23":"assets/v2/img_26_aaea94205f8b.png","24":"assets/v2/img_27_0e348424a6a4.png","25":"assets/v2/img_28_ca32eb15d0a0.png","26":"assets/v2/img_29_6bee2a98be66.png","27":"assets/v2/img_30_f3b92517b615.png","28":"assets/v2/img_31_73fc165d8964.png"}</script>
-<script type="application/json" id="v2-magic-tree-icons-mobile-json">{"0":"assets/mobile/tree_00.webp","1":"assets/mobile/tree_01.webp","2":"assets/mobile/tree_02.webp","3":"assets/mobile/tree_03.webp","4":"assets/mobile/tree_04.webp","5":"assets/mobile/tree_05.webp","6":"assets/mobile/tree_06.webp","7":"assets/mobile/tree_07.webp","8":"assets/mobile/tree_08.webp","9":"assets/mobile/tree_09.webp","10":"assets/mobile/tree_10.webp","11":"assets/mobile/tree_11.webp","12":"assets/mobile/tree_12.webp","13":"assets/mobile/tree_13.webp","14":"assets/mobile/tree_14.webp","15":"assets/mobile/tree_15.webp","16":"assets/mobile/tree_16.webp","17":"assets/mobile/tree_17.webp","18":"assets/mobile/tree_18.webp","19":"assets/mobile/tree_19.webp","20":"assets/mobile/tree_20.webp","21":"assets/mobile/tree_21.webp","22":"assets/mobile/tree_22.webp","23":"assets/mobile/tree_23.webp","24":"assets/mobile/tree_24.webp","25":"assets/mobile/tree_25.webp","26":"assets/mobile/tree_26.webp","27":"assets/mobile/tree_27.webp","28":"assets/mobile/tree_28.webp"}</script>
-
+<script id="v2-magic-tree-icons-json" type="application/json">{"0":"assets/v2/img_03_f4e8772a4678.png","1":"assets/v2/img_04_8f574a49ce90.png","2":"assets/v2/img_05_7fa898ff6370.png","3":"assets/v2/img_06_c299c2c196a6.png","4":"assets/v2/img_07_e89aa903d0fd.png","5":"assets/v2/img_08_eb1ac20dad65.png","6":"assets/v2/img_09_e2041e86df53.png","7":"assets/v2/img_10_4821b5cc70d1.png","8":"assets/v2/img_11_23aaa0cb113b.png","9":"assets/v2/img_12_dade161c88f8.png","10":"assets/v2/img_13_3fed3fdba812.png","11":"assets/v2/img_14_49dcbc034da2.png","12":"assets/v2/img_15_2e107dfc65c3.png","13":"assets/v2/img_16_a911b9677468.png","14":"assets/v2/img_17_d2b6ef7213c7.png","15":"assets/v2/img_18_c14ead4dbd62.png","16":"assets/v2/img_19_dc7473fd9157.png","17":"assets/v2/img_20_9184315d7b04.png","18":"assets/v2/img_21_47a17fb9639d.png","19":"assets/v2/img_22_b1bb209c3a0e.png","20":"assets/v2/img_23_6f783037fbfc.png","21":"assets/v2/img_24_6d0065b6507a.png","22":"assets/v2/img_25_ba7cfca3d677.png","23":"assets/v2/img_26_aaea94205f8b.png","24":"assets/v2/img_27_0e348424a6a4.png","25":"assets/v2/img_28_ca32eb15d0a0.png","26":"assets/v2/img_29_6bee2a98be66.png","27":"assets/v2/img_30_f3b92517b615.png","28":"assets/v2/img_31_73fc165d8964.png"}</script>
+<script id="v2-magic-tree-icons-mobile-json" type="application/json">{"0":"assets/mobile/tree_00.webp","1":"assets/mobile/tree_01.webp","2":"assets/mobile/tree_02.webp","3":"assets/mobile/tree_03.webp","4":"assets/mobile/tree_04.webp","5":"assets/mobile/tree_05.webp","6":"assets/mobile/tree_06.webp","7":"assets/mobile/tree_07.webp","8":"assets/mobile/tree_08.webp","9":"assets/mobile/tree_09.webp","10":"assets/mobile/tree_10.webp","11":"assets/mobile/tree_11.webp","12":"assets/mobile/tree_12.webp","13":"assets/mobile/tree_13.webp","14":"assets/mobile/tree_14.webp","15":"assets/mobile/tree_15.webp","16":"assets/mobile/tree_16.webp","17":"assets/mobile/tree_17.webp","18":"assets/mobile/tree_18.webp","19":"assets/mobile/tree_19.webp","20":"assets/mobile/tree_20.webp","21":"assets/mobile/tree_21.webp","22":"assets/mobile/tree_22.webp","23":"assets/mobile/tree_23.webp","24":"assets/mobile/tree_24.webp","25":"assets/mobile/tree_25.webp","26":"assets/mobile/tree_26.webp","27":"assets/mobile/tree_27.webp","28":"assets/mobile/tree_28.webp"}</script>
 <script id="preview-game-magic-tree-js">
 (()=>{
  'use strict';
@@ -6248,8 +6159,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
  }
 })();
 </script>
-
-
 <style id="preview-game-magic-tree-direct-css">
 /* PREVIEW ONLY — direct-node magic tree controls. Core state/calculation remains on the original hidden controls. */
 #treeSearch,#treeList{display:none!important}
@@ -6311,7 +6220,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .magic-tree-pop-level{font-size:11px!important;white-space:nowrap!important}
 }
 </style>
-
 <style id="mobile-tree-popover-floating-clamp-final">
 /* Mobile: preserve the original node-attached floating editor.
    It remains inside the magic-tree canvas and is clamped to the currently visible tree area. */
@@ -6367,7 +6275,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   }
 }
 </style>
-
 <script id="preview-game-magic-tree-direct-js">
 (()=>{
   'use strict';
@@ -6505,9 +6412,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   }catch(_){ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init(); }
 })();
 </script>
-
-
-
 <style id="artifact-gallery-preview-style">
 /* PREVIEW ONLY — game-style Artifact gallery. Core state/formulas remain untouched. */
 #artifactList{display:none!important}
@@ -6536,7 +6440,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 }
 @media(max-width:360px){.artifact-game-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
-
 <script id="v2-mobile-page02-progressive-images">
 (function(){
   let mobile=false;
@@ -6583,7 +6486,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   });
 })();
 </script>
-
 <script id="artifact-gallery-preview-script">
 (function(){
   'use strict';
@@ -6641,8 +6543,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   }catch(_){__startArtifactGallery();}
 })();
 </script>
-
-
 <style id="artifact-gallery-compact-tune">
 /* PREVIEW TUNE — slightly denser Artifact gallery cards only. */
 .artifact-game-grid{grid-template-columns:repeat(10,minmax(0,1fr));gap:7px}
@@ -6666,8 +6566,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .artifact-game-icon{width:40px;height:40px}
 }
 </style>
-
-
 <script id="fashion-game-gallery-preview-js">
 (()=>{
   'use strict';
@@ -6739,8 +6637,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   }catch(_){init();}
 })();
 </script>
-
-
 <!-- PREVIEW ONLY — Game-style Pet gallery + four equipment slots. Presentation/input shell only. -->
 <style id="pet-game-gallery-preview-css">
 #petList{display:none!important}
@@ -6827,8 +6723,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   }catch(_){init();}
 })();
 </script>
-
-
 <style id="artifact-gallery-desktop-layout-hardfix">
 /* Hard layout fix: keep artifact icon/name/level inside every grid button. */
 .artifact-game-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;overflow:hidden!important;box-sizing:border-box!important}
@@ -6837,7 +6731,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
 .artifact-game-name{margin-top:0!important}
 .artifact-game-lv{margin-bottom:0!important}
 </style>
-
 <style id="v2-preview-system-hub-reset-only">
 /* ===== Preview 01: Page 02 clearly unified as one System Hub ===== */
 .v2-system-hub{
@@ -6928,8 +6821,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .v2-reset-actions{grid-template-columns:1fr 1fr}
 }
 </style>
-
-
 <style id="v2-reset-bottom-bar-final-preview">
 /* Reset controls live in the existing persistent bottom action bar. */
 .v2-reset-tools{display:none!important}
@@ -6953,8 +6844,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .actions #resetAllBuild{font-size:10px}
 }
 </style>
-
-
 <style id="v2-artifact-floating-editor-preview">
 /* Page 02 visual is considered finalized in this preview.
    Artifact editor: float beside the selected artifact, mirroring the magic-tree interaction. */
@@ -7034,8 +6923,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .artifact-float-controls button{font-size:11px}
 }
 </style>
-
-
 <script id="v2-artifact-floating-editor-preview-js">
 (()=>{
   const shell=document.querySelector('.artifact-game-shell');
@@ -7197,8 +7084,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   },true);
 })();
 </script>
-
-
 <style id="v2-artifact-floating-side-tune">
 .artifact-float-pop{
   width:232px!important;
@@ -7228,9 +7113,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   }
 }
 </style>
-
-
-
 <style id="reset-static-compact-direct">
 .actions #reset,.actions #resetAllBuild{
   min-height:30px!important;
@@ -7257,8 +7139,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .actions #next{min-width:0!important}
 }
 </style>
-
-
 <style id="artifact-float-follow-live-card-fix">
 /* Arrow points back to the selected artifact.
    Popover on the RIGHT of the item -> arrow on LEFT.
@@ -7283,8 +7163,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   transform:translateY(-50%) rotate(225deg);
 }
 </style>
-
-
 <style id="v2-report-share-card-preview">
 /* V2 Preview — Page 04 shareable game-style Build Card.
    Read-only presentation: no calculation/state rules are changed. */
@@ -7397,8 +7275,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .v2-share-skill-name,.v2-share-stat b,.v2-share-system-copy b{color:#111!important}
 }
 </style>
-
-
 <script id="v2-report-share-card-preview-js">
 (()=>{
   const $=s=>document.querySelector(s);
@@ -7548,8 +7424,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   requestAnimationFrame(()=>requestAnimationFrame(render));
 })();
 </script>
-
-
 <style id="v2-report-simplified-preview">
 /* V2 Preview — Page 04 simplified hierarchy.
    Existing report data/IDs stay intact; this only reorganizes presentation. */
@@ -7627,8 +7501,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   .v2-report-detail-body{padding:7px}
 }
 </style>
-
-
 <script id="v2-report-simplified-preview-js">
 (()=>{
   const $=s=>document.querySelector(s);
@@ -7700,8 +7572,6 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
   });
 })();
 </script>
-
-
 <style id="v2-page01-visible-control-hub-fix">
 /* Page 01 visible redesign. Same original controls/IDs are moved, not duplicated. */
 main>.screen:first-of-type .hero{margin-bottom:10px}
@@ -7801,8 +7671,6 @@ main>.screen:first-of-type .hero{margin-bottom:10px}
   .v2-p1-status{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 </style>
-
-
 <script id="v2-page01-visible-control-hub-fix-js">
 (()=>{
   const screens=[...document.querySelectorAll('main>.screen')];
@@ -7901,8 +7769,6 @@ main>.screen:first-of-type .hero{margin-bottom:10px}
   requestAnimationFrame(()=>requestAnimationFrame(paint));
 })();
 </script>
-
-
 <style id="v2-page01-hint-host-fix">
 .v2-p1-hint-host{min-width:0}
 .v2-p1-hint-host #test27HintCard{
@@ -7914,8 +7780,6 @@ main>.screen:first-of-type .hero{margin-bottom:10px}
   .v2-p1-hint-host #test27HintCard{height:auto}
 }
 </style>
-
-
 <style id="v2-page01-skillinfo-only-preview">
 /* Page 01 preview: no Damage HUD / Build status duplication.
    Only enrich the existing official skill information card. */
@@ -7956,7 +7820,6 @@ main>.screen:first-of-type .hero{margin-bottom:10px}
   .skill-preview-stat b{font-size:8px}
 }
 </style>
-
 <style id="v2-page01-skillcard-fullstats-mp-layout">
 .skill-preview-stats-v2{grid-template-columns:repeat(4,minmax(0,1fr))!important;margin-top:9px!important}
 .skill-preview-stat em{display:block;margin-top:2px;font-size:6.5px;font-style:normal;color:#6f8490;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -7969,7 +7832,6 @@ main>.screen:first-of-type .hero{margin-bottom:10px}
   .skill-preview-card:before{right:8px!important;top:7px!important}
 }
 </style>
-
 <style id="v2-page01-build-status-only">
 .v2-p1-build-status-only{
   margin-top:10px;
@@ -8005,8 +7867,6 @@ main>.screen:first-of-type .hero{margin-bottom:10px}
   }
 }
 </style>
-
-
 <style id="v2-page03-auto-layout">
 /* Page 03 AUTO visual refinement.
    Manual layout intentionally remains exactly as the previous baseline. */
@@ -8068,8 +7928,6 @@ main>.screen:nth-of-type(3) #autoPane>.card{
   .v2-p3-auto-grid{grid-template-columns:1fr}
 }
 </style>
-
-
 <script id="v2-page03-auto-layout-js">
 (()=>{
   const page=[...document.querySelectorAll('main>.screen')][2];
@@ -8125,9 +7983,6 @@ main>.screen:nth-of-type(3) #autoPane>.card{
   if(breakdown)right.appendChild(breakdown);
 })();
 </script>
-
-
-
 <script id="v2-mobile-first-paint-release">
 (function(){
   function releaseMobile(){
@@ -8142,8 +7997,6 @@ main>.screen:nth-of-type(3) #autoPane>.card{
   setTimeout(releaseMobile,900);
 })();
 </script>
-
-
 <script id="v2-mobile-thumb-prewarm">
 (function(){
   let mobile=false;
@@ -8162,8 +8015,6 @@ main>.screen:nth-of-type(3) #autoPane>.card{
   else setTimeout(prewarm,250);
 })();
 </script>
-
-
 <script id="v2-magic-tree-lv100-visual-safeguard">
 (function(){
   const IDS=[24,25,26,27,28];
@@ -8194,8 +8045,6 @@ main>.screen:nth-of-type(3) #autoPane>.card{
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
 })();
 </script>
-
-
 <script id="v21-update-info-help-cleanup">
 (function(){
   function clean(){document.querySelectorAll('#releaseUpdateInfo,.release-update-info').forEach(function(x){x.remove();});}
@@ -8421,7 +8270,7 @@ main>.screen:nth-of-type(3) #autoPane>.card{
 @media(min-width:390px) and (max-width:550px){.v21-title-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:389px){.v21-title-grid{grid-template-columns:1fr!important}}
 </style>
-<script type="application/json" id="v21-inline-titles-json">{"schemaVersion":1,"status":"staging-integrated","calculationEnabled":true,"source":{"titleData":"Tower And Swords v2.60020 TitleDatabase / TitleCondition extraction","targetGameVersion":"2.60060","v260060MetadataCheck":"TitleDatabase / TitleCondition / title condition keys present","bonusRevalidationFor260060":false},"categories":[{"id":"journey","zh":"旅程","en":"Journey"},{"id":"training","zh":"修練","en":"Training"},{"id":"hidden","zh":"隱藏","en":"Hidden"},{"id":"demon_realm","zh":"魔界","en":"Demon Realm"}],"titles":[{"id":1,"key":"wanderer","nameZh":"流浪者","nameEn":"Wanderer","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積遊玩時間","stars":[{"star":1,"unlock":"累積遊玩 3,000 分鐘（50小時）","effect":"經驗值獲得 +1.98%"},{"star":2,"unlock":"累積遊玩 9,000 分鐘（150小時）","effect":"經驗值獲得 +3.96%"},{"star":3,"unlock":"累積遊玩 30,000 分鐘（500小時）","effect":"經驗值獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"방랑자"},{"id":2,"key":"monster_slayer","nameZh":"怪物殺手","nameEn":"Monster Slayer","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積怪物擊殺數","stars":[{"star":1,"unlock":"累積擊殺 10,000 隻怪物","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"累積擊殺 100,000 隻怪物","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"累積擊殺 500,000 隻怪物","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"몬스터 슬레이어"},{"id":3,"key":"tycoon","nameZh":"巨商","nameEn":"Tycoon","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積取得金幣","stars":[{"star":1,"unlock":"累積取得 1,000,000 Gold","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"累積取得 100,000,000 Gold","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"累積取得 10,000,000,000 Gold","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"거상"},{"id":4,"key":"legend_finder","nameZh":"傳說發現者","nameEn":"Legend Finder","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"單階段稱號","stars":[{"star":1,"unlock":"第一次取得傳說裝備","effect":"攻擊力 +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"전설 발견자"},{"id":5,"key":"collector","nameZh":"收藏家","nameEn":"Collector","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"特殊傳說裝備收集數","stars":[{"star":1,"unlock":"取得 3 件特殊／Trait 傳說裝備","effect":"掉落率 +1.98%"},{"star":2,"unlock":"取得 10 件特殊／Trait 傳說裝備","effect":"掉落率 +3.96%"},{"star":3,"unlock":"取得 30 件特殊／Trait 傳說裝備","effect":"掉落率 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"컬렉터"},{"id":6,"key":"destined_challenger","nameZh":"宿命挑戰者","nameEn":"Destined Challenger","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"程式原始門檻為 0 / 1 / 2 / 3，共四段；不是一般三星計數","stars":[{"star":1,"unlock":"Difficulty Tier 0","effect":"攻擊力 +1.32%"},{"star":2,"unlock":"Difficulty Tier 1","effect":"攻擊力 +2.64%"},{"star":3,"unlock":"Difficulty Tier 2 / 3","effect":"攻擊力 +4.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"숙명의 도전자"},{"id":7,"key":"first_step","nameZh":"第一步","nameEn":"First Step","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"Tower Boss／首步進度索引，不是單純擊殺次數","stars":[{"star":1,"unlock":"First Step Progress 0","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"First Step Progress 1","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"First Step Progress 2","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"첫 발걸음"},{"id":8,"key":"relic_collector","nameZh":"遺物收藏家","nameEn":"Relic Collector","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"不同種類文物收集數","stars":[{"star":1,"unlock":"收集 5 種不同文物","effect":"掉落率 +1.98%"},{"star":2,"unlock":"收集 10 種不同文物","effect":"掉落率 +3.96%"},{"star":3,"unlock":"收集 20 種不同文物","effect":"掉落率 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"유물 수집가"},{"id":9,"key":"adept","nameZh":"熟練者","nameEn":"Adept","category":"training","categoryZh":"修練","categoryEn":"Training","description":"角色等級","stars":[{"star":1,"unlock":"角色 Lv.50","effect":"經驗值獲得 +2.97%"},{"star":2,"unlock":"角色 Lv.150","effect":"經驗值獲得 +5.94%"},{"star":3,"unlock":"角色 Lv.300","effect":"經驗值獲得 +9.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"숙련자"},{"id":10,"key":"mana_bearer","nameZh":"魔力持有者","nameEn":"Mana Bearer","category":"training","categoryZh":"修練","categoryEn":"Training","description":"最大 MP","stars":[{"star":1,"unlock":"最大 MP 5,000","effect":"最大 MP +1.98%"},{"star":2,"unlock":"最大 MP 50,000","effect":"最大 MP +3.96%"},{"star":3,"unlock":"最大 MP 250,000","effect":"最大 MP +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마력 보유자"},{"id":11,"key":"immortal","nameZh":"不死之身","nameEn":"Immortal","category":"training","categoryZh":"修練","categoryEn":"Training","description":"角色復活次數","stars":[{"star":1,"unlock":"復活 10 次","effect":"HP 回復 +1.98%"},{"star":2,"unlock":"復活 100 次","effect":"HP 回復 +3.96%"},{"star":3,"unlock":"復活 500 次","effect":"HP 回復 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불사신"},{"id":12,"key":"flame_breath","nameZh":"烈焰之息","nameEn":"Flame Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"火屬性法術傷害","stars":[{"star":1,"unlock":"火屬性法術傷害 100%","effect":"火屬性傷害 +1.98%"},{"star":2,"unlock":"火屬性法術傷害 300%","effect":"火屬性傷害 +3.96%"},{"star":3,"unlock":"火屬性法術傷害 500%","effect":"火屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불꽃의 숨결"},{"id":13,"key":"frost_breath","nameZh":"冰霜之息","nameEn":"Frost Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"冰屬性法術傷害","stars":[{"star":1,"unlock":"冰屬性法術傷害 100%","effect":"冰屬性傷害 +1.98%"},{"star":2,"unlock":"冰屬性法術傷害 300%","effect":"冰屬性傷害 +3.96%"},{"star":3,"unlock":"冰屬性法術傷害 500%","effect":"冰屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"빙결의 숨결"},{"id":14,"key":"thunder_breath","nameZh":"雷霆之息","nameEn":"Thunder Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"雷屬性法術傷害","stars":[{"star":1,"unlock":"雷屬性法術傷害 100%","effect":"雷屬性傷害 +1.98%"},{"star":2,"unlock":"雷屬性法術傷害 300%","effect":"雷屬性傷害 +3.96%"},{"star":3,"unlock":"雷屬性法術傷害 500%","effect":"雷屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"번개의 숨결"},{"id":15,"key":"soul_breath","nameZh":"靈魂之息","nameEn":"Soul Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"Normal／Soul 法術傷害","stars":[{"star":1,"unlock":"Normal／Soul 法術傷害 100%","effect":"靈魂屬性傷害 +1.98%"},{"star":2,"unlock":"Normal／Soul 法術傷害 300%","effect":"靈魂屬性傷害 +3.96%"},{"star":3,"unlock":"Normal／Soul 法術傷害 500%","effect":"靈魂屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"영혼의 숨결"},{"id":16,"key":"gale","nameZh":"疾風","nameEn":"Gale","category":"training","categoryZh":"修練","categoryEn":"Training","description":"移動速度倍率","stars":[{"star":1,"unlock":"移動速度 140%","effect":"移動速度 +1.98%"},{"star":2,"unlock":"移動速度 180%","effect":"移動速度 +3.96%"},{"star":3,"unlock":"移動速度 220%","effect":"移動速度 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"질풍"},{"id":17,"key":"skill_master","nameZh":"達人","nameEn":"Skill Master","category":"training","categoryZh":"修練","categoryEn":"Training","description":"技能使用總次數","stars":[{"star":1,"unlock":"使用技能 10,000 次","effect":"技能傷害 +1.98%"},{"star":2,"unlock":"使用技能 100,000 次","effect":"技能傷害 +3.96%"},{"star":3,"unlock":"使用技能 500,000 次","effect":"技能傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"달인"},{"id":18,"key":"ancient_visitor","nameZh":"遠古訪客","nameEn":"Ancient Visitor","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"進入 Ancient Room 1 次","effect":"最大 HP +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"고대의 방문자"},{"id":19,"key":"reaper_hunter","nameZh":"死神獵人","nameEn":"Reaper Hunter","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Reaper 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Reaper 擊破進度 1","effect":"暴擊傷害 +1.98%"},{"star":2,"unlock":"Reaper 擊破進度 2","effect":"暴擊傷害 +3.96%"},{"star":3,"unlock":"Reaper 擊破進度 3","effect":"暴擊傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"사신 사냥꾼"},{"id":20,"key":"demon_lord_slayer","nameZh":"魔王討伐者","nameEn":"Demon Lord Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Demon Lord／Dark Lord 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Demon Lord 擊破進度 1","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"Demon Lord 擊破進度 2","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"Demon Lord 擊破進度 3","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마왕을 처치한 자"},{"id":21,"key":"dark_dragon_slayer","nameZh":"魔龍討伐者","nameEn":"Dark Dragon Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Dark Dragon 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Dark Dragon 擊破進度 1","effect":"全屬性傷害 +1.98%"},{"star":2,"unlock":"Dark Dragon 擊破進度 2","effect":"全屬性傷害 +3.96%"},{"star":3,"unlock":"Dark Dragon 擊破進度 3","effect":"全屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마룡을 처치한 자"},{"id":22,"key":"goddess_s_blessing","nameZh":"女神庇佑","nameEn":"Goddess's Blessing","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"集齊所有 Goddess Token","effect":"最大 HP +1.00%；最大 MP +1.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"여신의 가호"},{"id":23,"key":"black_market_regular","nameZh":"黑市常客","nameEn":"Black Market Regular","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"黑市購買次數","stars":[{"star":1,"unlock":"黑市購買 100 次","effect":"黑市額外折扣 +3.30%"},{"star":2,"unlock":"黑市購買 500 次","effect":"黑市額外折扣 +6.60%"},{"star":3,"unlock":"黑市購買 2,000 次","effect":"黑市額外折扣 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"암상인의 단골"},{"id":24,"key":"treasure_hunter","nameZh":"寶箱獵人","nameEn":"Treasure Hunter","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"開啟／破壞寶箱 20 個","effect":"寶箱額外道具 +1 個"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"보물상자 사냥꾼"},{"id":25,"key":"slime_slayer","nameZh":"史萊姆殺手","nameEn":"Slime Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"史萊姆地牢擊殺數","stars":[{"star":1,"unlock":"史萊姆地牢擊殺 5,000 隻","effect":"史萊姆地牢經驗值 +4.95%"},{"star":2,"unlock":"史萊姆地牢擊殺 30,000 隻","effect":"史萊姆地牢經驗值 +9.90%"},{"star":3,"unlock":"史萊姆地牢擊殺 100,000 隻","effect":"史萊姆地牢經驗值 +15.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"슬라임 슬레이어"},{"id":26,"key":"flash_executioner","nameZh":"一擊必殺","nameEn":"Flash Executioner","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"特殊限時 Boss 判定；時間條件與完成次數同時成立","stars":[{"star":1,"unlock":"30 秒內擊殺 Boss × 1 次","effect":"暴擊傷害 +3.30%"},{"star":2,"unlock":"15 秒內擊殺 Boss × 5 次","effect":"暴擊傷害 +6.60%"},{"star":3,"unlock":"5 秒內擊殺 Boss × 15 次","effect":"暴擊傷害 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"일격필멸"},{"id":27,"key":"unscathed","nameZh":"毫髮無傷者","nameEn":"Unscathed","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"無傷通關次數","stars":[{"star":1,"unlock":"無傷通關 1 次","effect":"防禦力 +3.30%"},{"star":2,"unlock":"無傷通關 10 次","effect":"防禦力 +6.60%"},{"star":3,"unlock":"無傷通關 50 次","effect":"防禦力 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"흠집 없는 자"},{"id":28,"key":"meditator","nameZh":"冥想者","nameEn":"Meditator","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"累積冥想時間","stars":[{"star":1,"unlock":"累積冥想 1,800 秒（30分）","effect":"MP 回復 +3.30%"},{"star":2,"unlock":"累積冥想 3,600 秒（60分）","effect":"MP 回復 +6.60%"},{"star":3,"unlock":"累積冥想 7,200 秒（120分）","effect":"MP 回復 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"명상가"},{"id":29,"key":"proven_challenger","nameZh":"歷練挑戰者","nameEn":"Proven Challenger","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"異界地牢通關次數","stars":[{"star":1,"unlock":"異界／Token Dungeon 通關 10 次","effect":"異界地牢金幣獲得 +4.95%"},{"star":2,"unlock":"異界／Token Dungeon 通關 30 次","effect":"異界地牢金幣獲得 +9.90%"},{"star":3,"unlock":"異界／Token Dungeon 通關 100 次","effect":"異界地牢金幣獲得 +15.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"증명된 도전자"},{"id":30,"key":"storyteller","nameZh":"說書人","nameEn":"Storyteller","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"★3 程式原始值確實為 9,999","stars":[{"star":1,"unlock":"看過 30 次 NPC 對話","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"看過 50 次 NPC 對話","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"看過 9,999 次 NPC 對話","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"이야기꾼"},{"id":31,"key":"dawn_riser","nameZh":"拂曉之眠","nameEn":"Dawn Sleep","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"凌晨 4:00～5:00 登入 1 次","effect":"經驗值獲得 +5.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"새벽잠"},{"id":32,"key":"beyond_the_wall","nameZh":"牆外的秘密","nameEn":"Beyond the Wall","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"秘密房發現數","stars":[{"star":1,"unlock":"發現 10 個 Secret Room","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"發現 30 個 Secret Room","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"發現 50 個 Secret Room","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"벽 너머의 비밀"},{"id":33,"key":"unwavering","nameZh":"堅定不移者","nameEn":"Unwavering","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"普通攻擊 Boss 擊殺","stars":[{"star":1,"unlock":"以普通攻擊擊殺 Boss 1 次","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"以普通攻擊擊殺 Boss 5 次","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"以普通攻擊擊殺 Boss 15 次","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"흔들림 없는 자"},{"id":34,"key":"forgotten_name","nameZh":"被遺忘的名字","nameEn":"Forgotten Name","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"不裝備任何稱號持續 20 小時","effect":"掉落率 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잊혀진 이름"},{"id":35,"key":"risen_from_defeat","nameZh":"敗後重生","nameEn":"Risen from Defeat","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"角色死亡次數","stars":[{"star":1,"unlock":"死亡 10 次","effect":"最大 HP +1.98%"},{"star":2,"unlock":"死亡 50 次","effect":"最大 HP +3.96%"},{"star":3,"unlock":"死亡 100 次","effect":"最大 HP +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"패배에서 일어남"},{"id":36,"key":"oath_shatterer","nameZh":"破誓者","nameEn":"Oath Shatterer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #1；Tier 是擊破難度／階級，不是擊殺次數","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"防禦力 +1.65%；最大 HP +0.99%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"防禦力 +3.30%；最大 HP +1.98%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"防禦力 +5.00%；最大 HP +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"맹세의 파훼자"},{"id":37,"key":"bone_terminator","nameZh":"白骨終結者","nameEn":"Bone Terminator","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #2；Tier 是擊破難度／階級","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"HP 吸取機率 +0.66%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"HP 吸取機率 +1.32%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"HP 吸取機率 +2.00%；Signature：死亡時復活機率 +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"백골의 종식자"},{"id":38,"key":"ember_suppressor","nameZh":"餘燼鎮壓者","nameEn":"Ember Suppressor","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #3；Tier 是擊破難度／階級","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"MP 吸取機率 +0.66%；最大 MP +0.99%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"MP 吸取機率 +1.32%；最大 MP +1.98%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"MP 吸取機率 +2.00%；最大 MP +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잿불의 진압자"},{"id":39,"key":"novice","nameZh":"初學者","nameEn":"Novice","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"AlwaysTrue；單階段稱號","stars":[{"star":1,"unlock":"開始遊戲即成立","effect":"經驗值獲得 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"초심자"},{"id":40,"key":"world_guardian","nameZh":"世界守護者","nameEn":"World Guardian","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"單階段稱號","stars":[{"star":1,"unlock":"Challenge 通關","effect":"攻擊力 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"세계의 수호자"},{"id":41,"key":"peace_envoy","nameZh":"和平使徒","nameEn":"Peace Envoy","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"返回村莊次數","stars":[{"star":1,"unlock":"返回村莊 100 次","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"返回村莊 500 次","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"返回村莊 2,000 次","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"평화의 사도"},{"id":42,"key":"boss_hunter","nameZh":"首領獵人","nameEn":"Boss Hunter","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"任意 Boss 擊殺數","stars":[{"star":1,"unlock":"擊殺任意 Boss 50 隻","effect":"普通攻擊傷害 +1.98%"},{"star":2,"unlock":"擊殺任意 Boss 300 隻","effect":"普通攻擊傷害 +3.96%"},{"star":3,"unlock":"擊殺任意 Boss 1,500 隻","effect":"普通攻擊傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"보스 헌터"},{"id":43,"key":"elite_adventurer","nameZh":"特級冒險家","nameEn":"Elite Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"單階段稱號","stars":[{"star":1,"unlock":"Mythic 通關","effect":"經驗值獲得 +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"특급 모험가"},{"id":44,"key":"flame_adventurer","nameZh":"烈焰冒險家","nameEn":"Flame Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"火屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用火屬性技能擊殺 Boss 10 次","effect":"火屬性傷害 +1.98%"},{"star":2,"unlock":"使用火屬性技能擊殺 Boss 50 次","effect":"火屬性傷害 +3.96%"},{"star":3,"unlock":"使用火屬性技能擊殺 Boss 200 次","effect":"火屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불꽃의 모험가"},{"id":45,"key":"frost_adventurer","nameZh":"冰霜冒險家","nameEn":"Frost Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"冰屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用冰屬性技能擊殺 Boss 10 次","effect":"冰屬性傷害 +1.98%"},{"star":2,"unlock":"使用冰屬性技能擊殺 Boss 50 次","effect":"冰屬性傷害 +3.96%"},{"star":3,"unlock":"使用冰屬性技能擊殺 Boss 200 次","effect":"冰屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"빙결의 모험가"},{"id":46,"key":"thunder_adventurer","nameZh":"雷霆冒險家","nameEn":"Thunder Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"雷屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用雷屬性技能擊殺 Boss 10 次","effect":"雷屬性傷害 +1.98%"},{"star":2,"unlock":"使用雷屬性技能擊殺 Boss 50 次","effect":"雷屬性傷害 +3.96%"},{"star":3,"unlock":"使用雷屬性技能擊殺 Boss 200 次","effect":"雷屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"번개의 모험가"},{"id":47,"key":"soul_adventurer","nameZh":"靈魂冒險家","nameEn":"Soul Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Normal／Soul 技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用 Normal／Soul 技能擊殺 Boss 10 次","effect":"靈魂屬性傷害 +1.98%"},{"star":2,"unlock":"使用 Normal／Soul 技能擊殺 Boss 50 次","effect":"靈魂屬性傷害 +3.96%"},{"star":3,"unlock":"使用 Normal／Soul 技能擊殺 Boss 200 次","effect":"靈魂屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"영혼의 모험가"},{"id":48,"key":"remains_cleaner","nameZh":"殘餘清理者","nameEn":"Remains Cleaner","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss 系統進度","stars":[{"star":1,"unlock":"Demon Boss 解鎖／擊破進度 5","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"Demon Boss 解鎖／擊破進度 10","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"Demon Boss 解鎖／擊破進度 13","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잔재 처리자"}]}</script>
+<script id="v21-inline-titles-json" type="application/json">{"schemaVersion":1,"status":"staging-integrated","calculationEnabled":true,"source":{"titleData":"Tower And Swords v2.60020 TitleDatabase / TitleCondition extraction","targetGameVersion":"2.60060","v260060MetadataCheck":"TitleDatabase / TitleCondition / title condition keys present","bonusRevalidationFor260060":false},"categories":[{"id":"journey","zh":"旅程","en":"Journey"},{"id":"training","zh":"修練","en":"Training"},{"id":"hidden","zh":"隱藏","en":"Hidden"},{"id":"demon_realm","zh":"魔界","en":"Demon Realm"}],"titles":[{"id":1,"key":"wanderer","nameZh":"流浪者","nameEn":"Wanderer","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積遊玩時間","stars":[{"star":1,"unlock":"累積遊玩 3,000 分鐘（50小時）","effect":"經驗值獲得 +1.98%"},{"star":2,"unlock":"累積遊玩 9,000 分鐘（150小時）","effect":"經驗值獲得 +3.96%"},{"star":3,"unlock":"累積遊玩 30,000 分鐘（500小時）","effect":"經驗值獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"방랑자"},{"id":2,"key":"monster_slayer","nameZh":"怪物殺手","nameEn":"Monster Slayer","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積怪物擊殺數","stars":[{"star":1,"unlock":"累積擊殺 10,000 隻怪物","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"累積擊殺 100,000 隻怪物","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"累積擊殺 500,000 隻怪物","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"몬스터 슬레이어"},{"id":3,"key":"tycoon","nameZh":"巨商","nameEn":"Tycoon","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積取得金幣","stars":[{"star":1,"unlock":"累積取得 1,000,000 Gold","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"累積取得 100,000,000 Gold","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"累積取得 10,000,000,000 Gold","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"거상"},{"id":4,"key":"legend_finder","nameZh":"傳說發現者","nameEn":"Legend Finder","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"單階段稱號","stars":[{"star":1,"unlock":"第一次取得傳說裝備","effect":"攻擊力 +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"전설 발견자"},{"id":5,"key":"collector","nameZh":"收藏家","nameEn":"Collector","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"特殊傳說裝備收集數","stars":[{"star":1,"unlock":"取得 3 件特殊／Trait 傳說裝備","effect":"掉落率 +1.98%"},{"star":2,"unlock":"取得 10 件特殊／Trait 傳說裝備","effect":"掉落率 +3.96%"},{"star":3,"unlock":"取得 30 件特殊／Trait 傳說裝備","effect":"掉落率 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"컬렉터"},{"id":6,"key":"destined_challenger","nameZh":"宿命挑戰者","nameEn":"Destined Challenger","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"程式原始門檻為 0 / 1 / 2 / 3，共四段；不是一般三星計數","stars":[{"star":1,"unlock":"Difficulty Tier 0","effect":"攻擊力 +1.32%"},{"star":2,"unlock":"Difficulty Tier 1","effect":"攻擊力 +2.64%"},{"star":3,"unlock":"Difficulty Tier 2 / 3","effect":"攻擊力 +4.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"숙명의 도전자"},{"id":7,"key":"first_step","nameZh":"第一步","nameEn":"First Step","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"Tower Boss／首步進度索引，不是單純擊殺次數","stars":[{"star":1,"unlock":"First Step Progress 0","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"First Step Progress 1","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"First Step Progress 2","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"첫 발걸음"},{"id":8,"key":"relic_collector","nameZh":"遺物收藏家","nameEn":"Relic Collector","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"不同種類文物收集數","stars":[{"star":1,"unlock":"收集 5 種不同文物","effect":"掉落率 +1.98%"},{"star":2,"unlock":"收集 10 種不同文物","effect":"掉落率 +3.96%"},{"star":3,"unlock":"收集 20 種不同文物","effect":"掉落率 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"유물 수집가"},{"id":9,"key":"adept","nameZh":"熟練者","nameEn":"Adept","category":"training","categoryZh":"修練","categoryEn":"Training","description":"角色等級","stars":[{"star":1,"unlock":"角色 Lv.50","effect":"經驗值獲得 +2.97%"},{"star":2,"unlock":"角色 Lv.150","effect":"經驗值獲得 +5.94%"},{"star":3,"unlock":"角色 Lv.300","effect":"經驗值獲得 +9.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"숙련자"},{"id":10,"key":"mana_bearer","nameZh":"魔力持有者","nameEn":"Mana Bearer","category":"training","categoryZh":"修練","categoryEn":"Training","description":"最大 MP","stars":[{"star":1,"unlock":"最大 MP 5,000","effect":"最大 MP +1.98%"},{"star":2,"unlock":"最大 MP 50,000","effect":"最大 MP +3.96%"},{"star":3,"unlock":"最大 MP 250,000","effect":"最大 MP +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마력 보유자"},{"id":11,"key":"immortal","nameZh":"不死之身","nameEn":"Immortal","category":"training","categoryZh":"修練","categoryEn":"Training","description":"角色復活次數","stars":[{"star":1,"unlock":"復活 10 次","effect":"HP 回復 +1.98%"},{"star":2,"unlock":"復活 100 次","effect":"HP 回復 +3.96%"},{"star":3,"unlock":"復活 500 次","effect":"HP 回復 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불사신"},{"id":12,"key":"flame_breath","nameZh":"烈焰之息","nameEn":"Flame Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"火屬性法術傷害","stars":[{"star":1,"unlock":"火屬性法術傷害 100%","effect":"火屬性傷害 +1.98%"},{"star":2,"unlock":"火屬性法術傷害 300%","effect":"火屬性傷害 +3.96%"},{"star":3,"unlock":"火屬性法術傷害 500%","effect":"火屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불꽃의 숨결"},{"id":13,"key":"frost_breath","nameZh":"冰霜之息","nameEn":"Frost Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"冰屬性法術傷害","stars":[{"star":1,"unlock":"冰屬性法術傷害 100%","effect":"冰屬性傷害 +1.98%"},{"star":2,"unlock":"冰屬性法術傷害 300%","effect":"冰屬性傷害 +3.96%"},{"star":3,"unlock":"冰屬性法術傷害 500%","effect":"冰屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"빙결의 숨결"},{"id":14,"key":"thunder_breath","nameZh":"雷霆之息","nameEn":"Thunder Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"雷屬性法術傷害","stars":[{"star":1,"unlock":"雷屬性法術傷害 100%","effect":"雷屬性傷害 +1.98%"},{"star":2,"unlock":"雷屬性法術傷害 300%","effect":"雷屬性傷害 +3.96%"},{"star":3,"unlock":"雷屬性法術傷害 500%","effect":"雷屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"번개의 숨결"},{"id":15,"key":"soul_breath","nameZh":"靈魂之息","nameEn":"Soul Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"Normal／Soul 法術傷害","stars":[{"star":1,"unlock":"Normal／Soul 法術傷害 100%","effect":"靈魂屬性傷害 +1.98%"},{"star":2,"unlock":"Normal／Soul 法術傷害 300%","effect":"靈魂屬性傷害 +3.96%"},{"star":3,"unlock":"Normal／Soul 法術傷害 500%","effect":"靈魂屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"영혼의 숨결"},{"id":16,"key":"gale","nameZh":"疾風","nameEn":"Gale","category":"training","categoryZh":"修練","categoryEn":"Training","description":"移動速度倍率","stars":[{"star":1,"unlock":"移動速度 140%","effect":"移動速度 +1.98%"},{"star":2,"unlock":"移動速度 180%","effect":"移動速度 +3.96%"},{"star":3,"unlock":"移動速度 220%","effect":"移動速度 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"질풍"},{"id":17,"key":"skill_master","nameZh":"達人","nameEn":"Skill Master","category":"training","categoryZh":"修練","categoryEn":"Training","description":"技能使用總次數","stars":[{"star":1,"unlock":"使用技能 10,000 次","effect":"技能傷害 +1.98%"},{"star":2,"unlock":"使用技能 100,000 次","effect":"技能傷害 +3.96%"},{"star":3,"unlock":"使用技能 500,000 次","effect":"技能傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"달인"},{"id":18,"key":"ancient_visitor","nameZh":"遠古訪客","nameEn":"Ancient Visitor","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"進入 Ancient Room 1 次","effect":"最大 HP +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"고대의 방문자"},{"id":19,"key":"reaper_hunter","nameZh":"死神獵人","nameEn":"Reaper Hunter","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Reaper 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Reaper 擊破進度 1","effect":"暴擊傷害 +1.98%"},{"star":2,"unlock":"Reaper 擊破進度 2","effect":"暴擊傷害 +3.96%"},{"star":3,"unlock":"Reaper 擊破進度 3","effect":"暴擊傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"사신 사냥꾼"},{"id":20,"key":"demon_lord_slayer","nameZh":"魔王討伐者","nameEn":"Demon Lord Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Demon Lord／Dark Lord 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Demon Lord 擊破進度 1","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"Demon Lord 擊破進度 2","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"Demon Lord 擊破進度 3","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마왕을 처치한 자"},{"id":21,"key":"dark_dragon_slayer","nameZh":"魔龍討伐者","nameEn":"Dark Dragon Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Dark Dragon 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Dark Dragon 擊破進度 1","effect":"全屬性傷害 +1.98%"},{"star":2,"unlock":"Dark Dragon 擊破進度 2","effect":"全屬性傷害 +3.96%"},{"star":3,"unlock":"Dark Dragon 擊破進度 3","effect":"全屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마룡을 처치한 자"},{"id":22,"key":"goddess_s_blessing","nameZh":"女神庇佑","nameEn":"Goddess's Blessing","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"集齊所有 Goddess Token","effect":"最大 HP +1.00%；最大 MP +1.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"여신의 가호"},{"id":23,"key":"black_market_regular","nameZh":"黑市常客","nameEn":"Black Market Regular","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"黑市購買次數","stars":[{"star":1,"unlock":"黑市購買 100 次","effect":"黑市額外折扣 +3.30%"},{"star":2,"unlock":"黑市購買 500 次","effect":"黑市額外折扣 +6.60%"},{"star":3,"unlock":"黑市購買 2,000 次","effect":"黑市額外折扣 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"암상인의 단골"},{"id":24,"key":"treasure_hunter","nameZh":"寶箱獵人","nameEn":"Treasure Hunter","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"開啟／破壞寶箱 20 個","effect":"寶箱額外道具 +1 個"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"보물상자 사냥꾼"},{"id":25,"key":"slime_slayer","nameZh":"史萊姆殺手","nameEn":"Slime Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"史萊姆地牢擊殺數","stars":[{"star":1,"unlock":"史萊姆地牢擊殺 5,000 隻","effect":"史萊姆地牢經驗值 +4.95%"},{"star":2,"unlock":"史萊姆地牢擊殺 30,000 隻","effect":"史萊姆地牢經驗值 +9.90%"},{"star":3,"unlock":"史萊姆地牢擊殺 100,000 隻","effect":"史萊姆地牢經驗值 +15.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"슬라임 슬레이어"},{"id":26,"key":"flash_executioner","nameZh":"一擊必殺","nameEn":"Flash Executioner","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"特殊限時 Boss 判定；時間條件與完成次數同時成立","stars":[{"star":1,"unlock":"30 秒內擊殺 Boss × 1 次","effect":"暴擊傷害 +3.30%"},{"star":2,"unlock":"15 秒內擊殺 Boss × 5 次","effect":"暴擊傷害 +6.60%"},{"star":3,"unlock":"5 秒內擊殺 Boss × 15 次","effect":"暴擊傷害 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"일격필멸"},{"id":27,"key":"unscathed","nameZh":"毫髮無傷者","nameEn":"Unscathed","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"無傷通關次數","stars":[{"star":1,"unlock":"無傷通關 1 次","effect":"防禦力 +3.30%"},{"star":2,"unlock":"無傷通關 10 次","effect":"防禦力 +6.60%"},{"star":3,"unlock":"無傷通關 50 次","effect":"防禦力 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"흠집 없는 자"},{"id":28,"key":"meditator","nameZh":"冥想者","nameEn":"Meditator","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"累積冥想時間","stars":[{"star":1,"unlock":"累積冥想 1,800 秒（30分）","effect":"MP 回復 +3.30%"},{"star":2,"unlock":"累積冥想 3,600 秒（60分）","effect":"MP 回復 +6.60%"},{"star":3,"unlock":"累積冥想 7,200 秒（120分）","effect":"MP 回復 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"명상가"},{"id":29,"key":"proven_challenger","nameZh":"歷練挑戰者","nameEn":"Proven Challenger","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"異界地牢通關次數","stars":[{"star":1,"unlock":"異界／Token Dungeon 通關 10 次","effect":"異界地牢金幣獲得 +4.95%"},{"star":2,"unlock":"異界／Token Dungeon 通關 30 次","effect":"異界地牢金幣獲得 +9.90%"},{"star":3,"unlock":"異界／Token Dungeon 通關 100 次","effect":"異界地牢金幣獲得 +15.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"증명된 도전자"},{"id":30,"key":"storyteller","nameZh":"說書人","nameEn":"Storyteller","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"★3 程式原始值確實為 9,999","stars":[{"star":1,"unlock":"看過 30 次 NPC 對話","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"看過 50 次 NPC 對話","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"看過 9,999 次 NPC 對話","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"이야기꾼"},{"id":31,"key":"dawn_riser","nameZh":"拂曉之眠","nameEn":"Dawn Sleep","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"凌晨 4:00～5:00 登入 1 次","effect":"經驗值獲得 +5.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"새벽잠"},{"id":32,"key":"beyond_the_wall","nameZh":"牆外的秘密","nameEn":"Beyond the Wall","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"秘密房發現數","stars":[{"star":1,"unlock":"發現 10 個 Secret Room","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"發現 30 個 Secret Room","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"發現 50 個 Secret Room","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"벽 너머의 비밀"},{"id":33,"key":"unwavering","nameZh":"堅定不移者","nameEn":"Unwavering","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"普通攻擊 Boss 擊殺","stars":[{"star":1,"unlock":"以普通攻擊擊殺 Boss 1 次","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"以普通攻擊擊殺 Boss 5 次","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"以普通攻擊擊殺 Boss 15 次","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"흔들림 없는 자"},{"id":34,"key":"forgotten_name","nameZh":"被遺忘的名字","nameEn":"Forgotten Name","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"不裝備任何稱號持續 20 小時","effect":"掉落率 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잊혀진 이름"},{"id":35,"key":"risen_from_defeat","nameZh":"敗後重生","nameEn":"Risen from Defeat","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"角色死亡次數","stars":[{"star":1,"unlock":"死亡 10 次","effect":"最大 HP +1.98%"},{"star":2,"unlock":"死亡 50 次","effect":"最大 HP +3.96%"},{"star":3,"unlock":"死亡 100 次","effect":"最大 HP +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"패배에서 일어남"},{"id":36,"key":"oath_shatterer","nameZh":"破誓者","nameEn":"Oath Shatterer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #1；Tier 是擊破難度／階級，不是擊殺次數","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"防禦力 +1.65%；最大 HP +0.99%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"防禦力 +3.30%；最大 HP +1.98%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"防禦力 +5.00%；最大 HP +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"맹세의 파훼자"},{"id":37,"key":"bone_terminator","nameZh":"白骨終結者","nameEn":"Bone Terminator","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #2；Tier 是擊破難度／階級","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"HP 吸取機率 +0.66%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"HP 吸取機率 +1.32%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"HP 吸取機率 +2.00%；Signature：死亡時復活機率 +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"백골의 종식자"},{"id":38,"key":"ember_suppressor","nameZh":"餘燼鎮壓者","nameEn":"Ember Suppressor","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #3；Tier 是擊破難度／階級","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"MP 吸取機率 +0.66%；最大 MP +0.99%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"MP 吸取機率 +1.32%；最大 MP +1.98%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"MP 吸取機率 +2.00%；最大 MP +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잿불의 진압자"},{"id":39,"key":"novice","nameZh":"初學者","nameEn":"Novice","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"AlwaysTrue；單階段稱號","stars":[{"star":1,"unlock":"開始遊戲即成立","effect":"經驗值獲得 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"초심자"},{"id":40,"key":"world_guardian","nameZh":"世界守護者","nameEn":"World Guardian","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"單階段稱號","stars":[{"star":1,"unlock":"Challenge 通關","effect":"攻擊力 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"세계의 수호자"},{"id":41,"key":"peace_envoy","nameZh":"和平使徒","nameEn":"Peace Envoy","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"返回村莊次數","stars":[{"star":1,"unlock":"返回村莊 100 次","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"返回村莊 500 次","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"返回村莊 2,000 次","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"평화의 사도"},{"id":42,"key":"boss_hunter","nameZh":"首領獵人","nameEn":"Boss Hunter","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"任意 Boss 擊殺數","stars":[{"star":1,"unlock":"擊殺任意 Boss 50 隻","effect":"普通攻擊傷害 +1.98%"},{"star":2,"unlock":"擊殺任意 Boss 300 隻","effect":"普通攻擊傷害 +3.96%"},{"star":3,"unlock":"擊殺任意 Boss 1,500 隻","effect":"普通攻擊傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"보스 헌터"},{"id":43,"key":"elite_adventurer","nameZh":"特級冒險家","nameEn":"Elite Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"單階段稱號","stars":[{"star":1,"unlock":"Mythic 通關","effect":"經驗值獲得 +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"특급 모험가"},{"id":44,"key":"flame_adventurer","nameZh":"烈焰冒險家","nameEn":"Flame Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"火屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用火屬性技能擊殺 Boss 10 次","effect":"火屬性傷害 +1.98%"},{"star":2,"unlock":"使用火屬性技能擊殺 Boss 50 次","effect":"火屬性傷害 +3.96%"},{"star":3,"unlock":"使用火屬性技能擊殺 Boss 200 次","effect":"火屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불꽃의 모험가"},{"id":45,"key":"frost_adventurer","nameZh":"冰霜冒險家","nameEn":"Frost Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"冰屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用冰屬性技能擊殺 Boss 10 次","effect":"冰屬性傷害 +1.98%"},{"star":2,"unlock":"使用冰屬性技能擊殺 Boss 50 次","effect":"冰屬性傷害 +3.96%"},{"star":3,"unlock":"使用冰屬性技能擊殺 Boss 200 次","effect":"冰屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"빙결의 모험가"},{"id":46,"key":"thunder_adventurer","nameZh":"雷霆冒險家","nameEn":"Thunder Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"雷屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用雷屬性技能擊殺 Boss 10 次","effect":"雷屬性傷害 +1.98%"},{"star":2,"unlock":"使用雷屬性技能擊殺 Boss 50 次","effect":"雷屬性傷害 +3.96%"},{"star":3,"unlock":"使用雷屬性技能擊殺 Boss 200 次","effect":"雷屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"번개의 모험가"},{"id":47,"key":"soul_adventurer","nameZh":"靈魂冒險家","nameEn":"Soul Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Normal／Soul 技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用 Normal／Soul 技能擊殺 Boss 10 次","effect":"靈魂屬性傷害 +1.98%"},{"star":2,"unlock":"使用 Normal／Soul 技能擊殺 Boss 50 次","effect":"靈魂屬性傷害 +3.96%"},{"star":3,"unlock":"使用 Normal／Soul 技能擊殺 Boss 200 次","effect":"靈魂屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"영혼의 모험가"},{"id":48,"key":"remains_cleaner","nameZh":"殘餘清理者","nameEn":"Remains Cleaner","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss 系統進度","stars":[{"star":1,"unlock":"Demon Boss 解鎖／擊破進度 5","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"Demon Boss 解鎖／擊破進度 10","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"Demon Boss 解鎖／擊破進度 13","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잔재 처리자"}]}</script>
 <script id="v21-staging-title-system-js">
 (()=>{
   'use strict';
@@ -8809,8 +8658,6 @@ main>.screen:nth-of-type(3) #autoPane>.card{
 .v21-title-grid-wrap,.v21-title-shell .v21-title-grid-wrap{max-height:none!important;height:auto!important;overflow:visible!important;overflow-y:visible!important;overscroll-behavior:auto!important}
 #safeSystemCard details,#safeSystemCard .v21-title-shell{max-height:none!important;overflow:visible!important}
 </style>
-
-
 <script id="r10-official-three-language-names">
 (()=>{'use strict';
 const N={"artifacts":{"1":{"zh-Hant":"輕羽","en":"Light Feather","ko":"가벼운 깃털"},"2":{"zh-Hant":"活力之羽","en":"Feather of Vitality","ko":"활기의 깃털"},"3":{"zh-Hant":"黑暗之羽","en":"Feather of Darkness","ko":"어둠의 깃털"},"4":{"zh-Hant":"七彩羽毛","en":"Colorful Feather","ko":"화려한 깃털"},"5":{"zh-Hant":"綠水晶","en":"Green Crystal","ko":"초록 크리스탈"},"6":{"zh-Hant":"黃水晶","en":"Yellow Crystal","ko":"노란 크리스탈"},"7":{"zh-Hant":"紅水晶","en":"Red Crystal","ko":"붉은 크리스탈"},"8":{"zh-Hant":"藍水晶","en":"Blue Crystal","ko":"푸른 크리스탈"},"9":{"zh-Hant":"金枝","en":"Golden Twig","ko":"황금 나뭇가지"},"10":{"zh-Hant":"紅鍵","en":"Red Key","ko":"붉은 열쇠"},"11":{"zh-Hant":"獬豸面具","en":"Haetae Mask","ko":"해태 가면"},"12":{"zh-Hant":"魔龍最初的蹤跡","en":"Demon Dragon's First Trace","ko":"마룡의 첫번째 흔적"},"13":{"zh-Hant":"魔龍第二蹤跡","en":"Demon Dragon's Second Trace","ko":"마룡의 두번째 흔적"},"14":{"zh-Hant":"魔龍第三痕","en":"Demon Dragon's Third Trace","ko":"마룡의 세번째 흔적"},"15":{"zh-Hant":"魔龍第四痕","en":"Demon Dragon's Fourth Trace","ko":"마룡의 네번째 흔적"},"16":{"zh-Hant":"魔龍第五痕","en":"Demon Dragon's Fifth Trace","ko":"마룡의 다섯번째 흔적"},"17":{"zh-Hant":"魔龍第六痕","en":"Demon Dragon's Sixth Trace","ko":"마룡의 여섯번째 흔적"},"18":{"zh-Hant":"魔龍第七痕","en":"Demon Dragon's Seventh Trace","ko":"마룡의 일곱번째 흔적"},"19":{"zh-Hant":"翼之水晶","en":"Crystal of Wing","ko":"날개의 크리스탈"},"20":{"zh-Hant":"月之水晶","en":"Crystal of The Moon","ko":"달의 크리스탈"},"21":{"zh-Hant":"魔法石","en":"Magic Stone","ko":"마법의 돌"},"22":{"zh-Hant":"維度立方體","en":"Cube of Dimension","ko":"차원의 큐브"},"23":{"zh-Hant":"龍盾","en":"Dragon Shield","ko":"용의 방패"},"24":{"zh-Hant":"魔法眼鏡","en":"Magic Glasses","ko":"마법 안경"},"25":{"zh-Hant":"魔王核心","en":"Demon Lord's Core","ko":"마왕의 핵"},"26":{"zh-Hant":"死亡寶藏","en":"Treasure of Death","ko":"죽음의 보물"},"27":{"zh-Hant":"魔龍最後的蹤跡","en":"Demon Dragon's Last Trace","ko":"마룡의 마지막 흔적"},"28":{"zh-Hant":"魔龍之牙","en":"Demon Dragon's Fang","ko":"마룡의 송곳니"},"29":{"zh-Hant":"魔龍之角","en":"Demon Dragon's Horn","ko":"마룡의 뿔"},"30":{"zh-Hant":"魔龍鱗片","en":"Demon Dragon's Scale","ko":"마룡의 비늘"},"31":{"zh-Hant":"魔龍之核","en":"Demon Dragon's Core","ko":"마룡의 핵"},"32":{"zh-Hant":"魔龍熔煉石","en":"Demon Dragon's Smelting Stone","ko":"마룡의 제련석"},"33":{"zh-Hant":"深淵之眼","en":"Abyss Eye","ko":"심연의 눈"},"34":{"zh-Hant":"古代四面體","en":"Ancient Tetrahedron","ko":"고대의 사면체"},"35":{"zh-Hant":"死亡之杯","en":"Cup of Death","ko":"죽음의 잔"},"36":{"zh-Hant":"死亡之書","en":"Book of Death","ko":"죽음의 책"},"37":{"zh-Hant":"死亡之冠","en":"Crown of Death","ko":"죽음의 왕관"},"38":{"zh-Hant":"魔王之杯","en":"Demon Lord's Goblet","ko":"마왕의 잔"},"39":{"zh-Hant":"魔王之羽","en":"Demon Lord's Feather","ko":"마왕의 깃털"},"40":{"zh-Hant":"古代寶藏","en":"Ancient Treasures","ko":"고대의 보물"},"41":{"zh-Hant":"血寶石","en":"Blood Jewel","ko":"피의 보석"},"42":{"zh-Hant":"魔王之角","en":"Demon Lord's Horn","ko":"마왕의 뿔"},"43":{"zh-Hant":"靈魂之書","en":"Book of The Soul","ko":"영혼의 책"},"44":{"zh-Hant":"魔龍煉石","en":"Demon Dragon's Refining Stone","ko":"마룡의 정제석"},"45":{"zh-Hant":"古代面具","en":"Ancient Mask","ko":"고대의 가면"},"46":{"zh-Hant":"死亡之眼","en":"Eye of Death","ko":"죽음의 눈"},"47":{"zh-Hant":"魔王之魂","en":"Demon Lord's Soul","ko":"마왕의 혼"},"48":{"zh-Hant":"黑暗魔法珠","en":"Dark Magic Orb","ko":"어둠의 마법구슬"},"49":{"zh-Hant":"魔龍進化石","en":"Demon Dragon's Evolution Stone","ko":"마룡의 진화석"},"50":{"zh-Hant":"古代寶石","en":"Ancient Jewel","ko":"고대의 보석"},"51":{"zh-Hant":"死亡符文","en":"Rune of Death","ko":"죽음의 룬"},"52":{"zh-Hant":"魔王之眼","en":"Demon Lord’s Eye","ko":"마왕의 눈"},"53":{"zh-Hant":"魔龍之眼","en":"Eye of the Demon Dragon","ko":"마룡의 눈"},"54":{"zh-Hant":"魔龍覺醒石","en":"Demon Dragon Awakening Stone","ko":"마룡의 각성석"},"55":{"zh-Hant":"史萊姆王子的王冠","en":"Crown of the Slime Prince","ko":"슬라임 왕자의 왕관"},"56":{"zh-Hant":"史萊姆之王的王冠","en":"Crown of the Slime King","ko":"슬라임 왕의 왕관"},"57":{"zh-Hant":"史萊姆騎士的頭盔","en":"Helmet of the Slime Knight","ko":"슬라임 기사의 투구"},"58":{"zh-Hant":"史萊姆騎士之劍","en":"Sword of the Slime Knight","ko":"슬라임 기사의 검"},"59":{"zh-Hant":"火岩史萊姆之牙","en":"Fang of the Fire-Rock Slime","ko":"화암 슬라임의 송곳니"},"60":{"zh-Hant":"火岩史萊姆的核心","en":"Core of the Fire-Rock Slime","ko":"화암 슬라임의 핵"},"61":{"zh-Hant":"熔岩史萊姆的結晶","en":"Crystal of the Lava Slime","ko":"용암 슬라임의 결정"},"62":{"zh-Hant":"熔岩史萊姆的核心","en":"Core of the Lava Slime","ko":"용암 슬라임의 핵"},"63":{"zh-Hant":"水史萊姆精華","en":"Essence of the Water Slime","ko":"물 슬라임의 정수"},"64":{"zh-Hant":"水史萊姆的殘渣","en":"Remnant of the Water Slime","ko":"물 슬라임의 잔재"},"65":{"zh-Hant":"冰川史萊姆的結晶","en":"Crystal of the Glacier Slime","ko":"빙하 슬라임의 결정"},"66":{"zh-Hant":"冰川史萊姆的核心結晶","en":"Core Crystal of the Glacier Slime","ko":"빙하 슬라임의 핵결정"},"67":{"zh-Hant":"電波史萊姆的電線","en":"Wire of the Radio Slime","ko":"전파 슬라임의 전선"},"68":{"zh-Hant":"電波史萊姆的心臟","en":"Heart of the Radio Slime","ko":"전파 슬라임의 심장"},"69":{"zh-Hant":"閃電史萊姆的黏液","en":"Mucus of the Lightning Slime","ko":"번개 슬라임의 점액"},"70":{"zh-Hant":"閃電史萊姆的能量","en":"Energy of the Lightning Slime","ko":"번개 슬라임의 기운"},"71":{"zh-Hant":"閃耀之石","en":"Shining Stone","ko":"빛나는 돌"},"72":{"zh-Hant":"火焰能量","en":"Energy of Flame","ko":"화염의 기운"},"73":{"zh-Hant":"冰之能量","en":"Energy of Ice","ko":"빙결의 기운"},"74":{"zh-Hant":"閃電能量","en":"Energy of Lightning","ko":"번개의 기운"},"75":{"zh-Hant":"靈魂能量","en":"Energy of Soul","ko":"영혼의 기운"},"76":{"zh-Hant":"黃金捲軸","en":"The Golden Scroll","ko":"황금의 두루마리"},"77":{"zh-Hant":"經驗之書","en":"Book of Experience","ko":"경험의 서"},"78":{"zh-Hant":"金幣","en":"Golden Coin","ko":"황금 코인"},"79":{"zh-Hant":"紅爪","en":"Red Claw","ko":"붉은 집게발"},"80":{"zh-Hant":"惡魔之牙","en":"Demon's Fang","ko":"마족의 송곳니"},"81":{"zh-Hant":"惡魔之角","en":"Demon's Horn","ko":"마족의 뿔"},"82":{"zh-Hant":"惡魔核心","en":"Demon's Core","ko":"마족의 핵"},"83":{"zh-Hant":"金色水晶","en":"Golden Crystal","ko":"금빛 크리스탈"},"84":{"zh-Hant":"恢復七弦琴","en":"Lyre of Recovery","ko":"회복의 리라"},"85":{"zh-Hant":"堅固的盾牌","en":"Sturdy Shield","ko":"튼튼한 방패"},"86":{"zh-Hant":"法力手鐲","en":"Mana Bracelet","ko":"마나의 팔찌"},"87":{"zh-Hant":"健康項鍊","en":"Necklace of Health","ko":"체력의 목걸이"},"88":{"zh-Hant":"惡魔之骨","en":"Demon's Bone","ko":"마족의 뼈"},"89":{"zh-Hant":"惡魔印記","en":"Demon's Mark","ko":"마족의 증표"},"90":{"zh-Hant":"奇怪的骰子","en":"Strange Dice","ko":"이상한 주사위"},"91":{"zh-Hant":"惡魔的明亮號角","en":"Demon's Bright Horn","ko":"마족의 빛나는 뿔"},"92":{"zh-Hant":"遠古之翼","en":"Ancient Wings","ko":"고대의 날개"},"93":{"zh-Hant":"魔王的王冠","en":"Crown of the Dark Overlord","ko":"마왕의 왕관"},"94":{"zh-Hant":"死亡之印","en":"Mark of Death","ko":"죽음의 표식"},"95":{"zh-Hant":"魔龍之息","en":"Breath of the Demon Dragon","ko":"마룡의 숨결"},"96":{"zh-Hant":"魔龍超越石","en":"Demon Dragon Transcendence Stone","ko":"마룡의 초월석"},"97":{"zh-Hant":"史萊姆惡魔之翼","en":"Wings of the Slime Demon","ko":"슬라임 악마의 날개"},"98":{"zh-Hant":"史萊姆惡魔的核心","en":"Core of the Slime Demon","ko":"슬라임 악마의 핵"},"99":{"zh-Hant":"黑月印章","en":"Seal of the Black Moon","ko":"흑월의 인장"},"100":{"zh-Hant":"血影之心","en":"Heart of Bloodshadow","ko":"혈영의 심장"},"101":{"zh-Hant":"紅蓮火種","en":"Ember of the Crimson Lotus","ko":"홍련의 불씨"},"102":{"zh-Hant":"魔界精華","en":"Essence of the Demon Realm","ko":"마계의 정수"},"103":{"zh-Hant":"魔界殘片","en":"Demon Realm Remnant","ko":"마계의 잔재"}},"treeNodes":{"0":{"zh-Hant":"HP 增加","en":"HP Increase","ko":"체력 증가"},"1":{"zh-Hant":"HP恢復","en":"HP Recovery","ko":"체력 회복"},"2":{"zh-Hant":"攻擊力增加","en":"Attack Power Increase","ko":"공격력 증가"},"3":{"zh-Hant":"暴擊","en":"Critical Hit","ko":"치명상"},"4":{"zh-Hant":"強力斜線","en":"Strong Slash","ko":"강한 베기"},"5":{"zh-Hant":"第二次機會","en":"Second Chance","ko":"두번째 기회"},"6":{"zh-Hant":"復活","en":"Resurrection","ko":"부활"},"7":{"zh-Hant":"最後一擊","en":"Last Attack","ko":"마지막 공격"},"8":{"zh-Hant":"強力波動","en":"Powerful Wave","ko":"강한 파동"},"9":{"zh-Hant":"血契","en":"Blood Contract","ko":"피의 계약"},"10":{"zh-Hant":"危險檢測","en":"Danger Detection","ko":"위험 감지"},"11":{"zh-Hant":"強大的精神","en":"Strong Spirit","ko":"강한 정신"},"12":{"zh-Hant":"流血的","en":"Bleeding","ko":"출혈"},"13":{"zh-Hant":"增強出血","en":"Enhanced Bleeding","ko":"출혈 강화"},"14":{"zh-Hant":"吸血鬼","en":"Vampirism","ko":"흡혈"},"15":{"zh-Hant":"狂戰士","en":"Berserker","ko":"광전사"},"16":{"zh-Hant":"MP增加","en":"MP Increase","ko":"마나 증가"},"17":{"zh-Hant":"MP恢復","en":"MP Recovery","ko":"마나 회복"},"18":{"zh-Hant":"減少 MP 消耗","en":"Reduce MP Cost","ko":"소모 마나 감소"},"19":{"zh-Hant":"魔法傷害增加","en":"Magic Damage Increase","ko":"마법 피해 증가"},"20":{"zh-Hant":"減少魔法延遲","en":"Reduce Magic Delay","ko":"마법 딜레이 감소"},"21":{"zh-Hant":"法力寶珠","en":"Orb of Mana","ko":"마나의 오브"},"22":{"zh-Hant":"法力遺跡","en":"Vestige of Mana","ko":"마나의 잔재"},"23":{"zh-Hant":"法力波","en":"Wave of Mana","ko":"마나의 파동"},"24":{"zh-Hant":"ATK增強","en":"ATK Enhancement","ko":"공격력 강화"},"25":{"zh-Hant":"DEF增強","en":"DEF Enhancement","ko":"방어력 강화"},"26":{"zh-Hant":"HP增強","en":"HP Enhancement","ko":"체력 강화"},"27":{"zh-Hant":"MP增強","en":"MP Enhancement","ko":"마나 강화"},"28":{"zh-Hant":"魔法強化","en":"Magic Enhancement","ko":"마법 강화"}},"fashions":{"SatgatCharacter":{"zh-Hant":"冒險家","en":"Adventurer","ko":"협객"},"HolyKnight0":{"zh-Hant":"聖騎士","en":"Paladin","ko":"성기사"},"HolyKnight1":{"zh-Hant":"史詩聖騎士","en":"Epic Paladin","ko":"특급 성기사"},"DarkKnight0":{"zh-Hant":"黑騎士","en":"Black Knight","ko":"흑기사"},"DarkKnight1":{"zh-Hant":"史詩黑騎士","en":"Epic Black Knight","ko":"특급 흑기사"},"GoldenKnight0":{"zh-Hant":"黃金騎士","en":"Golden Knight","ko":"황금기사"},"GoldenKnight1":{"zh-Hant":"史詩黃金騎士","en":"Epic Golden Knight","ko":"특급 황금기사"},"SkeletonKnight":{"zh-Hant":"骷髏騎士","en":"Skull Knight","ko":"해골기사"},"GeomsungKnight":{"zh-Hant":"劍聖","en":"Sword Master","ko":"검성"},"RangerArcher":{"zh-Hant":"遊俠","en":"Ranger","ko":"파수꾼"},"BowMasterArcher":{"zh-Hant":"弓箭大師","en":"Bow Master","ko":"신궁"},"BerserkerKnight":{"zh-Hant":"狂戰士","en":"Berserker","ko":"광전사"},"HalfMaskArcher":{"zh-Hant":"噬魂弓手","en":"Soul-Eater Archer","ko":"영혼잠식 궁수"},"SantaKnight":{"zh-Hant":"聖誕騎士","en":"Santa Knight","ko":"산타 기사"},"ChristmasArcher":{"zh-Hant":"魯道夫弓手","en":"Rudolph Archer","ko":"루돌프 궁수"},"HolyArcher0":{"zh-Hant":"聖弓箭手","en":"Holy Archer","ko":"빛의 궁수"},"HolyArcher1":{"zh-Hant":"特殊聖弓箭手","en":"Special Holy Archer","ko":"특급 빛의 궁수"},"DarkArcher0":{"zh-Hant":"黑暗弓箭手","en":"Dark Archer","ko":"어둠의 궁수"},"DarkArcher1":{"zh-Hant":"特別黑暗弓箭手","en":"Special Dark Archer","ko":"특급 어둠의 궁수"},"GoldenArcher0":{"zh-Hant":"金色弓箭手","en":"Golden Archer","ko":"금빛 궁수"},"GoldenArcher1":{"zh-Hant":"特別金弓箭手","en":"Special Golden Archer","ko":"특급 금빛 궁수"},"JoseonCharacter":{"zh-Hant":"花郎","en":"Hwarang","ko":"화랑"}},"pets":{"LittleAngelPet":{"zh-Hant":"小天使寵物","en":"Little Angel Pet","ko":"작은 천사 펫"},"LittleDevilPet":{"zh-Hant":"小惡魔寵物","en":"Little Devil Pet","ko":"작은 악마 펫"},"LittleGrimReaperPet":{"zh-Hant":"小收割者寵物","en":"Little Reaper Pet","ko":"작은 사신 펫"},"FireFairyPet":{"zh-Hant":"火靈寵物","en":"Fire Spirit Pet","ko":"불의 정령 펫"},"SoulFairyPet":{"zh-Hant":"靈魂靈寵","en":"Soul Spirit Pet","ko":"영혼 정령 펫"},"WaterFairyPet":{"zh-Hant":"水靈寵物","en":"Water Spirit Pet","ko":"물의 정령 펫"},"LightningFairyPet":{"zh-Hant":"雷電靈寵","en":"Lightning Spirit Pet","ko":"번개 정령 펫"},"LittleDemonDragonPet":{"zh-Hant":"小魔龍寵","en":"Little Demon Dragon Pet","ko":"작은 마룡 펫"},"TornadoFairyPet":{"zh-Hant":"風暴精靈寵物","en":"Storm Spirit Pet","ko":"폭풍의 정령 펫"},"MerchantFairyPet":{"zh-Hant":"商人妖精寵物","en":"Merchant Fairy Pet","ko":"상인 요정 펫"},"ChristmasTreeFairyPet":{"zh-Hant":"樹精寵物","en":"Tree Spirit Pet","ko":"트리 정령 펫"},"LittleRudolphPet":{"zh-Hant":"小魯道夫寵物","en":"Little Rudolph Pet","ko":"작은 루돌프 펫"}}};
@@ -8854,88 +8701,25 @@ function init(){schedule();
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<script id="r11-comprehensive-ui-i18n">
-(()=>{'use strict';
-const D={"更新資訊｜正式版 R8：48 個稱號保留圖卡、星級與獨立能力統計；稱號暫不計入角色 ATK、手動／自動最佳化及技能傷害。已整合手動輸入修正、系統單一捲動及寵物圖卡版面；原生稱號加成規則尚待驗證。":["Update | R11: 48 titles retain cards, stars and independent stats. Titles are excluded from character ATK, optimization and skill damage. Manual input and single-page scrolling are included; title mechanics remain under review.","업데이트 | R11: 칭호 48개는 카드, 등급 및 독립 능력치 통계를 유지합니다. 칭호 능력은 캐릭터 ATK, 최적화, 스킬 피해에 반영되지 않습니다. 수동 입력과 단일 스크롤 개선을 포함하며 칭호 계산 규칙은 검증 중입니다."],"系統統計總覽":["System Statistics Overview","시스템 능력치 개요"],"系統能力":["System Attributes","시스템 능력치"],"人工製品・魔法樹・時裝・寵物・稱號":["Artifacts · Magic Tree · Costumes · Pets · Titles","아티팩트 · 마법 트리 · 코스튬 · 펫 · 칭호"],"稱號來源明細":["Title Bonus Breakdown","칭호 보너스 상세"],"稱號加成僅獨立統計，不列入角色 ATK 與傷害":["Title bonuses are reported separately and excluded from ATK and damage.","칭호 보너스는 별도 집계하며 ATK와 피해 계산에서 제외합니다."],"已解鎖":["Unlocked","해금"],"能力種類":["Bonus Types","능력 종류"],"生效能力":["Active Bonuses","적용 능력"],"已併入系統能力；此處僅顯示稱號貢獻及來源，不重複計算。":["Title breakdown only; excluded from character ATK and damage.","칭호 기여도 및 출처만 표시하며 캐릭터 ATK와 피해 계산에는 포함하지 않습니다."],"查看各稱號能力貢獻":["View Bonus by Title","칭호별 능력치 기여도 보기"],"此區以遊戲初始屬性為起點，再累加「人工製品／魔法樹／時裝／寵物」效果；稱號另行統計，不列入角色 ATK、最佳化或技能傷害。稱號貢獻可於「稱號來源明細」查看。":["Starting from the game base attributes, adds effects from artifacts, magic tree, costumes and pets. Titles are tracked separately and do not affect ATK, optimization or skill damage. See Title Bonus Breakdown.","게임 기본 능력치에 아티팩트, 마법 트리, 코스튬, 펫 효과를 더합니다. 칭호는 별도 집계되며 캐릭터 ATK, 최적화 및 스킬 피해에 적용되지 않습니다. 상세 정보는 칭호 보너스 상세에서 확인하세요."],"目前自訂進度":["Current Progress","현재 설정 진행도"],"魔法樹已投入：":["Magic tree invested: ","마법 트리 투자: "],"系統設定":["System Settings","시스템 설정"],"所有設定都會保存於瀏覽器草稿。人工製品輸入 Lv 後不會再跳回清單頂端。魔法樹使用等級下拉；「魔法強化」會依主控台角色 Lv 自動限制可用上限。時裝擁有即生效；寵物最多裝備 4 隻。":["Settings are saved in the browser. Changing artifact levels retains the list position. Magic tree levels have a character-level cap. Owned costumes apply automatically; equip up to four pets.","모든 설정은 브라우저에 저장됩니다. 아티팩트 레벨을 변경해도 목록 위치가 유지됩니다. 마법 트리 레벨은 캐릭터 레벨에 따라 제한됩니다. 코스튬은 보유 시 적용되며 펫은 최대 4마리 장착할 수 있습니다."],"獨立統計・不計傷害":["Separate stats · No damage","별도 집계 · 피해 제외"],"獨立統計・不計傷害。":["Separate stats · No damage","별도 집계 · 피해 제외"],"人工製品｜103 件":["Artifacts | 103","아티팩트 | 103개"],"魔法樹｜29 節點":["Magic Tree | 29 Nodes","마법 트리 | 노드 29개"],"一鍵全滿":["Max All","모두 최대"],"可用技能點":["Available Skill Points","사용 가능 스킬 포인트"],"角色 Lv ":["Character Lv ","캐릭터 Lv "],"技能點":["Skill Points","스킬 포인트"],"時裝｜22 件":["Costumes | 22","코스튬 | 22개"],"寵物｜12 隻":["Pets | 12","펫 | 12마리"],"稱號｜48 個":["Titles | 48","칭호 | 48개"],"尚未解鎖":["Not unlocked","미해금"],"已選擇":["Selected","선택됨"],"普通法術傷害":["Normal Spell Damage","일반 마법 피해"],"火焰法術傷害":["Fire Spell Damage","화염 마법 피해"],"冰系法術傷害":["Ice Spell Damage","얼음 마법 피해"],"閃電法術傷害":["Lightning Spell Damage","번개 마법 피해"],"法術傷害":["Spell Damage","마법 피해"],"系統統計":["System Statistics","시스템 능력치"],"更新資訊":["Updates","업데이트"],"已合併屬性":["Separate stats (not damage)","독립 통계 (피해 제외)"],"每件裝備僅能指定一格特殊特性":["Only one special trait slot per item","장비당 특수 특성 슬롯 1개만 지정 가능"],"稱號加成僅獨立統計":["Title bonuses are tracked separately","칭호 보너스는 별도 집계"],"不列入角色 ATK 與傷害":["Excluded from ATK and damage","캐릭터 ATK 및 피해 계산에서 제외"],"系統能力統計":["System Attribute Statistics","시스템 능력치 통계"],"稱號另行統計":["Titles tracked separately","칭호 별도 집계"],"搜尋人工製品名稱":["Search artifacts","아티팩트 검색"],"搜尋魔法樹節點":["Search magic tree","마법 트리 노드 검색"],"屬性傷害":["Elemental Damage","속성 피해"],"獨立統計":["Separate Statistics","독립 통계"],"不計傷害":["Excluded from Damage","피해 계산 제외"],"已投入：":["Invested: ","투자: "],"點":["points","포인트"],"剩餘":["Remaining","남음"],"取得":["Obtained","획득"],"裝備":["Equipped","장착"],"未取得":["Not obtained","미획득"],"未選擇":["Not selected","미선택"],"傷害":["Damage","피해"]};
-const langs=['en','ko'];
-const originals=new WeakMap();
-let active=false, queued=false;
-const lang=()=>document.querySelector('.lang-btn.active')?.dataset.lang||localStorage.getItem('towerSword.language')||'zh-Hant';
-function tr(value,l){
- if(l!=='en'&&l!=='ko')return value;
- const direct=D[value];if(direct)return direct[l==='en'?0:1];
- let r=value;
- // The dynamic labels have numeric suffixes, never translate numeric values.
- for(const [k,v] of Object.entries(D)){
-   if(k.length<3 || r.indexOf(k)<0) continue;
-   if(r===k)continue;
-   if((r.length-k.length)>90)continue;
-   r=r.split(k).join(v[l==='en'?0:1]);
- }
- return r;
-}
-function run(root=document){
- if(active)return;active=true;
- try{
-  const l=lang();
-  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(n){
-   if(!n.parentElement||n.parentElement.closest('script,style,.language-switch'))return NodeFilter.FILTER_REJECT;
-   if(!/[\u3400-\u9fff]/.test(n.nodeValue)&&!originals.has(n))return NodeFilter.FILTER_REJECT;
-   return NodeFilter.FILTER_ACCEPT;
-  }});
-  const nodes=[];while(w.nextNode())nodes.push(w.currentNode);
-  for(const n of nodes){
-   const v=n.nodeValue;
-   if(!originals.has(n))originals.set(n,v);
-   // if the underlying calculator re-rendered the node, new text is the new source.
-   const old=originals.get(n);
-   const previous=tr(old,l);
-   if(v!==old&&v!==previous&&/[\u3400-\u9fff]/.test(v))originals.set(n,v);
-   const source=originals.get(n);
-   const result=tr(source,l);
-   if(n.nodeValue!==result)n.nodeValue=result;
-  }
-  root.querySelectorAll?.('[title],[aria-label],[placeholder]').forEach(e=>{
-   for(const a of ['title','aria-label','placeholder']){
-    if(!e.hasAttribute(a))continue;
-    const id='r11_'+a.replace('-','_');
-    const val=e.getAttribute(a);
-    if(!e.dataset[id])e.dataset[id]=val;
-    const source=e.dataset[id];const target=tr(source,l);
-    if(val!==target)e.setAttribute(a,target);
-   }
-  });
- }finally{active=false;}
-}
-function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;run()})}
-function init(){
- run();
- // Other components replace text within existing nodes, which childList-only observers miss.
- new MutationObserver(m=>{
-  if(active)return;
-  if(m.some(x=>x.type==='characterData'||x.addedNodes.length))schedule();
- }).observe(document.body,{childList:true,characterData:true,subtree:true});
- document.querySelectorAll('.lang-btn').forEach(x=>x.addEventListener('click',()=>{
-   // Let the primary i18n handler run first, then translate supplemental content.
-   setTimeout(()=>{run();setTimeout(run,130)},0);
- }));
- window.addEventListener('tower-language-changed',()=>setTimeout(run,50));
-}
+<script>(()=>{'use strict';
+const dict={"更新資訊｜正式版 R8：48 個稱號保留圖卡、星級與獨立能力統計；稱號暫不計入角色 ATK、手動／自動最佳化及技能傷害。已整合手動輸入修正、系統單一捲動及寵物圖卡版面；原生稱號加成規則尚待驗證。":["Update | R11: 48 titles retain cards, stars and independent stats. Titles are excluded from character ATK, optimization and skill damage. Manual input and single-page scrolling are included; title mechanics remain under review.","업데이트 | R11: 칭호 48개는 카드, 등급 및 독립 능력치 통계를 유지합니다. 칭호 능력은 캐릭터 ATK, 최적화, 스킬 피해에 반영되지 않습니다. 수동 입력과 단일 스크롤 개선을 포함하며 칭호 계산 규칙은 검증 중입니다."],"系統統計總覽":["System Statistics Overview","시스템 능력치 개요"],"系統能力":["System Attributes","시스템 능력치"],"人工製品・魔法樹・時裝・寵物・稱號":["Artifacts · Magic Tree · Costumes · Pets · Titles","아티팩트 · 마법 트리 · 코스튬 · 펫 · 칭호"],"稱號來源明細":["Title Bonus Breakdown","칭호 보너스 상세"],"稱號加成僅獨立統計，不列入角色 ATK 與傷害":["Title bonuses are separately recorded and excluded from ATK and damage","칭호 보너스는 별도 집계되며 ATK 및 피해 계산에서 제외됩니다"],"已解鎖":["Unlocked","해금"],"能力種類":["Bonus Types","능력 종류"],"生效能力":["Active Bonuses","적용 능력"],"已併入系統能力；此處僅顯示稱號貢獻及來源，不重複計算。":["Title breakdown only; excluded from character ATK and damage.","칭호 기여도 및 출처만 표시하며 캐릭터 ATK와 피해 계산에는 포함하지 않습니다."],"查看各稱號能力貢獻":["View Bonus by Title","칭호별 능력치 기여도 보기"],"此區以遊戲初始屬性為起點，再累加「人工製品／魔法樹／時裝／寵物」效果；稱號另行統計，不列入角色 ATK、最佳化或技能傷害。稱號貢獻可於「稱號來源明細」查看。":["Starting from the game base attributes, adds effects from artifacts, magic tree, costumes and pets. Titles are tracked separately and do not affect ATK, optimization or skill damage. See Title Bonus Breakdown.","게임 기본 능력치에 아티팩트, 마법 트리, 코스튬, 펫 효과를 더합니다. 칭호는 별도 집계되며 캐릭터 ATK, 최적화 및 스킬 피해에 적용되지 않습니다. 상세 정보는 칭호 보너스 상세에서 확인하세요."],"目前自訂進度":["Current Progress","현재 설정 진행도"],"魔法樹已投入：":["Magic tree invested: ","마법 트리 투자: "],"系統設定":["System Settings","시스템 설정"],"所有設定都會保存於瀏覽器草稿。人工製品輸入 Lv 後不會再跳回清單頂端。魔法樹使用等級下拉；「魔法強化」會依主控台角色 Lv 自動限制可用上限。時裝擁有即生效；寵物最多裝備 4 隻。":["Settings are saved in the browser. Changing artifact levels retains the list position. Magic tree levels have a character-level cap. Owned costumes apply automatically; equip up to four pets.","모든 설정은 브라우저에 저장됩니다. 아티팩트 레벨을 변경해도 목록 위치가 유지됩니다. 마법 트리 레벨은 캐릭터 레벨에 따라 제한됩니다. 코스튬은 보유 시 적용되며 펫은 최대 4마리 장착할 수 있습니다."],"獨立統計・不計傷害":["Separate stats · No damage","별도 집계 · 피해 제외"],"獨立統計・不計傷害。":["Separate stats · No damage","별도 집계 · 피해 제외"],"人工製品｜103 件":["Artifacts | 103","아티팩트 | 103개"],"魔法樹｜29 節點":["Magic Tree | 29 Nodes","마법 트리 | 노드 29개"],"一鍵全滿":["Max All","모두 최대"],"可用技能點":["Available Skill Points","사용 가능 스킬 포인트"],"角色 Lv ":["Character Lv ","캐릭터 Lv "],"技能點":["Skill Points","스킬 포인트"],"時裝｜22 件":["Costumes | 22","코스튬 | 22개"],"寵物｜12 隻":["Pets | 12","펫 | 12마리"],"稱號｜48 個":["Titles "," 48|칭호 | 48개"],"尚未解鎖":["Not unlocked","미해금"],"已選擇":["Selected","선택됨"],"普通法術傷害":["Normal Spell Damage","일반 마법 피해"],"火焰法術傷害":["Fire Spell Damage","화염 마법 피해"],"冰系法術傷害":["Ice Spell Damage","얼음 마법 피해"],"閃電法術傷害":["Lightning Spell Damage","번개 마법 피해"],"法術傷害":["Spell Damage","마법 피해"],"系統統計":["System Statistics","시스템 능력치"],"更新資訊":["Updates","업데이트"],"已合併屬性":["Separate stats (not damage)","독립 통계 (피해 제외)"],"每件裝備僅能指定一格特殊特性":["Only one special trait slot per item","장비당 특수 특성 슬롯 1개만 지정 가능"],"稱號加成僅獨立統計":["Title bonuses are tracked separately","칭호 보너스는 별도 집계"],"不列入角色 ATK 與傷害":["Excluded from ATK and damage","캐릭터 ATK 및 피해 계산에서 제외"],"系統能力統計":["System Attribute Statistics","시스템 능력치 통계"],"稱號另行統計":["Titles tracked separately","칭호 별도 집계"],"搜尋人工製品名稱":["Search artifacts","아티팩트 검색"],"搜尋魔法樹節點":["Search magic tree","마법 트리 노드 검색"],"屬性傷害":["Elemental Damage","속성 피해"],"獨立統計":["Separate Statistics","독립 통계"],"不計傷害":["Excluded from Damage","피해 계산 제외"],"已投入：":["Invested: ","투자: "],"點":["points","포인트"],"剩餘":["Remaining","남음"],"取得":["Obtained","획득"],"裝備":["Equipped","장착"],"未取得":["Not obtained","미획득"],"未選擇":["Not selected","미선택"],"傷害":["Damage","피해"],"操作說明":["Instructions","사용 설명"],"問題回報":["Report an Issue","문제 신고"],"版本資訊":["Version Information","버전 정보"],"01 角色設定":["01 Character","01 캐릭터 설정"],"02 系統效果":["02 Systems","02 시스템 효과"],"03 裝備配置":["03 Equipment","03 장비 설정"],"04 分析報告":["04 Report","04 분석 보고서"],"模擬器操作說明":["Simulator Guide","시뮬레이터 이용 안내"],"01｜角色設定":["01 "," Character Settings|01 | 캐릭터 설정"],"02｜武器技能":["02 "," Weapon Skills|02 | 무기 스킬"],"03｜系統效果":["03 "," System Effects|03 | 시스템 효과"],"04｜手動實裝":["04 "," Manual Equipment|04 | 수동 장비 설정"],"05｜自動最佳化":["05 "," Auto Optimization|05 | 자동 최적화"],"06｜暴擊／冷卻門檻":["06 "," Crit / Cooldown Requirements|06 | 치명타 / 재사용 대기시간 조건"],"07｜元素詞條":["07 "," Elemental Options|07 | 속성 옵션"],"08｜即時傷害與分析報告":["08 "," Live Damage and Report|08 | 실시간 피해량 및 분석 보고서"],"09｜儲存、重設與問題比對":["09 "," Save, Reset and Troubleshooting|09 | 저장, 초기화 및 문제 비교"],"角色／主武":["Character / Main Weapon","캐릭터 / 주무기"],"角色等級":["Character Level","캐릭터 레벨"],"主武固定 ATK（照遊戲顯示輸入）":["Main Weapon Fixed ATK (in-game value)","주무기 고정 ATK (게임 표시값)"],"主武裝備 Lv":["Main Weapon Equipment Lv","주무기 장비 Lv"],"武器技能（可留空）":["Weapon Skill (optional)","무기 스킬 (선택 사항)"],"模式":["Mode","모드"],"手動實裝":["Manual Equipment","수동 장비 설정"],"自動最佳化":["Auto Optimization","자동 최적화"],"系統效果":["System Effects","시스템 효과"],"裝備配置":["Equipment Setup","장비 설정"],"分析報告":["Analysis Report","분석 보고서"],"模擬器版本":["Simulator Version","시뮬레이터 버전"],"適用遊戲版本":["Supported Game Version","지원 게임 버전"],"只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。":["Only frequently edited character inputs are shown. Optimization settings are in Page 03.","자주 변경하는 캐릭터 입력 항목만 표시합니다. 최적화 조건은 03페이지에서 설정합니다."],"未暴擊傷害":["Noncritical Damage","일반 피해량"],"最終暴擊傷害":["Final Critical Damage","최종 치명타 피해량"],"手動實裝即時傷害":["Manual Live Damage","수동 장비 실시간 피해량"],"手動詞條統計｜格數＋合計值":["Manual Options "," Slots and Totals|수동 옵션 | 슬롯 및 합계"],"指定暴擊率 %（0＝不限制）":["Minimum Crit Rate % (0 = unrestricted)","최소 치명타 확률 % (0 = 제한 없음)"],"指定冷卻 %（0＝不限制）":["Minimum Cooldown % (0 = unrestricted)","최소 재사용 대기시간 감소 % (0 = 제한 없음)"],"Basic 詞條／特性條件｜Lv.750":["Basic Option / Trait Rules "," Lv.750|기본 옵션 / 특성 조건 | Lv.750"],"未指定":["Not specified","지정 안 함"],"Optimizer 狀態":["Optimizer Status","최적화 상태"],"最終暴擊":["Final Critical Rate","최종 치명타 확률"],"最終冷卻":["Final Cooldown","최종 재사용 대기시간 감소"],"最佳配裝明細｜系統模擬，只看不填":["Optimized Equipment "," Preview Only|최적화 장비 | 미리보기 전용"],"最佳化詞條統計｜格數＋合計值":["Optimized Options "," Slots and Totals|최적화 옵션 | 슬롯 및 합계"],"匯出 PDF":["Export PDF","PDF 내보내기"],"角色條件":["Character Conditions","캐릭터 조건"],"目前角色重要總合":["Current Character Summary","현재 캐릭터 주요 능력치"],"查看系統效果來源摘要":["Show System Effect Sources","시스템 효과 출처 보기"],"手動實裝 vs 自動最佳化":["Manual vs Auto Optimization","수동 설정 vs 자동 최적화"],"差異（自動－手動）":["Difference (Auto − Manual)","차이 (자동 − 수동)"],"手動配裝方案":["Manual Equipment Build","수동 장비 구성"],"自動最佳化方案":["Auto-optimized Build","자동 최적화 구성"],"詞條統計":["Option Statistics","옵션 통계"],"分享":["Share","공유"],"上一步":["Previous","이전"],"下一步":["Next","다음"],"重置目前頁":["Reset Current Page","현재 페이지 초기화"],"重置全部 Build":["Reset All Builds","전체 빌드 초기화"],"人工製品":["Artifacts","아티팩트"],"魔法樹":["Magic Tree","마법 트리"],"時裝":["Costumes","코스튬"],"寵物":["Pets","펫"],"稱號":["Titles","칭호"],"可用點數":["Available Points","사용 가능 포인트"],"已使用點數":["Spent Points","사용한 포인트"],"剩餘點數":["Remaining Points","남은 포인트"],"稱號已取各自選定最高星級，將攻擊力、暴擊傷害、火／冰／雷屬性加成計入 02 系統能力，並參與 03／04 傷害計算。其餘特殊能力僅列來源，待確定正確倍率及公式後再接入。":["Titles are summarized by the highest selected star per title. All title bonuses are tracked separately and excluded from character ATK, optimization, and damage calculations pending game verification.","칭호별 선택한 최고 별 등급을 집계합니다. 모든 칭호 보너스는 별도로 표시되며 게임 검증 전까지 캐릭터 ATK, 최적화 및 피해 계산에 반영되지 않습니다."],"稱號僅獨立統計；不納入角色 ATK 或傷害計算。":["Titles are tracked separately and excluded from ATK and damage calculations.","칭호는 별도 집계되며 ATK 및 피해 계산에 반영되지 않습니다."],"已併入系統能力；此處僅顯示稱號貢獻及來源，不重複計入":["Titles are tracked separately and are not included in ATK or damage calculations.","칭호 능력치는 별도 집계되며 ATK 및 피해 계산에 반영되지 않습니다."],"寵物｜最多裝備 4 隻":["Pets "," Equip up to 4|펫 | 최대 4마리 장착"],"時裝｜擁有即生效":["Costumes "," Active when owned|코스튬 | 보유 시 적용"],"MAX 回歸參考｜僅供驗證，不參與目前值":["MAX Reference "," Verification Only|최대값 참조 | 검증 전용"],"元素｜不含寵物":["Elements "," Excluding Pets|속성 | 펫 제외"],"元素寵物":["Elemental Pets","속성 펫"],"法傷":["Spell Damage","마법 피해"],"暴擊／冷卻":["Critical / Cooldown","치명타 / 재사용 대기시간 감소"],"加成獨立統計・不參與傷害":["Separate Statistics · Excluded from Damage","별도 집계 · 피해 계산 제외"],"未設定":["Not configured","설정 안 됨"],"稱號資料準備中…":["Loading titles…","칭호 데이터 불러오는 중…"],"已選 0 格":["0 slots selected","선택한 슬롯 0개"],"元素及法傷：等待輸入。":["Element and spell damage: waiting for input.","속성 및 마법 피해: 입력 대기 중"],"稱號依選定星級獨立統計。所有稱號能力暫不計入角色 ATK、手動／自動最佳化或技能傷害；遊戲原生加成規則仍待驗證。":["Title bonuses are tracked by selected stars and excluded from ATK, optimization and skill damage pending game verification.","칭호 보너스는 선택한 별 등급별로 별도 집계되며 게임 검증 전까지 ATK, 최적화 및 스킬 피해에 반영되지 않습니다."],"稱號能力僅獨立統計，不參與角色 ATK、最佳化與傷害計算":["Titles are tracked separately and excluded from ATK, optimization and damage.","칭호는 별도 집계되며 ATK, 최적화 및 피해 계산에서 제외됩니다."],"裝備加成":["Equipment Bonuses","장비 보너스"],"手動詞條":["Manual Options","수동 옵션"],"自動詞條":["Auto Options","자동 옵션"],"固定 ATK":["Fixed ATK","고정 ATK"],"元素傷害":["Element Damage","속성 피해"],"普通元素":["Normal Element","일반 속성"],"火焰元素":["Fire Element","화염 속성"],"冰系元素":["Ice Element","얼음 속성"],"閃電元素":["Lightning Element","번개 속성"],"系統加成":["System Bonus","시스템 보너스"],"手動加成":["Manual Bonus","수동 보너스"],"最終加成":["Final Bonus","최종 보너스"],"實際參與計算":["Used in Calculation","계산에 적용"],"不參與計算":["Excluded from Calculation","계산에서 제외"],"計算中":["Calculating","계산 중"],"無法計算":["Cannot Calculate","계산 불가"],"選擇技能":["Select Skill","스킬 선택"],"未選擇技能":["No Skill Selected","선택한 스킬 없음"],"請先選擇技能":["Please Select a Skill","먼저 스킬을 선택하세요"],"請輸入主武 ATK":["Enter Main Weapon ATK","주무기 ATK를 입력하세요"],"套用":["Apply","적용"],"確認":["Confirm","확인"],"取消":["Cancel","취소"],"重置":["Reset","초기화"],"全部":["All","전체"],"總計":["Total","합계"],"加總":["Sum","합산"],"已裝備":["Equipped","장착 완료"],"未裝備":["Unequipped","장착 안 함"],"解鎖條件":["Unlock Condition","해금 조건"],"能力加成":["Attribute Bonus","능력치 보너스"],"稱號能力":["Title Attributes","칭호 능력치"],"已選星級":["Selected Stars","선택한 별 등급"],"初始能力":["Base Attributes","기본 능력치"],"目前能力":["Current Attributes","현재 능력치"],"能力統計":["Attribute Summary","능력치 통계"],"來源明細":["Source Breakdown","출처 상세"],"完整報告":["Full Report","전체 보고서"],"輸出報告":["Export Report","보고서 내보내기"],"裝備部位":["Equipment Slot","장비 부위"],"特殊特性":["Special Trait","특수 특성"],"基礎詞條":["Basic Option","기본 옵션"],"附加詞條":["Additional Option","추가 옵션"],"目前值":["Current Value","현재 값"],"最小值":["Minimum","최소값"],"最大值":["Maximum","최대값"],"技能等級":["Skill Level","스킬 레벨"],"技能傷害":["Skill Damage","스킬 피해"],"裝備等級":["Equipment Level","장비 레벨"],"選取":["Select","선택"],"重新計算":["Recalculate","다시 계산"],"重新整理":["Refresh","새로고침"],"沒有資料":["No Data","데이터 없음"],"無資料":["No Data","데이터 없음"],"等待輸入":["Waiting for Input","입력 대기 중"],"已更新":["Updated","업데이트됨"],"尚未更新":["Not Yet Updated","아직 업데이트되지 않음"],"尚未全部更新完成":["Not All Updates Are Complete","아직 모든 업데이트가 완료되지 않았습니다"],"暴擊傷害":["Critical Damage","치명타 피해"],"暴擊率":["Critical Rate","치명타 확률"],"冷卻時間":["Cooldown","재사용 대기시간"],"冷卻減少":["Cooldown Reduction","재사용 대기시간 감소"],"攻擊力":["Attack","공격력"],"普通攻擊":["Normal Attack","일반 공격"],"手動模式":["Manual Mode","수동 모드"],"自動模式":["Auto Mode","자동 모드"],"最佳化結果":["Optimization Results","최적화 결과"],"正在最佳化":["Optimizing","최적화 중"],"請稍候":["Please Wait","잠시 기다려 주세요"],"已選":["Selected","선택됨"],"格":["slots","칸"],"件":["items","개"],"隻":["pets","마리"],"星":["stars","성"]};
+const original=new WeakMap(), attrs=new WeakMap();let busy=false,queued=false;
+const chinese=/[\u3400-\u9fff]/;
+function lang(){const b=document.querySelector('.lang-btn.active'); const v=b?.dataset.lang||localStorage.getItem('towerSword.language')||'zh-Hant';return v==='ko'||v==='en'?v:'zh-Hant';}
+const entries=Object.entries(dict).filter(([k,v])=>k.length>=2 && Array.isArray(v)&&v.length===2).sort((a,b)=>b[0].length-a[0].length);
+function tr(s,l){if(l==='zh-Hant'||!s||!chinese.test(s))return s;const col=l==='en'?0:1;if(dict[s]&&dict[s].length===2)return dict[s][col];let v=s;
+// Process long phrases first; only translate phrases that appear within text boundaries.
+for(const [k,z] of entries){if(k.length<3||!v.includes(k))continue;v=v.split(k).join(z[col]);}
+return v;}
+function apply(){if(busy||!document.body)return;busy=true;try{const l=lang();const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode(n){return n.parentElement&&!n.parentElement.closest('script,style,svg,.language-switch,[data-no-translate]')?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});let n;
+while((n=walker.nextNode())){const now=n.nodeValue;let raw=original.get(n);if(raw===undefined){raw=now;original.set(n,raw)}else if(now!==raw&&now!==tr(raw,'en')&&now!==tr(raw,'ko')&&chinese.test(now)){raw=now;original.set(n,raw)}const val=tr(raw,l);if(now!==val)n.nodeValue=val;}
+for(const el of document.querySelectorAll('[title],[aria-label],[placeholder]')){if(el.closest('[data-no-translate]'))continue;let rec=attrs.get(el);if(!rec){rec={};attrs.set(el,rec)}for(const attr of ['title','aria-label','placeholder']){if(!el.hasAttribute(attr))continue;const now=el.getAttribute(attr);if(!(attr in rec))rec[attr]=now;else if(now!==rec[attr]&&now!==tr(rec[attr],'en')&&now!==tr(rec[attr],'ko')&&chinese.test(now))rec[attr]=now;const val=tr(rec[attr],l);if(now!==val)el.setAttribute(attr,val);}}
+}finally{busy=false;}}
+function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;apply()})}
+function init(){apply();new MutationObserver(changes=>{if(!busy&&changes.some(x=>x.type==='characterData'||x.addedNodes.length||x.type==='attributes'))schedule()}).observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['title','aria-label','placeholder']});
+document.querySelectorAll('.lang-btn').forEach(el=>el.addEventListener('click',()=>{setTimeout(apply,0);setTimeout(apply,120)}));window.addEventListener('tower-language-changed',()=>setTimeout(apply,50));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script><script id="r12-interface-copy-completion">
-(()=>{'use strict';
-const dict={"操作說明": ["Instructions", "사용 설명"], "問題回報": ["Report an Issue", "문제 신고"], "版本資訊": ["Version Information", "버전 정보"], "01 角色設定": ["01 Character", "01 캐릭터 설정"], "02 系統效果": ["02 Systems", "02 시스템 효과"], "03 裝備配置": ["03 Equipment", "03 장비 설정"], "04 分析報告": ["04 Report", "04 분석 보고서"], "模擬器操作說明": ["Simulator Guide", "시뮬레이터 이용 안내"], "01｜角色設定": ["01 ", " Character Settings|01 | 캐릭터 설정"], "02｜武器技能": ["02 ", " Weapon Skills|02 | 무기 스킬"], "03｜系統效果": ["03 ", " System Effects|03 | 시스템 효과"], "04｜手動實裝": ["04 ", " Manual Equipment|04 | 수동 장비 설정"], "05｜自動最佳化": ["05 ", " Auto Optimization|05 | 자동 최적화"], "06｜暴擊／冷卻門檻": ["06 ", " Crit / Cooldown Requirements|06 | 치명타 / 재사용 대기시간 조건"], "07｜元素詞條": ["07 ", " Elemental Options|07 | 속성 옵션"], "08｜即時傷害與分析報告": ["08 ", " Live Damage and Report|08 | 실시간 피해량 및 분석 보고서"], "09｜儲存、重設與問題比對": ["09 ", " Save, Reset and Troubleshooting|09 | 저장, 초기화 및 문제 비교"], "角色／主武": ["Character / Main Weapon", "캐릭터 / 주무기"], "角色等級": ["Character Level", "캐릭터 레벨"], "主武固定 ATK（照遊戲顯示輸入）": ["Main Weapon Fixed ATK (in-game value)", "주무기 고정 ATK (게임 표시값)"], "主武裝備 Lv": ["Main Weapon Equipment Lv", "주무기 장비 Lv"], "武器技能（可留空）": ["Weapon Skill (optional)", "무기 스킬 (선택 사항)"], "模式": ["Mode", "모드"], "手動實裝": ["Manual Equipment", "수동 장비 설정"], "自動最佳化": ["Auto Optimization", "자동 최적화"], "系統效果": ["System Effects", "시스템 효과"], "裝備配置": ["Equipment Setup", "장비 설정"], "分析報告": ["Analysis Report", "분석 보고서"], "模擬器版本": ["Simulator Version", "시뮬레이터 버전"], "適用遊戲版本": ["Supported Game Version", "지원 게임 버전"], "只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。": ["Only frequently edited character inputs are shown. Optimization settings are in Page 03.", "자주 변경하는 캐릭터 입력 항목만 표시합니다. 최적화 조건은 03페이지에서 설정합니다."], "未暴擊傷害": ["Noncritical Damage", "일반 피해량"], "最終暴擊傷害": ["Final Critical Damage", "최종 치명타 피해량"], "手動實裝即時傷害": ["Manual Live Damage", "수동 장비 실시간 피해량"], "手動詞條統計｜格數＋合計值": ["Manual Options ", " Slots and Totals|수동 옵션 | 슬롯 및 합계"], "指定暴擊率 %（0＝不限制）": ["Minimum Crit Rate % (0 = unrestricted)", "최소 치명타 확률 % (0 = 제한 없음)"], "指定冷卻 %（0＝不限制）": ["Minimum Cooldown % (0 = unrestricted)", "최소 재사용 대기시간 감소 % (0 = 제한 없음)"], "Basic 詞條／特性條件｜Lv.750": ["Basic Option / Trait Rules ", " Lv.750|기본 옵션 / 특성 조건 | Lv.750"], "未指定": ["Not specified", "지정 안 함"], "Optimizer 狀態": ["Optimizer Status", "최적화 상태"], "最終暴擊": ["Final Critical Rate", "최종 치명타 확률"], "最終冷卻": ["Final Cooldown", "최종 재사용 대기시간 감소"], "最佳配裝明細｜系統模擬，只看不填": ["Optimized Equipment ", " Preview Only|최적화 장비 | 미리보기 전용"], "最佳化詞條統計｜格數＋合計值": ["Optimized Options ", " Slots and Totals|최적화 옵션 | 슬롯 및 합계"], "匯出 PDF": ["Export PDF", "PDF 내보내기"], "角色條件": ["Character Conditions", "캐릭터 조건"], "目前角色重要總合": ["Current Character Summary", "현재 캐릭터 요약"], "查看系統效果來源摘要": ["Show System Effect Sources", "시스템 효과 출처 보기"], "手動實裝 vs 自動最佳化": ["Manual vs Auto Optimization", "수동 설정 vs 자동 최적화"], "差異（自動－手動）": ["Difference (Auto − Manual)", "차이 (자동 − 수동)"], "手動配裝方案": ["Manual Equipment Build", "수동 장비 구성"], "自動最佳化方案": ["Auto-optimized Build", "자동 최적화 구성"], "詞條統計": ["Option Statistics", "옵션 통계"], "分享": ["Share", "공유"], "上一步": ["Previous", "이전"], "下一步": ["Next", "다음"], "重置目前頁": ["Reset Current Page", "현재 페이지 초기화"], "重置全部 Build": ["Reset All Builds", "전체 빌드 초기화"], "目前自訂進度": ["Current Progress", "현재 설정 진행도"], "人工製品": ["Artifacts", "아티팩트"], "魔法樹": ["Magic Tree", "마법 트리"], "時裝": ["Costumes", "코스튬"], "寵物": ["Pets", "펫"], "稱號": ["Titles", "칭호"], "可用點數": ["Available Points", "사용 가능 포인트"], "已使用點數": ["Spent Points", "사용한 포인트"], "剩餘點數": ["Remaining Points", "남은 포인트"], "系統統計總覽": ["System Statistics Overview", "시스템 능력치 개요"], "稱號來源明細": ["Title Bonus Breakdown", "칭호 보너스 상세"], "稱號已取各自選定最高星級，將攻擊力、暴擊傷害、火／冰／雷屬性加成計入 02 系統能力，並參與 03／04 傷害計算。其餘特殊能力僅列來源，待確定正確倍率及公式後再接入。": ["Titles are summarized by the highest selected star per title. All title bonuses are tracked separately and excluded from character ATK, optimization, and damage calculations pending game verification.", "칭호별 선택한 최고 별 등급을 집계합니다. 모든 칭호 보너스는 별도로 표시되며 게임 검증 전까지 캐릭터 ATK, 최적화 및 피해 계산에 반영되지 않습니다."], "稱號僅獨立統計；不納入角色 ATK 或傷害計算。": ["Titles are tracked separately and excluded from ATK and damage calculations.", "칭호는 별도 집계되며 ATK 및 피해 계산에 반영되지 않습니다."], "已併入系統能力；此處僅顯示稱號貢獻及來源，不重複計入": ["Titles are tracked separately and are not included in ATK or damage calculations.", "칭호 능력치는 별도 집계되며 ATK 및 피해 계산에 반영되지 않습니다."], "稱號加成僅獨立統計，不列入角色 ATK 與傷害": ["Title bonuses are separately recorded and excluded from ATK and damage", "칭호 보너스는 별도 집계되며 ATK 및 피해 계산에서 제외됩니다"], "稱號｜48 個": ["Titles ", " 48|칭호 | 48개"], "寵物｜最多裝備 4 隻": ["Pets ", " Equip up to 4|펫 | 최대 4마리 장착"], "時裝｜擁有即生效": ["Costumes ", " Active when owned|코스튬 | 보유 시 적용"], "MAX 回歸參考｜僅供驗證，不參與目前值": ["MAX Reference ", " Verification Only|최대값 참조 | 검증 전용"], "元素｜不含寵物": ["Elements ", " Excluding Pets|속성 | 펫 제외"], "元素寵物": ["Elemental Pets", "속성 펫"], "法傷": ["Spell Damage", "마법 피해"], "暴擊／冷卻": ["Critical / Cooldown", "치명타 / 재사용 대기시간 감소"], "加成獨立統計・不參與傷害": ["Separate Statistics · Excluded from Damage", "별도 집계 · 피해 계산 제외"], "未設定": ["Not configured", "설정 안 됨"], "稱號資料準備中…": ["Loading titles…", "칭호 데이터 불러오는 중…"], "已選 0 格": ["0 slots selected", "선택한 슬롯 0개"], "元素及法傷：等待輸入。": ["Element and spell damage: waiting for input.", "속성 및 마법 피해: 입력 대기 중"], "稱號依選定星級獨立統計。所有稱號能力暫不計入角色 ATK、手動／自動最佳化或技能傷害；遊戲原生加成規則仍待驗證。": ["Title bonuses are tracked by selected stars and excluded from ATK, optimization and skill damage pending game verification.", "칭호 보너스는 선택한 별 등급별로 별도 집계되며 게임 검증 전까지 ATK, 최적화 및 스킬 피해에 반영되지 않습니다."], "稱號能力僅獨立統計，不參與角色 ATK、最佳化與傷害計算": ["Titles are tracked separately and excluded from ATK, optimization and damage.", "칭호는 별도 집계되며 ATK, 최적화 및 피해 계산에서 제외됩니다."]};
-const snapshots=new WeakMap();
-let busy=false,scheduled=false;
-function lang(){return localStorage.getItem('towerSword.language') || document.querySelector('.lang-btn.active')?.dataset.lang || 'zh-Hant';}
-function translate(v,l){if(l!=='ko'&&l!=='en')return v;const ix=l==='en'?0:1;if(dict[v])return dict[v][ix];let r=v;for(const [k,vv] of Object.entries(dict)){if(k.length<4||!r.includes(k)||r===k||r.length-k.length>140)continue;r=r.split(k).join(vv[ix]);}return r;}
-function apply(){if(busy)return;busy=true;try{const l=lang();const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode(n){return n.parentElement&&!n.parentElement.closest('script,style,svg,.language-switch')?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});let n;while(n=w.nextNode()){let now=n.nodeValue;let old=snapshots.get(n);if(old===undefined){old=now;snapshots.set(n,old)}else if(now!==old&&now!==translate(old,'en')&&now!==translate(old,'ko')&&/[\u3400-\u9fff]/.test(now)){old=now;snapshots.set(n,old)}let target=translate(old,l);if(now!==target)n.nodeValue=target;} }finally{busy=false}}
-function queue(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;apply()})}
-function init(){apply();new MutationObserver(changes=>{if(!busy&&changes.some(x=>x.addedNodes.length||x.type==='characterData'))queue()}).observe(document.body,{subtree:true,childList:true,characterData:true});document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>{setTimeout(apply,0);setTimeout(apply,160)}));window.addEventListener('tower-language-changed',()=>setTimeout(apply,60));}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script></body></html>
+})();</script></body></html>
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
   /* Restore the original two-mode selector and mutually exclusive panes. */
@@ -8980,7 +8764,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   setTimeout(()=>{syncModeUI();restoreText();},0);
 })();
 </script>
-
 <!-- V1.0 Test07 — Fix Manual/Auto selector click state sync only -->
 <script id="v10-test07-mode-click-fix">
 (()=>{
@@ -9024,13 +8807,9 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   setTimeout(()=>applyModeVisual(state.mode),0);
 })();
 </script>
-
 <!-- V1.0 Test09 — final interaction performance governor.
      Scope: event scheduling only. Damage formulas, optimizer scoring/candidates,
      equipment legality and Manual/Auto state are not changed. -->
-
-
-
 <!-- V1.0 Test11 — single-layer interaction scheduler.
      IMPORTANT: calculation formulas, optimizer candidates/scoring, equipment legality,
      i18n dictionaries, and Manual/Auto state are unchanged. -->
@@ -9136,8 +8915,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   },{capture:true,passive:true});
 })();
 </script>
-
-
 <!-- V1.0 Test25: page-1 skill-change performance gate + fixed four-page title i18n.
      Display/event scheduling only. Damage formulas, current-system Auto rules, equipment state and optimizer search/scoring are untouched. -->
 <script id="v10-test25-skill-fast-page-title-i18n">
@@ -9206,8 +8983,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   else applyPageTitles();
 })();
 </script>
-
-
 <!-- V1.0 Test28 — skill preview i18n + Page03 faster entry + mobile header/footer refinement.
      Presentation/scheduling only: damage formulas, optimizer legal search/scoring, current-system Auto baseline,
      Manual equipment state and Page01/Page02 event-cascade fixes remain untouched. -->
@@ -9338,8 +9113,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }catch(e){console.error('Test28 Page03 entry optimization failed',e);}
 })();
 </script>
-
-
 <style id="r27-single-scroll-and-pet-size">
 /* Tabs remain as navigation; never follow the reader or cover editable content. */
 .safe-sys-tabs{position:relative!important;top:auto!important;z-index:2!important;backdrop-filter:none!important}
