@@ -8777,29 +8777,53 @@ for(let k=0;k<3;k++){opt=document.createElement('option');opt.value=String(k);op
 select.value=values[slot]??'';select.addEventListener('change',()=>{values[slot]=select.value;try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{}; renderResults();});wrap.append(label,select);inputs.append(wrap)});
 renderResults()}
 function renderResults(){
- const l=lang(), data=L[l],m=messages[l],out=document.getElementById('r28-set-results');if(!out)return;
- const info={
- chinese:{status:'效果門檻待驗證',shared:'官方已知效果',assoc:'待確認各套對應及啟動件數',inactive:'尚不可判定啟動',part:'件',unassigned:'尚未確認套裝歸屬／階段',desc:'目前僅展示原始遊戲資料中確定的四項效果；同一效果是否三套共用、各效果屬於哪套、需要幾件啟動，仍無可核實的遊戲配置資料。不會因件數而擅自標記生效。',zero:'尚未選擇'},
- english:{status:'Activation thresholds unverified',shared:'Confirmed official effect texts',assoc:'Set assignment and piece requirements pending',inactive:'Activation unknown',part:'pieces',unassigned:'Set assignment / tier not yet confirmed',desc:'Only four effect descriptions are verified in the game localization. Set assignment, shared bonuses and piece-count activation conditions are not established by this source. No bonus is marked active.',zero:'No set pieces selected'},
- korean:{status:'발동 조건 확인 필요',shared:'공식 확인 효과 문구',assoc:'세트별 효과·착용 수 미확인',inactive:'발동 여부 미확인',part:'개',unassigned:'세트 귀속 / 발동 단계 미확인',desc:'게임 언어 데이터에서 확인된 효과 문구 네 가지를 표시합니다. 세트별 배정, 공통 효과 및 발동 수량은 확인되지 않았으며, 조건을 임의로 설정하지 않습니다.',zero:'세트 장비 미선택'}}[l];
- const colors=['#8985da','#c17078','#cda052'];
+ const l=lang(),d=L[l],m=messages[l],out=document.getElementById('r28-set-results');if(!out)return;
+ const translations={
+ chinese:{on:'已啟動',off:'未啟動',detail:'套裝效果依各套實際件數分別啟動，各階段累加；僅預覽、不計入傷害計算。',tier:'套裝階段',names:'已選裝備',pending:'距下一階段',complete:'已達九件'},
+ english:{on:'Active',off:'Locked',detail:'Effects activate at 2, 5, 7 and 9 pieces for each set independently and stack across tiers. Preview only; excluded from damage.',tier:'Set tiers',names:'Selected items',pending:'Next tier in',complete:'All nine pieces'},
+ korean:{on:'발동',off:'미발동',detail:'세트마다 2, 5, 7, 9개 보너스가 각각 적용되며 단계별 효과는 누적됩니다. 표시만 하며 피해 계산에는 포함되지 않습니다.',tier:'세트 단계',names:'착용 장비',pending:'다음 단계까지',complete:'9개 완성'}}[l];
+ const tiers=[2,5,7,9],colors=['#8985da','#c17078','#cda052'];
+ const effects={
+ chinese:[[
+ ['普通法術傷害 +10%'],['減少 MP 消耗 +3%'],['普通法術傷害 +15%','最大生命值 +10%'],['普通魔法最終傷害 +15%']
+ ],[
+ ['流血機率 +3%'],['HP 竊取機會 +3%'],['流血機率 +3%','攻擊速度 +5%'],['對流血中的敵人造成的最終傷害 +10%']
+ ],[
+ ['火焰法術傷害 +10%'],['減少 MP 消耗 +3%'],['火焰法術傷害 +15%','攻擊速度 +5%'],['火焰魔法最終傷害 +15%']
+ ]],
+ english:[[
+ ['Normal spell damage +10%'],['MP cost reduction +3%'],['Normal spell damage +15%','Max HP +10%'],['Final normal magic damage +15%']
+ ],[
+ ['Bleed chance +3%'],['HP steal chance +3%'],['Bleed chance +3%','Attack speed +5%'],['Final damage to bleeding enemies +10%']
+ ],[
+ ['Fire spell damage +10%'],['MP cost reduction +3%'],['Fire spell damage +15%','Attack speed +5%'],['Final fire magic damage +15%']
+ ]],
+ korean:[[
+ ['일반 마법 피해 +10%'],['MP 소모 감소 +3%'],['일반 마법 피해 +15%','최대 HP +10%'],['일반 마법 최종 피해 +15%']
+ ],[
+ ['출혈 확률 +3%'],['HP 흡수 확률 +3%'],['출혈 확률 +3%','공격 속도 +5%'],['출혈 중인 적에게 최종 피해 +10%']
+ ],[
+ ['화염 마법 피해 +10%'],['MP 소모 감소 +3%'],['화염 마법 피해 +15%','공격 속도 +5%'],['화염 마법 최종 피해 +15%']
+ ]]};
  out.replaceChildren();
  for(let k=0;k<3;k++){
   const count=slots.reduce((n,slot)=>n+(values[slot]===String(k)?1:0),0);
-  const card=document.createElement('div');card.style.cssText='border:1px solid #365368;background:#081923;border-radius:10px;padding:14px;min-height:180px;display:flex;flex-direction:column;gap:9px';
-  const header=document.createElement('div');header.style.cssText='display:flex;justify-content:space-between;align-items:center;gap:10px';
-  const h=document.createElement('strong');h.style.cssText='color:'+colors[k]+';font-size:16px';h.textContent=data.sets[k];
-  const countEl=document.createElement('strong');countEl.style.cssText='font-size:18px;color:#e7eef4;font-variant-numeric:tabular-nums';countEl.textContent=count+'/9';header.append(h,countEl);
-  const track=document.createElement('div');track.style.cssText='height:8px;border-radius:99px;background:#23323c;overflow:hidden';const fill=document.createElement('div');fill.style.cssText='height:100%;border-radius:99px;background:'+colors[k]+';width:'+(100*count/9)+'%';track.append(fill);
-  const names=document.createElement('div');names.style.cssText='font-size:12px;line-height:1.7;color:#a6bac8';names.textContent=m.parts+': '+(slots.filter(slot=>values[slot]===String(k)).map(slot=>data.pieces[k][pieceIndex[slots.indexOf(slot)]]).join('、')||info.zero);
-  const status=document.createElement('div');status.style.cssText='font-size:12px;color:#bdc9d2;border-top:1px solid #243746;padding-top:9px;margin-top:auto';status.textContent='◌ '+info.inactive+' · '+info.status;
-  card.append(header,track,names,status);out.append(card);
+  const card=document.createElement('section');card.style.cssText='border:1px solid #365368;background:#081923;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px';
+  const head=document.createElement('div');head.style.cssText='display:flex;justify-content:space-between;gap:8px';
+  const name=document.createElement('strong');name.style.cssText='color:'+colors[k]+';font-size:16px';name.textContent=d.sets[k];
+  const qty=document.createElement('strong');qty.style.cssText='font-size:18px;color:#e7eef4';qty.textContent=count+'/9';head.append(name,qty);card.append(head);
+  const track=document.createElement('div');track.style.cssText='height:8px;background:#23323c;border-radius:99px;overflow:hidden';const fill=document.createElement('div');fill.style.cssText='height:100%;width:'+(100*count/9)+'%;background:'+colors[k]+';border-radius:99px';track.append(fill);card.append(track);
+  const names=document.createElement('div');names.style.cssText='font-size:12px;line-height:1.6;color:#a6bac8';names.textContent=translations.names+': '+(slots.filter(slot=>values[slot]===String(k)).map(slot=>d.pieces[k][pieceIndex[slots.indexOf(slot)]]).join('、')||'—');card.append(names);
+  const list=document.createElement('div');list.style.cssText='display:flex;flex-direction:column;gap:8px;border-top:1px solid #263a48;padding-top:10px';
+  for(let j=0;j<tiers.length;j++){
+    const active=count>=tiers[j],item=document.createElement('div');item.style.cssText='border:1px solid '+(active?colors[k]:'#304351')+';border-radius:8px;padding:9px 10px;background:'+(active?'#142b32':'#0b1a23')+';opacity:'+(active?'1':'0.68');
+    const label=document.createElement('strong');label.style.cssText='color:'+(active?'#a3e0b9':'#bdc8d0')+';font-size:12px';label.textContent='['+tiers[j]+'] '+(active?'● '+translations.on:'○ '+translations.off);item.append(label);
+    for(const v of effects[l][k][j]){const p=document.createElement('div');p.style.cssText='font-size:12px;line-height:1.55;margin-top:3px;color:'+(active?'#e0e9eb':'#a9b9c4');p.textContent=v;item.append(p)}list.append(item);
+  }
+  card.append(list);out.append(card);
  }
- const note=document.createElement('div');note.style.cssText='grid-column:1/-1;border:1px solid #365368;border-radius:10px;padding:15px;background:#081923;color:#b8cad4;line-height:1.65';
- const strong=document.createElement('strong');strong.style.cssText='color:#d9e4ed;font-size:14px';strong.textContent=info.shared;note.append(strong);
- const desc=document.createElement('p');desc.style.cssText='margin:7px 0 10px;font-size:12px;color:#a9bbc9';desc.textContent=info.desc;note.append(desc);
- const ul=document.createElement('div');ul.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px';
- data.effects.forEach(v=>{const item=document.createElement('div');item.style.cssText='background:#0c2130;border:1px solid #334757;border-radius:8px;padding:10px';const effect=document.createElement('div');effect.style.cssText='font-size:13px;color:#e1e7ef;font-weight:600';effect.textContent=v;const pending=document.createElement('div');pending.style.cssText='font-size:11px;color:#a9b9c4;margin-top:5px';pending.textContent=info.unassigned;item.append(effect,pending);ul.append(item)});note.append(ul);out.append(note);
+ const note=document.createElement('div');note.style.cssText='grid-column:1/-1;color:#b6cad5;background:#0a1c28;border:1px solid #314a5b;padding:12px;border-radius:9px;font-size:12px;line-height:1.6';note.textContent=translations.detail;out.append(note);
+ const tip=document.getElementById('r28-tier-note');if(tip)tip.textContent=translations.detail;
 }
 function setup(){render();const select=document.querySelector('#langSelect,#languageSelect,select[data-language]');if(select)select.addEventListener('change',()=>setTimeout(render,0));new MutationObserver(()=>{const l=lang();if(window.__r28Lang!==l){window.__r28Lang=l;render()}}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
