@@ -3799,7 +3799,7 @@ const betaAutoCache=new Map();
 function betaAutoCacheKey({minCrit=0,minCooldown=0}={}){
   const sys=betaAutoMaxSystemStats(),sk=activeSkill(),mx=betaAutoMaxElementInfo(sys);
   return JSON.stringify({
-    basicTraits:r9SavedTraits(),skillId:sk.id,level:state.player.level,weaponAtk:state.weapon.displayAtk,
+    basicTraits:r9SavedTraits(),manualEquipment:state.manual?.equipment||{},skillId:sk.id,level:state.player.level,weaponAtk:state.weapon.displayAtk,
     weaponLv:state.weapon.equipmentLevel,boss:!!state.player?.boss,
     minCrit:betaAutoPctValue(betaAutoPctUnits(minCrit)),minCooldown:betaAutoPctValue(betaAutoPctUnits(minCooldown)),
     sysAtk:Number(sys.atk||0),sysFlat:Number(sys.flatAtk||0),
@@ -4178,6 +4178,36 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
     }
   }
 
+  // V2.2 R52: compare against the actual, fully valued Manual configuration,
+  // not an auto-max approximation which only copies the Manual affix TYPES.
+  // Only accept a Manual floor if every entered affix is representable by the
+  // currently legal optimizer slot and does not exceed that slot's cap.
+  // Otherwise the builds have different rules and must not be compared as equals.
+  try {
+    const rawManual=state.manual?.equipment||{};
+    const defByKey=new Map(defs.map(d=>[d.gear+'|'+d.slot,d]));
+    let legal=true,hasEntry=false;
+    for(const [key,item] of Object.entries(rawManual)){
+      if(!item?.type)continue;
+      hasEntry=true;
+      const [gear,short]=key.split('.');
+      const slot=short?.startsWith('B')?'Basic'+short.slice(1):short?.startsWith('P')?'Plus'+short.slice(1):short;
+      const def=defByKey.get(gear+'|'+slot);
+      const parsed=manualValue(item);
+      const actual=item.type==='ATK'?Number(parsed?.atk):Number(parsed?.num);
+      if(!def||!parsed?.valid||!Number.isFinite(actual)||actual<0||
+         !def.opts.some(o=>o.type===item.type && actual<=Number(o.value)+1e-6)){
+        legal=false;break;
+      }
+    }
+    if(legal&&hasEntry){
+      const candidate=betaManualAutoCandidate({minCrit:targetCrit,minCooldown:targetCd});
+      if(candidate&&(!best||candidate.critDamage>best.result.critDamage)){
+        best={assign:null,result:candidate,eq:candidate.eq,manualFloor:true};
+      }
+    }
+  }catch(e){console.warn('V2.2 manual incumbent check',e);}
+
   if(!best){
     const sys={stats:betaAutoMaxSystemStats()};
     const miss={
@@ -4192,11 +4222,11 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
     return miss;
   }
 
-  const eq=betaAutoAssignmentToEq(defs,best.assign);
+  const eq=best.manualFloor?best.eq:betaAutoAssignmentToEq(defs,best.assign);
   const solved={
     ...best.result,
     eq,
-    source:'rebuilt-search-v4-reference-incumbent',
+    source:best.manualFloor?'legal-manual-floor':'rebuilt-search-v4-reference-incumbent',
     searchKey:`skill:${activeSkill().id}|lv:${best.result.skillLv}|crit:${targetCrit}|cd:${targetCd}`
   };
   betaAutoCache.set(cacheKey,solved);
@@ -4399,7 +4429,7 @@ function refreshAuto(force=false){
   betaAutoRefreshing=true;
   try{
   const r=optimizeMax(state.auto); saveState(state);
-  $('#autoStatus').textContent=r.status==='dynamic'?'已重新搜尋目前條件最大傷害':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
+  $('#autoStatus').textContent=r.status==='dynamic'?'已搜尋目前條件較佳配置（不保證全域最大值）':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
   $('#autoStatus').className=r.status==='dynamic'?'pass':'warn';
   $('#autoCrit').textContent=r.crit??'—';
   $('#autoCd').textContent=r.cd??'—';
