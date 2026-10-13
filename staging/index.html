@@ -3080,13 +3080,22 @@ function refreshManualSummary(){
     const parts=['fire','ice','lightning','normal'].map(key=>{
       const fromSystem=Number(sysLive.stats[key]||0);
       const fromManual=Number(mtLive[key]||0);
-      const total=Math.round((fromSystem+fromManual)*1000)/1000;
+      const setPct=Number(r36SetDamageBonus(key).elementPct||0);
+      const total=Math.round((fromSystem+fromManual+setPct)*1000)/1000;
       const selected=key===elKeyLive;
-      return `<div class="r24-manual-item${selected?' is-current':''}"><span>${statLabels[key]}${selected?'（目前技能）':''}</span><b>${plainNumber(total)}</b><small>系統 ${plainNumber(fromSystem)} + 手動 ${plainNumber(fromManual)}</small></div>`;
+      return `<div class="r24-manual-item${selected?' is-current':''}"><span>${statLabels[key]}${selected?'（目前技能）':''}</span><b>${plainNumber(total)}</b><small>系統 ${plainNumber(fromSystem)} + 手動 ${plainNumber(fromManual)} + 套裝 ${plainNumber(setPct)}</small></div>`;
     });
     const spellSystem=Number(sysLive.stats.spell||0),spellManual=Number(mtLive.spell||0);
     parts.push(`<div class="r24-manual-item is-spell"><span>法術傷害</span><b>${plainNumber(spellSystem+spellManual)}</b><small>系統 ${plainNumber(spellSystem)} + 手動 ${plainNumber(spellManual)}</small></div>`);
     livePanel.innerHTML=`<strong class="r24-manual-caption">手動實裝即時屬性（各元素分開計算；僅目前技能元素參與技能傷害）</strong><div class="r24-manual-stats">${parts.join('')}</div>${!elKeyLive?'<span class="small">尚未選技能，仍可核對所有詞條總計。</span>':''}`;
+  }
+  const r44Audit=$('#r44-normal-audit');
+  if(r44Audit){
+    const normalSystem=Number(sysLive.stats.normal||0);
+    const normalManual=Number(mtLive.normal||0);
+    const normalSet=Number(r36SetDamageBonus('normal').elementPct||0);
+    const current=normalSystem+normalManual+normalSet;
+    r44Audit.textContent=`普通法術來源｜系統 ${plainNumber(normalSystem)}%＋手動 ${plainNumber(normalManual)}%＋黑月套裝 ${plainNumber(normalSet)}%＝${plainNumber(current)}%。遊戲提供的對照為 983%；依目前配置仍差 ${plainNumber(983-current)} 個百分點（可能來自未對齊的詞條／系統設定，尚未加入公式）。`;
   }
   const dmg=manualDamageResult();
   if($('#manualNonCritDamage'))$('#manualNonCritDamage').textContent=dmg.valid?formatDamageR(dmg.nonCrit):'—';
@@ -4684,6 +4693,12 @@ function formatDamageR(n){
   if(!Number.isFinite(Number(n)))return '—';
   const r=Number(n)/1e18;
   if(r===0)return '0R';
+  // 1000 R = 1 V. Keep the game-style three decimal places without rounding up.
+  // This is display-only: all damage calculations retain their original precision.
+  if(Math.abs(r)>=1000){
+    const v=r/1000;
+    return `${(Math.trunc(v*1000)/1000).toFixed(3)}V`;
+  }
   if(Math.abs(r)<0.001)return `${Number(r.toPrecision(5))}R`;
   return `${Math.round(r*1000)/1000}R`;
 }
@@ -8847,7 +8862,7 @@ root.querySelector('#r28-title').textContent=m.title;root.querySelector('#r28-ca
 const inputs=root.querySelector('#r28-slot-inputs');inputs.replaceChildren();
 slots.forEach((slot,i)=>{const wrap=document.createElement('label');wrap.style.cssText='display:flex;flex-direction:column;gap:5px;color:#d4dce4;font-size:13px';const label=document.createElement('span');label.textContent=captions[l][i];const select=document.createElement('select');select.style.cssText='width:100%;padding:9px;border-radius:8px;background:#0a1e2a;color:#e2e8ef;border:1px solid #334d60';let opt=document.createElement('option');opt.value='';opt.textContent=m.none;select.append(opt);
 for(let k=0;k<3;k++){opt=document.createElement('option');opt.value=String(k);opt.textContent=data.pieces[k][pieceIndex[i]]||data.sets[k];select.append(opt)}
-select.value=values[slot]??'';select.addEventListener('change',()=>{values[slot]=select.value;normalizeWeapons(slot);try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{};render();
+select.value=values[slot]??'';select.addEventListener('change',()=>{values[slot]=select.value;normalizeWeapons(slot);if(slot==='artifact'&&typeof window.__tsSetArtifactPrimaryFromSet==='function')window.__tsSetArtifactPrimaryFromSet(values.artifact);try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{};render();
   try{if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();if(typeof refreshManualSummary==='function')refreshManualSummary();if(typeof refreshAuto==='function')refreshAuto(true);if(typeof refreshReport==='function'&&state?.step===3)refreshReport();}catch(e){console.error('[R36 set refresh]',e)}});wrap.append(label,select);inputs.append(wrap)});
 renderResults()}
 function renderResults(){
@@ -8912,7 +8927,77 @@ function renderResults(){
  if(sum2)sum2.textContent=l==='chinese'?'檢視已啟動／未啟動套裝效果':l==='korean'?'발동 및 미발동 세트 효과 보기':'View active / inactive set effects';
   const tip=document.getElementById('r28-tier-note');if(tip)tip.textContent=translations.detail;
 }
-function setup(){render();const select=document.querySelector('#langSelect,#languageSelect,select[data-language]');if(select)select.addEventListener('change',()=>setTimeout(render,0));new MutationObserver(()=>{const l=lang();if(window.__r28Lang!==l){window.__r28Lang=l;render()}}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});}
+function setup(){render();window.__tsRenderSetPreview=render;window.__tsSetPreviewArtifactChoice=(code)=>{values.artifact=code;render()};const select=document.querySelector('#langSelect,#languageSelect,select[data-language]');if(select)select.addEventListener('change',()=>setTimeout(render,0));new MutationObserver(()=>{const l=lang();if(window.__r28Lang!==l){window.__r28Lang=l;render()}}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+})();
+</script>
+<script id="r45-primary-artifact-sync">
+/* R45: set-preview artifact slot and system primary artifact are ONE selection.
+   The 1.5x artifact factor is applied solely by systemSelectionSummary;
+   the set counter only sees a slot type and never re-applies that factor. */
+(function(){'use strict';
+const IDS=[99,100,101], KEY='tower-swords-r28-set-preview';
+let syncing=false;
+function slotOf(id){const pos=IDS.indexOf(Number(id));return pos<0?'':String(pos)}
+function saveSetChoice(code){
+ let vals={};try{vals=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(_){vals={}}
+ if(String(vals.artifact??'')===code)return false;
+ vals.artifact=code;
+ try{localStorage.setItem(KEY,JSON.stringify(vals))}catch(_){return false}
+ return true;
+}
+function refresh(){
+ try{if(typeof window.__tsSetPreviewArtifactChoice==='function')window.__tsSetPreviewArtifactChoice(slotOf(state.system?.artifactPrimary))}catch(e){console.warn('[R45] set redraw',e)}
+ try{if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();if(typeof refreshManualSummary==='function')refreshManualSummary();if(typeof refreshAuto==='function')refreshAuto(true)}catch(e){console.warn('[R45] damage refresh',e)}
+}
+function setPrimaryFromSet(code){
+ if(syncing)return;
+ syncing=true;
+ try{
+  const idx=Number(code), chosen=(String(code??'')!==''&&Number.isInteger(idx)&&idx>=0&&idx<3)?IDS[idx]:null;
+  // Do not invent a max-level item: a selected, previously unowned main artifact is Lv1.
+  if(chosen!==null){
+   const lv=Number(state.system.artifacts?.[chosen]||0);
+   if(lv<=0){state.system.artifacts[chosen]=1;const input=document.querySelector(`[data-artifact-lv="${chosen}"]`);if(input)input.value='1'}
+   state.system.artifactPrimary=chosen;
+  }else if(IDS.includes(Number(state.system.artifactPrimary))){state.system.artifactPrimary=null}
+  if(typeof saveState==='function')saveState(state);
+  if(typeof renderArtifacts==='function')renderArtifacts(document.querySelector('#artifactSearch')?.value||'');
+  if(typeof refreshSystemSummary==='function')refreshSystemSummary();
+ }finally{syncing=false}
+}
+window.__tsSetArtifactPrimaryFromSet=setPrimaryFromSet;
+function mirrorSystemPrimary(){
+ if(syncing)return;
+ syncing=true;
+ let changed=false;
+ try{changed=saveSetChoice(slotOf(state.system?.artifactPrimary))}finally{syncing=false}
+ if(changed)refresh();
+}
+// A primary artifact chosen in section 02 or the artifact cards automatically updates section 03.
+document.addEventListener('change',e=>{
+ if(e.target?.matches?.('[data-artifact-primary]'))queueMicrotask(mirrorSystemPrimary);
+ if(e.target?.matches?.('[data-artifact-lv],[data-artifact-max]'))queueMicrotask(mirrorSystemPrimary);
+});
+document.addEventListener('input',e=>{
+ if(e.target?.matches?.('[data-artifact-lv]'))queueMicrotask(mirrorSystemPrimary);
+});
+function setup(){
+ const primary=Number(state.system?.artifactPrimary||0);
+ let oldChoice='';try{oldChoice=String((JSON.parse(localStorage.getItem(KEY)||'{}')||{}).artifact??'')}catch(_){}
+ if(primary){mirrorSystemPrimary()}
+ else if(['0','1','2'].includes(oldChoice)){setPrimaryFromSet(oldChoice);refresh()}
+ else mirrorSystemPrimary();
+ const mount=document.getElementById('r28-set-panel');
+ if(mount){
+ const note=document.createElement('div');note.id='r45-artifact-sync-note';note.style.cssText='margin:8px 0;color:#a4c0d2;font-size:12px;line-height:1.55';
+ mount.appendChild(note);
+ const renderNote=()=>{const code=slotOf(state.system?.artifactPrimary);const l=String(document.documentElement.lang||'').toLowerCase();const name=code===''?'':(['黑月印章','血影之心','紅蓮火種'][Number(code)]);
+ note.textContent=l.startsWith('ko')?'주 유물은 유물 시스템과 동기화됩니다. 주 유물 보너스 1.5배는 한 번만 계산합니다.':l.startsWith('en')?'Main artifact is synchronized with the Artifact system. The primary 1.5× bonus is applied once only.':`主要人工製品與 02 人工製品同步${name?'（'+name+'）':''}；主要加成 ×1.5 僅計算一次。`};
+ renderNote();const observer=new MutationObserver(renderNote);observer.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+ document.addEventListener('change',e=>{if(e.target?.matches?.('[data-artifact-primary],#r28-slot-inputs select'))queueMicrotask(renderNote)});
+ }
+}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 })();
 </script>
@@ -9026,6 +9111,16 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    },0);
  },true);
 })();
+</script>
+<script id="r44-element-audit-attach">
+document.addEventListener('DOMContentLoaded',()=>{
+ const panel=document.getElementById('r23ManualAffixLive');
+ if(!panel||document.getElementById('r44-normal-audit'))return;
+ const el=document.createElement('div');el.id='r44-normal-audit';
+ el.style.cssText='margin:10px 0;padding:10px 12px;border:1px solid #446077;border-radius:10px;color:#bcd4df;font-size:12px;line-height:1.6';
+ panel.insertAdjacentElement('afterend',el);
+ if(typeof refreshManualSummary==='function')refreshManualSummary();
+});
 </script>
 </body></html>
 <!-- STAGING R35: three set tiers changed to 3/5/7/9; final magic multiplier stays preview-only. -->
