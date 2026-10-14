@@ -2834,7 +2834,7 @@ function legacyOptimizeMax({minCrit=0,minCooldown=0}={}){
    elemental pool, 9-piece final magic damage is a separate x1.15 multiplier.
    Bloodshadow's bleeding-only damage is NOT applied without a verified bleed flag. */
 function r36SetDamageBonus(elementKey){
-  const vals=(()=>{try{return JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch(_){return {}}})();
+  const vals=window.__r56OptimizationSetOverride || (()=>{try{return JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch(_){return {}}})();
   const slots=['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'];
   const counts=[0,0,0],swords=[new Set(),new Set(),new Set()];
   for(const slot of slots){
@@ -3819,7 +3819,7 @@ function betaAutoCacheKey({minCrit=0,minCooldown=0}={}){
     sysCd:Number(sys.cooldown||0),sysCritDmg:Number(sys.critDamage||0),
     sysElem:Number(mx.value||0),sysSkill:Number(sys.skillLv||0),
     systemState:state.system||{},
-    setSlots:(()=>{try{return localStorage.getItem('tower-swords-r28-set-preview')||'{}'}catch(_){return '{}'}})()
+    setSlots:window.__r56OptimizationSetOverride ? JSON.stringify(window.__r56OptimizationSetOverride) : (()=>{try{return localStorage.getItem('tower-swords-r28-set-preview')||'{}'}catch(_){return '{}'}})()
   });
 }
 
@@ -4406,9 +4406,33 @@ function betaGoldenOptimize(args={}){
 }
 
 function optimizeMax(args={}){
-  // Live Auto Optimize must search the legal equipment space. Golden tables remain
-  // regression references only and are not returned as the answer.
-  return betaAutoSearch(args);
+  // R56: search current equipment-set choice and a complete matching-element set.
+  // Ownership is read from the artifact system; never simulate an unowned artifact.
+  // Each candidate is independently optimized with the SAME equipment solver.
+  // The set-specific override only exists during Auto calculations.
+  const element=skillElementKey(activeSkill());
+  const targetSet=element==='normal'?'0':element==='fire'?'2':null;
+  const current=(()=>{try{return JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch(_){return {}}})();
+  const candidateLayouts=[{key:'current',layout:current}];
+  if(targetSet!==null){
+    // One unique set sword, never duplicate it in the other weapon slots.
+    const layout={...current};
+    for(const slot of ['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'])layout[slot]='';
+    layout.weapon=targetSet;
+    for(const slot of ['armor','helmet','boots','ring','ring2','necklace','earrings'])layout[slot]=targetSet;
+    if(JSON.stringify(layout)!==JSON.stringify(current))candidateLayouts.push({key:'matching-set',layout});
+  }
+  let best=null;
+  try{
+    for(const candidate of candidateLayouts){
+      window.__r56OptimizationSetOverride=candidate.layout;
+      const r=betaAutoSearch(args);
+      if(r?.status==='dynamic' && (!best||r.critDamage>best.critDamage)){
+        best={...r,setLayout:{...candidate.layout},setLayoutSource:candidate.key};
+      }
+    }
+  }finally{delete window.__r56OptimizationSetOverride;}
+  return best || betaAutoSearch(args);
 }
 
 function makeAutoEquipment(){
@@ -4431,6 +4455,8 @@ function renderAutoBreakdown(r){
   sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';const totalText=t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(total)))):`${total}${unit}`;return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${totalText}</div></div>`}).join('');
   const page2=betaAutoMaxSystemStats(),elementInfo=betaAutoMaxElementInfo(page2);
   const elemSystem=elementInfo.value,spellSystem=Number(page2.spell||0);
+  const setDescription=r.setLayout?Object.entries(r.setLayout).filter(([k,v])=>['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'].includes(k) && ['0','1','2'].includes(String(v))).map(([k,v])=>`${({'weapon':'主武','weapon2':'武2','weapon3':'武3','armor':'盔甲','helmet':'頭盔','boots':'鞋子','ring':'戒1','ring2':'戒2','necklace':'項鍊','earrings':'耳環'})[k]}：${(['黑月','血影','紅蓮'])[Number(v)]}`).join('、'):'';
+  if(setDescription){const setBox=document.createElement('div');setBox.className='note r56-auto-set-note';setBox.textContent='R56 最佳化建議套裝｜'+setDescription+'。套裝人工製品依已持有狀態自動計數。這是自動方案建議，不更動手動套裝配置。';host.prepend(setBox);}
   note.textContent=`R55 自動比較「所有魔法等級」與其他合法傷害詞條；特殊特性未驗證的觸發增傷不計入。搜尋結果尚非全域最優證明。｜${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜元素 ${Math.round(r.elem)}%（02 系統 ${roundStat(elemSystem)}%＋裝備 ${roundStat(r.elem-elemSystem)}%）｜法傷 ${Math.round(r.spell)}%（02 系統 ${roundStat(spellSystem)}%＋裝備 ${roundStat(r.spell-spellSystem)}%）｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
@@ -9274,6 +9300,37 @@ main>.screen[data-v22-page]>.hero h2::after{background:linear-gradient(90deg,var
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
 })();
 </script>
+
+<script id="r56-skill-pet-sync">
+(()=>{'use strict';
+ const elementPet={fire:'FireFairyPet',ice:'WaterFairyPet',lightning:'LightningFairyPet',normal:'SoulFairyPet'};
+ const all=new Set(Object.values(elementPet));
+ function sync(){
+   if(typeof state==='undefined'||typeof activeSkill!=='function'||typeof skillElementKey!=='function')return;
+   if(!state.skill?.id)return;
+   const wanted=elementPet[skillElementKey(activeSkill())];
+   if(!wanted)return;
+   if(!state.system)state.system={};
+   const pets=state.system.pets||(state.system.pets={});
+   // Preserve non-elemental pets, and never exceed the game's four-pet limit.
+   const retained=Object.keys(pets).filter(k=>pets[k]&&!all.has(k)).slice(0,3);
+   for(const k of all)pets[k]=false;
+   const allowed=new Set([...retained,wanted]);
+   for(const k of Object.keys(pets))if(pets[k]&&!allowed.has(k))pets[k]=false;
+   pets[wanted]=true;
+   if(typeof saveState==='function')saveState(state);
+   if(typeof renderPets==='function')renderPets();
+   if(typeof refreshSystemSummary==='function')refreshSystemSummary();
+   if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();
+ }
+ function init(){document.getElementById('skill')?.addEventListener('change',()=>{
+   // Apply after the original skill-change handler has updated state.
+   queueMicrotask(sync);
+ });}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<style id="r56-auto-set-style">.r56-auto-set-note{grid-column:1/-1;margin:0 0 10px;font-size:11px;line-height:1.6}</style>
 </body></html>
 <!-- STAGING R49: testing only, Lv600 optional extrapolation; title formula untouched -->
 <!-- STAGING R35: three set tiers changed to 3/5/7/9; final magic multiplier stays preview-only. -->
