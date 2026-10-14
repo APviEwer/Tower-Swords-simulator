@@ -1555,7 +1555,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 .r19-max-all:hover{background:rgba(213,173,100,.23)}
 @media(max-width:620px){.r19-max-all{font-size:10px;padding:8px 9px}.sys-toolbar:has(#r19ArtifactMaxAll){flex-wrap:wrap}.sys-toolbar:has(#r19ArtifactMaxAll) input{flex:1;min-width:140px}}
 </style>
-<!-- STAGING R53 DIAGNOSTIC: provisional Black Moon 8-piece multiplier test; not a verified final game rule. -->
 </head>
 <body>
 <script>
@@ -2836,7 +2835,7 @@ function legacyOptimizeMax({minCrit=0,minCooldown=0}={}){
    Bloodshadow's bleeding-only damage is NOT applied without a verified bleed flag. */
 function r36SetDamageBonus(elementKey){
   const vals=(()=>{try{return JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch(_){return {}}})();
-  const slots=['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings','artifact'];
+  const slots=['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'];
   const counts=[0,0,0],swords=[new Set(),new Set(),new Set()];
   for(const slot of slots){
     const value=String(vals[slot]??'');if(!['0','1','2'].includes(value))continue;
@@ -2847,13 +2846,15 @@ function r36SetDamageBonus(elementKey){
     }
     counts[k]++;
   }
+  // R54: owned set artifacts count as set pieces even when not equipped.
+  // The ordinary artifact bonuses still use the separately selected primary artifact.
+  const owned=state?.system?.artifacts||{};
+  [99,100,101].forEach((id,k)=>{if(Number(owned[id]||0)>0)counts[k]++;});
   const isNormal=elementKey==='normal',isFire=elementKey==='fire';
   const moon=isNormal?counts[0]:0,lotus=isFire?counts[2]:0;
   const eligible=moon||lotus;
   const elementPct=(eligible>=3?10:0)+(eligible>=7?15:0);
-  // R53 diagnostic only: field measurements suggest Black Moon at 8 pieces retains an effective x1.15.
-  // Do not merge to production until the eight-piece game rule is independently confirmed.
-  const finalMultiplier=(eligible>=9 || (isNormal && counts[0]===8))?1.15:1;
+  const finalMultiplier=eligible>=9?1.15:1;
   return {counts,elementPct,finalMultiplier,elementKey,
     bloodshadowBleedFinalPending:counts[1]>=9};
 }
@@ -8932,13 +8933,15 @@ const L={"chinese": {"sets": ["黑月之主套裝", "血影之主套裝", "紅�
 const slots=['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings','artifact'];
 // Each set has one unique sword, permitted in any of the three equipped weapon slots.
 // Different set swords may each count once, but duplicate copies are disallowed.
-const countedSlots=slots;
+const countedSlots=slots.filter(x=>x!=='artifact');
+const ownedSetArtifact=k=>Number(state?.system?.artifacts?.[[99,100,101][k]]||0)>0;
+const setPieceCount=k=>countedSlots.reduce((n,slot)=>n+(values[slot]===String(k)?1:0),0)+(ownedSetArtifact(k)?1:0);
 const pieceIndex=[0,0,0,1,2,3,4,4,5,6,7];
 const captions={chinese:['主武器','武器 2','武器 3','盔甲','頭盔','鞋子','戒指 1','戒指 2','項鍊','耳環','主要人工製品'],english:['Main weapon','Weapon 2','Weapon 3','Armor','Helmet','Boots','Ring 1','Ring 2','Necklace','Earrings','Main artifact'],korean:['주무기','무기 2','무기 3','갑옷','투구','신발','반지 1','반지 2','목걸이','귀걸이','주 유물']};
 const messages={
 chinese:{title:'新增套裝｜配置與效果預覽',status:'獨立預覽・不計入 ATK／傷害／最佳化',desc:'共 11 個裝備欄位（3 把武器、2 枚戒指），可分別選擇不同套裝（兩個戒指獨立計數），支援黑月／血影／紅蓮混搭。三把武器均可納入套裝件數，但同一套的專屬武器最多裝備一把；僅指定的主人工製品可計入套裝。此設定與手動詞條各自獨立，尚未連動傷害公式。',none:'未裝備套裝',count:'已選件數',parts:'官方裝備名稱',effects:'官方效果原文（啟動條件尚待核實）',tip:'官方規則：各套裝獨立計算 0～9 件，允許混搭；各階段效果依其門檻累加。目前尚未核實各階段啟動件數，故只統計件數，不虛構啟動效果，也不納入傷害計算。',other:'其他已確認效果文字'},
-english:{title:'New Sets | Gear Preview',status:'Preview only · excluded from ATK, damage & optimization',desc:'Select 11 equipment slots (three weapons and two independent rings). Mixing different sets is supported. All three weapon slots count toward set tiers, but the same set sword can be equipped only once. Only the designated main artifact counts. This is separate from manual affixes and does not affect calculations.',none:'No set item',count:'Selected pieces',parts:'Official item names',effects:'Official effects (tier thresholds unverified)',tip:'Official rule: each set counts its own 0–9 pieces and mixed sets are allowed. Bonuses stack at their respective tiers. Exact thresholds remain unverified; no effects are activated or applied to damage.',other:'Other confirmed effect descriptions'},
-korean:{title:'신규 세트 | 장비 미리보기',status:'독립 미리보기 · 공격력/피해량/최적화 미적용',desc:'11개 장비 칸(무기 3개, 반지 2개)에 각각 세트를 선택하여 혼합 착용할 수 있습니다. 무기 3칸 모두 세트 개수에 포함되지만 동일한 세트 무기는 한 자루만 장착할 수 있으며, 유물은 주 유물 1개만 계산합니다. 옵션 및 피해량 계산과는 별개입니다.',none:'세트 장비 없음',count:'선택한 장비 수',parts:'공식 장비 이름',effects:'공식 효과 (발동 장비 수 미확인)',tip:'공식 규칙: 세트별 착용 수(0~9개)를 개별 집계하며 혼합 착용할 수 있습니다. 단계별 효과는 누적되지만 정확한 조건이 확인되지 않아 효과를 적용하지 않으며 피해량 계산에도 포함하지 않습니다.',other:'확인된 기타 효과 설명'}};
+english:{title:'New Sets | Gear Preview',status:'Preview only · excluded from ATK, damage & optimization',desc:'Select 11 equipment slots (three weapons and two independent rings). Mixing different sets is supported. All three weapon slots count toward set tiers, but the same set sword can be equipped only once. Owned set artifacts count even when not selected as primary. This is separate from manual affixes and does not affect calculations.',none:'No set item',count:'Selected pieces',parts:'Official item names',effects:'Official effects (tier thresholds unverified)',tip:'Official rule: each set counts its own 0–9 pieces and mixed sets are allowed. Bonuses stack at their respective tiers. Exact thresholds remain unverified; no effects are activated or applied to damage.',other:'Other confirmed effect descriptions'},
+korean:{title:'신규 세트 | 장비 미리보기',status:'독립 미리보기 · 공격력/피해량/최적화 미적용',desc:'11개 장비 칸(무기 3개, 반지 2개)에 각각 세트를 선택하여 혼합 착용할 수 있습니다. 무기 3칸 모두 세트 개수에 포함되지만 동일한 세트 무기는 한 자루만 장착할 수 있으며, 세트 유물은 보유만 해도 세트 개수에 포함됩니다. 옵션 및 피해량 계산과는 별개입니다.',none:'세트 장비 없음',count:'선택한 장비 수',parts:'공식 장비 이름',effects:'공식 효과 (발동 장비 수 미확인)',tip:'공식 규칙: 세트별 착용 수(0~9개)를 개별 집계하며 혼합 착용할 수 있습니다. 단계별 효과는 누적되지만 정확한 조건이 확인되지 않아 효과를 적용하지 않으며 피해량 계산에도 포함하지 않습니다.',other:'확인된 기타 효과 설명'}};
 function lang(){let e=document.documentElement.lang?.toLowerCase()||''; if(e.startsWith('ko'))return 'korean';if(e.startsWith('en'))return 'english'; const selector=document.querySelector('#langSelect,#languageSelect,select[data-language]');const val=(selector?.value||'').toLowerCase();return val.includes('ko')?'korean':val.includes('en')?'english':'chinese';}
 let values={};try{values=JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch{}
 // Keep only one sword from each set among main, second and third weapon.
@@ -8953,9 +8956,9 @@ normalizeWeapons();
 function render(){const l=lang(),data=L[l],m=messages[l];const root=document.getElementById('r28-set-panel');if(!root)return;
 root.querySelector('#r28-title').textContent=m.title;root.querySelector('#r28-calcstatus').textContent=l==='chinese'?'已計入手動與自動傷害（黑月／紅蓮）':l==='english'?'Applied to manual & auto damage (Black Moon / Crimson Lotus)':'수동·자동 피해량 적용 (흑월 / 홍련)';root.querySelector('#r28-explain').textContent=(l==='chinese'?'11 個部位可自由混搭。黑月普通、紅蓮火焰的 3／7 件元素加成及 9 件最終傷害已接入手動與自動；血影流血條件傷害仍待驗證。':l==='english'?'Mix 11 equipment slots. Black Moon normal / Crimson Lotus fire bonuses at 3, 7 and 9 pieces are included in manual and auto damage; Bloodshadow bleed-conditional damage awaits validation.':'11개 부위 혼합 가능. 흑월 일반 / 홍련 화염 3·7·9세트 피해량은 수동·자동 계산에 적용됩니다. 혈영 출혈 조건 피해는 미검증 상태입니다.');root.querySelector('#r28-tier-note').textContent=m.tip;
 const inputs=root.querySelector('#r28-slot-inputs');inputs.replaceChildren();
-slots.forEach((slot,i)=>{const wrap=document.createElement('label');wrap.style.cssText='display:flex;flex-direction:column;gap:5px;color:#d4dce4;font-size:13px';const label=document.createElement('span');label.textContent=captions[l][i];const select=document.createElement('select');select.style.cssText='width:100%;padding:9px;border-radius:8px;background:#0a1e2a;color:#e2e8ef;border:1px solid #334d60';let opt=document.createElement('option');opt.value='';opt.textContent=m.none;select.append(opt);
+slots.forEach((slot,i)=>{const wrap=document.createElement('label');wrap.style.cssText='display:flex;flex-direction:column;gap:5px;color:#d4dce4;font-size:13px';const label=document.createElement('span');label.textContent=slot==='artifact'?(l==='chinese'?'套裝人工製品｜持有自動計數':l==='english'?'Set artifacts | owned counts':'세트 유물 | 보유 자동 계산'):captions[l][i];if(slot==='artifact'){const info=document.createElement('div');info.style.cssText='padding:9px;border-radius:8px;background:#0a1e2a;border:1px solid #334d60;color:#d7e3e8;font-size:12px;line-height:1.5';info.textContent=[99,100,101].map((id,k)=>data.pieces[k][7]+': '+(ownedSetArtifact(k)?(l==='chinese'?'已持有 ✓':l==='english'?'Owned ✓':'보유 ✓'):(l==='chinese'?'未持有':l==='english'?'Not owned':'미보유'))).join(' · ');wrap.append(label,info);inputs.append(wrap);return;}const select=document.createElement('select');select.style.cssText='width:100%;padding:9px;border-radius:8px;background:#0a1e2a;color:#e2e8ef;border:1px solid #334d60';let opt=document.createElement('option');opt.value='';opt.textContent=m.none;select.append(opt);
 for(let k=0;k<3;k++){opt=document.createElement('option');opt.value=String(k);opt.textContent=data.pieces[k][pieceIndex[i]]||data.sets[k];select.append(opt)}
-select.value=values[slot]??'';select.addEventListener('change',()=>{values[slot]=select.value;normalizeWeapons(slot);if(slot==='artifact'&&window.__r46PrimaryFromSet)window.__r46PrimaryFromSet(values.artifact);try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{};render();
+select.value=values[slot]??'';select.addEventListener('change',()=>{values[slot]=select.value;normalizeWeapons(slot);try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{};render();
   try{if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();if(typeof refreshManualSummary==='function')refreshManualSummary();if(typeof refreshAuto==='function')refreshAuto(true);if(typeof refreshReport==='function'&&state?.step===3)refreshReport();}catch(e){console.error('[R36 set refresh]',e)}});wrap.append(label,select);inputs.append(wrap)});
 renderResults()}
 function renderResults(){
@@ -8989,7 +8992,7 @@ function renderResults(){
  ]]};
  out.replaceChildren();
  for(let k=0;k<3;k++){
-  const count=countedSlots.reduce((n,slot)=>n+(values[slot]===String(k)?1:0),0);
+  const count=setPieceCount(k);
   const card=document.createElement('section');card.style.cssText='border:1px solid #365368;background:#081923;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px';
   const head=document.createElement('div');head.style.cssText='display:flex;justify-content:space-between;gap:8px';
   const name=document.createElement('strong');name.style.cssText='color:'+colors[k]+';font-size:16px';name.textContent=d.sets[k];
@@ -9007,7 +9010,7 @@ function renderResults(){
  const note=document.createElement('div');note.style.cssText='grid-column:1/-1;color:#b6cad5;background:#0a1c28;border:1px solid #314a5b;padding:12px;border-radius:9px;font-size:12px;line-height:1.6';note.textContent=translations.detail;out.append(note);
  const compact=document.getElementById('r34-set-summary');if(compact){
   compact.replaceChildren();const short=l==='chinese'?['黑月','血影','紅蓮']:l==='korean'?['흑월','혈영','홍련']:['Black Moon','Bloodshadow','Crimson Lotus'];
-  for(let k=0;k<3;k++){const count=countedSlots.reduce((n,slot)=>n+(values[slot]===String(k)?1:0),0);
+  for(let k=0;k<3;k++){const count=setPieceCount(k);
    const box=document.createElement('div');box.className='r34-set-pill';box.style.setProperty('--set-color',colors[k]);
    const h=document.createElement('div');h.className='r34-pill-head';const title=document.createElement('strong');title.textContent=short[k];const val=document.createElement('b');val.textContent=count+'/9';h.append(title,val);
    const line=document.createElement('div');line.className='r34-meter';const fill=document.createElement('div');fill.style.width=(100*count/9)+'%';line.append(fill);
@@ -9020,36 +9023,20 @@ function renderResults(){
  if(sum2)sum2.textContent=l==='chinese'?'檢視已啟動／未啟動套裝效果':l==='korean'?'발동 및 미발동 세트 효과 보기':'View active / inactive set effects';
   const tip=document.getElementById('r28-tier-note');if(tip)tip.textContent=translations.detail;
 }
-function setup(){render();window.__r46UpdateSetArtifact=(code)=>{const next=String(code??'');if(values.artifact!==next){values.artifact=next;render()}};const select=document.querySelector('#langSelect,#languageSelect,select[data-language]');if(select)select.addEventListener('change',()=>setTimeout(render,0));new MutationObserver(()=>{const l=lang();if(window.__r28Lang!==l){window.__r28Lang=l;render()}}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});}
+function setup(){render();window.__r54RenderSets=render;window.__r46UpdateSetArtifact=(code)=>{const next=String(code??'');if(values.artifact!==next){values.artifact=next;render()}};const select=document.querySelector('#langSelect,#languageSelect,select[data-language]');if(select)select.addEventListener('change',()=>setTimeout(render,0));new MutationObserver(()=>{const l=lang();if(window.__r28Lang!==l){window.__r28Lang=l;render()}}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 })();
 </script>
 
-<script id="r46-primary-sync-safe">
+<script id="r54-set-owned-sync">
 (function(){'use strict';
- const IDS=[99,100,101],KEY='tower-swords-r28-set-preview';
- let busy=false;
- function slot(id){const i=IDS.indexOf(Number(id));return i<0?'':String(i)}
- function persist(code){let v={};try{v=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
-   if(String(v.artifact??'')===code)return;v.artifact=code;try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}
- }
- window.__r46MirrorPrimary=function(){if(busy)return;busy=true;try{
-  const code=slot(state.system.artifactPrimary);persist(code);window.__r46UpdateSetArtifact?.(code);
- }finally{busy=false}};
- window.__r46PrimaryFromSet=function(code){if(busy)return;busy=true;try{
-  const index=Number(code),id=(String(code)!==''&&Number.isInteger(index)&&index>=0&&index<3)?IDS[index]:null;
-  if(id!==null){if(Number(state.system.artifacts[id]||0)<=0)state.system.artifacts[id]=1;state.system.artifactPrimary=id;}
-  else if(IDS.includes(Number(state.system.artifactPrimary)))state.system.artifactPrimary=null;
-  if(typeof saveState==='function')saveState(state);
-  if(typeof renderArtifacts==='function')renderArtifacts(document.querySelector('#artifactSearch')?.value||'');
-  if(typeof refreshSystemSummary==='function')refreshSystemSummary();
-  // Deliberately do NOT call refreshAuto(true): optimization remains lazy.
- }finally{busy=false}};
- function setup(){
-  // 02 is the single authoritative source; never trigger an initial optimizer run.
-  window.__r46MirrorPrimary();
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+ // Ownership is authoritative in system.artifacts; never force primary equipment.
+ window.__r46MirrorPrimary=function(){window.__r54RefreshSetOwned?.();};
+ window.__r54RefreshSetOwned=function(){
+   if(typeof window.__r54RenderSets==='function')window.__r54RenderSets();
+ };
+ document.addEventListener('input',e=>{if(e.target?.matches?.('[data-artifact-lv]'))setTimeout(window.__r54RefreshSetOwned,0);});
+ document.addEventListener('change',e=>{if(e.target?.matches?.('[data-artifact-max]'))setTimeout(window.__r54RefreshSetOwned,0);});
 })();
 </script>
 <script id="r39-title-atk-compare-js">
