@@ -3,8 +3,8 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
-<title>Tower &amp; Swords｜Build &amp; Damage Analysis｜V2.1</title>
-<meta content="Tower &amp; Swords Build &amp; Damage Analysis｜V2.1｜APviEwer 建置實驗室" name="description"/>
+<title>Tower &amp; Swords｜Build &amp; Damage Analysis｜V2.2</title>
+<meta content="Tower &amp; Swords Build &amp; Damage Analysis｜V2.2｜APviEwer 建置實驗室" name="description"/>
 <meta content="no-referrer" name="referrer"/>
 <meta content="#0b0f14" name="theme-color"/>
 <meta content="website" property="og:type"/>
@@ -1628,14 +1628,14 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <div class="release-help-panel release-version-panel">
 <div class="release-help-head"><h2 id="releaseVersionTitle">版本資訊</h2><button aria-label="關閉" class="release-version-close release-help-close" type="button">×</button></div>
 <div class="release-help-steps release-version-rows">
-<div class="release-help-step"><strong id="releaseVersionSimulatorLabel">模擬器版本</strong><span id="releaseVersionSimulatorValue">V. 2.1</span></div>
+<div class="release-help-step"><strong id="releaseVersionSimulatorLabel">模擬器版本</strong><span id="releaseVersionSimulatorValue">V. 2.2</span></div>
 <div class="release-help-step"><strong id="releaseVersionGameLabel">適用遊戲版本</strong><span id="releaseVersionGameValue">V. 2.6</span></div>
 </div>
 </div>
 </div>
 <main>
 <section class="screen active">
-<div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div><div class="note" style="border-left:3px solid #cfaa62;margin:12px 0 16px">正式版 R12 更新：稱號 48 項的星級與能力維持獨立統計，<strong>目前不計入角色 ATK、手動／自動最佳化及傷害計算</strong>。03 手動元素／法傷輸入、02 系統單一捲動、寵物圖卡尺寸與自動最佳化新特性說明已同步更新。尚未全部更新完成。</div>
+<div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div><div class="note" style="border-left:3px solid #cfaa62;margin:12px 0 16px">正式版基準：稱號能力獨立統計；<strong>Staging R51 僅將稱號 ATK 以候選 B 模型加入試算，其他已驗證的稱號傷害加成照既有測試流程。</strong>03 手動元素／法傷輸入、02 系統單一捲動、寵物圖卡尺寸與自動最佳化新特性說明已同步更新。尚未全部更新完成。</div>
 <div class="grid two">
 <div class="card"><h3>角色／主武</h3>
 <div class="field"><label>角色等級</label><input id="level" max="600" min="1" type="number"/></div>
@@ -1652,6 +1652,53 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </div>
 </div>
 </div>
+<section class="card no-print" id="r48-title-atk-test" style="margin:12px 0 16px;border:1px solid #6c877f">
+<h3>R51｜稱號 ATK 跨武器驗證（Staging）</h3>
+<p class="small">Staging 預設啟用候選模型 B；暫按「主武固定 ATK × 已選稱號 ATK%」增加有效 ATK；手動及自動最佳化共同套用。這只是候選模型，尚非遊戲驗證公式，正式版不受影響。</p>
+<label style="display:flex;gap:10px;align-items:center;font-weight:600;cursor:pointer"><input type="checkbox" id="r48-title-atk-toggle" style="width:20px;height:20px">啟用稱號 ATK 試算（僅本頁）</label>
+<p id="r48-title-atk-status" class="small" aria-live="polite">試算已關閉，原 ATK／傷害不變</p>
+<div style="margin:8px 0 12px;padding:10px;border:1px solid #4b776b;border-radius:9px" id="r51-weapon-compare">
+  <strong>R51｜第二把武器交叉核對</strong>
+  <p class="small">切換武器後，其他設定維持一致。下方可輸入新測得的遊戲面板 ATK，直接查看與目前模擬器的差距。這只比對數字，<strong>不會將遊戲數值寫進 ATK 或傷害公式</strong>。</p>
+  <label for="r51-game-atk">此武器的遊戲面板 ATK（例如 516.472B）</label>
+  <input id="r51-game-atk" placeholder="輸入遊戲面板 ATK" autocomplete="off" />
+  <p id="r51-atk-compare-result" class="small" aria-live="polite">輸入遊戲面板後顯示差異。</p>
+</div>
+<div style="border:1px solid #526577;border-radius:10px;padding:12px;margin:10px 0" id="r50-precision-panel">
+  <strong>R51｜稱號星級精度（B 為預設候選模型）</strong>
+  <p class="small">遊戲畫面顯示 ★1 2%／★2 4%／★3 6%；實際運算是否為 1.98%／3.96%／6% 尚待遊戲程式證實。只在上方稱號 ATK 試算開啟時生效。</p>
+  <label for="r50-atk-precision-mode">稱號 ATK 候選星級倍率</label>
+  <select id="r50-atk-precision-mode" style="width:100%;margin:5px 0 8px">
+    <option value="display">A｜按顯示值 2%／4%／6%</option>
+    <option value="fractional" selected>B｜按候選內部值 1.98%／3.96%／6%</option>
+  </select>
+  <p id="r50-atk-precision-summary" class="small" aria-live="polite">正在讀取稱號統計…</p>
+</div>
+<div style="margin-top:12px;padding:12px;border:1px solid #4b6975;border-radius:10px">
+<label style="display:flex;gap:10px;align-items:center"><input id="r49-level-trial" type="checkbox" style="width:20px;height:20px">試算角色 510～600 級基礎 ATK（僅測試，預設關閉）</label>
+<p id="r49-level-status" class="small">尚未啟用；角色基礎 ATK 維持原 500 級截斷。</p>
+<p class="small">實驗假設：510～600 級沿用 480～509 級每級 +256,000 的舊曲線。這不是已證實的遊戲成長規則，也不會修改正式版。</p>
+</div>
+</section>
+<section class="card no-print" id="r38-title-atk-audit" style="border:1px solid #6b818e;margin:12px 0 16px">
+<h3>稱號 ATK｜三模型對照（R39 Staging）</h3><p class="small">只進行平行驗算，不改動面板、手動／自動配裝、稱號或傷害公式。歷史資料採原先量測值；當前設定使用目前 01／02／03 配置。</p>
+<div class="statgrid"><div class="stat"><div class="k">稱號 ATK</div><div class="v" id="r39-pct">—</div></div><div class="stat"><div class="k">目前不含稱號 ATK（01 原模型）</div><div class="v" id="r39-base">—</div></div><div class="stat"><div class="k">模型 A｜同池後乘獨立倍率</div><div class="v" id="r39-pool">—</div></div><div class="stat"><div class="k">模型 B｜武器原值直接加算</div><div class="v" id="r39-weapon">—</div></div><div class="stat"><div class="k">模型 C｜全裝備 ATK 同池加算</div><div class="v" id="r39-full">—</div></div></div>
+<p class="small" id="r39-detail">等待資料載入</p>
+<h4>兩組既有遊戲測試（歷史快照，不隨目前設定改變）</h4><div style="overflow-x:auto"><table style="width:100%;font-size:12px;min-width:770px"><thead><tr><th>武器</th><th>遊戲</th><th>不含稱號</th><th>A：同池×獨立倍率</th><th>B：武器直接 +31%</th><th>觀測差額</th></tr></thead><tbody id="r39-history"></tbody></table></div>
+<p class="small">歷史 A 使用截圖中 ×2.4 的獨立倍率；歷史 B 只增加武器原值 × 稱號%。C 模型需目前 03 實際裝備資料，不能拿不同時點的存檔硬推歷史結果。誤差不等於已證實的稱號作用方式。</p>
+<div id="r40-level-diagnostic" style="border:1px solid #57758a;border-radius:12px;padding:14px;margin:16px 0;background:rgba(20,51,69,.24)"><h4>R40｜600 級基礎 ATK 截斷診斷（僅分析，不參與傷害）</h4>
+<p class="small">目前核心函式會把 Lv600 強制當成 Lv500。以下的「600 級舊曲線延伸」只是以 Lv480–509 每級 +256,000 的規則延伸測試；尚未取得新版遊戲 510–600 的官方成長數據，不能把延伸值當成正確公式。</p>
+<div class="statgrid"><div class="stat"><div class="k">01 角色等級</div><div class="v" id="r40-lv">—</div></div><div class="stat"><div class="k">目前核心使用的角色基礎 ATK</div><div class="v" id="r40-clamped">—</div></div><div class="stat"><div class="k">假設依舊曲線延伸至 600 的基礎 ATK</div><div class="v" id="r40-extrapolated">—</div></div><div class="stat"><div class="k">乘上目前系統倍率的假設增量</div><div class="v" id="r40-effect">—</div></div></div>
+<p class="small" id="r40-detail">等待重新驗算。這不是遊戲確認值，也不會調整面板或稱號統計。</p>
+</div>
+<div id="r41-auto-result" style="border:1px solid #5b847b;border-radius:12px;padding:14px;margin:14px 0;background:rgba(20,49,49,.25)">
+<h4>R41｜自動判讀：角色 600 級與稱號 ATK</h4>
+<p class="small">已代入你提供的兩把武器遊戲實測，不用再自行輸入。這是獨立診斷，不修改角色面板或傷害公式。</p>
+<div class="statgrid"><div class="stat"><div class="k">確定問題</div><div class="v" style="font-size:17px">600 級被當成 500 級</div></div><div class="stat"><div class="k">舊曲線延伸，低武器假設可補</div><div class="v" id="r41-gain">—</div></div><div class="stat"><div class="k">低武器補完後仍差遊戲</div><div class="v" id="r41-residual">—</div></div><div class="stat"><div class="k">目前可否確定新版公式</div><div class="v" style="font-size:17px">尚不能</div></div></div>
+<p class="small" id="r41-detail">待載入</p>
+<p class="small">判讀：歷史低 ATK 武器 21.899B｜遊戲 516.472B、原模擬器 508.540B；稱號 +31% 的武器直接加算模型約 515.329B。即使再補舊曲線推估的等級 ATK，也未必完全相符；因此不能把推估公式直接替換成遊戲公式。高 ATK 武器的 Q 單位顯示精度不足以精確校準 B 級的基礎值。</p>
+</div>
+<button class="btn secondary" type="button" id="r39-refresh">重新驗算</button></section>
 <div aria-hidden="true" class="card" hidden="" id="r20BareAtkPanel" style="display:none!important">
 <h3>空裝 ATK 核對｜診斷模式</h3>
 <p class="small">完全排除武器、裝備詞條與寵物；保留角色等級、人工製品、魔法樹、時裝及稱號。此為依模擬器現有 ATK 公式推算的測試值，尚未證實與遊戲空裝面板同口徑，不參與原傷害計算。</p>
@@ -1752,6 +1799,16 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </section>
 <section class="screen">
 <div class="hero"><h2>03｜裝備配置</h2><p>自動最佳化與手動實裝共用同一套已驗證裝備規則；所有輸入即時同步全域 Build State。</p></div><div class="beta-build-strip no-print" id="betaBuildStrip"></div><div id="betaModeMount"></div>
+
+<section id="r28-set-panel" class="card no-print" style="margin:14px 0;border:1px solid #8c784f">
+ <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><h3 id="r28-title" style="margin:0">新增套裝｜配置與效果預覽</h3><span id="r28-calcstatus" style="border:1px solid #aa8645;border-radius:16px;padding:4px 10px;color:#e8c77d;font-size:12px">僅統計，尚未納入任何傷害計算</span></div>
+ <p id="r28-explain" class="small" style="margin-top:10px">請依實際裝備選擇各部位的套裝；武器最多計入 1 件，人工製品僅指定為主人工製品的 1 件列入。九件計數、可混搭；此區目前不連動原裝備詞條及傷害公式。</p>
+ <div id="r34-set-summary" class="r34-summaries" aria-live="polite"></div>
+ <details id="r34-gear-details" class="r34-set-details"><summary id="r34-gear-summary">配置 11 個裝備部位 / Configure gear / 장비 구성</summary> <div id="r28-slot-inputs" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:9px;margin:14px 0"></div> </details>
+ <details id="r34-effects-details" class="r34-set-details"><summary id="r34-effect-summary">檢視分階段套裝效果 / View set tiers / 세트 효과 보기</summary> <div id="r28-set-results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px"></div> </details>
+ <div id="r28-set-results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px"></div>
+ <div class="note" id="r28-tier-note" style="margin-top:8px">官方已確認套裝效果會依件數分階段累加，但目前資料無法確證各效果對應的啟動件數；因此本區只列官方效果供核對，不會宣稱達成任何未驗證門檻。</div>
+</section>
 <div id="manualPane">
 <div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><h3>手動實裝</h3><span class="version" id="manualPicked">已選 0 格</span></div>
 <div class="manual-damage" style="margin-top:12px;margin-bottom:14px">
@@ -2369,7 +2426,7 @@ Object.entries(window.__TS_R14_OLD_SKILL_ATK_EXT).forEach(([id,row])=>Object.ass
     }
     for(const [re,v] of __phraseRules) s=s.replace(re,v[p]);
     for(const [re,v] of __termRules) s=s.replace(re,v[p]);
-    const extra=isE?{'未取得／未啟用':'Not obtained / disabled','條件成立':'Condition Met','特殊／條件效果':'Special / Conditional Effects','目前無傷害向效果':'No current damage-related effect','無':'None','實際值':'Actual value','技能元素':'Skill Element','最終 ATK':'Final ATK','最終 Skill Lv':'Final Skill Lv','目前技能元素總合':'Current Skill Element Total','目前法術傷害總合':'Current Spell Damage Total','目前暴擊率總合':'Current Critical Rate Total','目前冷卻總合':'Current Cooldown Total','系統 ATK %':'System ATK %','裝備元素法傷':'Equipment Elemental Spell DMG','裝備法術傷害':'Equipment Spell DMG','裝備暴擊率':'Equipment Crit Rate','裝備冷卻':'Equipment Cooldown','裝備固定 ATK':'Equipment Fixed ATK','裝備所有魔法等級':'Equipment All Magic Levels','模擬器版本':'Simulator Version','匯出時間':'Export Time','資料來源':'Data Source','目前模式':'Current Mode','暴擊條件':'Crit Target','冷卻條件':'Cooldown Target','自動最大暴擊傷害':'Auto Max Critical Damage'}:{'未取得／未啟用':'미획득 / 비활성','條件成立':'조건 충족','特殊／條件效果':'특수 / 조건 효과','目前無傷害向效果':'현재 피해 관련 효과 없음','無':'없음','實際值':'실제 값','技能元素':'스킬 원소','最終 ATK':'최종 ATK','最終 Skill Lv':'최종 Skill Lv','目前技能元素總合':'현재 스킬 원소 합계','目前法術傷害總合':'현재 마법 피해 합계','目前暴擊率總合':'현재 치명타 확률 합계','目前冷卻總合':'현재 쿨다운 합계','系統 ATK %':'시스템 ATK %','裝備元素法傷':'장비 원소 마법 피해','裝備法術傷害':'장비 마법 피해','裝備暴擊率':'장비 치명타 확률','裝備冷卻':'장비 쿨다운','裝備固定 ATK':'장비 고정 ATK','裝備所有魔法等級':'장비 모든 마법 레벨','模擬器版本':'시뮬레이터 버전','匯出時間':'내보낸 시간','資料來源':'데이터 소스','目前模式':'현재 모드','暴擊條件':'치명타 조건','冷卻條件':'쿨다운 조건','自動最大暴擊傷害':'자동 최대 치명타 피해'};
+    const extra=isE?{'未取得／未啟用':'Not obtained / disabled','條件成立':'Condition Met','特殊／條件效果':'Special / Conditional Effects','目前無傷害向效果':'No current damage-related effect','無':'None','實際值':'Actual value','技能元素':'Skill Element','最終 ATK':'Final ATK','最終 Skill Lv':'Final Skill Lv','目前技能元素總合':'Current Skill Element Total','目前法術傷害總合':'Current Spell Damage Total','目前暴擊率總合':'Current Critical Rate Total','目前冷卻總合':'Current Cooldown Total','系統 ATK %':'System ATK %','裝備元素法傷':'Equipment Elemental Spell DMG','裝備法術傷害':'Equipment Spell DMG','裝備暴擊率':'Equipment Crit Rate','裝備冷卻':'Equipment Cooldown','裝備固定 ATK':'Equipment Fixed ATK','裝備所有魔法等級':'Equipment All Magic Levels','模擬器版本':'Simulator Version','匯出時間':'Export Time','資料來源':'Data Source','目前模式':'Current Mode','暴擊條件':'Crit Target','冷卻條件':'Cooldown Target','自動搜尋暴擊傷害':'Auto Max Critical Damage'}:{'未取得／未啟用':'미획득 / 비활성','條件成立':'조건 충족','特殊／條件效果':'특수 / 조건 효과','目前無傷害向效果':'현재 피해 관련 효과 없음','無':'없음','實際值':'실제 값','技能元素':'스킬 원소','最終 ATK':'최종 ATK','最終 Skill Lv':'최종 Skill Lv','目前技能元素總合':'현재 스킬 원소 합계','目前法術傷害總合':'현재 마법 피해 합계','目前暴擊率總合':'현재 치명타 확률 합계','目前冷卻總合':'현재 쿨다운 합계','系統 ATK %':'시스템 ATK %','裝備元素法傷':'장비 원소 마법 피해','裝備法術傷害':'장비 마법 피해','裝備暴擊率':'장비 치명타 확률','裝備冷卻':'장비 쿨다운','裝備固定 ATK':'장비 고정 ATK','裝備所有魔法等級':'장비 모든 마법 레벨','模擬器版本':'시뮬레이터 버전','匯出時間':'내보낸 시간','資料來源':'데이터 소스','目前模式':'현재 모드','暴擊條件':'치명타 조건','冷卻條件':'쿨다운 조건','自動搜尋暴擊傷害':'자동 최대 치명타 피해'};
     for(const [z,t] of Object.entries(extra).sort((a,b)=>b[0].length-a[0].length)) s=s.replace(new RegExp(esc(z),'g'),t);
     return s;
   }
@@ -2769,6 +2826,39 @@ function legacyOptimizeMax({minCrit=0,minCooldown=0}={}){
  Final production engine should replace Number arithmetic below with a decimal library.
  The interface is intentionally stable so implementation can be swapped without touching UI.
 */
+
+/* R36: Staging-only set bonuses shared by manual and auto calculations.
+   Set slot selections are independent of affixes, and identical in both modes.
+   Set equipment's own stats remain user-entered; only tier bonuses are added.
+   Black Moon + Crimson Lotus: 3/7 elemental bonuses stack in the matching
+   elemental pool, 9-piece final magic damage is a separate x1.15 multiplier.
+   Bloodshadow's bleeding-only damage is NOT applied without a verified bleed flag. */
+function r36SetDamageBonus(elementKey){
+  const vals=window.__r56OptimizationSetOverride || (()=>{try{return JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch(_){return {}}})();
+  const slots=['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'];
+  const counts=[0,0,0],swords=[new Set(),new Set(),new Set()];
+  for(const slot of slots){
+    const value=String(vals[slot]??'');if(!['0','1','2'].includes(value))continue;
+    const k=Number(value);
+    if(['weapon','weapon2','weapon3'].includes(slot)){
+      // A set has exactly one unique weapon; invalid duplicated swords cannot inflate tiers.
+      if(swords[k].size)continue;swords[k].add(slot);
+    }
+    counts[k]++;
+  }
+  // R54: owned set artifacts count as set pieces even when not equipped.
+  // The ordinary artifact bonuses still use the separately selected primary artifact.
+  const owned=state?.system?.artifacts||{};
+  [99,100,101].forEach((id,k)=>{if(Number(owned[id]||0)>0)counts[k]++;});
+  const isNormal=elementKey==='normal',isFire=elementKey==='fire';
+  const moon=isNormal?counts[0]:0,lotus=isFire?counts[2]:0;
+  const eligible=moon||lotus;
+  const elementPct=(eligible>=3?10:0)+(eligible>=7?15:0);
+  const finalMultiplier=eligible>=9?1.15:1;
+  return {counts,elementPct,finalMultiplier,elementKey,
+    bloodshadowBleedFinalPending:counts[1]>=9};
+}
+
 function calcDamage({panelAtk,skillAtk,elementPct,spellPct,critMultiplier=5.86}){
   const atk=Number(panelAtk);
   const sk=Number(skillAtk);
@@ -3022,13 +3112,22 @@ function refreshManualSummary(){
     const parts=['fire','ice','lightning','normal'].map(key=>{
       const fromSystem=Number(sysLive.stats[key]||0);
       const fromManual=Number(mtLive[key]||0);
-      const total=Math.round((fromSystem+fromManual)*1000)/1000;
+      const setPct=Number(r36SetDamageBonus(key).elementPct||0);
+      const total=Math.round((fromSystem+fromManual+setPct)*1000)/1000;
       const selected=key===elKeyLive;
-      return `<div class="r24-manual-item${selected?' is-current':''}"><span>${statLabels[key]}${selected?'（目前技能）':''}</span><b>${plainNumber(total)}</b><small>系統 ${plainNumber(fromSystem)} + 手動 ${plainNumber(fromManual)}</small></div>`;
+      return `<div class="r24-manual-item${selected?' is-current':''}"><span>${statLabels[key]}${selected?'（目前技能）':''}</span><b>${plainNumber(total)}</b><small>系統 ${plainNumber(fromSystem)} + 手動 ${plainNumber(fromManual)} + 套裝 ${plainNumber(setPct)}</small></div>`;
     });
     const spellSystem=Number(sysLive.stats.spell||0),spellManual=Number(mtLive.spell||0);
     parts.push(`<div class="r24-manual-item is-spell"><span>法術傷害</span><b>${plainNumber(spellSystem+spellManual)}</b><small>系統 ${plainNumber(spellSystem)} + 手動 ${plainNumber(spellManual)}</small></div>`);
     livePanel.innerHTML=`<strong class="r24-manual-caption">手動實裝即時屬性（各元素分開計算；僅目前技能元素參與技能傷害）</strong><div class="r24-manual-stats">${parts.join('')}</div>${!elKeyLive?'<span class="small">尚未選技能，仍可核對所有詞條總計。</span>':''}`;
+  }
+  const r44Audit=$('#r44-normal-audit');
+  if(r44Audit){
+    const normalSystem=Number(sysLive.stats.normal||0);
+    const normalManual=Number(mtLive.normal||0);
+    const normalSet=Number(r36SetDamageBonus('normal').elementPct||0);
+    const current=normalSystem+normalManual+normalSet;
+    r44Audit.textContent=`普通法術來源｜系統 ${plainNumber(normalSystem)}%＋手動 ${plainNumber(normalManual)}%＋黑月套裝 ${plainNumber(normalSet)}%＝${plainNumber(current)}%。遊戲提供的對照為 983%；依目前配置仍差 ${plainNumber(983-current)} 個百分點（可能來自未對齊的詞條／系統設定，尚未加入公式）。`;
   }
   const dmg=manualDamageResult();
   if($('#manualNonCritDamage'))$('#manualNonCritDamage').textContent=dmg.valid?formatDamageR(dmg.nonCrit):'—';
@@ -3130,14 +3229,15 @@ function betaEvaluateEquipmentEq(eq,{minCrit=0,minCooldown=0}={}){
   const atkResult=betaAutoEffectiveAtkResult(t.atk,sys.stats);
   if(!atkResult.valid)return null;
 
-  const elem=mx.value+Number(t[mx.key]||0);
+  const setBonus=r36SetDamageBonus(mx.key);
+  const elem=mx.value+Number(t[mx.key]||0)+setBonus.elementPct;
   const spell=Number(sys.stats.spell||0)+t.spell;
   const critDamagePct=150+Number(sys.stats.critDamage||0);
   const bossMultiplier=state.player?.boss?1+Number(sys.stats.boss||0)/100:1;
   const otherMultiplier=manualOtherDamageMultiplier();
 
   const nonCritDamage=Math.floor(
-    atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*bossMultiplier*otherMultiplier
+    atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*bossMultiplier*otherMultiplier*setBonus.finalMultiplier
   );
   const critDamage=Math.floor(nonCritDamage*(critDamagePct/100));
 
@@ -3223,7 +3323,7 @@ function betaAutoEffectiveAtkResult(extraEquipmentAtk=0n,sys=betaAutoMaxSystemSt
   // Current Page-2 system state supplies ATK%; keep the independent
   // Berserker multiplier in the same damage chain when its current condition applies.
   const atkIndependent=manualAtkIndependentMultiplier();
-  const effectiveAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent);
+  const effectiveAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent+r48TitleAtkExtra(weaponAtk));
   return {valid:true,effectiveAtk,resolved,weaponAtk,levelAtk,flatAtk,atkPool,atkIndependent};
 }
 
@@ -3365,6 +3465,12 @@ function betaAutoSlotDefs(){
     else if(['戒1','戒2'].includes(gear))choices=[betaAutoOpt('法術傷害',51),betaAutoOpt('暴擊率',16),betaAutoOpt('冷卻時間',12)];
     else if(['項鍊','耳環'].includes(gear))choices=[betaAutoOpt('法術傷害',25),betaAutoOpt('暴擊率',8),betaAutoOpt('冷卻時間',6)];
     else choices=[betaAutoOpt('未指定',0)];
+    // R55: magic is a true optimizer candidate, not only a manually pinned trait.
+    // A gear can carry at most one special trait; if another Basic slot has a
+    // manually pinned trait, its Basic1 cannot independently roll magic.
+    const pinnedElsewhere=r9BasicSlots(gear).some(sl=>sl!=='Basic1'&&!!r9TraitAt(gear,sl));
+    if(mg>0 && !pinnedElsewhere && !r9TraitAt(gear,'Basic1'))
+      choices.push(betaAutoOpt('所有魔法等級',mg));
     add(gear,'Basic1',choices);
   }
 
@@ -3452,7 +3558,8 @@ function betaAutoEvalTotals(t,targetCrit,targetCd){
 
   // Use the CURRENT weapon skill element. The optimizer's elemental affix is
   // assigned to that same element.
-  const elem=betaAutoPctValue(betaAutoPctUnits(mx.value)+betaAutoPctUnits(t.elem));
+  const setBonus=r36SetDamageBonus(mx.key);
+  const elem=betaAutoPctValue(betaAutoPctUnits(mx.value)+betaAutoPctUnits(t.elem)+betaAutoPctUnits(setBonus.elementPct));
   const spell=betaAutoPctValue(betaAutoPctUnits(sys.spell)+betaAutoPctUnits(t.spell));
   const critDamagePct=150+Number(sys.critDamage||0);
   const bossMultiplier=state.player?.boss?1+Number(sys.boss||0)/100:1;
@@ -3461,7 +3568,7 @@ function betaAutoEvalTotals(t,targetCrit,targetCd){
   const nonCritDamage=Math.floor(
     atkResult.effectiveAtk*skillAtk*
     (1+elem/100)*(1+spell/100)*
-    bossMultiplier*otherMultiplier
+    bossMultiplier*otherMultiplier*setBonus.finalMultiplier
   );
   const critDamage=Math.floor(nonCritDamage*(critDamagePct/100));
 
@@ -3480,9 +3587,12 @@ function betaAutoDamageScore(t){
   const skillAtk=skillAtkAtLevel(sk.id,skillLv);
   const atkResult=betaAutoEffectiveAtkResult(BigInt(Math.max(0,Math.round(t.atk))),sys);
   if(!atkResult.valid||!Number.isFinite(skillAtk))return -Infinity;
-  const elem=mx.value+t.elem;
+  const setBonus=r36SetDamageBonus(mx.key);
+  const elem=mx.value+t.elem+setBonus.elementPct;
   const spell=Number(sys.spell||0)+t.spell;
-  return atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100);
+  const bossMultiplier=state.player?.boss?1+Number(sys.boss||0)/100:1;
+  const otherMultiplier=manualOtherDamageMultiplier();
+  return atkResult.effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*bossMultiplier*otherMultiplier*setBonus.finalMultiplier;
 }
 
 function betaAutoMakeDamageSeed(defs,mode='mixed'){
@@ -3496,6 +3606,8 @@ function betaAutoMakeDamageSeed(defs,mode='mixed'){
       const x=damage.find(x=>x.o.elem>0); if(x)pick=x.i;
     }else if(mode==='spell'){
       const x=damage.find(x=>x.o.spell>0); if(x)pick=x.i;
+    }else if(mode==='magic'){
+      const x=damage.find(x=>x.o.skillLv>0); if(x)pick=x.i;
     }
     a.push(pick);
   }
@@ -3699,14 +3811,15 @@ const betaAutoCache=new Map();
 function betaAutoCacheKey({minCrit=0,minCooldown=0}={}){
   const sys=betaAutoMaxSystemStats(),sk=activeSkill(),mx=betaAutoMaxElementInfo(sys);
   return JSON.stringify({
-    basicTraits:r9SavedTraits(),skillId:sk.id,level:state.player.level,weaponAtk:state.weapon.displayAtk,
+    basicTraits:r9SavedTraits(),manualEquipment:state.manual?.equipment||{},skillId:sk.id,level:state.player.level,weaponAtk:state.weapon.displayAtk,
     weaponLv:state.weapon.equipmentLevel,boss:!!state.player?.boss,
     minCrit:betaAutoPctValue(betaAutoPctUnits(minCrit)),minCooldown:betaAutoPctValue(betaAutoPctUnits(minCooldown)),
     sysAtk:Number(sys.atk||0),sysFlat:Number(sys.flatAtk||0),
     sysSpell:Number(sys.spell||0),sysCrit:Number(sys.crit||0),
     sysCd:Number(sys.cooldown||0),sysCritDmg:Number(sys.critDamage||0),
     sysElem:Number(mx.value||0),sysSkill:Number(sys.skillLv||0),
-    systemState:state.system||{}
+    systemState:state.system||{},
+    setSlots:window.__r56OptimizationSetOverride ? JSON.stringify(window.__r56OptimizationSetOverride) : (()=>{try{return localStorage.getItem('tower-swords-r28-set-preview')||'{}'}catch(_){return '{}'}})()
   });
 }
 
@@ -3994,6 +4107,7 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
     betaAutoMakeDamageSeed(defs,'atk'),
     betaAutoMakeDamageSeed(defs,'elem'),
     betaAutoMakeDamageSeed(defs,'spell'),
+    betaAutoMakeDamageSeed(defs,'magic'),
     betaAutoLegacySeed(defs),
     betaAutoManualAssignment(defs),
     ...betaAutoReferenceSeeds(defs,targetCrit,targetCd)
@@ -4077,6 +4191,36 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
     }
   }
 
+  // V2.2 R52: compare against the actual, fully valued Manual configuration,
+  // not an auto-max approximation which only copies the Manual affix TYPES.
+  // Only accept a Manual floor if every entered affix is representable by the
+  // currently legal optimizer slot and does not exceed that slot's cap.
+  // Otherwise the builds have different rules and must not be compared as equals.
+  try {
+    const rawManual=state.manual?.equipment||{};
+    const defByKey=new Map(defs.map(d=>[d.gear+'|'+d.slot,d]));
+    let legal=true,hasEntry=false;
+    for(const [key,item] of Object.entries(rawManual)){
+      if(!item?.type)continue;
+      hasEntry=true;
+      const [gear,short]=key.split('.');
+      const slot=short?.startsWith('B')?'Basic'+short.slice(1):short?.startsWith('P')?'Plus'+short.slice(1):short;
+      const def=defByKey.get(gear+'|'+slot);
+      const parsed=manualValue(item);
+      const actual=item.type==='ATK'?Number(parsed?.atk):Number(parsed?.num);
+      if(!def||!parsed?.valid||!Number.isFinite(actual)||actual<0||
+         !def.opts.some(o=>o.type===item.type && actual<=Number(o.value)+1e-6)){
+        legal=false;break;
+      }
+    }
+    if(legal&&hasEntry){
+      const candidate=betaManualAutoCandidate({minCrit:targetCrit,minCooldown:targetCd});
+      if(candidate&&(!best||candidate.critDamage>best.result.critDamage)){
+        best={assign:null,result:candidate,eq:candidate.eq,manualFloor:true};
+      }
+    }
+  }catch(e){console.warn('V2.2 manual incumbent check',e);}
+
   if(!best){
     const sys={stats:betaAutoMaxSystemStats()};
     const miss={
@@ -4091,11 +4235,20 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
     return miss;
   }
 
-  const eq=betaAutoAssignmentToEq(defs,best.assign);
+  const eq=best.manualFloor?best.eq:betaAutoAssignmentToEq(defs,best.assign);
+  // R55: make the displayed score come from the same equipment evaluator used
+  // for manual comparisons. Prevent returning a detached internal search score.
+  const verified=betaEvaluateEquipmentEq(eq,{minCrit:targetCrit,minCooldown:targetCd});
+  if(!verified){
+    const miss={status:'infeasible',critDamage:null,eq:null,
+      source:'r55-final-equipment-verification-failed'};
+    betaAutoCache.set(cacheKey,miss);
+    return miss;
+  }
   const solved={
-    ...best.result,
+    ...best.result,...verified,
     eq,
-    source:'rebuilt-search-v4-reference-incumbent',
+    source:best.manualFloor?'legal-manual-floor':'r55-magic-candidate-search',
     searchKey:`skill:${activeSkill().id}|lv:${best.result.skillLv}|crit:${targetCrit}|cd:${targetCd}`
   };
   betaAutoCache.set(cacheKey,solved);
@@ -4253,9 +4406,33 @@ function betaGoldenOptimize(args={}){
 }
 
 function optimizeMax(args={}){
-  // Live Auto Optimize must search the legal equipment space. Golden tables remain
-  // regression references only and are not returned as the answer.
-  return betaAutoSearch(args);
+  // R56: search current equipment-set choice and a complete matching-element set.
+  // Ownership is read from the artifact system; never simulate an unowned artifact.
+  // Each candidate is independently optimized with the SAME equipment solver.
+  // The set-specific override only exists during Auto calculations.
+  const element=skillElementKey(activeSkill());
+  const targetSet=element==='normal'?'0':element==='fire'?'2':null;
+  const current=(()=>{try{return JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch(_){return {}}})();
+  const candidateLayouts=[{key:'current',layout:current}];
+  if(targetSet!==null){
+    // One unique set sword, never duplicate it in the other weapon slots.
+    const layout={...current};
+    for(const slot of ['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'])layout[slot]='';
+    layout.weapon=targetSet;
+    for(const slot of ['armor','helmet','boots','ring','ring2','necklace','earrings'])layout[slot]=targetSet;
+    if(JSON.stringify(layout)!==JSON.stringify(current))candidateLayouts.push({key:'matching-set',layout});
+  }
+  let best=null;
+  try{
+    for(const candidate of candidateLayouts){
+      window.__r56OptimizationSetOverride=candidate.layout;
+      const r=betaAutoSearch(args);
+      if(r?.status==='dynamic' && (!best||r.critDamage>best.critDamage)){
+        best={...r,setLayout:{...candidate.layout},setLayoutSource:candidate.key};
+      }
+    }
+  }finally{delete window.__r56OptimizationSetOverride;}
+  return best || betaAutoSearch(args);
 }
 
 function makeAutoEquipment(){
@@ -4278,7 +4455,9 @@ function renderAutoBreakdown(r){
   sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';const totalText=t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(total)))):`${total}${unit}`;return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${totalText}</div></div>`}).join('');
   const page2=betaAutoMaxSystemStats(),elementInfo=betaAutoMaxElementInfo(page2);
   const elemSystem=elementInfo.value,spellSystem=Number(page2.spell||0);
-  note.textContent=`Basic 魔法等級依每格分別計入技能等級；特殊特性只有佔位、沒有未驗證的傷害倍率。｜${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜元素 ${Math.round(r.elem)}%（02 系統 ${roundStat(elemSystem)}%＋裝備 ${roundStat(r.elem-elemSystem)}%）｜法傷 ${Math.round(r.spell)}%（02 系統 ${roundStat(spellSystem)}%＋裝備 ${roundStat(r.spell-spellSystem)}%）｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
+  const setDescription=r.setLayout?Object.entries(r.setLayout).filter(([k,v])=>['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'].includes(k) && ['0','1','2'].includes(String(v))).map(([k,v])=>`${({'weapon':'主武','weapon2':'武2','weapon3':'武3','armor':'盔甲','helmet':'頭盔','boots':'鞋子','ring':'戒1','ring2':'戒2','necklace':'項鍊','earrings':'耳環'})[k]}：${(['黑月','血影','紅蓮'])[Number(v)]}`).join('、'):'';
+  if(setDescription){const setBox=document.createElement('div');setBox.className='note r56-auto-set-note';setBox.textContent='R56 最佳化建議套裝｜'+setDescription+'。套裝人工製品依已持有狀態自動計數。這是自動方案建議，不更動手動套裝配置。';host.prepend(setBox);}
+  note.textContent=`R55 自動比較「所有魔法等級」與其他合法傷害詞條；特殊特性未驗證的觸發增傷不計入。搜尋結果尚非全域最優證明。｜${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜元素 ${Math.round(r.elem)}%（02 系統 ${roundStat(elemSystem)}%＋裝備 ${roundStat(r.elem-elemSystem)}%）｜法傷 ${Math.round(r.spell)}%（02 系統 ${roundStat(spellSystem)}%＋裝備 ${roundStat(r.spell-spellSystem)}%）｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
 let betaAutoRefreshing=false;
@@ -4298,7 +4477,7 @@ function refreshAuto(force=false){
   betaAutoRefreshing=true;
   try{
   const r=optimizeMax(state.auto); saveState(state);
-  $('#autoStatus').textContent=r.status==='dynamic'?'已重新搜尋目前條件最大傷害':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
+  $('#autoStatus').textContent=r.status==='dynamic'?'已搜尋目前條件較佳配置（不保證全域最大值）':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
   $('#autoStatus').className=r.status==='dynamic'?'pass':'warn';
   $('#autoCrit').textContent=r.crit??'—';
   $('#autoCd').textContent=r.cd??'—';
@@ -4403,8 +4582,12 @@ function systemSelectionSummary(){
   treeIds.forEach(n=>{const lv=Number(state.system.tree[n.id]||0),x=treeLevelData(n.id,lv);treePoints+=Number(x?.cumulativePoints||0);addTreeStats(stats,n,x,state.system.treeConditions[n.id]===true);});
   fashions.forEach(f=>{stats.spell+=Number(f.spellPct||0);stats.crit+=Number(f.critPct||0);stats.critDamage+=Number(f.critDamagePct||0);stats.cooldown+=Number(f.cooldownPct||0);stats.atk+=Number(f.atkPct||0);});
   pets.forEach(p=>{stats.fire+=Number(p.firePct||0);stats.ice+=Number(p.icePct||0);stats.lightning+=Number(p.lightningPct||0);stats.normal+=Number(p.normalPct||0);stats.boss+=Number(p.bossPct||0);});
-  // R25: 稱號完全獨立顯示；不將稱號能力加入角色、裝備或技能傷害計算。
+  // R42 試驗：稱號 ATK 嚴格隔離；僅可量化的傷害能力加入系統池。
   const titleContribution=r15TitleContribution();
+  for(const k of ['critDamage','fire','ice','lightning','normal'])stats[k]+=Number(titleContribution[k]||0);
+  // 遊戲稱號 SkillDamagePer 作為技能／法術傷害加算池的待驗證假設。
+  stats.spell+=Number(titleContribution.skillDamage||0);
+  for(const k of ['fire','ice','lightning','normal'])stats[k]+=Number(titleContribution.allElement||0);
   return {artifactIds,treeIds,fashions,pets,treePoints,stats,titleContribution};
 }
 function refreshSystemSummary(message=''){
@@ -4486,6 +4669,7 @@ function renderArtifacts(filter=''){
     state.system.artifactPrimary=inp.checked&&lv>0?id:null; saveState(state);
     el.querySelectorAll('[data-artifact-primary]').forEach(x=>{const xid=Number(x.dataset.artifactPrimary);x.checked=xid===Number(state.system.artifactPrimary)&&Number(state.system.artifacts[xid]||0)>0;});
     refreshSystemSummary();
+    if(window.__r46MirrorPrimary)window.__r46MirrorPrimary();
   });
 }
 function renderTree(filter=''){
@@ -4574,14 +4758,14 @@ function skillElementKey(skill){
   return 'normal';
 }
 function playerLevelBaseAtk(level){
-  const lv=Math.max(1,Math.min(500,Math.floor(Number(level||1))));
+  const lv=Math.max(1,Math.min(window.__r49LevelTrial===true?600:500,Math.floor(Number(level||1))));
   const rules=[
     [1,29,2,2],[30,59,40,5],[60,89,190,12],[90,119,550,30],[120,149,1450,60],
     [150,179,3250,120],[180,209,6850,240],[210,239,14050,500],[240,269,29050,1000],
     [270,299,59050,2000],[300,329,119050,4000],[330,359,239050,8000],[360,389,479050,16000],
     [390,419,959050,32000],[420,449,1919050,64000],[450,479,3839050,128000],[480,509,7679050,256000]
   ];
-  const r=rules.find(x=>lv>=x[0]&&lv<=x[1])||rules[0];
+  const r=rules.find(x=>lv>=x[0]&&lv<=x[1])||(window.__r49LevelTrial===true&&lv>509?rules[rules.length-1]:rules[0]);
   return r[2]+(lv-r[0])*r[3];
 }
 function skillAtkAtLevel(skillId,level){
@@ -4616,8 +4800,36 @@ function formatDamageR(n){
   if(!Number.isFinite(Number(n)))return '—';
   const r=Number(n)/1e18;
   if(r===0)return '0R';
+  // 1000 R = 1 V. Keep the game-style three decimal places without rounding up.
+  // This is display-only: all damage calculations retain their original precision.
+  if(Math.abs(r)>=1000){
+    const v=r/1000;
+    return `${(Math.trunc(v*1000)/1000).toFixed(3)}V`;
+  }
   if(Math.abs(r)<0.001)return `${Number(r.toPrecision(5))}R`;
   return `${Math.round(r*1000)/1000}R`;
+}
+
+/* R48 temporary model; not an official game calculation. */
+function r48TitleAtkEnabled(){return !!window.__r48TitleAtkTrial;}
+/* R50: compare DISPLAY 2/4/6 and POSSIBLE INTERNAL 1.98/3.96/6.
+   Only change AttackPer in the existing opt-in R48 experiment. */
+function r50TitleAtkPercentage(){
+  const t=r15TitleContribution();
+  let value=Number(t.atk||0);
+  if(window.__r50AtkPrecisionMode!=='fractional')return value;
+  const raw=window.__r15TitleEffects||{};
+  const sources=(raw['攻擊力']?.sources||[]);
+  for(const source of sources){
+    const star=Number(source?.level||0),amount=Number(source?.amount||0);
+    if(star===1&&Math.abs(amount-2)<0.000001)value-=0.02;
+    if(star===2&&Math.abs(amount-4)<0.000001)value-=0.04;
+  }
+  return Math.round(value*1000000)/1000000;
+}
+function r48TitleAtkExtra(weaponAtk){
+  if(!r48TitleAtkEnabled())return 0;
+  return Number(weaponAtk||0)*r50TitleAtkPercentage()/100;
 }
 function effectiveAtkResult(extraEquipmentAtk=0n){
   const sys=systemSelectionSummary();
@@ -4628,7 +4840,7 @@ function effectiveAtkResult(extraEquipmentAtk=0n){
   const flatAtk=Number(extraEquipmentAtk||0n)+Number(sys.stats.flatAtk||0);
   const atkPool=1+Number(sys.stats.atk||0)/100;
   const atkIndependent=manualAtkIndependentMultiplier();
-  const effectiveAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent);
+  const effectiveAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent+r48TitleAtkExtra(weaponAtk));
   return {valid:true,effectiveAtk,resolved,weaponAtk,levelAtk,flatAtk,atkPool,atkIndependent};
 }
 function manualDamageResult(){
@@ -4644,12 +4856,13 @@ function manualDamageResult(){
   const atkResult=effectiveAtkResult(mt.atk);
   if(!atkResult.valid)return atkResult;
   const effectiveAtk=atkResult.effectiveAtk;
-  const element=Number(sys.stats[elemKey]||0)+Number(mt[elemKey]||0);
+  const setBonus=r36SetDamageBonus(elemKey);
+  const element=Number(sys.stats[elemKey]||0)+Number(mt[elemKey]||0)+setBonus.elementPct;
   const spell=Number(sys.stats.spell||0)+Number(mt.spell||0);
   const critDamage=150+Number(sys.stats.critDamage||0);
   const bossMultiplier=state.player?.boss?1+Number(sys.stats.boss||0)/100:1;
   const otherMultiplier=manualOtherDamageMultiplier();
-  const rawNonCrit=effectiveAtk*skillAtk*(1+element/100)*(1+spell/100)*bossMultiplier*otherMultiplier;
+  const rawNonCrit=effectiveAtk*skillAtk*(1+element/100)*(1+spell/100)*bossMultiplier*otherMultiplier*setBonus.finalMultiplier;
   const nonCrit=Math.floor(rawNonCrit);
   const crit=Math.floor(nonCrit*(critDamage/100));
   return {valid:true,nonCrit,crit,skillLv:finalSkillLv,skillAtk,effectiveAtk,element,spell,critDamage,resolverMode:resolved.mode};
@@ -4720,7 +4933,7 @@ function refreshReport(){
   if($('#manualNonCritDamage'))$('#manualNonCritDamage').textContent=manualDmg.valid?formatDamageR(manualDmg.nonCrit):'—';
   if($('#manualCritDamage'))$('#manualCritDamage').textContent=manualDmg.valid?formatDamageR(manualDmg.crit):'—';
   if($('#manualDamageNote'))$('#manualDamageNote').textContent=manualDmg.valid?`Skill Lv ${manualDmg.skillLv}｜Skill ATK ${Math.round(manualDmg.skillAtk*1000)/1000}｜有效 ATK ${formatGameBigInt(BigInt(Math.max(0,Math.floor(manualDmg.effectiveAtk))))}`:`無法計算：${manualDmg.reason||'輸入不完整'}`;
-  const manualFinal={skillLv:manualDmg.valid?manualDmg.skillLv:Math.min(139,Math.max(1,Math.round(baseSkill+sys.stats.skillLv+mt.skillLv))),element:sysElem+manualElem,spell:sys.stats.spell+mt.spell,crit:Math.min(100,sys.stats.crit+mt.crit),critDamage:150+sys.stats.critDamage,cooldown:sys.stats.cooldown+mt.cooldown,mpReduce:sys.stats.mpReduce+mt.mpReduce};
+  const manualFinal={skillLv:manualDmg.valid?manualDmg.skillLv:Math.min(139,Math.max(1,Math.round(baseSkill+sys.stats.skillLv+mt.skillLv))),element:sysElem+manualElem+r36SetDamageBonus(elemKey).elementPct,spell:sys.stats.spell+mt.spell,crit:Math.min(100,sys.stats.crit+mt.crit),critDamage:150+sys.stats.critDamage,cooldown:sys.stats.cooldown+mt.cooldown,mpReduce:sys.stats.mpReduce+mt.mpReduce};
   const autoFinal=at.available&&at.result?{skillLv:at.result.skillLv,element:at.result.elem,spell:at.result.spell,crit:at.result.crit,critDamage:at.result.critDamagePct,cooldown:at.result.cd,mpReduce:sys.stats.mpReduce}:null;
   const current=state.mode==='auto'&&autoFinal?autoFinal:manualFinal;
   $('#reportModeBadge').textContent=state.mode==='auto'?'目前模式：自動最佳化':'目前模式：手動實裝';
@@ -5188,10 +5401,19 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
     formatDamageR = function(n){
       const v=Number(n);
       if(!Number.isFinite(v)) return '—';
-      const whole=Math.max(0,Math.floor(v));
-      return formatGameBigInt(BigInt(whole));
+      // Damage units advance R -> V at 1,000R, with no change to actual damage.
+      // Do not call formatGameBigInt here: it stops at R and cannot output V.
+      const r=v/1e18;
+      if(Math.abs(r)>=1000){
+        const valueV=r/1000;
+        return `${(Math.trunc(valueV*1000)/1000).toFixed(3)}V`;
+      }
+      if(Math.abs(r)>=0.001){
+        return `${(Math.trunc(r*1000)/1000).toFixed(3)}R`;
+      }
+      return formatGameBigInt(BigInt(Math.max(0,Math.floor(v))));
     };
-  } catch(e) { console.error('DebugFix22 adaptive damage formatter failed',e); }
+  } catch(e) { console.error('R47 V-unit damage formatter failed',e); }
 
   /* Existing optimizer benchmark damage values were recorded with Skill 52 Lv139.
      Keep the verified equipment/stat benchmark untouched, but rescale the displayed
@@ -5588,7 +5810,7 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
     'zh-Hant':{
       helpBtn:'操作說明', reportBtn:'問題回報', close:'關閉',
       helpTitle:'模擬器操作說明',
-      updateTitle:'更新資訊｜V2.1', updateText:'已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。稱號 48 項已完成三語名稱校正，但稱號能力目前僅獨立統計、不納入 ATK 與傷害；手動詞條與系統操作介面已更新。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。',
+      updateTitle:'更新資訊｜V2.2', updateText:'已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。稱號 48 項已完成三語名稱校正，但稱號能力目前僅獨立統計、不納入 ATK 與傷害；手動詞條與系統操作介面已更新。其他 V2.6 資料仍持續核對中；目前尚未全部更新完成。',
       intro:'本模擬器依「角色設定 → 系統效果 → 裝備配置 → 分析報告」四個步驟運作。建議先依遊戲實際面板建立角色條件，再進行手動實裝或自動最佳化。設定會儲存在目前瀏覽器中，重新整理後仍會保留。',
       steps:[
         ['01｜角色設定','輸入角色等級、主武固定 ATK 與主武裝備 Lv，再選擇目前要模擬的武器技能。角色等級、裝備等級與技能選擇都會影響後續傷害與最佳化結果，因此請以遊戲目前實際數值為準。'],
@@ -5827,7 +6049,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     const dynamicSkillAtk=skillAtkAtLevel(ctx.sk.id,r10AutoSkillLevel(ctx.sk,t));
     if(!Number.isFinite(dynamicSkillAtk))return -Infinity;
     const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
-    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent);
+    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent+r48TitleAtkExtra(ctx.weaponAtk));
     return effectiveAtk*dynamicSkillAtk*(1+(ctx.elemBase+t.elem)/100)*(1+(ctx.spellBase+t.spell)/100);
   };
   betaAutoEvalTotals=function(t,targetCrit,targetCd){
@@ -5838,7 +6060,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     const skillLv=r10AutoSkillLevel(ctx.sk,t),skillAtk=skillAtkAtLevel(ctx.sk.id,skillLv);
     if(!Number.isFinite(skillAtk))return null;
     const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
-    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent),elem=ctx.elemBase+t.elem,spell=ctx.spellBase+t.spell;
+    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent+r48TitleAtkExtra(ctx.weaponAtk)),elem=ctx.elemBase+t.elem,spell=ctx.spellBase+t.spell;
     const nonCritDamage=Math.floor(effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*ctx.bossMultiplier*ctx.otherMultiplier),critDamage=Math.floor(nonCritDamage*(ctx.critDamagePct/100));
     const rawCrit=betaAutoPctValue(rawCritUnits),cd=betaAutoPctValue(cdUnits);
     return {status:'dynamic',crit:rawCrit,rawCrit,cd,elem,spell,critDamage,nonCritDamage,critDamagePct:ctx.critDamagePct,skillLv,skillAtk,effectiveAtk};
@@ -8298,7 +8520,7 @@ main>.screen:nth-of-type(3) #autoPane>.card{
 @media(min-width:390px) and (max-width:550px){.v21-title-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:389px){.v21-title-grid{grid-template-columns:1fr!important}}
 </style>
-<script id="v21-inline-titles-json" type="application/json">{"schemaVersion":1,"status":"staging-integrated","calculationEnabled":true,"source":{"titleData":"Tower And Swords v2.60020 TitleDatabase / TitleCondition extraction","targetGameVersion":"2.60060","v260060MetadataCheck":"TitleDatabase / TitleCondition / title condition keys present","bonusRevalidationFor260060":false},"categories":[{"id":"journey","zh":"旅程","en":"Journey"},{"id":"training","zh":"修練","en":"Training"},{"id":"hidden","zh":"隱藏","en":"Hidden"},{"id":"demon_realm","zh":"魔界","en":"Demon Realm"}],"titles":[{"id":1,"key":"wanderer","nameZh":"流浪者","nameEn":"Wanderer","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積遊玩時間","stars":[{"star":1,"unlock":"累積遊玩 3,000 分鐘（50小時）","effect":"經驗值獲得 +1.98%"},{"star":2,"unlock":"累積遊玩 9,000 分鐘（150小時）","effect":"經驗值獲得 +3.96%"},{"star":3,"unlock":"累積遊玩 30,000 分鐘（500小時）","effect":"經驗值獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"방랑자"},{"id":2,"key":"monster_slayer","nameZh":"怪物殺手","nameEn":"Monster Slayer","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積怪物擊殺數","stars":[{"star":1,"unlock":"累積擊殺 10,000 隻怪物","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"累積擊殺 100,000 隻怪物","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"累積擊殺 500,000 隻怪物","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"몬스터 슬레이어"},{"id":3,"key":"tycoon","nameZh":"巨商","nameEn":"Tycoon","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積取得金幣","stars":[{"star":1,"unlock":"累積取得 1,000,000 Gold","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"累積取得 100,000,000 Gold","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"累積取得 10,000,000,000 Gold","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"거상"},{"id":4,"key":"legend_finder","nameZh":"傳說發現者","nameEn":"Legend Finder","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"單階段稱號","stars":[{"star":1,"unlock":"第一次取得傳說裝備","effect":"攻擊力 +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"전설 발견자"},{"id":5,"key":"collector","nameZh":"收藏家","nameEn":"Collector","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"特殊傳說裝備收集數","stars":[{"star":1,"unlock":"取得 3 件特殊／Trait 傳說裝備","effect":"掉落率 +1.98%"},{"star":2,"unlock":"取得 10 件特殊／Trait 傳說裝備","effect":"掉落率 +3.96%"},{"star":3,"unlock":"取得 30 件特殊／Trait 傳說裝備","effect":"掉落率 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"컬렉터"},{"id":6,"key":"destined_challenger","nameZh":"宿命挑戰者","nameEn":"Destined Challenger","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"程式原始門檻為 0 / 1 / 2 / 3，共四段；不是一般三星計數","stars":[{"star":1,"unlock":"Difficulty Tier 0","effect":"攻擊力 +1.32%"},{"star":2,"unlock":"Difficulty Tier 1","effect":"攻擊力 +2.64%"},{"star":3,"unlock":"Difficulty Tier 2 / 3","effect":"攻擊力 +4.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"숙명의 도전자"},{"id":7,"key":"first_step","nameZh":"第一步","nameEn":"First Step","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"Tower Boss／首步進度索引，不是單純擊殺次數","stars":[{"star":1,"unlock":"First Step Progress 0","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"First Step Progress 1","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"First Step Progress 2","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"첫 발걸음"},{"id":8,"key":"relic_collector","nameZh":"遺物收藏家","nameEn":"Relic Collector","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"不同種類文物收集數","stars":[{"star":1,"unlock":"收集 5 種不同文物","effect":"掉落率 +1.98%"},{"star":2,"unlock":"收集 10 種不同文物","effect":"掉落率 +3.96%"},{"star":3,"unlock":"收集 20 種不同文物","effect":"掉落率 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"유물 수집가"},{"id":9,"key":"adept","nameZh":"熟練者","nameEn":"Adept","category":"training","categoryZh":"修練","categoryEn":"Training","description":"角色等級","stars":[{"star":1,"unlock":"角色 Lv.50","effect":"經驗值獲得 +2.97%"},{"star":2,"unlock":"角色 Lv.150","effect":"經驗值獲得 +5.94%"},{"star":3,"unlock":"角色 Lv.300","effect":"經驗值獲得 +9.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"숙련자"},{"id":10,"key":"mana_bearer","nameZh":"魔力持有者","nameEn":"Mana Bearer","category":"training","categoryZh":"修練","categoryEn":"Training","description":"最大 MP","stars":[{"star":1,"unlock":"最大 MP 5,000","effect":"最大 MP +1.98%"},{"star":2,"unlock":"最大 MP 50,000","effect":"最大 MP +3.96%"},{"star":3,"unlock":"最大 MP 250,000","effect":"最大 MP +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마력 보유자"},{"id":11,"key":"immortal","nameZh":"不死之身","nameEn":"Immortal","category":"training","categoryZh":"修練","categoryEn":"Training","description":"角色復活次數","stars":[{"star":1,"unlock":"復活 10 次","effect":"HP 回復 +1.98%"},{"star":2,"unlock":"復活 100 次","effect":"HP 回復 +3.96%"},{"star":3,"unlock":"復活 500 次","effect":"HP 回復 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불사신"},{"id":12,"key":"flame_breath","nameZh":"烈焰之息","nameEn":"Flame Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"火屬性法術傷害","stars":[{"star":1,"unlock":"火屬性法術傷害 100%","effect":"火屬性傷害 +1.98%"},{"star":2,"unlock":"火屬性法術傷害 300%","effect":"火屬性傷害 +3.96%"},{"star":3,"unlock":"火屬性法術傷害 500%","effect":"火屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불꽃의 숨결"},{"id":13,"key":"frost_breath","nameZh":"冰霜之息","nameEn":"Frost Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"冰屬性法術傷害","stars":[{"star":1,"unlock":"冰屬性法術傷害 100%","effect":"冰屬性傷害 +1.98%"},{"star":2,"unlock":"冰屬性法術傷害 300%","effect":"冰屬性傷害 +3.96%"},{"star":3,"unlock":"冰屬性法術傷害 500%","effect":"冰屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"빙결의 숨결"},{"id":14,"key":"thunder_breath","nameZh":"雷霆之息","nameEn":"Thunder Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"雷屬性法術傷害","stars":[{"star":1,"unlock":"雷屬性法術傷害 100%","effect":"雷屬性傷害 +1.98%"},{"star":2,"unlock":"雷屬性法術傷害 300%","effect":"雷屬性傷害 +3.96%"},{"star":3,"unlock":"雷屬性法術傷害 500%","effect":"雷屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"번개의 숨결"},{"id":15,"key":"soul_breath","nameZh":"靈魂之息","nameEn":"Soul Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"Normal／Soul 法術傷害","stars":[{"star":1,"unlock":"Normal／Soul 法術傷害 100%","effect":"靈魂屬性傷害 +1.98%"},{"star":2,"unlock":"Normal／Soul 法術傷害 300%","effect":"靈魂屬性傷害 +3.96%"},{"star":3,"unlock":"Normal／Soul 法術傷害 500%","effect":"靈魂屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"영혼의 숨결"},{"id":16,"key":"gale","nameZh":"疾風","nameEn":"Gale","category":"training","categoryZh":"修練","categoryEn":"Training","description":"移動速度倍率","stars":[{"star":1,"unlock":"移動速度 140%","effect":"移動速度 +1.98%"},{"star":2,"unlock":"移動速度 180%","effect":"移動速度 +3.96%"},{"star":3,"unlock":"移動速度 220%","effect":"移動速度 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"질풍"},{"id":17,"key":"skill_master","nameZh":"達人","nameEn":"Skill Master","category":"training","categoryZh":"修練","categoryEn":"Training","description":"技能使用總次數","stars":[{"star":1,"unlock":"使用技能 10,000 次","effect":"技能傷害 +1.98%"},{"star":2,"unlock":"使用技能 100,000 次","effect":"技能傷害 +3.96%"},{"star":3,"unlock":"使用技能 500,000 次","effect":"技能傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"달인"},{"id":18,"key":"ancient_visitor","nameZh":"遠古訪客","nameEn":"Ancient Visitor","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"進入 Ancient Room 1 次","effect":"最大 HP +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"고대의 방문자"},{"id":19,"key":"reaper_hunter","nameZh":"死神獵人","nameEn":"Reaper Hunter","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Reaper 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Reaper 擊破進度 1","effect":"暴擊傷害 +1.98%"},{"star":2,"unlock":"Reaper 擊破進度 2","effect":"暴擊傷害 +3.96%"},{"star":3,"unlock":"Reaper 擊破進度 3","effect":"暴擊傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"사신 사냥꾼"},{"id":20,"key":"demon_lord_slayer","nameZh":"魔王討伐者","nameEn":"Demon Lord Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Demon Lord／Dark Lord 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Demon Lord 擊破進度 1","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"Demon Lord 擊破進度 2","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"Demon Lord 擊破進度 3","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마왕을 처치한 자"},{"id":21,"key":"dark_dragon_slayer","nameZh":"魔龍討伐者","nameEn":"Dark Dragon Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Dark Dragon 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Dark Dragon 擊破進度 1","effect":"全屬性傷害 +1.98%"},{"star":2,"unlock":"Dark Dragon 擊破進度 2","effect":"全屬性傷害 +3.96%"},{"star":3,"unlock":"Dark Dragon 擊破進度 3","effect":"全屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마룡을 처치한 자"},{"id":22,"key":"goddess_s_blessing","nameZh":"女神庇佑","nameEn":"Goddess's Blessing","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"集齊所有 Goddess Token","effect":"最大 HP +1.00%；最大 MP +1.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"여신의 가호"},{"id":23,"key":"black_market_regular","nameZh":"黑市常客","nameEn":"Black Market Regular","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"黑市購買次數","stars":[{"star":1,"unlock":"黑市購買 100 次","effect":"黑市額外折扣 +3.30%"},{"star":2,"unlock":"黑市購買 500 次","effect":"黑市額外折扣 +6.60%"},{"star":3,"unlock":"黑市購買 2,000 次","effect":"黑市額外折扣 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"암상인의 단골"},{"id":24,"key":"treasure_hunter","nameZh":"寶箱獵人","nameEn":"Treasure Hunter","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"開啟／破壞寶箱 20 個","effect":"寶箱額外道具 +1 個"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"보물상자 사냥꾼"},{"id":25,"key":"slime_slayer","nameZh":"史萊姆殺手","nameEn":"Slime Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"史萊姆地牢擊殺數","stars":[{"star":1,"unlock":"史萊姆地牢擊殺 5,000 隻","effect":"史萊姆地牢經驗值 +4.95%"},{"star":2,"unlock":"史萊姆地牢擊殺 30,000 隻","effect":"史萊姆地牢經驗值 +9.90%"},{"star":3,"unlock":"史萊姆地牢擊殺 100,000 隻","effect":"史萊姆地牢經驗值 +15.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"슬라임 슬레이어"},{"id":26,"key":"flash_executioner","nameZh":"一擊必殺","nameEn":"Flash Executioner","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"特殊限時 Boss 判定；時間條件與完成次數同時成立","stars":[{"star":1,"unlock":"30 秒內擊殺 Boss × 1 次","effect":"暴擊傷害 +3.30%"},{"star":2,"unlock":"15 秒內擊殺 Boss × 5 次","effect":"暴擊傷害 +6.60%"},{"star":3,"unlock":"5 秒內擊殺 Boss × 15 次","effect":"暴擊傷害 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"일격필멸"},{"id":27,"key":"unscathed","nameZh":"毫髮無傷者","nameEn":"Unscathed","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"無傷通關次數","stars":[{"star":1,"unlock":"無傷通關 1 次","effect":"防禦力 +3.30%"},{"star":2,"unlock":"無傷通關 10 次","effect":"防禦力 +6.60%"},{"star":3,"unlock":"無傷通關 50 次","effect":"防禦力 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"흠집 없는 자"},{"id":28,"key":"meditator","nameZh":"冥想者","nameEn":"Meditator","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"累積冥想時間","stars":[{"star":1,"unlock":"累積冥想 1,800 秒（30分）","effect":"MP 回復 +3.30%"},{"star":2,"unlock":"累積冥想 3,600 秒（60分）","effect":"MP 回復 +6.60%"},{"star":3,"unlock":"累積冥想 7,200 秒（120分）","effect":"MP 回復 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"명상가"},{"id":29,"key":"proven_challenger","nameZh":"歷練挑戰者","nameEn":"Proven Challenger","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"異界地牢通關次數","stars":[{"star":1,"unlock":"異界／Token Dungeon 通關 10 次","effect":"異界地牢金幣獲得 +4.95%"},{"star":2,"unlock":"異界／Token Dungeon 通關 30 次","effect":"異界地牢金幣獲得 +9.90%"},{"star":3,"unlock":"異界／Token Dungeon 通關 100 次","effect":"異界地牢金幣獲得 +15.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"증명된 도전자"},{"id":30,"key":"storyteller","nameZh":"說書人","nameEn":"Storyteller","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"★3 程式原始值確實為 9,999","stars":[{"star":1,"unlock":"看過 30 次 NPC 對話","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"看過 50 次 NPC 對話","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"看過 9,999 次 NPC 對話","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"이야기꾼"},{"id":31,"key":"dawn_riser","nameZh":"拂曉之眠","nameEn":"Dawn Sleep","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"凌晨 4:00～5:00 登入 1 次","effect":"經驗值獲得 +5.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"새벽잠"},{"id":32,"key":"beyond_the_wall","nameZh":"牆外的秘密","nameEn":"Beyond the Wall","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"秘密房發現數","stars":[{"star":1,"unlock":"發現 10 個 Secret Room","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"發現 30 個 Secret Room","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"發現 50 個 Secret Room","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"벽 너머의 비밀"},{"id":33,"key":"unwavering","nameZh":"堅定不移者","nameEn":"Unwavering","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"普通攻擊 Boss 擊殺","stars":[{"star":1,"unlock":"以普通攻擊擊殺 Boss 1 次","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"以普通攻擊擊殺 Boss 5 次","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"以普通攻擊擊殺 Boss 15 次","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"흔들림 없는 자"},{"id":34,"key":"forgotten_name","nameZh":"被遺忘的名字","nameEn":"Forgotten Name","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"不裝備任何稱號持續 20 小時","effect":"掉落率 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잊혀진 이름"},{"id":35,"key":"risen_from_defeat","nameZh":"敗後重生","nameEn":"Risen from Defeat","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"角色死亡次數","stars":[{"star":1,"unlock":"死亡 10 次","effect":"最大 HP +1.98%"},{"star":2,"unlock":"死亡 50 次","effect":"最大 HP +3.96%"},{"star":3,"unlock":"死亡 100 次","effect":"最大 HP +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"패배에서 일어남"},{"id":36,"key":"oath_shatterer","nameZh":"破誓者","nameEn":"Oath Shatterer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #1；Tier 是擊破難度／階級，不是擊殺次數","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"防禦力 +1.65%；最大 HP +0.99%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"防禦力 +3.30%；最大 HP +1.98%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"防禦力 +5.00%；最大 HP +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"맹세의 파훼자"},{"id":37,"key":"bone_terminator","nameZh":"白骨終結者","nameEn":"Bone Terminator","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #2；Tier 是擊破難度／階級","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"HP 吸取機率 +0.66%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"HP 吸取機率 +1.32%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"HP 吸取機率 +2.00%；Signature：死亡時復活機率 +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"백골의 종식자"},{"id":38,"key":"ember_suppressor","nameZh":"餘燼鎮壓者","nameEn":"Ember Suppressor","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #3；Tier 是擊破難度／階級","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"MP 吸取機率 +0.66%；最大 MP +0.99%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"MP 吸取機率 +1.32%；最大 MP +1.98%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"MP 吸取機率 +2.00%；最大 MP +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잿불의 진압자"},{"id":39,"key":"novice","nameZh":"初學者","nameEn":"Novice","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"AlwaysTrue；單階段稱號","stars":[{"star":1,"unlock":"開始遊戲即成立","effect":"經驗值獲得 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"초심자"},{"id":40,"key":"world_guardian","nameZh":"世界守護者","nameEn":"World Guardian","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"單階段稱號","stars":[{"star":1,"unlock":"Challenge 通關","effect":"攻擊力 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"세계의 수호자"},{"id":41,"key":"peace_envoy","nameZh":"和平使徒","nameEn":"Peace Envoy","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"返回村莊次數","stars":[{"star":1,"unlock":"返回村莊 100 次","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"返回村莊 500 次","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"返回村莊 2,000 次","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"평화의 사도"},{"id":42,"key":"boss_hunter","nameZh":"首領獵人","nameEn":"Boss Hunter","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"任意 Boss 擊殺數","stars":[{"star":1,"unlock":"擊殺任意 Boss 50 隻","effect":"普通攻擊傷害 +1.98%"},{"star":2,"unlock":"擊殺任意 Boss 300 隻","effect":"普通攻擊傷害 +3.96%"},{"star":3,"unlock":"擊殺任意 Boss 1,500 隻","effect":"普通攻擊傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"보스 헌터"},{"id":43,"key":"elite_adventurer","nameZh":"特級冒險家","nameEn":"Elite Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"單階段稱號","stars":[{"star":1,"unlock":"Mythic 通關","effect":"經驗值獲得 +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"특급 모험가"},{"id":44,"key":"flame_adventurer","nameZh":"烈焰冒險家","nameEn":"Flame Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"火屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用火屬性技能擊殺 Boss 10 次","effect":"火屬性傷害 +1.98%"},{"star":2,"unlock":"使用火屬性技能擊殺 Boss 50 次","effect":"火屬性傷害 +3.96%"},{"star":3,"unlock":"使用火屬性技能擊殺 Boss 200 次","effect":"火屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불꽃의 모험가"},{"id":45,"key":"frost_adventurer","nameZh":"冰霜冒險家","nameEn":"Frost Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"冰屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用冰屬性技能擊殺 Boss 10 次","effect":"冰屬性傷害 +1.98%"},{"star":2,"unlock":"使用冰屬性技能擊殺 Boss 50 次","effect":"冰屬性傷害 +3.96%"},{"star":3,"unlock":"使用冰屬性技能擊殺 Boss 200 次","effect":"冰屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"빙결의 모험가"},{"id":46,"key":"thunder_adventurer","nameZh":"雷霆冒險家","nameEn":"Thunder Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"雷屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用雷屬性技能擊殺 Boss 10 次","effect":"雷屬性傷害 +1.98%"},{"star":2,"unlock":"使用雷屬性技能擊殺 Boss 50 次","effect":"雷屬性傷害 +3.96%"},{"star":3,"unlock":"使用雷屬性技能擊殺 Boss 200 次","effect":"雷屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"번개의 모험가"},{"id":47,"key":"soul_adventurer","nameZh":"靈魂冒險家","nameEn":"Soul Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Normal／Soul 技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用 Normal／Soul 技能擊殺 Boss 10 次","effect":"靈魂屬性傷害 +1.98%"},{"star":2,"unlock":"使用 Normal／Soul 技能擊殺 Boss 50 次","effect":"靈魂屬性傷害 +3.96%"},{"star":3,"unlock":"使用 Normal／Soul 技能擊殺 Boss 200 次","effect":"靈魂屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"영혼의 모험가"},{"id":48,"key":"remains_cleaner","nameZh":"殘餘清理者","nameEn":"Remains Cleaner","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss 系統進度","stars":[{"star":1,"unlock":"Demon Boss 解鎖／擊破進度 5","effect":"攻擊力 +1.98%"},{"star":2,"unlock":"Demon Boss 解鎖／擊破進度 10","effect":"攻擊力 +3.96%"},{"star":3,"unlock":"Demon Boss 解鎖／擊破進度 13","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잔재 처리자"}]}</script>
+<script id="v21-inline-titles-json" type="application/json">{"schemaVersion":1,"status":"staging-integrated","calculationEnabled":true,"source":{"titleData":"Tower And Swords v2.60020 TitleDatabase / TitleCondition extraction","targetGameVersion":"2.60060","v260060MetadataCheck":"TitleDatabase / TitleCondition / title condition keys present","bonusRevalidationFor260060":false},"categories":[{"id":"journey","zh":"旅程","en":"Journey"},{"id":"training","zh":"修練","en":"Training"},{"id":"hidden","zh":"隱藏","en":"Hidden"},{"id":"demon_realm","zh":"魔界","en":"Demon Realm"}],"titles":[{"id":1,"key":"wanderer","nameZh":"流浪者","nameEn":"Wanderer","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積遊玩時間","stars":[{"star":1,"unlock":"累積遊玩 3,000 分鐘（50小時）","effect":"經驗值獲得 +1.98%"},{"star":2,"unlock":"累積遊玩 9,000 分鐘（150小時）","effect":"經驗值獲得 +3.96%"},{"star":3,"unlock":"累積遊玩 30,000 分鐘（500小時）","effect":"經驗值獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"방랑자"},{"id":2,"key":"monster_slayer","nameZh":"怪物殺手","nameEn":"Monster Slayer","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積怪物擊殺數","stars":[{"star":1,"unlock":"累積擊殺 10,000 隻怪物","effect":"攻擊力 +2.00%"},{"star":2,"unlock":"累積擊殺 100,000 隻怪物","effect":"攻擊力 +4.00%"},{"star":3,"unlock":"累積擊殺 500,000 隻怪物","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"몬스터 슬레이어"},{"id":3,"key":"tycoon","nameZh":"巨商","nameEn":"Tycoon","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"累積取得金幣","stars":[{"star":1,"unlock":"累積取得 1,000,000 Gold","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"累積取得 100,000,000 Gold","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"累積取得 10,000,000,000 Gold","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"거상"},{"id":4,"key":"legend_finder","nameZh":"傳說發現者","nameEn":"Legend Finder","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"單階段稱號","stars":[{"star":1,"unlock":"第一次取得傳說裝備","effect":"攻擊力 +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"전설 발견자"},{"id":5,"key":"collector","nameZh":"收藏家","nameEn":"Collector","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"特殊傳說裝備收集數","stars":[{"star":1,"unlock":"取得 3 件特殊／Trait 傳說裝備","effect":"掉落率 +1.98%"},{"star":2,"unlock":"取得 10 件特殊／Trait 傳說裝備","effect":"掉落率 +3.96%"},{"star":3,"unlock":"取得 30 件特殊／Trait 傳說裝備","effect":"掉落率 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"컬렉터"},{"id":6,"key":"destined_challenger","nameZh":"宿命挑戰者","nameEn":"Destined Challenger","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"程式原始門檻為 0 / 1 / 2 / 3，共四段；不是一般三星計數","stars":[{"star":1,"unlock":"Difficulty Tier 0","effect":"攻擊力 +1.32%"},{"star":2,"unlock":"Difficulty Tier 1","effect":"攻擊力 +2.64%"},{"star":3,"unlock":"Difficulty Tier 2 / 3","effect":"攻擊力 +4.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"숙명의 도전자"},{"id":7,"key":"first_step","nameZh":"第一步","nameEn":"First Step","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"Tower Boss／首步進度索引，不是單純擊殺次數","stars":[{"star":1,"unlock":"First Step Progress 0","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"First Step Progress 1","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"First Step Progress 2","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"첫 발걸음"},{"id":8,"key":"relic_collector","nameZh":"遺物收藏家","nameEn":"Relic Collector","category":"journey","categoryZh":"旅程","categoryEn":"Journey","description":"不同種類文物收集數","stars":[{"star":1,"unlock":"收集 5 種不同文物","effect":"掉落率 +1.98%"},{"star":2,"unlock":"收集 10 種不同文物","effect":"掉落率 +3.96%"},{"star":3,"unlock":"收集 20 種不同文物","effect":"掉落率 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"유물 수집가"},{"id":9,"key":"adept","nameZh":"熟練者","nameEn":"Adept","category":"training","categoryZh":"修練","categoryEn":"Training","description":"角色等級","stars":[{"star":1,"unlock":"角色 Lv.50","effect":"經驗值獲得 +2.97%"},{"star":2,"unlock":"角色 Lv.150","effect":"經驗值獲得 +5.94%"},{"star":3,"unlock":"角色 Lv.300","effect":"經驗值獲得 +9.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"숙련자"},{"id":10,"key":"mana_bearer","nameZh":"魔力持有者","nameEn":"Mana Bearer","category":"training","categoryZh":"修練","categoryEn":"Training","description":"最大 MP","stars":[{"star":1,"unlock":"最大 MP 5,000","effect":"最大 MP +1.98%"},{"star":2,"unlock":"最大 MP 50,000","effect":"最大 MP +3.96%"},{"star":3,"unlock":"最大 MP 250,000","effect":"最大 MP +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마력 보유자"},{"id":11,"key":"immortal","nameZh":"不死之身","nameEn":"Immortal","category":"training","categoryZh":"修練","categoryEn":"Training","description":"角色復活次數","stars":[{"star":1,"unlock":"復活 10 次","effect":"HP 回復 +1.98%"},{"star":2,"unlock":"復活 100 次","effect":"HP 回復 +3.96%"},{"star":3,"unlock":"復活 500 次","effect":"HP 回復 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불사신"},{"id":12,"key":"flame_breath","nameZh":"烈焰之息","nameEn":"Flame Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"火屬性法術傷害","stars":[{"star":1,"unlock":"火屬性法術傷害 100%","effect":"火屬性傷害 +1.98%"},{"star":2,"unlock":"火屬性法術傷害 300%","effect":"火屬性傷害 +3.96%"},{"star":3,"unlock":"火屬性法術傷害 500%","effect":"火屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불꽃의 숨결"},{"id":13,"key":"frost_breath","nameZh":"冰霜之息","nameEn":"Frost Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"冰屬性法術傷害","stars":[{"star":1,"unlock":"冰屬性法術傷害 100%","effect":"冰屬性傷害 +1.98%"},{"star":2,"unlock":"冰屬性法術傷害 300%","effect":"冰屬性傷害 +3.96%"},{"star":3,"unlock":"冰屬性法術傷害 500%","effect":"冰屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"빙결의 숨결"},{"id":14,"key":"thunder_breath","nameZh":"雷霆之息","nameEn":"Thunder Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"雷屬性法術傷害","stars":[{"star":1,"unlock":"雷屬性法術傷害 100%","effect":"雷屬性傷害 +1.98%"},{"star":2,"unlock":"雷屬性法術傷害 300%","effect":"雷屬性傷害 +3.96%"},{"star":3,"unlock":"雷屬性法術傷害 500%","effect":"雷屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"번개의 숨결"},{"id":15,"key":"soul_breath","nameZh":"靈魂之息","nameEn":"Soul Breath","category":"training","categoryZh":"修練","categoryEn":"Training","description":"Normal／Soul 法術傷害","stars":[{"star":1,"unlock":"Normal／Soul 法術傷害 100%","effect":"靈魂屬性傷害 +1.98%"},{"star":2,"unlock":"Normal／Soul 法術傷害 300%","effect":"靈魂屬性傷害 +3.96%"},{"star":3,"unlock":"Normal／Soul 法術傷害 500%","effect":"靈魂屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"영혼의 숨결"},{"id":16,"key":"gale","nameZh":"疾風","nameEn":"Gale","category":"training","categoryZh":"修練","categoryEn":"Training","description":"移動速度倍率","stars":[{"star":1,"unlock":"移動速度 140%","effect":"移動速度 +1.98%"},{"star":2,"unlock":"移動速度 180%","effect":"移動速度 +3.96%"},{"star":3,"unlock":"移動速度 220%","effect":"移動速度 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"질풍"},{"id":17,"key":"skill_master","nameZh":"達人","nameEn":"Skill Master","category":"training","categoryZh":"修練","categoryEn":"Training","description":"技能使用總次數","stars":[{"star":1,"unlock":"使用技能 10,000 次","effect":"技能傷害 +1.98%"},{"star":2,"unlock":"使用技能 100,000 次","effect":"技能傷害 +3.96%"},{"star":3,"unlock":"使用技能 500,000 次","effect":"技能傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"달인"},{"id":18,"key":"ancient_visitor","nameZh":"遠古訪客","nameEn":"Ancient Visitor","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"進入 Ancient Room 1 次","effect":"最大 HP +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"고대의 방문자"},{"id":19,"key":"reaper_hunter","nameZh":"死神獵人","nameEn":"Reaper Hunter","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Reaper 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Reaper 擊破進度 1","effect":"暴擊傷害 +1.98%"},{"star":2,"unlock":"Reaper 擊破進度 2","effect":"暴擊傷害 +3.96%"},{"star":3,"unlock":"Reaper 擊破進度 3","effect":"暴擊傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"사신 사냥꾼"},{"id":20,"key":"demon_lord_slayer","nameZh":"魔王討伐者","nameEn":"Demon Lord Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Demon Lord／Dark Lord 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Demon Lord 擊破進度 1","effect":"攻擊力 +2.00%"},{"star":2,"unlock":"Demon Lord 擊破進度 2","effect":"攻擊力 +4.00%"},{"star":3,"unlock":"Demon Lord 擊破進度 3","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마왕을 처치한 자"},{"id":21,"key":"dark_dragon_slayer","nameZh":"魔龍討伐者","nameEn":"Dark Dragon Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"Dark Dragon 專用 Boss 擊破進度","stars":[{"star":1,"unlock":"Dark Dragon 擊破進度 1","effect":"全屬性傷害 +1.98%"},{"star":2,"unlock":"Dark Dragon 擊破進度 2","effect":"全屬性傷害 +3.96%"},{"star":3,"unlock":"Dark Dragon 擊破進度 3","effect":"全屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"마룡을 처치한 자"},{"id":22,"key":"goddess_s_blessing","nameZh":"女神庇佑","nameEn":"Goddess's Blessing","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"集齊所有 Goddess Token","effect":"最大 HP +1.00%；最大 MP +1.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"여신의 가호"},{"id":23,"key":"black_market_regular","nameZh":"黑市常客","nameEn":"Black Market Regular","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"黑市購買次數","stars":[{"star":1,"unlock":"黑市購買 100 次","effect":"黑市額外折扣 +3.30%"},{"star":2,"unlock":"黑市購買 500 次","effect":"黑市額外折扣 +6.60%"},{"star":3,"unlock":"黑市購買 2,000 次","effect":"黑市額外折扣 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"암상인의 단골"},{"id":24,"key":"treasure_hunter","nameZh":"寶箱獵人","nameEn":"Treasure Hunter","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"開啟／破壞寶箱 20 個","effect":"寶箱額外道具 +1 個"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"보물상자 사냥꾼"},{"id":25,"key":"slime_slayer","nameZh":"史萊姆殺手","nameEn":"Slime Slayer","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"史萊姆地牢擊殺數","stars":[{"star":1,"unlock":"史萊姆地牢擊殺 5,000 隻","effect":"史萊姆地牢經驗值 +4.95%"},{"star":2,"unlock":"史萊姆地牢擊殺 30,000 隻","effect":"史萊姆地牢經驗值 +9.90%"},{"star":3,"unlock":"史萊姆地牢擊殺 100,000 隻","effect":"史萊姆地牢經驗值 +15.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"슬라임 슬레이어"},{"id":26,"key":"flash_executioner","nameZh":"一擊必殺","nameEn":"Flash Executioner","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"特殊限時 Boss 判定；時間條件與完成次數同時成立","stars":[{"star":1,"unlock":"30 秒內擊殺 Boss × 1 次","effect":"暴擊傷害 +3.30%"},{"star":2,"unlock":"15 秒內擊殺 Boss × 5 次","effect":"暴擊傷害 +6.60%"},{"star":3,"unlock":"5 秒內擊殺 Boss × 15 次","effect":"暴擊傷害 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"일격필멸"},{"id":27,"key":"unscathed","nameZh":"毫髮無傷者","nameEn":"Unscathed","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"無傷通關次數","stars":[{"star":1,"unlock":"無傷通關 1 次","effect":"防禦力 +3.30%"},{"star":2,"unlock":"無傷通關 10 次","effect":"防禦力 +6.60%"},{"star":3,"unlock":"無傷通關 50 次","effect":"防禦力 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"흠집 없는 자"},{"id":28,"key":"meditator","nameZh":"冥想者","nameEn":"Meditator","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"累積冥想時間","stars":[{"star":1,"unlock":"累積冥想 1,800 秒（30分）","effect":"MP 回復 +3.30%"},{"star":2,"unlock":"累積冥想 3,600 秒（60分）","effect":"MP 回復 +6.60%"},{"star":3,"unlock":"累積冥想 7,200 秒（120分）","effect":"MP 回復 +10.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"명상가"},{"id":29,"key":"proven_challenger","nameZh":"歷練挑戰者","nameEn":"Proven Challenger","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"異界地牢通關次數","stars":[{"star":1,"unlock":"異界／Token Dungeon 通關 10 次","effect":"異界地牢金幣獲得 +4.95%"},{"star":2,"unlock":"異界／Token Dungeon 通關 30 次","effect":"異界地牢金幣獲得 +9.90%"},{"star":3,"unlock":"異界／Token Dungeon 通關 100 次","effect":"異界地牢金幣獲得 +15.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"증명된 도전자"},{"id":30,"key":"storyteller","nameZh":"說書人","nameEn":"Storyteller","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"★3 程式原始值確實為 9,999","stars":[{"star":1,"unlock":"看過 30 次 NPC 對話","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"看過 50 次 NPC 對話","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"看過 9,999 次 NPC 對話","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"이야기꾼"},{"id":31,"key":"dawn_riser","nameZh":"拂曉之眠","nameEn":"Dawn Sleep","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"凌晨 4:00～5:00 登入 1 次","effect":"經驗值獲得 +5.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"새벽잠"},{"id":32,"key":"beyond_the_wall","nameZh":"牆外的秘密","nameEn":"Beyond the Wall","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"秘密房發現數","stars":[{"star":1,"unlock":"發現 10 個 Secret Room","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"發現 30 個 Secret Room","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"發現 50 個 Secret Room","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"벽 너머의 비밀"},{"id":33,"key":"unwavering","nameZh":"堅定不移者","nameEn":"Unwavering","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"普通攻擊 Boss 擊殺","stars":[{"star":1,"unlock":"以普通攻擊擊殺 Boss 1 次","effect":"攻擊力 +2.00%"},{"star":2,"unlock":"以普通攻擊擊殺 Boss 5 次","effect":"攻擊力 +4.00%"},{"star":3,"unlock":"以普通攻擊擊殺 Boss 15 次","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"흔들림 없는 자"},{"id":34,"key":"forgotten_name","nameZh":"被遺忘的名字","nameEn":"Forgotten Name","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"單階段稱號","stars":[{"star":1,"unlock":"不裝備任何稱號持續 20 小時","effect":"掉落率 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잊혀진 이름"},{"id":35,"key":"risen_from_defeat","nameZh":"敗後重生","nameEn":"Risen from Defeat","category":"hidden","categoryZh":"隱藏","categoryEn":"Hidden","description":"角色死亡次數","stars":[{"star":1,"unlock":"死亡 10 次","effect":"最大 HP +1.98%"},{"star":2,"unlock":"死亡 50 次","effect":"最大 HP +3.96%"},{"star":3,"unlock":"死亡 100 次","effect":"最大 HP +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"패배에서 일어남"},{"id":36,"key":"oath_shatterer","nameZh":"破誓者","nameEn":"Oath Shatterer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #1；Tier 是擊破難度／階級，不是擊殺次數","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"防禦力 +1.65%；最大 HP +0.99%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"防禦力 +3.30%；最大 HP +1.98%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"防禦力 +5.00%；最大 HP +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"맹세의 파훼자"},{"id":37,"key":"bone_terminator","nameZh":"白骨終結者","nameEn":"Bone Terminator","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #2；Tier 是擊破難度／階級","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"HP 吸取機率 +0.66%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"HP 吸取機率 +1.32%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"HP 吸取機率 +2.00%；Signature：死亡時復活機率 +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"백골의 종식자"},{"id":38,"key":"ember_suppressor","nameZh":"餘燼鎮壓者","nameEn":"Ember Suppressor","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss #3；Tier 是擊破難度／階級","stars":[{"star":1,"unlock":"指定 Demon Boss 達到 Tier 6","effect":"MP 吸取機率 +0.66%；最大 MP +0.99%"},{"star":2,"unlock":"指定 Demon Boss 達到 Tier 7","effect":"MP 吸取機率 +1.32%；最大 MP +1.98%"},{"star":3,"unlock":"指定 Demon Boss 達到 Tier 8","effect":"MP 吸取機率 +2.00%；最大 MP +3.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잿불의 진압자"},{"id":39,"key":"novice","nameZh":"初學者","nameEn":"Novice","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"AlwaysTrue；單階段稱號","stars":[{"star":1,"unlock":"開始遊戲即成立","effect":"經驗值獲得 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"초심자"},{"id":40,"key":"world_guardian","nameZh":"世界守護者","nameEn":"World Guardian","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"單階段稱號","stars":[{"star":1,"unlock":"Challenge 通關","effect":"攻擊力 +2.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"세계의 수호자"},{"id":41,"key":"peace_envoy","nameZh":"和平使徒","nameEn":"Peace Envoy","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"返回村莊次數","stars":[{"star":1,"unlock":"返回村莊 100 次","effect":"金幣獲得 +1.98%"},{"star":2,"unlock":"返回村莊 500 次","effect":"金幣獲得 +3.96%"},{"star":3,"unlock":"返回村莊 2,000 次","effect":"金幣獲得 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"평화의 사도"},{"id":42,"key":"boss_hunter","nameZh":"首領獵人","nameEn":"Boss Hunter","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"任意 Boss 擊殺數","stars":[{"star":1,"unlock":"擊殺任意 Boss 50 隻","effect":"普通攻擊傷害 +1.98%"},{"star":2,"unlock":"擊殺任意 Boss 300 隻","effect":"普通攻擊傷害 +3.96%"},{"star":3,"unlock":"擊殺任意 Boss 1,500 隻","effect":"普通攻擊傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"보스 헌터"},{"id":43,"key":"elite_adventurer","nameZh":"特級冒險家","nameEn":"Elite Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"單階段稱號","stars":[{"star":1,"unlock":"Mythic 通關","effect":"經驗值獲得 +3.00%"}],"maxStar":1,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"특급 모험가"},{"id":44,"key":"flame_adventurer","nameZh":"烈焰冒險家","nameEn":"Flame Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"火屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用火屬性技能擊殺 Boss 10 次","effect":"火屬性傷害 +1.98%"},{"star":2,"unlock":"使用火屬性技能擊殺 Boss 50 次","effect":"火屬性傷害 +3.96%"},{"star":3,"unlock":"使用火屬性技能擊殺 Boss 200 次","effect":"火屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"불꽃의 모험가"},{"id":45,"key":"frost_adventurer","nameZh":"冰霜冒險家","nameEn":"Frost Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"冰屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用冰屬性技能擊殺 Boss 10 次","effect":"冰屬性傷害 +1.98%"},{"star":2,"unlock":"使用冰屬性技能擊殺 Boss 50 次","effect":"冰屬性傷害 +3.96%"},{"star":3,"unlock":"使用冰屬性技能擊殺 Boss 200 次","effect":"冰屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"빙결의 모험가"},{"id":46,"key":"thunder_adventurer","nameZh":"雷霆冒險家","nameEn":"Thunder Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"雷屬性技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用雷屬性技能擊殺 Boss 10 次","effect":"雷屬性傷害 +1.98%"},{"star":2,"unlock":"使用雷屬性技能擊殺 Boss 50 次","effect":"雷屬性傷害 +3.96%"},{"star":3,"unlock":"使用雷屬性技能擊殺 Boss 200 次","effect":"雷屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"번개의 모험가"},{"id":47,"key":"soul_adventurer","nameZh":"靈魂冒險家","nameEn":"Soul Adventurer","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Normal／Soul 技能 Boss 擊殺","stars":[{"star":1,"unlock":"使用 Normal／Soul 技能擊殺 Boss 10 次","effect":"靈魂屬性傷害 +1.98%"},{"star":2,"unlock":"使用 Normal／Soul 技能擊殺 Boss 50 次","effect":"靈魂屬性傷害 +3.96%"},{"star":3,"unlock":"使用 Normal／Soul 技能擊殺 Boss 200 次","effect":"靈魂屬性傷害 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"영혼의 모험가"},{"id":48,"key":"remains_cleaner","nameZh":"殘餘清理者","nameEn":"Remains Cleaner","category":"demon_realm","categoryZh":"魔界","categoryEn":"Demon Realm","description":"Demon Boss 系統進度","stars":[{"star":1,"unlock":"Demon Boss 解鎖／擊破進度 5","effect":"攻擊力 +2.00%"},{"star":2,"unlock":"Demon Boss 解鎖／擊破進度 10","effect":"攻擊力 +4.00%"},{"star":3,"unlock":"Demon Boss 解鎖／擊破進度 13","effect":"攻擊力 +6.00%"}],"maxStar":3,"integrationStatus":"DISPLAY_ONLY","calculationEnabled":false,"nameKo":"잔재 처리자"}]}</script>
 <script id="v21-staging-title-system-js">
 (()=>{
   'use strict';
@@ -8747,7 +8969,371 @@ function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queu
 function init(){apply();new MutationObserver(changes=>{if(!busy&&changes.some(x=>x.type==='characterData'||x.addedNodes.length||x.type==='attributes'))schedule()}).observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['title','aria-label','placeholder']});
 document.querySelectorAll('.lang-btn').forEach(el=>el.addEventListener('click',()=>{setTimeout(apply,0);setTimeout(apply,120)}));window.addEventListener('tower-language-changed',()=>setTimeout(apply,50));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();</script></body></html>
+})();</script>
+<script id="r28-sets-isolated">
+(()=>{
+'use strict';
+const L={"chinese": {"sets": ["黑月之主套裝", "血影之主套裝", "紅蓮之主套裝"], "pieces": [["黑月", "黑月胸甲", "黑月頭盔", "黑月戰靴", "黑月戒指", "黑月項鍊", "黑月耳飾", "黑月印章"], ["血牙", "血影胸甲", "血影頭盔", "血影戰靴", "血影戒指", "血影項鍊", "血影耳飾", "血影之心"], ["紅蓮", "紅蓮法袍", "紅蓮法帽", "紅蓮戰靴", "紅蓮戒指", "紅蓮項鍊", "紅蓮耳飾", "紅蓮火種"]], "effects": ["最大生命值 +10%", "普通魔法最終傷害 +15%", "對流血中的敵人造成的最終傷害 +10%", "火焰魔法最終傷害 +15%"]}, "english": {"sets": ["Lord of the Black Moon Set", "Lord of Bloodshadow Set", "Lord of the Crimson Lotus Set"], "pieces": [["Blackmoon", "Black Moon Cuirass", "Black Moon Helm", "Black Moon Boots", "Black Moon Ring", "Black Moon Necklace", "Black Moon Earrings", "Seal of the Black Moon"], ["Bloodfang", "Bloodshadow Cuirass", "Bloodshadow Helm", "Bloodshadow Boots", "Bloodshadow Ring", "Bloodshadow Necklace", "Bloodshadow Earrings", "Heart of Bloodshadow"], ["Crimson Lotus", "Crimson Lotus Robe", "Crimson Lotus Hat", "Crimson Lotus Boots", "Crimson Lotus Ring", "Crimson Lotus Necklace", "Crimson Lotus Earrings", "Ember of the Crimson Lotus"]], "effects": ["Maximum HP +10%", "Normal magic final damage +15%", "Final damage to bleeding enemies +10%", "Fire magic final damage +15%"]}, "korean": {"sets": ["흑월의 주인 세트", "혈영의 주인 세트", "홍련의 주인 세트"], "pieces": [["흑월", "흑월의 흉갑", "흑월의 투구", "흑월의 장화", "흑월의 반지", "흑월의 목걸이", "흑월의 귀걸이", "흑월의 인장"], ["혈아", "혈영의 흉갑", "혈영의 투구", "혈영의 장화", "혈영의 반지", "혈영의 목걸이", "혈영의 귀걸이", "혈영의 심장"], ["홍련", "홍련의 예복", "홍련의 고깔", "홍련의 장화", "홍련의 반지", "홍련의 목걸이", "홍련의 귀걸이", "홍련의 불씨"]], "effects": ["최대 체력 +10%", "일반 마법 최종 피해 +15%", "출혈 중인 적에게 최종 피해 +10%", "화염 마법 최종 피해 +15%"]}};
+const slots=['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings','artifact'];
+// Each set has one unique sword, permitted in any of the three equipped weapon slots.
+// Different set swords may each count once, but duplicate copies are disallowed.
+const countedSlots=slots.filter(x=>x!=='artifact');
+const ownedSetArtifact=k=>Number(state?.system?.artifacts?.[[99,100,101][k]]||0)>0;
+const setPieceCount=k=>countedSlots.reduce((n,slot)=>n+(values[slot]===String(k)?1:0),0)+(ownedSetArtifact(k)?1:0);
+const pieceIndex=[0,0,0,1,2,3,4,4,5,6,7];
+const captions={chinese:['主武器','武器 2','武器 3','盔甲','頭盔','鞋子','戒指 1','戒指 2','項鍊','耳環','主要人工製品'],english:['Main weapon','Weapon 2','Weapon 3','Armor','Helmet','Boots','Ring 1','Ring 2','Necklace','Earrings','Main artifact'],korean:['주무기','무기 2','무기 3','갑옷','투구','신발','반지 1','반지 2','목걸이','귀걸이','주 유물']};
+const messages={
+chinese:{title:'新增套裝｜配置與效果預覽',status:'獨立預覽・不計入 ATK／傷害／最佳化',desc:'共 11 個裝備欄位（3 把武器、2 枚戒指），可分別選擇不同套裝（兩個戒指獨立計數），支援黑月／血影／紅蓮混搭。三把武器均可納入套裝件數，但同一套的專屬武器最多裝備一把；僅指定的主人工製品可計入套裝。此設定與手動詞條各自獨立，尚未連動傷害公式。',none:'未裝備套裝',count:'已選件數',parts:'官方裝備名稱',effects:'官方效果原文（啟動條件尚待核實）',tip:'官方規則：各套裝獨立計算 0～9 件，允許混搭；各階段效果依其門檻累加。目前尚未核實各階段啟動件數，故只統計件數，不虛構啟動效果，也不納入傷害計算。',other:'其他已確認效果文字'},
+english:{title:'New Sets | Gear Preview',status:'Preview only · excluded from ATK, damage & optimization',desc:'Select 11 equipment slots (three weapons and two independent rings). Mixing different sets is supported. All three weapon slots count toward set tiers, but the same set sword can be equipped only once. Owned set artifacts count even when not selected as primary. This is separate from manual affixes and does not affect calculations.',none:'No set item',count:'Selected pieces',parts:'Official item names',effects:'Official effects (tier thresholds unverified)',tip:'Official rule: each set counts its own 0–9 pieces and mixed sets are allowed. Bonuses stack at their respective tiers. Exact thresholds remain unverified; no effects are activated or applied to damage.',other:'Other confirmed effect descriptions'},
+korean:{title:'신규 세트 | 장비 미리보기',status:'독립 미리보기 · 공격력/피해량/최적화 미적용',desc:'11개 장비 칸(무기 3개, 반지 2개)에 각각 세트를 선택하여 혼합 착용할 수 있습니다. 무기 3칸 모두 세트 개수에 포함되지만 동일한 세트 무기는 한 자루만 장착할 수 있으며, 세트 유물은 보유만 해도 세트 개수에 포함됩니다. 옵션 및 피해량 계산과는 별개입니다.',none:'세트 장비 없음',count:'선택한 장비 수',parts:'공식 장비 이름',effects:'공식 효과 (발동 장비 수 미확인)',tip:'공식 규칙: 세트별 착용 수(0~9개)를 개별 집계하며 혼합 착용할 수 있습니다. 단계별 효과는 누적되지만 정확한 조건이 확인되지 않아 효과를 적용하지 않으며 피해량 계산에도 포함하지 않습니다.',other:'확인된 기타 효과 설명'}};
+function lang(){let e=document.documentElement.lang?.toLowerCase()||''; if(e.startsWith('ko'))return 'korean';if(e.startsWith('en'))return 'english'; const selector=document.querySelector('#langSelect,#languageSelect,select[data-language]');const val=(selector?.value||'').toLowerCase();return val.includes('ko')?'korean':val.includes('en')?'english':'chinese';}
+let values={};try{values=JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch{}
+// Keep only one sword from each set among main, second and third weapon.
+// On conflict the most recently changed weapon takes precedence.
+const weaponSlots=['weapon','weapon2','weapon3'];
+function normalizeWeapons(preferred){
+ const order=preferred&&weaponSlots.includes(preferred)?[preferred,...weaponSlots.filter(x=>x!==preferred)]:weaponSlots;
+ const seen=new Set();
+ for(const slot of order){const type=values[slot];if(type===''||type===undefined||type===null)continue;if(seen.has(String(type)))values[slot]='';else seen.add(String(type));}
+}
+normalizeWeapons();
+function render(){const l=lang(),data=L[l],m=messages[l];const root=document.getElementById('r28-set-panel');if(!root)return;
+root.querySelector('#r28-title').textContent=m.title;root.querySelector('#r28-calcstatus').textContent=l==='chinese'?'已計入手動與自動傷害（黑月／紅蓮）':l==='english'?'Applied to manual & auto damage (Black Moon / Crimson Lotus)':'수동·자동 피해량 적용 (흑월 / 홍련)';root.querySelector('#r28-explain').textContent=(l==='chinese'?'11 個部位可自由混搭。黑月普通、紅蓮火焰的 3／7 件元素加成及 9 件最終傷害已接入手動與自動；血影流血條件傷害仍待驗證。':l==='english'?'Mix 11 equipment slots. Black Moon normal / Crimson Lotus fire bonuses at 3, 7 and 9 pieces are included in manual and auto damage; Bloodshadow bleed-conditional damage awaits validation.':'11개 부위 혼합 가능. 흑월 일반 / 홍련 화염 3·7·9세트 피해량은 수동·자동 계산에 적용됩니다. 혈영 출혈 조건 피해는 미검증 상태입니다.');root.querySelector('#r28-tier-note').textContent=m.tip;
+const inputs=root.querySelector('#r28-slot-inputs');inputs.replaceChildren();
+slots.forEach((slot,i)=>{const wrap=document.createElement('label');wrap.style.cssText='display:flex;flex-direction:column;gap:5px;color:#d4dce4;font-size:13px';const label=document.createElement('span');label.textContent=slot==='artifact'?(l==='chinese'?'套裝人工製品｜持有自動計數':l==='english'?'Set artifacts | owned counts':'세트 유물 | 보유 자동 계산'):captions[l][i];if(slot==='artifact'){const info=document.createElement('div');info.style.cssText='padding:9px;border-radius:8px;background:#0a1e2a;border:1px solid #334d60;color:#d7e3e8;font-size:12px;line-height:1.5';info.textContent=[99,100,101].map((id,k)=>data.pieces[k][7]+': '+(ownedSetArtifact(k)?(l==='chinese'?'已持有 ✓':l==='english'?'Owned ✓':'보유 ✓'):(l==='chinese'?'未持有':l==='english'?'Not owned':'미보유'))).join(' · ');wrap.append(label,info);inputs.append(wrap);return;}const select=document.createElement('select');select.style.cssText='width:100%;padding:9px;border-radius:8px;background:#0a1e2a;color:#e2e8ef;border:1px solid #334d60';let opt=document.createElement('option');opt.value='';opt.textContent=m.none;select.append(opt);
+for(let k=0;k<3;k++){opt=document.createElement('option');opt.value=String(k);opt.textContent=data.pieces[k][pieceIndex[i]]||data.sets[k];select.append(opt)}
+select.value=values[slot]??'';select.addEventListener('change',()=>{values[slot]=select.value;normalizeWeapons(slot);try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{};render();
+  try{if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();if(typeof refreshManualSummary==='function')refreshManualSummary();if(typeof refreshAuto==='function')refreshAuto(true);if(typeof refreshReport==='function'&&state?.step===3)refreshReport();}catch(e){console.error('[R36 set refresh]',e)}});wrap.append(label,select);inputs.append(wrap)});
+renderResults()}
+function renderResults(){
+ const l=lang(),d=L[l],m=messages[l],out=document.getElementById('r28-set-results');if(!out)return;
+ const translations={
+ chinese:{on:'已啟動',off:'未啟動',detail:'主武器、武器 2、武器 3 均可計入對應套裝；同一套專屬武器只能裝備一把。新版套裝於 3／5／7／9 件啟動，各階段效果累加。黑月九件最終普通魔法傷害 +15% 已由假人數據支持獨立 ×1.15；黑月及紅蓮同樣按此倍率納入手動與自動計算；血影流血條件傷害暫不納入。',tier:'套裝階段',names:'已選裝備',pending:'距下一階段',complete:'已達九件'},
+ english:{on:'Active',off:'Locked',detail:'All three weapon slots count toward their respective sets; only one copy of each set weapon is allowed. Updated tiers: 3/5/7/9, cumulative. The Black Moon 9-piece +15% final normal magic effect is consistent with an independent x1.15 in dummy tests; Black Moon and Crimson Lotus bonuses now apply to manual and auto calculations; Bloodshadow bleed conditional damage does not.',tier:'Set tiers',names:'Selected items',pending:'Next tier in',complete:'All nine pieces'},
+ korean:{on:'발동',off:'미발동',detail:'무기 3칸 모두 세트 수에 포함되며 같은 세트 전용 무기는 한 자루만 착용할 수 있습니다. 변경된 단계는 3/5/7/9개이며 효과는 누적됩니다. 흑월 9세트 최종 일반 마법 피해 +15%는 허수아비 실측에서 독립 x1.15와 일치합니다. 흑월과 홍련은 수동 및 자동 계산에 적용되며, 혈영 출혈 조건 피해는 제외됩니다.',tier:'세트 단계',names:'착용 장비',pending:'다음 단계까지',complete:'9개 완성'}}[l];
+ const tiers=[3,5,7,9],colors=['#8985da','#c17078','#cda052'];
+ const effects={
+ chinese:[[
+ ['普通法術傷害 +10%'],['減少 MP 消耗 +3%'],['普通法術傷害 +15%','最大生命值 +10%'],['普通魔法最終傷害 +15%']
+ ],[
+ ['流血機率 +3%'],['HP 竊取機會 +3%'],['流血機率 +3%','攻擊速度 +5%'],['對流血中的敵人造成的最終傷害 +10%']
+ ],[
+ ['火焰法術傷害 +10%'],['減少 MP 消耗 +3%'],['火焰法術傷害 +15%','攻擊速度 +5%'],['火焰魔法最終傷害 +15%']
+ ]],
+ english:[[
+ ['Normal spell damage +10%'],['MP cost reduction +3%'],['Normal spell damage +15%','Max HP +10%'],['Final normal magic damage +15%']
+ ],[
+ ['Bleed chance +3%'],['HP steal chance +3%'],['Bleed chance +3%','Attack speed +5%'],['Final damage to bleeding enemies +10%']
+ ],[
+ ['Fire spell damage +10%'],['MP cost reduction +3%'],['Fire spell damage +15%','Attack speed +5%'],['Final fire magic damage +15%']
+ ]],
+ korean:[[
+ ['일반 마법 피해 +10%'],['MP 소모 감소 +3%'],['일반 마법 피해 +15%','최대 HP +10%'],['일반 마법 최종 피해 +15%']
+ ],[
+ ['출혈 확률 +3%'],['HP 흡수 확률 +3%'],['출혈 확률 +3%','공격 속도 +5%'],['출혈 중인 적에게 최종 피해 +10%']
+ ],[
+ ['화염 마법 피해 +10%'],['MP 소모 감소 +3%'],['화염 마법 피해 +15%','공격 속도 +5%'],['화염 마법 최종 피해 +15%']
+ ]]};
+ out.replaceChildren();
+ for(let k=0;k<3;k++){
+  const count=setPieceCount(k);
+  const card=document.createElement('section');card.style.cssText='border:1px solid #365368;background:#081923;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px';
+  const head=document.createElement('div');head.style.cssText='display:flex;justify-content:space-between;gap:8px';
+  const name=document.createElement('strong');name.style.cssText='color:'+colors[k]+';font-size:16px';name.textContent=d.sets[k];
+  const qty=document.createElement('strong');qty.style.cssText='font-size:18px;color:#e7eef4';qty.textContent=count+'/9';head.append(name,qty);card.append(head);
+  const track=document.createElement('div');track.style.cssText='height:8px;background:#23323c;border-radius:99px;overflow:hidden';const fill=document.createElement('div');fill.style.cssText='height:100%;width:'+(100*count/9)+'%;background:'+colors[k]+';border-radius:99px';track.append(fill);card.append(track);
+  const names=document.createElement('div');names.style.cssText='font-size:12px;line-height:1.6;color:#a6bac8';names.textContent=translations.names+': '+(countedSlots.filter(slot=>values[slot]===String(k)).map(slot=>d.pieces[k][pieceIndex[slots.indexOf(slot)]]).join('、')||'—');card.append(names);
+  const list=document.createElement('div');list.style.cssText='display:flex;flex-direction:column;gap:8px;border-top:1px solid #263a48;padding-top:10px';
+  for(let j=0;j<tiers.length;j++){
+    const active=count>=tiers[j],item=document.createElement('div');item.style.cssText='border:1px solid '+(active?colors[k]:'#304351')+';border-radius:8px;padding:9px 10px;background:'+(active?'#142b32':'#0b1a23')+';opacity:'+(active?'1':'0.68');
+    const label=document.createElement('strong');label.style.cssText='color:'+(active?'#a3e0b9':'#bdc8d0')+';font-size:12px';label.textContent='['+tiers[j]+'] '+(active?'● '+translations.on:'○ '+translations.off);item.append(label);
+    for(const v of effects[l][k][j]){const p=document.createElement('div');p.style.cssText='font-size:12px;line-height:1.55;margin-top:3px;color:'+(active?'#e0e9eb':'#a9b9c4');p.textContent=v;item.append(p)}list.append(item);
+  }
+  card.append(list);out.append(card);
+ }
+ const note=document.createElement('div');note.style.cssText='grid-column:1/-1;color:#b6cad5;background:#0a1c28;border:1px solid #314a5b;padding:12px;border-radius:9px;font-size:12px;line-height:1.6';note.textContent=translations.detail;out.append(note);
+ const compact=document.getElementById('r34-set-summary');if(compact){
+  compact.replaceChildren();const short=l==='chinese'?['黑月','血影','紅蓮']:l==='korean'?['흑월','혈영','홍련']:['Black Moon','Bloodshadow','Crimson Lotus'];
+  for(let k=0;k<3;k++){const count=setPieceCount(k);
+   const box=document.createElement('div');box.className='r34-set-pill';box.style.setProperty('--set-color',colors[k]);
+   const h=document.createElement('div');h.className='r34-pill-head';const title=document.createElement('strong');title.textContent=short[k];const val=document.createElement('b');val.textContent=count+'/9';h.append(title,val);
+   const line=document.createElement('div');line.className='r34-meter';const fill=document.createElement('div');fill.style.width=(100*count/9)+'%';line.append(fill);
+   const next=[3,5,7,9].find(t=>t>count);const tag=document.createElement('small');tag.textContent=next?(l==='chinese'?'下一階段 '+next+' 件':l==='korean'?'다음 단계 '+next+'개':'Next tier '+next):translations.complete;
+   box.append(h,line,tag);compact.append(box);
+  }
+ }
+ const sum1=document.getElementById('r34-gear-summary'),sum2=document.getElementById('r34-effect-summary');
+ if(sum1)sum1.textContent=l==='chinese'?'裝備部位配置（11 欄）':l==='korean'?'장비 부위 구성 (11칸)':'Gear slot configuration (11 slots)';
+ if(sum2)sum2.textContent=l==='chinese'?'檢視已啟動／未啟動套裝效果':l==='korean'?'발동 및 미발동 세트 효과 보기':'View active / inactive set effects';
+  const tip=document.getElementById('r28-tier-note');if(tip)tip.textContent=translations.detail;
+}
+function setup(){render();window.__r54RenderSets=render;window.__r46UpdateSetArtifact=(code)=>{const next=String(code??'');if(values.artifact!==next){values.artifact=next;render()}};const select=document.querySelector('#langSelect,#languageSelect,select[data-language]');if(select)select.addEventListener('change',()=>setTimeout(render,0));new MutationObserver(()=>{const l=lang();if(window.__r28Lang!==l){window.__r28Lang=l;render()}}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+})();
+</script>
+
+<script id="r54-set-owned-sync">
+(function(){'use strict';
+ // Ownership is authoritative in system.artifacts; never force primary equipment.
+ window.__r46MirrorPrimary=function(){window.__r54RefreshSetOwned?.();};
+ window.__r54RefreshSetOwned=function(){
+   if(typeof window.__r54RenderSets==='function')window.__r54RenderSets();
+ };
+ document.addEventListener('input',e=>{if(e.target?.matches?.('[data-artifact-lv]'))setTimeout(window.__r54RefreshSetOwned,0);});
+ document.addEventListener('change',e=>{if(e.target?.matches?.('[data-artifact-max]'))setTimeout(window.__r54RefreshSetOwned,0);});
+})();
+</script>
+<script id="r39-title-atk-compare-js">
+(()=>{'use strict';
+const $=id=>document.getElementById(id);const fmt=n=>typeof formatGameBigInt==='function'?formatGameBigInt(BigInt(Math.floor(n))):Number(n).toPrecision(8);
+const obs=[{w:17.855,s:414.390,g:419.912,u:'Q'},{w:21.899,s:508.540,g:516.472,u:'B'}];
+function update(){try{
+const t=Number(r15TitleContribution().atk||0)/100;
+$('r39-pct').textContent='+'+(t*100).toFixed(2)+'%';
+$('r39-history').innerHTML=obs.map(r=>{const A=r.s+r.w*t*2.4,B=r.s+r.w*t;return `<tr><td>${r.w.toFixed(3)}${r.u}</td><td>${r.g.toFixed(3)}${r.u}</td><td>${r.s.toFixed(3)}${r.u}</td><td>${A.toFixed(3)}${r.u}（差 ${(A-r.g).toFixed(3)}）</td><td>${B.toFixed(3)}${r.u}（差 ${(B-r.g).toFixed(3)}）</td><td>${(r.g-r.s).toFixed(3)}${r.u}</td></tr>`}).join('');
+const a=effectiveAtkResult(0n);if(!a.valid){$('r39-detail').textContent=a.reason;return;}
+const extra=state.mode==='auto'?(typeof autoEquipmentTotals==='function'?Number(autoEquipmentTotals().atk||0n):0):(typeof manualTotals==='function'?Number(manualTotals().atk||0n):0);
+const base=a.effectiveAtk;const A=Math.floor((a.weaponAtk+a.levelAtk+a.flatAtk)*(a.atkPool+t)*a.atkIndependent);
+const B=Math.floor(base+a.weaponAtk*t);
+const C=Math.floor((a.weaponAtk+a.levelAtk+a.flatAtk+extra)*(a.atkPool+t)*a.atkIndependent);
+$('r39-base').textContent=fmt(base);$('r39-pool').textContent=fmt(A);$('r39-weapon').textContent=fmt(B);$('r39-full').textContent=fmt(C);
+$('r39-detail').textContent=`目前 ATK 池 ×${a.atkPool.toFixed(5)}，獨立倍率 ×${a.atkIndependent.toFixed(5)}，03 取得額外固定 ATK ${fmt(extra)}（模式：${state.mode==='auto'?'自動':'手動'}）。模型 C 的絕對數值包含 03 固定 ATK，因此不能與只含 01 ATK 的 A／B 直接比較；另有不含稱號的 C 基準 ${fmt(Math.floor((a.weaponAtk+a.levelAtk+a.flatAtk+extra)*a.atkPool*a.atkIndependent))}。`;
+}catch(e){$('r39-detail').textContent='無法完成即時驗算：'+String(e?.message||e)}}
+function start(){$('r39-refresh')?.addEventListener('click',update);window.r39RefreshTitleAtkAudit=update;update();setTimeout(update,800)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
+<script id="r40-level-diagnostic-script">
+(()=>{
+ const $=id=>document.getElementById(id);
+ function refresh(){
+  try{
+   if(typeof state==='undefined'||typeof playerLevelBaseAtk!=='function')return;
+   const level=Number(state.player?.level||1);
+   const current=Number(playerLevelBaseAtk(level));
+   // Diagnostic extrapolation only. This must never be used by the simulation formula.
+   const extrapolated=level<=509?current:7679050+(level-480)*256000;
+   const stats=typeof systemSelectionSummary==='function'?systemSelectionSummary().stats:{};
+   const pool=1+Number(stats?.atk||0)/100;
+   const mul=typeof manualAtkIndependentMultiplier==='function'?Number(manualAtkIndependentMultiplier()):1;
+   const gain=(extrapolated-current)*pool*mul;
+   $('r40-lv').textContent='Lv'+level;
+   $('r40-clamped').textContent=current.toLocaleString('en-US');
+   $('r40-extrapolated').textContent=extrapolated.toLocaleString('en-US');
+   $('r40-effect').textContent=(gain/1e9).toFixed(3)+'B（假設）';
+   $('r40-detail').textContent='現在的角色等級上限截斷：'+Math.min(level,500)+'；ATK 池 ×'+pool.toFixed(5)+'、獨立倍率 ×'+mul.toFixed(5)+'。僅測試舊曲線延伸的影響，沒有驗證新版 510–600 級公式。';
+  }catch(e){if($('r40-detail'))$('r40-detail').textContent='診斷未能計算：'+e.message}
+ }
+ function init(){refresh();$('r39-refresh')?.addEventListener('click',refresh);document.querySelectorAll('input,select').forEach(el=>el.addEventListener('change',()=>setTimeout(refresh,0)));}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<script id="r41-auto-analysis">
+(()=>{
+ const update=()=>{
+  try{
+   const lv=Number(state?.player?.level||1);
+   const stats=systemSelectionSummary().stats||{};
+   const pool=1+Number(stats.atk||0)/100;
+   const independent=Number(manualAtkIndependentMultiplier());
+   const current=Number(playerLevelBaseAtk(lv));
+   const future=lv>509?7679050+(lv-480)*256000:current;
+   const gain=(future-current)*pool*independent/1e9;
+   const titlePct=31;
+   const original=508.540, weapon=21.899, observed=516.472;
+   const predicted=original+weapon*titlePct/100+gain;
+   const remaining=observed-predicted;
+   document.getElementById('r41-gain').textContent='+'+gain.toFixed(3)+'B（假設）';
+   document.getElementById('r41-residual').textContent=(remaining>=0?'+':'')+remaining.toFixed(3)+'B（估計）';
+   document.getElementById('r41-detail').textContent='依目前系統 ATK 池 ×'+pool.toFixed(5)+'、獨立倍率 ×'+independent.toFixed(5)+' 試算：低武器歷史模型 B '+(original+weapon*.31).toFixed(3)+'B，加上 600 級舊曲線增量 '+gain.toFixed(3)+'B，得到 '+predicted.toFixed(3)+'B；遊戲 '+observed.toFixed(3)+'B。此計算只適用於與先前實測相同的系統配置。角色等級目前 Lv'+lv+'。';
+  }catch(err){const e=document.getElementById('r41-detail');if(e)e.textContent='診斷失敗：'+err.message;}
+ };
+ const init=()=>{update();document.getElementById('r39-refresh')?.addEventListener('click',update);};
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<script id="r42-double-tap-and-title-damage-js">
+(()=>{
+ 'use strict';
+ const last={key:'',time:0};
+ function doubleTap(key){const now=Date.now();const hit=last.key===key&&now-last.time<390;last.key=key;last.time=now;return hit;}
+ // Delegation works with gallery re-renders and touch devices; native dblclick kept for pointer devices.
+ // Use direct state + existing checkbox changes; not dependent on gallery re-render or CSS escaping.
+ function toggleCurrent(kind,key){
+   const sel=kind==='fashion'?`#fashionList [data-fashion]`:`#petList [data-pet]`;
+   const input=Array.from(document.querySelectorAll(sel)).find(x=>(kind==='fashion'?x.dataset.fashion:x.dataset.pet)===key);
+   if(!input)return;
+   input.checked=!input.checked;
+   input.dispatchEvent(new Event('change',{bubbles:true}));
+   // Existing gallery rebuilds using state; trigger its own rendering by its current selected card click.
+   setTimeout(()=>{document.dispatchEvent(new Event('tower-system-refresh'));},0);
+ }
+ document.addEventListener('click',e=>{
+   const f=e.target.closest('[data-fashion-game]');
+   const p=e.target.closest('[data-pet-game]');
+   if(!f&&!p)return;
+   const kind=f?'fashion':'pet',key=(f||p).getAttribute(f?'data-fashion-game':'data-pet-game');
+   if(doubleTap(kind+':'+key))setTimeout(()=>{
+     const action=Array.from(document.querySelectorAll(kind==='fashion'?'[data-fashion-own]':'[data-pet-toggle]')).find(el=>el.getAttribute(kind==='fashion'?'data-fashion-own':'data-pet-toggle')===key);
+     if(action&&!action.disabled)action.click();else toggleCurrent(kind,key);
+   },0);
+ },true);
+ // Tree node double click/tap increases one level, leaving single tap editor unchanged.
+ document.addEventListener('click',e=>{
+   const btn=e.target.closest('.magic-tree-node-btn');if(!btn)return;
+   const node=btn.closest('[data-preview-tree-node]');if(!node)return;
+   const id=node.dataset.previewTreeNode;
+   if(!doubleTap('tree:'+id))return;
+   setTimeout(()=>{
+     const sel=document.querySelector(`[data-tree-lv="${id}"]`);if(!sel)return;
+     let max=0;for(const option of sel.options)max=Math.max(max,Number(option.value)||0);
+     sel.value=String(Math.min(max,(Number(sel.value)||0)+1));
+     sel.dispatchEvent(new Event('change',{bubbles:true}));
+   },0);
+ },true);
+})();
+</script>
+<script id="r44-element-audit-attach">
+document.addEventListener('DOMContentLoaded',()=>{
+ const panel=document.getElementById('r23ManualAffixLive');
+ if(!panel||document.getElementById('r44-normal-audit'))return;
+ const el=document.createElement('div');el.id='r44-normal-audit';
+ el.style.cssText='margin:10px 0;padding:10px 12px;border:1px solid #446077;border-radius:10px;color:#bcd4df;font-size:12px;line-height:1.6';
+ panel.insertAdjacentElement('afterend',el);
+ if(typeof refreshManualSummary==='function')refreshManualSummary();
+});
+</script>
+<script id="r48-title-atk-trial-ui">
+(function(){
+  function update(){
+    const box=document.getElementById('r48-title-atk-toggle');
+    const label=document.getElementById('r48-title-atk-status');
+    if(!box||!label)return;
+    window.__r48TitleAtkTrial=box.checked;
+    let pct=0;
+    try{pct=Number(r50TitleAtkPercentage())}catch(e){}
+    label.textContent=box.checked?'試算啟用：主武固定 ATK × '+pct.toFixed(2)+'%（候選模型，非正式公式）':'試算已關閉，原 ATK／傷害不變';
+    try{if(typeof refreshReport==='function')refreshReport();}catch(e){}
+    try{if(typeof refreshSystemSummary==='function')refreshSystemSummary();}catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    const el=document.getElementById('r48-title-atk-toggle');
+    if(el){el.checked=true;window.__r48TitleAtkTrial=true;el.addEventListener('change',update);update();}
+    const precision=document.getElementById('r50-atk-precision-mode');
+    const summary=document.getElementById('r50-atk-precision-summary');
+    window.__r50AtkPrecisionMode='fractional';
+    function showPrecision(){
+      if(!summary)return;
+      const source=window.__r15TitleEffects?.['攻擊力']?.sources||[];
+      const low=source.filter(x=>Number(x.level)===1 && Math.abs(Number(x.amount)-2)<1e-6).length;
+      const mid=source.filter(x=>Number(x.level)===2 && Math.abs(Number(x.amount)-4)<1e-6).length;
+      const a=Number(r15TitleContribution().atk||0);
+      const b=Math.round((a-low*.02-mid*.04)*1e6)/1e6;
+      summary.textContent='目前符合條件的 ATK 稱號：★1 '+low+' 個、★2 '+mid+' 個；模式 A：+'+a.toFixed(2)+'%，模式 B：+'+b.toFixed(2)+'%。當前採用：+'+r50TitleAtkPercentage().toFixed(2)+'%。';
+    }
+    if(precision){
+      precision.value='fractional';
+      precision.addEventListener('change',function(){
+        window.__r50AtkPrecisionMode=precision.value;
+        showPrecision();
+        update();
+      });
+      showPrecision();
+      document.addEventListener('click',function(){setTimeout(showPrecision,0);},true);
+    }
+    const lv=document.getElementById('r49-level-trial');
+    const status=document.getElementById('r49-level-status');
+    if(lv){
+      lv.checked=false;window.__r49LevelTrial=false;
+      lv.addEventListener('change',function(){
+        window.__r49LevelTrial=lv.checked;
+        if(status)status.textContent=lv.checked?'600 級舊曲線延伸試算已開啟；不是遊戲驗證公式':'維持原 500 級截斷';
+        try{if(typeof refreshManualSummary==='function')refreshManualSummary();}catch(e){}
+        try{if(typeof refreshReport==='function')refreshReport();}catch(e){}
+        try{if(typeof refreshSystemSummary==='function')refreshSystemSummary();}catch(e){}
+      });
+    }
+  });
+})();
+</script>
+<script id="r51-weapon-live-compare">
+(function(){
+  function format(n){if(!Number.isFinite(n))return '—';const abs=Math.abs(n);if(abs>=1e15)return (n/1e15).toFixed(6)+'Q';if(abs>=1e9)return (n/1e9).toFixed(6)+'B';return n.toFixed(3);}
+  function readAtk(value){let s=String(value||'').trim().replaceAll(',','').replace(/\s/g,'');const m=s.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))([BbQq])?$/);if(!m)return NaN;return Number(m[1])*(m[2]?({b:1e9,q:1e15})[m[2].toLowerCase()]:1);}
+  function update(){const input=document.getElementById('r51-game-atk'),result=document.getElementById('r51-atk-compare-result');if(!input||!result)return;let sim;try{sim=effectiveAtkResult(0n);}catch(e){}const game=readAtk(input.value);if(!sim?.valid){result.textContent='請先在 01 輸入主武固定 ATK，再比較。';return;}if(!Number.isFinite(game)){result.textContent='模擬器目前 ATK：'+format(sim.effectiveAtk)+'；填入遊戲面板 ATK 即可比較。';return;}let delta=sim.effectiveAtk-game;let p=game?100*delta/game:NaN;result.textContent='模擬器 '+format(sim.effectiveAtk)+' ｜ 遊戲 '+format(game)+' ｜ 差值 '+format(delta)+'（'+(Number.isFinite(p)?p.toFixed(5)+'%':'—')+'）。正值代表模擬器偏高。';}
+  document.addEventListener('DOMContentLoaded',function(){let input=document.getElementById('r51-game-atk');input?.addEventListener('input',update);document.getElementById('r50-atk-precision-mode')?.addEventListener('change',update);document.getElementById('r48-title-atk-toggle')?.addEventListener('change',update);document.getElementById('displayAtk')?.addEventListener('input',update);document.getElementById('r39-refresh')?.addEventListener('click',update);update();});
+})();
+</script>
+
+<style id="v22-section-identities">
+/* V2.2 | Quiet game UI identifiers, presentational only */
+.top .steps .step{display:flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;letter-spacing:.025em}
+.top .steps .step::before{content:attr(data-v22-mark);display:inline-flex;align-items:center;justify-content:center;flex:0 0 25px;width:25px;height:25px;border-radius:7px;border:1px solid color-mix(in srgb,var(--v22-tint) 48%,transparent);color:var(--v22-tint);background:color-mix(in srgb,var(--v22-tint) 9%,#09141c);font-size:13px;font-weight:700;line-height:1}
+.top .steps .step.active::before{background:color-mix(in srgb,var(--v22-tint) 20%,#111922);border-color:var(--v22-tint)}
+.top .steps .step:nth-child(1){--v22-tint:#d6b979}.top .steps .step:nth-child(2){--v22-tint:#81bdb3}.top .steps .step:nth-child(3){--v22-tint:#8cbed0}.top .steps .step:nth-child(4){--v22-tint:#bb9abf}
+main>.screen[data-v22-page]{--page-tint:#a1bdc6}
+main>.screen[data-v22-page="0"]{--page-tint:#d6b979}main>.screen[data-v22-page="1"]{--page-tint:#81bdb3}main>.screen[data-v22-page="2"]{--page-tint:#8cbed0}main>.screen[data-v22-page="3"]{--page-tint:#bb9abf}
+main>.screen[data-v22-page]>.hero{border-left:3px solid var(--page-tint);background-image:linear-gradient(105deg,color-mix(in srgb,var(--page-tint) 8%,transparent),transparent 56%)}
+main>.screen[data-v22-page]>.hero h2::after{background:linear-gradient(90deg,var(--page-tint),transparent)}
+/* System headers use the same restrained identification vocabulary as the set cards. */
+[data-v22-system] {--sys-tint:#8fb9c9}
+[data-v22-system="artifact"]{--sys-tint:#92b4d4}
+[data-v22-system="tree"]{--sys-tint:#87bb91}
+[data-v22-system="title"]{--sys-tint:#d0ad7d}
+[data-v22-system="fashion"]{--sys-tint:#be9fcb}
+[data-v22-system="pet"]{--sys-tint:#c6a0a6}
+[data-v22-system]>summary{display:flex;align-items:center;gap:9px;border-left:3px solid var(--sys-tint)!important;background:linear-gradient(90deg,color-mix(in srgb,var(--sys-tint) 10%,#0b1821),#0b1821 64%)!important}
+[data-v22-system]>summary::before{content:attr(data-v22-mark);display:inline-flex;align-items:center;justify-content:center;flex:0 0 29px;width:29px;height:29px;border:1px solid color-mix(in srgb,var(--sys-tint) 36%,transparent);border-radius:8px;color:var(--sys-tint);font-size:14px;background:color-mix(in srgb,var(--sys-tint) 10%,#09141c)}
+[data-v22-system]>summary::after{margin-left:auto}
+@media(max-width:620px){.top .steps .step{gap:6px}.top .steps .step::before{width:23px;height:23px;flex-basis:23px}.top .steps .step{min-width:135px}.top .steps{scroll-padding:8px}[data-v22-system]>summary{gap:7px;font-size:11px}[data-v22-system]>summary::before{flex-basis:25px;width:25px;height:25px}}
+@media print{.top .steps .step::before,[data-v22-system]>summary::before{display:none!important}}
+</style>
+<script id="v22-section-identities-js">
+(function(){
+ function apply(){
+  const marks=['◇','✣','▣','▤'];
+  document.querySelectorAll('.top .steps .step').forEach((button,i)=>{button.setAttribute('data-v22-mark',marks[i]||'◇');});
+  document.querySelectorAll('main > .screen').forEach((screen,i)=>screen.setAttribute('data-v22-page',String(i)));
+  const ids=[['artifactList','artifact','◆'],['treeList','tree','✣'],['v21TitleDetails','title','✦'],['fashionList','fashion','◇'],['petList','pet','♧']];
+  ids.forEach(([id,key,mark])=>{const element=document.getElementById(id);const details=element?.matches('details')?element:element?.closest('details');if(details){details.dataset.v22System=key;details.dataset.v22Mark=mark;}});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
+})();
+</script>
+
+<script id="r56-skill-pet-sync">
+(()=>{'use strict';
+ const elementPet={fire:'FireFairyPet',ice:'WaterFairyPet',lightning:'LightningFairyPet',normal:'SoulFairyPet'};
+ const all=new Set(Object.values(elementPet));
+ function sync(){
+   if(typeof state==='undefined'||typeof activeSkill!=='function'||typeof skillElementKey!=='function')return;
+   if(!state.skill?.id)return;
+   const wanted=elementPet[skillElementKey(activeSkill())];
+   if(!wanted)return;
+   if(!state.system)state.system={};
+   const pets=state.system.pets||(state.system.pets={});
+   // Preserve non-elemental pets, and never exceed the game's four-pet limit.
+   const retained=Object.keys(pets).filter(k=>pets[k]&&!all.has(k)).slice(0,3);
+   for(const k of all)pets[k]=false;
+   const allowed=new Set([...retained,wanted]);
+   for(const k of Object.keys(pets))if(pets[k]&&!allowed.has(k))pets[k]=false;
+   pets[wanted]=true;
+   if(typeof saveState==='function')saveState(state);
+   if(typeof renderPets==='function')renderPets();
+   if(typeof refreshSystemSummary==='function')refreshSystemSummary();
+   if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();
+ }
+ function init(){document.getElementById('skill')?.addEventListener('change',()=>{
+   // Apply after the original skill-change handler has updated state.
+   queueMicrotask(sync);
+ });}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<style id="r56-auto-set-style">.r56-auto-set-note{grid-column:1/-1;margin:0 0 10px;font-size:11px;line-height:1.6}</style>
+</body></html>
+<!-- STAGING R49: testing only, Lv600 optional extrapolation; title formula untouched -->
+<!-- STAGING R35: three set tiers changed to 3/5/7/9; final magic multiplier stays preview-only. -->
 <!-- V1.0 Test06 — Restore verified Manual/Auto mode switch UI only -->
 <style id="v10-test06-mode-switch-restore-css">
   /* Restore the original two-mode selector and mutually exclusive panes. */
@@ -9169,4 +9755,52 @@ const texts={
 function update(){const el=document.querySelector('.safe-title-announcement');if(!el)return;el.setAttribute('data-no-translate','');const l=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';const text=texts[l]||texts['zh-Hant'];if(el.textContent!==text)el.textContent=text;}
 function init(){update();document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>{setTimeout(update,0);setTimeout(update,120)}));window.addEventListener('tower-language-changed',()=>setTimeout(update,75));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();</script>
+
+
+<style id="r34-compact-localization">
+#r28-set-panel{padding:13px!important;margin:10px 0!important}
+#r28-set-panel #r28-explain{font-size:11px;line-height:1.4;margin:5px 0!important}
+#r28-set-panel #r28-tier-note{font-size:11px;line-height:1.4;padding:8px!important}
+.r34-summaries{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+.r34-set-pill{border:1px solid #385062;background:#091c28;border-left:3px solid var(--set-color);padding:9px 11px;border-radius:9px;min-width:0}
+.r34-pill-head{display:flex;align-items:center;justify-content:space-between;gap:5px;font-size:13px}
+.r34-pill-head strong{color:var(--set-color)}
+.r34-meter{height:5px;background:#263743;border-radius:10px;overflow:hidden;margin:7px 0 4px}
+.r34-meter div{height:100%;background:var(--set-color);border-radius:10px}
+.r34-set-pill small{font-size:10px;color:#9fb4c0}
+.r34-set-details{border:1px solid #334c5c;border-radius:8px;margin-top:7px;padding:0 10px}
+.r34-set-details>summary{cursor:pointer;padding:10px 3px;color:#d9e2e8;font-weight:600;font-size:12px}
+#r28-slot-inputs{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))!important;gap:7px!important;margin:7px 0 10px!important}
+#r28-slot-inputs select{padding:6px!important;font-size:12px}
+#r28-set-results{grid-template-columns:repeat(auto-fit,minmax(225px,1fr))!important;gap:7px!important;margin:7px 0 10px}
+@media(max-width:600px){.r34-summaries{gap:5px}.r34-set-pill{padding:7px}.r34-pill-head{font-size:11px}}
+</style>
+<script id="r34-manual-option-localization">(()=>{'use strict';
+const names={
+'所有魔法等級':['All Magic Levels','모든 마법 레벨'],
+'火焰魔法等級':['Fire Magic Level','화염 마법 레벨'],
+'閃電魔法等級':['Lightning Magic Level','번개 마법 레벨'],
+'冰系魔法等級':['Ice Magic Level','얼음 마법 레벨'],
+'普通魔法等級':['Normal Magic Level','일반 마법 레벨'],
+'法術傷害':['Spell Damage','마법 피해'],
+'火焰法術傷害':['Fire Spell Damage','화염 마법 피해'],
+'閃電法術傷害':['Lightning Spell Damage','번개 마법 피해'],
+'冰系法術傷害':['Ice Spell Damage','얼음 마법 피해'],
+'普通法術傷害':['Normal Spell Damage','일반 마법 피해'],
+'暴擊率':['Critical Rate','치명타 확률'],
+'冷卻時間':['Cooldown Reduction','재사용 대기시간 감소'],
+'MP消耗降低':['MP Cost Reduction','MP 소모 감소'],
+'ATK':['ATK','ATK']};
+function lang(){const v=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';return v==='en'?0:v==='ko'?1:-1}
+let active=false,queued=false;
+function apply(){if(active)return;active=true;try{const l=lang();document.querySelectorAll('#manualPane .manual-slot select option').forEach(opt=>{
+ const key=opt.value;if(!Object.prototype.hasOwnProperty.call(names,key))return;
+ const label=l===-1?key:names[key][l];if(opt.textContent!==label)opt.textContent=label;
+});}finally{active=false}}
+function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;apply()})}
+function init(){apply();const root=document.querySelector('#manualPane');if(root)new MutationObserver(schedule).observe(root,{childList:true,subtree:true});
+ document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(apply,20)));
+ window.addEventListener('tower-language-changed',()=>setTimeout(apply,20));}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();</script>
