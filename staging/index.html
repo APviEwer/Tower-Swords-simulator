@@ -2426,7 +2426,7 @@ Object.entries(window.__TS_R14_OLD_SKILL_ATK_EXT).forEach(([id,row])=>Object.ass
     }
     for(const [re,v] of __phraseRules) s=s.replace(re,v[p]);
     for(const [re,v] of __termRules) s=s.replace(re,v[p]);
-    const extra=isE?{'未取得／未啟用':'Not obtained / disabled','條件成立':'Condition Met','特殊／條件效果':'Special / Conditional Effects','目前無傷害向效果':'No current damage-related effect','無':'None','實際值':'Actual value','技能元素':'Skill Element','最終 ATK':'Final ATK','最終 Skill Lv':'Final Skill Lv','目前技能元素總合':'Current Skill Element Total','目前法術傷害總合':'Current Spell Damage Total','目前暴擊率總合':'Current Critical Rate Total','目前冷卻總合':'Current Cooldown Total','系統 ATK %':'System ATK %','裝備元素法傷':'Equipment Elemental Spell DMG','裝備法術傷害':'Equipment Spell DMG','裝備暴擊率':'Equipment Crit Rate','裝備冷卻':'Equipment Cooldown','裝備固定 ATK':'Equipment Fixed ATK','裝備所有魔法等級':'Equipment All Magic Levels','模擬器版本':'Simulator Version','匯出時間':'Export Time','資料來源':'Data Source','目前模式':'Current Mode','暴擊條件':'Crit Target','冷卻條件':'Cooldown Target','自動搜尋暴擊傷害':'Auto Max Critical Damage'}:{'未取得／未啟用':'미획득 / 비활성','條件成立':'조건 충족','特殊／條件效果':'특수 / 조건 효과','目前無傷害向效果':'현재 피해 관련 효과 없음','無':'없음','實際值':'실제 값','技能元素':'스킬 원소','最終 ATK':'최종 ATK','最終 Skill Lv':'최종 Skill Lv','目前技能元素總合':'현재 스킬 원소 합계','目前法術傷害總合':'현재 마법 피해 합계','目前暴擊率總合':'현재 치명타 확률 합계','目前冷卻總合':'현재 쿨다운 합계','系統 ATK %':'시스템 ATK %','裝備元素法傷':'장비 원소 마법 피해','裝備法術傷害':'장비 마법 피해','裝備暴擊率':'장비 치명타 확률','裝備冷卻':'장비 쿨다운','裝備固定 ATK':'장비 고정 ATK','裝備所有魔法等級':'장비 모든 마법 레벨','模擬器版本':'시뮬레이터 버전','匯出時間':'내보낸 시간','資料來源':'데이터 소스','目前模式':'현재 모드','暴擊條件':'치명타 조건','冷卻條件':'쿨다운 조건','自動搜尋暴擊傷害':'자동 최대 치명타 피해'};
+    const extra=isE?{'未取得／未啟用':'Not obtained / disabled','條件成立':'Condition Met','特殊／條件效果':'Special / Conditional Effects','目前無傷害向效果':'No current damage-related effect','無':'None','實際值':'Actual value','技能元素':'Skill Element','最終 ATK':'Final ATK','最終 Skill Lv':'Final Skill Lv','目前技能元素總合':'Current Skill Element Total','目前法術傷害總合':'Current Spell Damage Total','目前暴擊率總合':'Current Critical Rate Total','目前冷卻總合':'Current Cooldown Total','系統 ATK %':'System ATK %','裝備元素法傷':'Equipment Elemental Spell DMG','裝備法術傷害':'Equipment Spell DMG','裝備暴擊率':'Equipment Crit Rate','裝備冷卻':'Equipment Cooldown','裝備固定 ATK':'Equipment Fixed ATK','裝備所有魔法等級':'Equipment All Magic Levels','模擬器版本':'Simulator Version','匯出時間':'Export Time','資料來源':'Data Source','目前模式':'Current Mode','暴擊條件':'Crit Target','冷卻條件':'Cooldown Target','自動最大暴擊傷害':'Auto Max Critical Damage'}:{'未取得／未啟用':'미획득 / 비활성','條件成立':'조건 충족','特殊／條件效果':'특수 / 조건 효과','目前無傷害向效果':'현재 피해 관련 효과 없음','無':'없음','實際值':'실제 값','技能元素':'스킬 원소','最終 ATK':'최종 ATK','最終 Skill Lv':'최종 Skill Lv','目前技能元素總合':'현재 스킬 원소 합계','目前法術傷害總合':'현재 마법 피해 합계','目前暴擊率總合':'현재 치명타 확률 합계','目前冷卻總合':'현재 쿨다운 합계','系統 ATK %':'시스템 ATK %','裝備元素法傷':'장비 원소 마법 피해','裝備法術傷害':'장비 마법 피해','裝備暴擊率':'장비 치명타 확률','裝備冷卻':'장비 쿨다운','裝備固定 ATK':'장비 고정 ATK','裝備所有魔法等級':'장비 모든 마법 레벨','模擬器版本':'시뮬레이터 버전','匯出時間':'내보낸 시간','資料來源':'데이터 소스','目前模式':'현재 모드','暴擊條件':'치명타 조건','冷卻條件':'쿨다운 조건','自動最大暴擊傷害':'자동 최대 치명타 피해'};
     for(const [z,t] of Object.entries(extra).sort((a,b)=>b[0].length-a[0].length)) s=s.replace(new RegExp(esc(z),'g'),t);
     return s;
   }
@@ -2834,7 +2834,7 @@ function legacyOptimizeMax({minCrit=0,minCooldown=0}={}){
    elemental pool, 9-piece final magic damage is a separate x1.15 multiplier.
    Bloodshadow's bleeding-only damage is NOT applied without a verified bleed flag. */
 function r36SetDamageBonus(elementKey){
-  const vals=window.__r56OptimizationSetOverride || (()=>{try{return JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch(_){return {}}})();
+  const vals=(()=>{try{return JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch(_){return {}}})();
   const slots=['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'];
   const counts=[0,0,0],swords=[new Set(),new Set(),new Set()];
   for(const slot of slots){
@@ -3465,12 +3465,6 @@ function betaAutoSlotDefs(){
     else if(['戒1','戒2'].includes(gear))choices=[betaAutoOpt('法術傷害',51),betaAutoOpt('暴擊率',16),betaAutoOpt('冷卻時間',12)];
     else if(['項鍊','耳環'].includes(gear))choices=[betaAutoOpt('法術傷害',25),betaAutoOpt('暴擊率',8),betaAutoOpt('冷卻時間',6)];
     else choices=[betaAutoOpt('未指定',0)];
-    // R55: magic is a true optimizer candidate, not only a manually pinned trait.
-    // A gear can carry at most one special trait; if another Basic slot has a
-    // manually pinned trait, its Basic1 cannot independently roll magic.
-    const pinnedElsewhere=r9BasicSlots(gear).some(sl=>sl!=='Basic1'&&!!r9TraitAt(gear,sl));
-    if(mg>0 && !pinnedElsewhere && !r9TraitAt(gear,'Basic1'))
-      choices.push(betaAutoOpt('所有魔法等級',mg));
     add(gear,'Basic1',choices);
   }
 
@@ -3606,8 +3600,6 @@ function betaAutoMakeDamageSeed(defs,mode='mixed'){
       const x=damage.find(x=>x.o.elem>0); if(x)pick=x.i;
     }else if(mode==='spell'){
       const x=damage.find(x=>x.o.spell>0); if(x)pick=x.i;
-    }else if(mode==='magic'){
-      const x=damage.find(x=>x.o.skillLv>0); if(x)pick=x.i;
     }
     a.push(pick);
   }
@@ -3819,7 +3811,7 @@ function betaAutoCacheKey({minCrit=0,minCooldown=0}={}){
     sysCd:Number(sys.cooldown||0),sysCritDmg:Number(sys.critDamage||0),
     sysElem:Number(mx.value||0),sysSkill:Number(sys.skillLv||0),
     systemState:state.system||{},
-    setSlots:window.__r56OptimizationSetOverride ? JSON.stringify(window.__r56OptimizationSetOverride) : (()=>{try{return localStorage.getItem('tower-swords-r28-set-preview')||'{}'}catch(_){return '{}'}})()
+    setSlots:(()=>{try{return localStorage.getItem('tower-swords-r28-set-preview')||'{}'}catch(_){return '{}'}})()
   });
 }
 
@@ -4107,7 +4099,6 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
     betaAutoMakeDamageSeed(defs,'atk'),
     betaAutoMakeDamageSeed(defs,'elem'),
     betaAutoMakeDamageSeed(defs,'spell'),
-    betaAutoMakeDamageSeed(defs,'magic'),
     betaAutoLegacySeed(defs),
     betaAutoManualAssignment(defs),
     ...betaAutoReferenceSeeds(defs,targetCrit,targetCd)
@@ -4236,19 +4227,10 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
   }
 
   const eq=best.manualFloor?best.eq:betaAutoAssignmentToEq(defs,best.assign);
-  // R55: make the displayed score come from the same equipment evaluator used
-  // for manual comparisons. Prevent returning a detached internal search score.
-  const verified=betaEvaluateEquipmentEq(eq,{minCrit:targetCrit,minCooldown:targetCd});
-  if(!verified){
-    const miss={status:'infeasible',critDamage:null,eq:null,
-      source:'r55-final-equipment-verification-failed'};
-    betaAutoCache.set(cacheKey,miss);
-    return miss;
-  }
   const solved={
-    ...best.result,...verified,
+    ...best.result,
     eq,
-    source:best.manualFloor?'legal-manual-floor':'r55-magic-candidate-search',
+    source:best.manualFloor?'legal-manual-floor':'rebuilt-search-v4-reference-incumbent',
     searchKey:`skill:${activeSkill().id}|lv:${best.result.skillLv}|crit:${targetCrit}|cd:${targetCd}`
   };
   betaAutoCache.set(cacheKey,solved);
@@ -4406,33 +4388,9 @@ function betaGoldenOptimize(args={}){
 }
 
 function optimizeMax(args={}){
-  // R56: search current equipment-set choice and a complete matching-element set.
-  // Ownership is read from the artifact system; never simulate an unowned artifact.
-  // Each candidate is independently optimized with the SAME equipment solver.
-  // The set-specific override only exists during Auto calculations.
-  const element=skillElementKey(activeSkill());
-  const targetSet=element==='normal'?'0':element==='fire'?'2':null;
-  const current=(()=>{try{return JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch(_){return {}}})();
-  const candidateLayouts=[{key:'current',layout:current}];
-  if(targetSet!==null){
-    // One unique set sword, never duplicate it in the other weapon slots.
-    const layout={...current};
-    for(const slot of ['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'])layout[slot]='';
-    layout.weapon=targetSet;
-    for(const slot of ['armor','helmet','boots','ring','ring2','necklace','earrings'])layout[slot]=targetSet;
-    if(JSON.stringify(layout)!==JSON.stringify(current))candidateLayouts.push({key:'matching-set',layout});
-  }
-  let best=null;
-  try{
-    for(const candidate of candidateLayouts){
-      window.__r56OptimizationSetOverride=candidate.layout;
-      const r=betaAutoSearch(args);
-      if(r?.status==='dynamic' && (!best||r.critDamage>best.critDamage)){
-        best={...r,setLayout:{...candidate.layout},setLayoutSource:candidate.key};
-      }
-    }
-  }finally{delete window.__r56OptimizationSetOverride;}
-  return best || betaAutoSearch(args);
+  // Live Auto Optimize must search the legal equipment space. Golden tables remain
+  // regression references only and are not returned as the answer.
+  return betaAutoSearch(args);
 }
 
 function makeAutoEquipment(){
@@ -4455,9 +4413,7 @@ function renderAutoBreakdown(r){
   sum.innerHTML=types.map(t=>{const g=items.filter(x=>x.type===t),total=g.reduce((n,x)=>n+Number(x.value||0),0),unit=t==='所有魔法等級'?' Lv':'%';const totalText=t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(total)))):`${total}${unit}`;return `<div class="summary-row"><div class="name">${escHtml(t)}</div><div class="count">${g.length} 格</div><div class="total">合計 ${totalText}</div></div>`}).join('');
   const page2=betaAutoMaxSystemStats(),elementInfo=betaAutoMaxElementInfo(page2);
   const elemSystem=elementInfo.value,spellSystem=Number(page2.spell||0);
-  const setDescription=r.setLayout?Object.entries(r.setLayout).filter(([k,v])=>['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'].includes(k) && ['0','1','2'].includes(String(v))).map(([k,v])=>`${({'weapon':'主武','weapon2':'武2','weapon3':'武3','armor':'盔甲','helmet':'頭盔','boots':'鞋子','ring':'戒1','ring2':'戒2','necklace':'項鍊','earrings':'耳環'})[k]}：${(['黑月','血影','紅蓮'])[Number(v)]}`).join('、'):'';
-  if(setDescription){const setBox=document.createElement('div');setBox.className='note r56-auto-set-note';setBox.textContent='R56 最佳化建議套裝｜'+setDescription+'。套裝人工製品依已持有狀態自動計數。這是自動方案建議，不更動手動套裝配置。';host.prepend(setBox);}
-  note.textContent=`R55 自動比較「所有魔法等級」與其他合法傷害詞條；特殊特性未驗證的觸發增傷不計入。搜尋結果尚非全域最優證明。｜${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜元素 ${Math.round(r.elem)}%（02 系統 ${roundStat(elemSystem)}%＋裝備 ${roundStat(r.elem-elemSystem)}%）｜法傷 ${Math.round(r.spell)}%（02 系統 ${roundStat(spellSystem)}%＋裝備 ${roundStat(r.spell-spellSystem)}%）｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
+  note.textContent=`Basic 魔法等級依每格分別計入技能等級；特殊特性只有佔位、沒有未驗證的傷害倍率。｜${activeSkill().name}｜Skill Lv ${r.skillLv}｜最低暴擊 ${state.auto.minCrit||0}%｜最低冷卻 ${state.auto.minCooldown||0}%｜元素 ${Math.round(r.elem)}%（02 系統 ${roundStat(elemSystem)}%＋裝備 ${roundStat(r.elem-elemSystem)}%）｜法傷 ${Math.round(r.spell)}%（02 系統 ${roundStat(spellSystem)}%＋裝備 ${roundStat(r.spell-spellSystem)}%）｜暴擊 ${roundStat(r.crit)}%｜冷卻 ${roundStat(r.cd)}%。`;
 }
 
 let betaAutoRefreshing=false;
@@ -9300,37 +9256,6 @@ main>.screen[data-v22-page]>.hero h2::after{background:linear-gradient(90deg,var
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
 })();
 </script>
-
-<script id="r56-skill-pet-sync">
-(()=>{'use strict';
- const elementPet={fire:'FireFairyPet',ice:'WaterFairyPet',lightning:'LightningFairyPet',normal:'SoulFairyPet'};
- const all=new Set(Object.values(elementPet));
- function sync(){
-   if(typeof state==='undefined'||typeof activeSkill!=='function'||typeof skillElementKey!=='function')return;
-   if(!state.skill?.id)return;
-   const wanted=elementPet[skillElementKey(activeSkill())];
-   if(!wanted)return;
-   if(!state.system)state.system={};
-   const pets=state.system.pets||(state.system.pets={});
-   // Preserve non-elemental pets, and never exceed the game's four-pet limit.
-   const retained=Object.keys(pets).filter(k=>pets[k]&&!all.has(k)).slice(0,3);
-   for(const k of all)pets[k]=false;
-   const allowed=new Set([...retained,wanted]);
-   for(const k of Object.keys(pets))if(pets[k]&&!allowed.has(k))pets[k]=false;
-   pets[wanted]=true;
-   if(typeof saveState==='function')saveState(state);
-   if(typeof renderPets==='function')renderPets();
-   if(typeof refreshSystemSummary==='function')refreshSystemSummary();
-   if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();
- }
- function init(){document.getElementById('skill')?.addEventListener('change',()=>{
-   // Apply after the original skill-change handler has updated state.
-   queueMicrotask(sync);
- });}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
-<style id="r56-auto-set-style">.r56-auto-set-note{grid-column:1/-1;margin:0 0 10px;font-size:11px;line-height:1.6}</style>
 </body></html>
 <!-- STAGING R49: testing only, Lv600 optional extrapolation; title formula untouched -->
 <!-- STAGING R35: three set tiers changed to 3/5/7/9; final magic multiplier stays preview-only. -->
