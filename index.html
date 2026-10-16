@@ -1566,7 +1566,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 .language-switch .lang-btn{min-width:0!important;width:auto!important;padding-left:2px!important;padding-right:2px!important}
 @media(max-width:620px){.language-switch .lang-btn{font-size:8px!important}}
 </style>
-<meta name="ts-release" content="V2.2-game2.6"/>
+<meta content="V2.2-game2.6" name="ts-release"/>
 </head>
 <body>
 <script>
@@ -1667,33 +1667,33 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <section class="card no-print" id="r48-title-atk-test" style="margin:12px 0 16px;border:1px solid #6c877f">
 <h3>R51｜稱號 ATK 跨武器驗證（Staging）</h3>
 <p class="small">Staging 預設啟用候選模型 B；暫按「主武固定 ATK × 已選稱號 ATK%」增加有效 ATK；手動及自動最佳化共同套用。這只是候選模型，尚非遊戲驗證公式，正式版不受影響。</p>
-<label style="display:flex;gap:10px;align-items:center;font-weight:600;cursor:pointer"><input type="checkbox" id="r48-title-atk-toggle" style="width:20px;height:20px">啟用稱號 ATK 試算（僅本頁）</label>
-<p id="r48-title-atk-status" class="small" aria-live="polite">試算已關閉，原 ATK／傷害不變</p>
-<div style="margin:8px 0 12px;padding:10px;border:1px solid #4b776b;border-radius:9px" id="r51-weapon-compare">
-  <strong>R51｜第二把武器交叉核對</strong>
-  <p class="small">切換武器後，其他設定維持一致。下方可輸入新測得的遊戲面板 ATK，直接查看與目前模擬器的差距。這只比對數字，<strong>不會將遊戲數值寫進 ATK 或傷害公式</strong>。</p>
-  <label for="r51-game-atk">此武器的遊戲面板 ATK（例如 516.472B）</label>
-  <input id="r51-game-atk" placeholder="輸入遊戲面板 ATK" autocomplete="off" />
-  <p id="r51-atk-compare-result" class="small" aria-live="polite">輸入遊戲面板後顯示差異。</p>
-</div>
-<div style="border:1px solid #526577;border-radius:10px;padding:12px;margin:10px 0" id="r50-precision-panel">
-  <strong>R51｜稱號星級精度（B 為預設候選模型）</strong>
-  <p class="small">遊戲畫面顯示 ★1 2%／★2 4%／★3 6%；實際運算是否為 1.98%／3.96%／6% 尚待遊戲程式證實。只在上方稱號 ATK 試算開啟時生效。</p>
-  <label for="r50-atk-precision-mode">稱號 ATK 候選星級倍率</label>
-  <select id="r50-atk-precision-mode" style="width:100%;margin:5px 0 8px">
-    <option value="display">A｜按顯示值 2%／4%／6%</option>
-    <option value="fractional" selected>B｜按候選內部值 1.98%／3.96%／6%</option>
-  </select>
-  <p id="r50-atk-precision-summary" class="small" aria-live="polite">正在讀取稱號統計…</p>
+<label style="display:flex;gap:10px;align-items:center;font-weight:600;cursor:pointer"><input id="r48-title-atk-toggle" style="width:20px;height:20px" type="checkbox"/>啟用稱號 ATK 試算（僅本頁）</label>
+<p aria-live="polite" class="small" id="r48-title-atk-status">試算已關閉，原 ATK／傷害不變</p>
+<div id="r51-weapon-compare" style="margin:8px 0 12px;padding:10px;border:1px solid #4b776b;border-radius:9px">
+<strong>R51｜第二把武器交叉核對</strong>
+<p class="small">切換武器後，其他設定維持一致。下方可輸入新測得的遊戲面板 ATK，直接查看與目前模擬器的差距。這只比對數字，<strong>不會將遊戲數值寫進 ATK 或傷害公式</strong>。</p>
+<label for="r51-game-atk">此武器的遊戲面板 ATK（例如 516.472B）</label>
+<input autocomplete="off" id="r51-game-atk" placeholder="輸入遊戲面板 ATK">
+<p aria-live="polite" class="small" id="r51-atk-compare-result">輸入遊戲面板後顯示差異。</p>
+</input></div>
+<div id="r50-precision-panel" style="border:1px solid #526577;border-radius:10px;padding:12px;margin:10px 0">
+<strong>R51｜稱號星級精度（B 為預設候選模型）</strong>
+<p class="small">遊戲畫面顯示 ★1 2%／★2 4%／★3 6%；實際運算是否為 1.98%／3.96%／6% 尚待遊戲程式證實。只在上方稱號 ATK 試算開啟時生效。</p>
+<label for="r50-atk-precision-mode">稱號 ATK 候選星級倍率</label>
+<select id="r50-atk-precision-mode" style="width:100%;margin:5px 0 8px">
+<option value="display">A｜按顯示值 2%／4%／6%</option>
+<option selected="" value="fractional">B｜按候選內部值 1.98%／3.96%／6%</option>
+</select>
+<p aria-live="polite" class="small" id="r50-atk-precision-summary">正在讀取稱號統計…</p>
 </div>
 <div style="margin-top:12px;padding:12px;border:1px solid #4b6975;border-radius:10px">
-<label style="display:flex;gap:10px;align-items:center"><input id="r49-level-trial" type="checkbox" style="width:20px;height:20px">試算角色 510～600 級基礎 ATK（僅測試，預設關閉）</label>
-<p id="r49-level-status" class="small">尚未啟用；角色基礎 ATK 維持原 500 級截斷。</p>
+<label style="display:flex;gap:10px;align-items:center"><input id="r49-level-trial" style="width:20px;height:20px" type="checkbox"/>試算角色 510～600 級基礎 ATK（僅測試，預設關閉）</label>
+<p class="small" id="r49-level-status">尚未啟用；角色基礎 ATK 維持原 500 級截斷。</p>
 <p class="small">實驗假設：510～600 級沿用 480～509 級每級 +256,000 的舊曲線。這不是已證實的遊戲成長規則，也不會修改正式版。</p>
 </div>
 </section>
 <section class="card no-print" id="r38-title-atk-audit" style="border:1px solid #6b818e;margin:12px 0 16px">
-<h3>稱號 ATK｜三模型對照（R39 Staging）</h3><p class="small">只進行平行驗算，不改動面板、手動／自動配裝、稱號或傷害公式。歷史資料採原先量測值；當前設定使用目前 01／02／03 配置。</p>
+<h3>稱號 ATK｜三模型對照</h3><p class="small">只進行平行驗算，不改動面板、手動／自動配裝、稱號或傷害公式。歷史資料採原先量測值；當前設定使用目前 01／02／03 配置。</p>
 <div class="statgrid"><div class="stat"><div class="k">稱號 ATK</div><div class="v" id="r39-pct">—</div></div><div class="stat"><div class="k">目前不含稱號 ATK（01 原模型）</div><div class="v" id="r39-base">—</div></div><div class="stat"><div class="k">模型 A｜同池後乘獨立倍率</div><div class="v" id="r39-pool">—</div></div><div class="stat"><div class="k">模型 B｜武器原值直接加算</div><div class="v" id="r39-weapon">—</div></div><div class="stat"><div class="k">模型 C｜全裝備 ATK 同池加算</div><div class="v" id="r39-full">—</div></div></div>
 <p class="small" id="r39-detail">等待資料載入</p>
 <h4>兩組既有遊戲測試（歷史快照，不隨目前設定改變）</h4><div style="overflow-x:auto"><table style="width:100%;font-size:12px;min-width:770px"><thead><tr><th>武器</th><th>遊戲</th><th>不含稱號</th><th>A：同池×獨立倍率</th><th>B：武器直接 +31%</th><th>觀測差額</th></tr></thead><tbody id="r39-history"></tbody></table></div>
@@ -1710,7 +1710,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <p class="small" id="r41-detail">待載入</p>
 <p class="small">判讀：歷史低 ATK 武器 21.899B｜遊戲 516.472B、原模擬器 508.540B；稱號 +31% 的武器直接加算模型約 515.329B。即使再補舊曲線推估的等級 ATK，也未必完全相符；因此不能把推估公式直接替換成遊戲公式。高 ATK 武器的 Q 單位顯示精度不足以精確校準 B 級的基礎值。</p>
 </div>
-<button class="btn secondary" type="button" id="r39-refresh">重新驗算</button></section>
+<button class="btn secondary" id="r39-refresh" type="button">重新驗算</button></section>
 <div aria-hidden="true" class="card" hidden="" id="r20BareAtkPanel" style="display:none!important">
 <h3>空裝 ATK 核對｜診斷模式</h3>
 <p class="small">完全排除武器、裝備詞條與寵物；保留角色等級、人工製品、魔法樹、時裝及稱號。此為依模擬器現有 ATK 公式推算的測試值，尚未證實與遊戲空裝面板同口徑，不參與原傷害計算。</p>
@@ -1774,7 +1774,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <button data-safe-system="pet" type="button">寵物 <small id="safe-pet">0 / 4</small><i></i></button>
 </div>
 <details open=""><summary>人工製品｜103 件</summary>
-<div class="sys-toolbar"><input id="artifactSearch" placeholder="搜尋人工製品名稱"/><button class="r19-max-all" id="r19ArtifactMaxAll" type="button">一鍵全滿</button></div>
+<div class="sys-toolbar"><input id="artifactSearch" placeholder="搜尋人工製品名稱"><button class="r19-max-all" id="r19ArtifactMaxAll" type="button">一鍵全滿</button></input></div>
 <div class="sys-list" id="artifactList"></div>
 </details>
 <details><summary>魔法樹｜29 節點</summary>
@@ -1799,7 +1799,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <div class="sys-list" id="petList"></div>
 </details>
 </div>
-<details class="card r64-internal-only" hidden><summary>MAX 回歸參考｜僅供驗證，不參與目前值</summary>
+<details class="card r64-internal-only" hidden=""><summary>MAX 回歸參考｜僅供驗證，不參與目前值</summary>
 <div class="statgrid" style="margin-top:12px">
 <div class="stat"><div class="k">元素｜不含寵物</div><div class="v">233%</div></div>
 <div class="stat"><div class="k">元素寵物</div><div class="v">+20%</div></div>
@@ -1811,14 +1811,13 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 </section>
 <section class="screen">
 <div class="hero"><h2>03｜裝備配置</h2><p>自動最佳化與手動實裝共用同一套已驗證裝備規則；所有輸入即時同步全域 Build State。</p></div><div class="beta-build-strip no-print" id="betaBuildStrip"></div><div id="betaModeMount"></div>
-
-<section id="r28-set-panel" class="card no-print" style="margin:14px 0;border:1px solid #8c784f">
- <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><h3 id="r28-title" style="margin:0">新增套裝｜配置與效果預覽</h3><span id="r28-calcstatus" style="border:1px solid #aa8645;border-radius:16px;padding:4px 10px;color:#e8c77d;font-size:12px">僅統計，尚未納入任何傷害計算</span></div>
- <p id="r28-explain" class="small" style="margin-top:10px">請依實際裝備選擇各部位的套裝；武器最多計入 1 件，人工製品僅指定為主人工製品的 1 件列入。九件計數、可混搭；此區目前不連動原裝備詞條及傷害公式。</p>
- <div id="r34-set-summary" class="r34-summaries" aria-live="polite"></div>
- <details id="r34-gear-details" class="r34-set-details"><summary id="r34-gear-summary">配置 11 個裝備部位 / Configure gear / 장비 구성</summary> <div id="r28-slot-inputs" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:9px;margin:14px 0"></div> </details>
- <details id="r34-effects-details" class="r34-set-details"><summary id="r34-effect-summary">檢視分階段套裝效果 / View set tiers / 세트 효과 보기</summary> <div id="r28-set-results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px"></div> </details>
- <div class="note" id="r28-tier-note" style="margin-top:8px">官方已確認套裝效果會依件數分階段累加，但目前資料無法確證各效果對應的啟動件數；因此本區只列官方效果供核對，不會宣稱達成任何未驗證門檻。</div>
+<section class="card no-print" id="r28-set-panel" style="margin:14px 0;border:1px solid #8c784f">
+<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><h3 id="r28-title" style="margin:0">新增套裝｜配置與效果預覽</h3><span id="r28-calcstatus" style="border:1px solid #aa8645;border-radius:16px;padding:4px 10px;color:#e8c77d;font-size:12px">僅統計，尚未納入任何傷害計算</span></div>
+<p class="small" id="r28-explain" style="margin-top:10px">請依實際裝備選擇各部位的套裝；武器最多計入 1 件，人工製品僅指定為主人工製品的 1 件列入。九件計數、可混搭；此區目前不連動原裝備詞條及傷害公式。</p>
+<div aria-live="polite" class="r34-summaries" id="r34-set-summary"></div>
+<details class="r34-set-details" id="r34-gear-details"><summary id="r34-gear-summary">配置 11 個裝備部位 / Configure gear / 장비 구성</summary> <div id="r28-slot-inputs" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:9px;margin:14px 0"></div> </details>
+<details class="r34-set-details" id="r34-effects-details"><summary id="r34-effect-summary">檢視分階段套裝效果 / View set tiers / 세트 효과 보기</summary> <div id="r28-set-results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px"></div> </details>
+<div class="note" id="r28-tier-note" style="margin-top:8px">官方已確認套裝效果會依件數分階段累加，但目前資料無法確證各效果對應的啟動件數；因此本區只列官方效果供核對，不會宣稱達成任何未驗證門檻。</div>
 </section>
 <div id="manualPane">
 <div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><h3>手動實裝</h3><span class="version" id="manualPicked">已選 0 格</span></div>
@@ -1826,7 +1825,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <div class="small" style="margin-bottom:8px">手動實裝即時傷害</div>
 <div class="statgrid"><div class="stat"><div class="k">未暴擊傷害</div><div class="v" id="manualNonCritDamage">—</div></div><div class="stat"><div class="k">最終暴擊傷害</div><div class="v" id="manualCritDamage">—</div></div></div>
 <div class="note" id="manualDamageNote" style="margin-top:10px">—</div>
-<div class="note r64-internal-only" hidden id="r23ManualAffixLive" style="margin-top:8px">元素及法傷：等待輸入。</div>
+<div class="note r64-internal-only" hidden="" id="r23ManualAffixLive" style="margin-top:8px">元素及法傷：等待輸入。</div>
 </div>
 <div class="note">手動實裝：武器的 ATK 已為固定詞條、頭盔的 DEF 已為固定詞條，因此這些裝備只有三個可選詞條位置。唯一會影響角色面板 ATK 的武器為主武器；主武 ATK 請直接於 01「角色設定」輸入，不需在此重複設定。每格先選合法詞條，再於下方輸入遊戲實際值；ATK 支援 K／M／B／T／Q／R。</div>
 <div class="eq-table" id="equipmentGrid" style="margin-top:12px"></div>
@@ -2861,6 +2860,7 @@ function legacyOptimizeMax({minCrit=0,minCooldown=0}={}){
    elemental pool, 9-piece final magic damage is a separate x1.15 multiplier.
    Bloodshadow's bleeding-only damage is NOT applied without a verified bleed flag. */
 function r36SetDamageBonus(elementKey){
+  if(window.__r90AuditNoSetBonus===true)return {counts:[0,0,0],elementPct:0,finalMultiplier:1,elementKey,bloodshadowBleedFinalPending:false};
   const vals=window.__r56OptimizationSetOverride || (()=>{try{return JSON.parse(localStorage.getItem('tower-swords-r28-set-preview')||'{}')||{}}catch(_){return {}}})();
   const slots=['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'];
   const counts=[0,0,0],swords=[new Set(),new Set(),new Set()];
@@ -3842,7 +3842,7 @@ const betaAutoCache=new Map();
 function betaAutoCacheKey({minCrit=0,minCooldown=0}={}){
   const sys=betaAutoMaxSystemStats(),sk=activeSkill(),mx=betaAutoMaxElementInfo(sys);
   return JSON.stringify({
-    basicTraits:r9SavedTraits(),manualEquipment:state.manual?.equipment||{},skillId:sk.id,level:state.player.level,weaponAtk:state.weapon.displayAtk,
+    basicTraits:r9SavedTraits(),skillId:sk.id,level:state.player.level,weaponAtk:state.weapon.displayAtk,
     weaponLv:state.weapon.equipmentLevel,boss:!!state.player?.boss,
     minCrit:betaAutoPctValue(betaAutoPctUnits(minCrit)),minCooldown:betaAutoPctValue(betaAutoPctUnits(minCooldown)),
     sysAtk:Number(sys.atk||0),sysFlat:Number(sys.flatAtk||0),
@@ -4122,6 +4122,69 @@ function betaAutoReferenceSeeds(defs,targetCrit,targetCd){
   return out;
 }
 
+/* R81: deterministic independent beam / constraint frontier.  This is a
+   bounded wider combinatorial search, NOT a proof of global optimality. */
+function r81IndependentSearch(defs,targetCrit,targetCd){
+  const sys=betaAutoMaxSystemStats();
+  const capCrit=Math.max(0,targetCrit-Number(sys.crit||0));
+  const capCd=Math.max(0,targetCd-Number(sys.cooldown||0));
+  let best=null;
+  // Two independent orderings mitigate beam pruning based on slot position.
+  for(const reverse of [false,true]){
+    const order=defs.map((_,i)=>i);
+    if(reverse)order.reverse();
+    const n=order.length;
+    const remainC=new Array(n+1).fill(0),remainD=new Array(n+1).fill(0);
+    const remA=new Array(n+1).fill(0),remE=new Array(n+1).fill(0),remS=new Array(n+1).fill(0),remL=new Array(n+1).fill(0);
+    for(let k=n-1;k>=0;k--){
+      const opts=defs[order[k]].opts;
+      remainC[k]=remainC[k+1]+Math.max(...opts.map(o=>o.crit||0));
+      remainD[k]=remainD[k+1]+Math.max(...opts.map(o=>o.cd||0));
+      remA[k]=remA[k+1]+Math.max(...opts.map(o=>o.atk||0));
+      remE[k]=remE[k+1]+Math.max(...opts.map(o=>o.elem||0));
+      remS[k]=remS[k+1]+Math.max(...opts.map(o=>o.spell||0));
+      remL[k]=remL[k+1]+Math.max(...opts.map(o=>o.skillLv||0));
+    }
+    let beam=[{a:new Array(n), t:{atk:0,elem:0,spell:0,crit:0,cd:0,skillLv:0}}];
+    const width=360;
+    for(let k=0;k<n;k++){
+      const index=order[k],opts=defs[index].opts, candidates=[];
+      for(const node of beam) for(let j=0;j<opts.length;j++){
+        const o=opts[j],v=node.t;
+        const t={atk:v.atk+(o.atk||0),elem:v.elem+(o.elem||0),spell:v.spell+(o.spell||0),crit:v.crit+(o.crit||0),cd:v.cd+(o.cd||0),skillLv:v.skillLv+(o.skillLv||0)};
+        if(t.crit+remainC[k+1]+1e-7<capCrit||t.cd+remainD[k+1]+1e-7<capCd)continue;
+        const a=node.a.slice();a[index]=j;
+        const needC=Math.max(0,capCrit-t.crit),needD=Math.max(0,capCd-t.cd);
+        // Optimistic damage look-ahead for ranking only; never used as a proof.
+        const lookElem=t.elem+remE[k+1],lookSpell=t.spell+remS[k+1];
+        const f=Math.log1p(Math.max(0,lookElem)/100)+Math.log1p(Math.max(0,lookSpell)/100)+0.017*(t.skillLv+remL[k+1])+0.003*Math.log1p(Math.max(0,t.atk+remA[k+1])/1e12);
+        const penalty=(needC/(remainC[k+1]+0.001)+needD/(remainD[k+1]+0.001));
+        const score=f-0.045*penalty;
+        candidates.push({a,t,score});
+      }
+      if(!candidates.length){beam=[];break;}
+      candidates.sort((x,y)=>y.score-x.score);
+      // Preserve diverse constraint allocations and magic levels, avoiding
+      // only keeping permutations of the same high-score prefix.
+      const chosen=[],seen=new Map();
+      for(const node of candidates){
+        const t=node.t;
+        const key=[Math.min(Math.round(t.crit),Math.ceil(capCrit)),Math.min(Math.round(t.cd),Math.ceil(capCd)),t.skillLv,Math.round(t.elem/30),Math.round(t.spell/25)].join(':');
+        const count=seen.get(key)||0;
+        if(count>=2)continue;
+        seen.set(key,count+1);chosen.push(node);
+        if(chosen.length>=width)break;
+      }
+      beam=chosen;
+    }
+    for(const x of beam){
+      const result=betaAutoEvalTotals(x.t,targetCrit,targetCd);
+      if(result && (!best||result.critDamage>best.result.critDamage))best={assign:x.a,totals:x.t,result,r81:true};
+    }
+  }
+  return best;
+}
+
 function betaAutoSearch({minCrit=0,minCooldown=0}={}){
   const args={minCrit,minCooldown};
   const cacheKey=betaAutoCacheKey(args);
@@ -4140,7 +4203,6 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
     betaAutoMakeDamageSeed(defs,'spell'),
     betaAutoMakeDamageSeed(defs,'magic'),
     betaAutoLegacySeed(defs),
-    betaAutoManualAssignment(defs),
     ...betaAutoReferenceSeeds(defs,targetCrit,targetCd)
   ].filter(Boolean);
 
@@ -4204,53 +4266,10 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
     best=bestExactCd;
   }
 
-  // Critical invariant: if the current legal Manual Build satisfies the same
-  // limits, use it only as an incumbent and IMPROVE from it. Auto must never
-  // finish below that known legal point.
-  const manualSeed=betaAutoManualAssignment(defs);
-  if(manualSeed){
-    const mt=betaAutoTotals(defs,manualSeed);
-    const mev=betaAutoEvalTotals(mt,targetCrit,targetCd);
-    if(mev){
-      const improved=betaAutoExactImprove(defs,manualSeed,targetCrit,targetCd);
-      const exactManual=betaAutoExactCdRepair(defs,manualSeed,targetCrit,targetCd);
-      let cand=(improved&&improved.result.critDamage>=mev.critDamage)
-        ? improved
-        : {assign:manualSeed,totals:mt,result:mev};
-      if(exactManual && exactManual.result.critDamage>cand.result.critDamage)cand=exactManual;
-      if(!best||cand.result.critDamage>best.result.critDamage)best=cand;
-    }
-  }
-
-  // V2.2 R52: compare against the actual, fully valued Manual configuration,
-  // not an auto-max approximation which only copies the Manual affix TYPES.
-  // Only accept a Manual floor if every entered affix is representable by the
-  // currently legal optimizer slot and does not exceed that slot's cap.
-  // Otherwise the builds have different rules and must not be compared as equals.
-  try {
-    const rawManual=state.manual?.equipment||{};
-    const defByKey=new Map(defs.map(d=>[d.gear+'|'+d.slot,d]));
-    let legal=true,hasEntry=false;
-    for(const [key,item] of Object.entries(rawManual)){
-      if(!item?.type)continue;
-      hasEntry=true;
-      const [gear,short]=key.split('.');
-      const slot=short?.startsWith('B')?'Basic'+short.slice(1):short?.startsWith('P')?'Plus'+short.slice(1):short;
-      const def=defByKey.get(gear+'|'+slot);
-      const parsed=manualValue(item);
-      const actual=item.type==='ATK'?Number(parsed?.atk):Number(parsed?.num);
-      if(!def||!parsed?.valid||!Number.isFinite(actual)||actual<0||
-         !def.opts.some(o=>o.type===item.type && actual<=Number(o.value)+1e-6)){
-        legal=false;break;
-      }
-    }
-    if(legal&&hasEntry){
-      const candidate=betaManualAutoCandidate({minCrit:targetCrit,minCooldown:targetCd});
-      if(candidate&&(!best||candidate.critDamage>best.result.critDamage)){
-        best={assign:null,result:candidate,eq:candidate.eq,manualFloor:true};
-      }
-    }
-  }catch(e){console.warn('V2.2 manual incumbent check',e);}
+  // R81 independent combinatorial beam search. Manual equipment is NOT a seed.
+  // Search is bounded and therefore cannot certify the global optimum.
+  const beam= r81IndependentSearch(defs,targetCrit,targetCd);
+  if(beam && (!best || beam.result.critDamage>best.result.critDamage)) best=beam;
 
   if(!best){
     const sys={stats:betaAutoMaxSystemStats()};
@@ -4266,7 +4285,7 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
     return miss;
   }
 
-  const eq=best.manualFloor?best.eq:betaAutoAssignmentToEq(defs,best.assign);
+  const eq=betaAutoAssignmentToEq(defs,best.assign);
   // R55: make the displayed score come from the same equipment evaluator used
   // for manual comparisons. Prevent returning a detached internal search score.
   const verified=betaEvaluateEquipmentEq(eq,{minCrit:targetCrit,minCooldown:targetCd});
@@ -4279,7 +4298,7 @@ function betaAutoSearch({minCrit=0,minCooldown=0}={}){
   const solved={
     ...best.result,...verified,
     eq,
-    source:best.manualFloor?'legal-manual-floor':'r55-magic-candidate-search',
+    source:best.r81?'r81-independent-combinatorial-search':'r81-legacy-reference-search',
     searchKey:`skill:${activeSkill().id}|lv:${best.result.skillLv}|crit:${targetCrit}|cd:${targetCd}`
   };
   betaAutoCache.set(cacheKey,solved);
@@ -4508,7 +4527,7 @@ function refreshAuto(force=false){
   betaAutoRefreshing=true;
   try{
   const r=optimizeMax(state.auto); saveState(state);
-  $('#autoStatus').textContent=r.status==='dynamic'?'已搜尋目前條件較佳配置（不保證全域最大值）':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
+  $('#autoStatus').textContent=r.status==='dynamic'?'已完成候選搜尋｜目前較佳配置，尚未證明全域最大值':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
   $('#autoStatus').className=r.status==='dynamic'?'pass':'warn';
   $('#autoCrit').textContent=r.crit??'—';
   $('#autoCd').textContent=r.cd??'—';
@@ -9149,7 +9168,6 @@ function setup(){render();window.__r54RenderSets=render;window.__r46UpdateSetArt
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
 })();
 </script>
-
 <script id="r54-set-owned-sync">
 (function(){'use strict';
  // Ownership is authoritative in system.artifacts; never force primary equipment.
@@ -9342,7 +9360,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.addEventListener('DOMContentLoaded',function(){let input=document.getElementById('r51-game-atk');input?.addEventListener('input',update);document.getElementById('r50-atk-precision-mode')?.addEventListener('change',update);document.getElementById('r48-title-atk-toggle')?.addEventListener('change',update);document.getElementById('displayAtk')?.addEventListener('input',update);document.getElementById('r39-refresh')?.addEventListener('click',update);update();});
 })();
 </script>
-
 <style id="v22-section-identities">
 /* V2.2 | Quiet game UI identifiers, presentational only */
 .top .steps .step{display:flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;letter-spacing:.025em}
@@ -9378,7 +9395,6 @@ main>.screen[data-v22-page]>.hero h2::after{background:linear-gradient(90deg,var
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
 })();
 </script>
-
 <script id="r56-skill-pet-sync">
 (()=>{'use strict';
  const elementPet={fire:'FireFairyPet',ice:'WaterFairyPet',lightning:'LightningFairyPet',normal:'SoulFairyPet'};
@@ -9422,7 +9438,6 @@ main>.screen[data-v22-page]>.hero h2::after{background:linear-gradient(90deg,var
 @media(max-width:620px){.language-switch .lang-btn{font-size:10px!important;padding:6px 1px!important;min-height:30px!important}}
 @media(max-width:370px){.language-switch .lang-btn{font-size:9px!important}}
 </style>
-
 <style id="r64-final-ux">
 .r64-internal-only,#r44-normal-audit,#r20BareAtkPanel,#r48-title-atk-test,#r40-level-diagnostic,#r41-auto-result{display:none!important}
 .language-switch{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:3px!important;flex:0 1 auto!important;min-width:260px;max-width:340px;padding:4px!important}
@@ -9549,7 +9564,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-
 <style id="r68-system-shortcuts-and-language">
 /* Footer shortcuts are the ONLY small shortcut bar; full five-category tabs remain in their own system header. */
 #r65-quick-systems{display:flex!important;position:relative!important;margin:22px 0 12px!important}
@@ -9587,7 +9601,6 @@ function init(){draw();window.addEventListener('tower-language-changed',()=>setT
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-
 <style id="r69-visibility-and-translation">
 /* Remove both duplicate release notices, keeping the version/help popup and the useful build controls. */
 .safe-title-announcement{display:none!important}
@@ -9629,7 +9642,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 <!-- T&S R71 RELEASE CANDIDATE: remains staging; do not publish until signoff -->
-
 <script id="r72-live-language-refresh">
 (()=>{'use strict';
   let scheduled=false,last='';
@@ -9662,7 +9674,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   request();
 })();
 </script>
-
 <script id="r73-tree-language-source-sync">
 (()=>{'use strict';
   let scheduled=false,painting=false;
@@ -9687,6 +9698,188 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+<style id="r82-audit-style">
+#r82-audit{margin:15px 0;padding:16px;border:1px solid #476379;border-radius:14px;background:#091c27;color:#dce8ec}
+#r82-audit h3{color:#efcf8c;margin:0 0 8px;font-size:16px}
+#r82-audit .r82-actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+#r82-audit button{background:#392c18;color:#f4d999;border:1px solid #9c7941;border-radius:9px;padding:9px 12px;cursor:pointer}
+#r82-audit pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#05121b;border:1px solid #2a4457;padding:12px;border-radius:9px;max-height:370px;overflow:auto;line-height:1.6;font-size:12px}
+</style>
+<script id="v22-release-optimizer">
+(function(){
+'use strict';
+const clone=x=>JSON.parse(JSON.stringify(x));
+const numberV=x=>Number.isFinite(x)?(x/1e24).toFixed(3)+'V':'—';
+const original=window.optimizeMax;
+if(typeof original!=='function')return;
+let accepted=null,lastReport=null,busy=false;
+let r90CompareOff=false; const r90Comparisons=[];
+function signature(){return JSON.stringify({skill:state.skill,player:state.player,system:state.system,auto:state.auto,set:localStorage.getItem('tower-swords-r28-set-preview')});}
+function evaluate(eq,limits,layout){
+ const prior=window.__r56OptimizationSetOverride;
+ try{if(layout)window.__r56OptimizationSetOverride=layout;const old=window.__r90AuditNoSetBonus;try{window.__r90AuditNoSetBonus=r90CompareOff;return betaEvaluateEquipmentEq(eq,limits);}finally{window.__r90AuditNoSetBonus=old;}}
+ finally{if(prior===undefined)delete window.__r56OptimizationSetOverride;else window.__r56OptimizationSetOverride=prior;}
+}
+// Re-evaluate the SAME equipment under both score rules. Restore audit mode
+// even on errors, so neither normal UI nor the other search can be contaminated.
+function fixedPair(eq,limits,layout){
+ const prior=r90CompareOff;
+ try{
+   r90CompareOff=false;const on=evaluate(eq,limits,layout);
+   r90CompareOff=true;const off=evaluate(eq,limits,layout);
+   const pack=r=>r?{damage:r.critDamage,skillAtk:r.skillAtk,skillLv:r.skillLv,element:r.elem,spell:r.spell,crit:r.crit,cd:r.cd}:null;
+   return {on:pack(on),off:pack(off),delta:on&&off?on.critDamage-off.critDamage:null,ratio:on&&off&&off.critDamage?on.critDamage/off.critDamage:null};
+ }finally{r90CompareOff=prior;}
+}
+function r92SkillIdentity(){
+ const sk=activeSkill(),selected=Number(state.skill?.id);
+ const catalog=skills.find(x=>x.id===selected);
+ return {selectedId:selected,activeId:sk?.id,activeName:sk?.name,catalogName:catalog?.name??null,
+   idMatched:!!catalog&&Number(sk?.id)===selected,nameMatched:!!catalog&&catalog.name===sk?.name};
+}
+// Audit candidates only at changed slots: the trusted baseline was built by the
+// original optimizer, whose canonical representation may include fixed/legacy
+// fields not reproduced in the current editable-options list.
+function verifyChanges(eq,defs,changed){
+ const byKey=new Map(defs.map(d=>[d.key,d]));
+ const errors=[];
+ for(const [d,o] of changed){
+  const def=byKey.get(d.key);
+  const pair=eq?.[d.gear]?.[d.slot];
+  if(!def||!pair||!def.opts.some(q=>q.type===pair[0]&&Math.abs(Number(q.value)-Number(pair[1]))<1e-7))errors.push(d.key+'：變更值不在合法候選內');
+ }
+ // Reject more than one special trait per gear, including unmodified slots.
+ for(const [gear,slots] of Object.entries(eq||{})){
+  const count=Object.values(slots||{}).filter(pair=>Array.isArray(pair)&&(pair[0]==='所有魔法等級'||R9_TRAITS.some(tr=>tr[0]===pair[0]))).length;
+  if(count>1)errors.push(gear+'：超過一格特殊特性');
+ }
+ return errors;
+}
+function baselineDiagnostics(eq,defs){
+ const byKey=new Map(defs.map(d=>[d.key,d])),mismatches=[];
+ for(const [gear,slots] of Object.entries(eq||{}))for(const [slot,pair] of Object.entries(slots||{})){
+  if(!Array.isArray(pair))continue;
+  const def=byKey.get(gear+'|'+slot);
+  if(!def){mismatches.push(gear+'|'+slot+'：搜尋候選表沒有此欄位');continue;}
+  if(!def.opts.some(o=>o.type===pair[0]&&Math.abs(Number(o.value)-Number(pair[1]))<1e-7))
+   mismatches.push(gear+'|'+slot+'：原始 '+pair[0]+' '+pair[1]+' 不在當前候選表');
+ }
+ return mismatches;
+}
+window.optimizeMax=function(args={}){
+ const base=original(args);
+ if(r90CompareOff||!accepted||accepted.sig!==signature()||!base?.eq||base.status!=='dynamic')return base;
+ // An improvement cannot be reused against an unrelated baseline/configuration.
+ if(accepted.baseDamage!==base.critDamage||JSON.stringify(base.setLayout||{})!==accepted.layoutKey)return base;
+ const score=evaluate(accepted.eq,args,accepted.layout);
+ if(!score||score.critDamage<=base.critDamage)return base;
+ return {...base,...score,eq:clone(accepted.eq),setLayout:base.setLayout,setLayoutSource:base.setLayoutSource,source:'r83-verified-local-improvement'};
+};
+function ready(){
+ const host=document.getElementById('r82-audit')||document.getElementById('autoPane');if(!host)return;
+ const pane=document.getElementById('r82-audit')||document.createElement('section');
+ pane.id='r83-audit';
+ pane.innerHTML='<h3>進階傷害最佳化</h3><p class="small">在原本自動推薦上執行受控多起點、雙欄位與三欄位聯合搜尋，套用更高且符合暴擊／冷卻門檻的合法配置。與手動配裝獨立；執行時間依裝置而異。搜尋結果為目前找到的較佳配置，不保證數學上的全域最大值。</p><div class="r82-actions"><button id="r83-check" type="button">進行進階最佳化</button></div><pre id="r83-log" aria-live="polite">尚未執行</pre>';
+ if(!pane.parentElement)host.appendChild(pane);
+ const log=document.getElementById('r83-log'),button=document.getElementById('r83-check');
+ const say=s=>{log.textContent=s;};
+ const breathe=()=>new Promise(r=>setTimeout(r,0));
+ button.addEventListener('click',async()=>{
+  if(busy)return;busy=true;button.disabled=true;
+  try{
+   r90CompareOff=false;
+   const sig=signature(),minCrit=Number(document.getElementById('critTarget')?.value||0),minCooldown=Number(document.getElementById('cdTarget')?.value||0);
+   const limits={minCrit,minCooldown};
+   // Always search the original optimizer's result, not an earlier audit replacement.
+   const base=original(limits),defs=betaAutoSlotDefs();
+   if(base?.status!=='dynamic'||!base.eq)throw Error('目前沒有可檢查的推薦配置');
+   let initial=clone(base.eq);const layout=base.setLayout||null;
+   const baseline=evaluate(initial,limits,layout);
+   const baselineFixedPair=null;
+   const skillIdentity=r92SkillIdentity();
+   if(!baseline)throw Error('原始推薦未達暴擊／冷卻門檻或傷害無法重算（非詞條驗證失敗）');
+   const baselineWarnings=baselineDiagnostics(initial,defs);
+   let best={eq:clone(initial),damage:baseline.critDamage,changes:[]};let tested=0,feasible=0,invalidTrait=0,invalidLimit=0;const rounds=[];const path=[];let chosen=[];
+   const attempt=(changes)=>{
+    const eq=clone(initial);
+    for(const [d,o] of changes)(eq[d.gear]??={})[d.slot]=[o.type,o.value];
+    tested++;
+    if(verifyChanges(eq,defs,changes).length){invalidTrait++;return;}
+    const result=evaluate(eq,limits,layout);if(!result){invalidLimit++;return;}
+    feasible++;
+    if(result.critDamage>best.damage)best={eq,damage:result.critDamage,changes:changes.map(([d,o])=>`${d.key}→${o.type} ${o.value}`)};
+   };
+   // R89: deterministic, bounded seed exploration. These are legitimate whole-equipment
+   // alternatives evaluated with the same requirements; none reads manual equipment.
+   // This is a seed *screen*, not proof of a global optimum.
+   const seedStats={attempted:0,feasible:0,better:0,selected:null};
+   const seedBase=clone(initial);
+   const seedGroups=['暴擊率','冷卻時間','法術傷害','火焰法術傷害','冰系法術傷害','閃電法術傷害','普通法術傷害','所有魔法等級'];
+   const pool=defs.filter(d=>d.opts.length>1);
+   for(let g=0;g<seedGroups.length;g++){
+    const label=seedGroups[g];
+    const slots=pool.filter(d=>d.opts.some(o=>o.type===label));
+    if(!slots.length)continue;
+    // Rotate stable seeds across different parts of the build; never modify fixed or manual state.
+    for(let trial=0;trial<4;trial++){
+     const eq=clone(seedBase),changed=[];
+     for(let z=0;z<Math.min(3,slots.length);z++){
+      const d=slots[(trial*3+z*7+g)%slots.length];
+      if(changed.some(c=>c[0].key===d.key))continue;
+      const option=d.opts.find(o=>o.type===label);
+      if(!option)continue;
+      (eq[d.gear]??={})[d.slot]=[option.type,option.value];
+      changed.push([d,option]);
+     }
+     if(!changed.length)continue;
+     seedStats.attempted++;
+     if(verifyChanges(eq,defs,changed).length)continue;
+     const score=evaluate(eq,limits,layout);
+     if(!score)continue;
+     seedStats.feasible++;
+     if(score.critDamage>best.damage){best={eq,damage:score.critDamage,changes:changed.map(([d,o])=>`${d.key}→${o.type} ${o.value}`)};seedStats.better++;seedStats.selected=label;}
+    }
+    if(signature()!==sig)throw Error('搜尋期間條件已變更，結果已作廢');
+    await breathe();
+   }
+   // Several complete improving neighborhoods: a candidate that requires >3 simultaneous
+   // changes may be reachable through a sequence of 2/3-field steps. Each round
+   // is compared against the best verified feasible point, not the original baseline.
+   for(let round=1;round<=3;round++){
+   const beforeRound=best.damage;
+   initial=clone(best.eq);
+   say(`第 ${round}/3 輪：搜尋雙欄位合法配置中…`);await breathe();
+   for(let i=0;i<defs.length;i++){
+    for(let j=i+1;j<defs.length;j++)for(const a of defs[i].opts)for(const b of defs[j].opts)attempt([[defs[i],a],[defs[j],b]]);
+    if(i%3===0){if(signature()!==sig)throw Error('搜尋期間條件已變更，結果已作廢');say(`雙欄位進度 ${i+1}/${defs.length}｜已比較 ${tested} 組`);await breathe();}
+   }
+   // Controlled 3-field audit: choose the varying offensive Basic slots, then a
+   // second pass of selected Plus slots. No claim that this covers all triples.
+   chosen=defs.filter(d=>d.opts.length>1&&(/Basic[23]$/.test(d.slot)||d.gear==='戒1'&&d.slot==='Basic4'||d.gear==='戒2'&&d.slot==='Basic4')).slice(0,17);
+   say(`雙欄位完成，檢查 ${chosen.length} 格中的三欄位組合…`);await breathe();
+   for(let i=0;i<chosen.length;i++){
+    for(let j=i+1;j<chosen.length;j++)for(let k=j+1;k<chosen.length;k++)for(const a of chosen[i].opts)for(const b of chosen[j].opts)for(const c of chosen[k].opts)attempt([[chosen[i],a],[chosen[j],b],[chosen[k],c]]);
+    if(i%2===0){if(signature()!==sig)throw Error('搜尋期間條件已變更，結果已作廢');say(`三欄位進度 ${i+1}/${chosen.length}｜已比較 ${tested} 組`);await breathe();}
+   }
+   rounds.push({round,from:beforeRound,to:best.damage,improved:best.damage>beforeRound});if(best.damage>beforeRound)path.push({round,changes:best.changes.slice(),damage:best.damage});
+   if(best.damage<=beforeRound+Math.max(1e-9,Math.abs(beforeRound)*1e-13))break;
+   }
+   const found=best.damage>baseline.critDamage;
+   // Require same baseline and input state before integrating into normal UI.
+   if(signature()!==sig)throw Error('條件已變更，取消套用');
+   if(found&&!r90CompareOff){accepted={sig,baseDamage:base.critDamage,layoutKey:JSON.stringify(base.setLayout||{}),layout,eq:clone(best.eq)};refreshAuto(true);}
+   const winnerFixedPair=null;
+   lastReport={version:'V2.2-release-optimizer',baselineFixedPair,winnerFixedPair,skillIdentity,conditions:limits,skill:{id:activeSkill().id,name:activeSkill().name},baseline:baseline.critDamage,best:best.damage,improved:found,changes:best.changes,path,rounds,tested,feasible,rejectedByTrait:invalidTrait,rejectedByLimitsOrFormula:invalidLimit,fields:defs.length,threeFieldScope:chosen.map(d=>d.key),baselineWarnings,seedStats,setBonusEnabled:!r90CompareOff,setLayout:clone(layout||{}),globallyProven:false,applied:found&&!r90CompareOff};window.TS_R87_AUDIT_LAST=JSON.parse(JSON.stringify(lastReport));
+   say([`進階最佳化完成（${r90CompareOff?'不計套裝增傷；不套用':'計入套裝增傷'}）｜${found?'找到較高候選':'未找到更好的局部候選'}`,`固定原推薦：計入 ${numberV(baselineFixedPair.on?.damage)} ／排除 ${numberV(baselineFixedPair.off?.damage)}（只切換套裝效果）`,`固定搜尋勝出：計入 ${numberV(winnerFixedPair.on?.damage)} ／排除 ${numberV(winnerFixedPair.off?.damage)}`,`技能 ID：${skillIdentity.selectedId} / ${skillIdentity.activeId}；名稱 ${skillIdentity.activeName}；對應 ${skillIdentity.idMatched&&skillIdentity.nameMatched?'一致':'異常'}`,`原自動傷害：${numberV(baseline.critDamage)}`,`稽核最高：${numberV(best.damage)}`,`共評估 ${tested} 組，符合條件 ${feasible} 組，詞條限制排除 ${invalidTrait} 組，門檻/運算排除 ${invalidLimit} 組`,`多起點預篩：${seedStats.attempted} 組，合法 ${seedStats.feasible} 組，改善 ${seedStats.better} 次；起點類別 ${seedStats.selected||"無"}` ,`共執行 ${rounds.length} 輪，改善 ${rounds.filter(r=>r.improved).length} 輪`,...best.changes,...(baselineWarnings.length?['原始配置與當前候選表差異：'+baselineWarnings.length+' 格',...baselineWarnings.slice(0,8)]:[]),'未證明全域最大值；未窮舉全部三格或四格以上組合。'].join('\n'));
+  }catch(e){say('進階最佳化失敗：'+(e?.message||e));}
+  finally{busy=false;button.disabled=false;}
+ });
+ }
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
+})();</script>
+
+
+
 </body></html>
 <!-- STAGING R49: testing only, Lv600 optional extrapolation; title formula untouched -->
 <!-- STAGING R35: three set tiers changed to 3/5/7/9; final magic multiplier stays preview-only. -->
@@ -10103,14 +10296,11 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 @media(max-width:620px){.pet-game-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
 @media(max-width:360px){.pet-game-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 </style>
-
 <script id="r14-localized-update-banner">(()=>{'use strict';
 const messages={'zh-Hant':'V2.2 更新｜新增稱號裝備 ×1.5、套裝持有計數、55 把技能 Lv.1～170、自動最佳化與四語介面。V2.3 將完整整合新特性。','en':'V2.2 Update | Equipped title ×1.5, owned set artifacts, 55 skill tables (Lv.1–170), optimization, and four languages. V2.3 will fully integrate new traits.','ko':'V2.2 업데이트｜장착 칭호 ×1.5, 보유 세트 유물, 55개 스킬 Lv.1–170, 자동 최적화, 4개 언어. V2.3에서 신규 특성을 완전히 통합합니다.','ja':'V2.2 更新｜称号装備 ×1.5、セット所持判定、55スキル Lv.1～170、自動最適化、4言語対応。V2.3で新特性を全面的に統合します。'};
 function apply(){const e=document.querySelector('.safe-title-announcement');if(!e)return;const l=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';e.textContent=messages[l]||messages['zh-Hant'];}
 function init(){apply();document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(apply,25)));window.addEventListener('tower-language-changed',apply);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();</script>
-
-
 <style id="r34-compact-localization">
 #r28-set-panel{padding:13px!important;margin:10px 0!important}
 #r28-set-panel #r28-explain{font-size:11px;line-height:1.4;margin:5px 0!important}
@@ -10157,5 +10347,4 @@ function init(){apply();const root=document.querySelector('#manualPane');if(root
  window.addEventListener('tower-language-changed',()=>setTimeout(apply,20));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();</script>
-
 <style id="r67-title-single-language">#v21TitleRoot .v21-title-card-ko{display:none!important}</style>
