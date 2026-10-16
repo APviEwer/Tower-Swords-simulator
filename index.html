@@ -3,8 +3,8 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
-<title>Tower &amp; Swords｜Build &amp; Damage Analysis｜V2.2</title>
-<meta content="Tower &amp; Swords Build &amp; Damage Analysis｜V2.2｜APviEwer 建置實驗室" name="description"/>
+<title>Tower &amp; Swords｜Build &amp; Damage Analysis｜V2.2.1</title>
+<meta content="Tower &amp; Swords Build &amp; Damage Analysis｜V2.2.1｜APviEwer 建置實驗室" name="description"/>
 <meta content="no-referrer" name="referrer"/>
 <meta content="#0b0f14" name="theme-color"/>
 <meta content="website" property="og:type"/>
@@ -1566,8 +1566,76 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 .language-switch .lang-btn{min-width:0!important;width:auto!important;padding-left:2px!important;padding-right:2px!important}
 @media(max-width:620px){.language-switch .lang-btn{font-size:8px!important}}
 </style>
-<meta content="V2.2-game2.6" name="ts-release"/>
-<style id="v22-one-click-cleanup">#r83-audit,#r82-audit{display:none!important}</style></head>
+<meta content="V2.2.1-game2.6" name="ts-release"/>
+<style id="v22-one-click-cleanup">#r83-audit,#r82-audit{display:none!important}</style><style id="r3-set-compact-css">
+#r28-set-panel{padding:12px 14px!important;margin:10px 0!important}
+#r28-set-panel #r28-title{font-size:14px!important}
+#r28-set-panel #r28-calcstatus{font-size:10px!important;padding:3px 8px!important}
+#r28-set-panel .r34-summaries{margin:8px 0!important}
+#r28-set-panel .r34-set-details{margin:5px 0!important}
+#r28-set-panel .r34-set-details>summary{padding:9px 12px!important}
+.r3-set-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:8px 0}
+.r3-set-row{display:flex;align-items:center;gap:9px;min-width:0;padding:7px 8px;border:1px solid #253847;border-radius:9px;background:#07141d}
+.r3-set-label{flex:0 0 66px;font-size:11px;font-weight:750;color:#cad9e0}
+.r3-set-choices{flex:1;min-width:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.r3-set-choice{min-height:32px;padding:4px 2px;border:1px solid #314351;border-radius:7px;background:#0c1c27;color:#aebdc7;font-size:10.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+.r3-set-choice.is-active{background:#55452d;color:#f6dfad;border-color:#b79559;box-shadow:inset 0 0 0 1px rgba(243,207,130,.15)}
+.r3-set-choice:hover{filter:brightness(1.3)}
+.r3-set-owned{font-size:10px;color:#9fc1c9;line-height:1.5}
+.r3-set-work{position:absolute;right:18px;top:63px;font-size:11px;color:#b4d6c0}
+@media(max-width:800px){.r3-set-grid{grid-template-columns:1fr}.r3-set-row{padding:6px}.r3-set-label{flex-basis:67px}.r3-set-choice{min-height:36px;font-size:11px}}
+</style>
+<style id="r4-set-layout-fix">
+/* R4: readable selection grid. Override the older auto-fit/150px rule. */
+#r28-set-panel #r28-slot-inputs.r3-set-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important;margin:8px 0!important;align-items:stretch}
+#r28-set-panel .r3-set-row{display:grid!important;grid-template-columns:minmax(65px,auto) minmax(0,1fr)!important;align-items:center!important;gap:8px!important;min-width:0!important;padding:8px 10px!important}
+#r28-set-panel .r3-set-label{min-width:0;flex:none!important;white-space:nowrap;font-size:12px!important}
+#r28-set-panel .r3-set-choices{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;min-width:0!important;width:100%!important}
+#r28-set-panel .r3-set-choice{min-width:0!important;min-height:36px!important;padding:5px 2px!important;white-space:nowrap!important;font-size:11px!important;line-height:1.1!important}
+#r28-set-panel .r3-set-owned{min-width:0;overflow-wrap:anywhere}
+/* Compact tier panels, while keeping each effect readable and full descriptions accessible. */
+#r28-set-panel #r28-set-results{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+#r28-set-panel .r4-effect-card{min-width:0}
+#r28-set-panel .r4-effect-names{max-height:2.8em;overflow:auto;scrollbar-width:thin}
+#r28-set-panel .r4-tier-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px!important}
+#r28-set-panel .r4-tier-item{min-width:0}
+#r28-set-panel #r34-effects-details:not([open]) #r28-set-results{display:none!important}
+@media(max-width:1080px){#r28-set-panel #r28-slot-inputs.r3-set-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#r28-set-panel #r28-set-results{grid-template-columns:1fr!important}}
+@media(max-width:680px){#r28-set-panel #r28-slot-inputs.r3-set-grid{grid-template-columns:1fr!important}#r28-set-panel .r3-set-row{grid-template-columns:minmax(66px,95px) minmax(0,1fr)!important}#r28-set-panel .r3-set-choice{min-height:39px!important;font-size:11px!important}#r28-set-panel .r4-tier-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:375px){#r28-set-panel .r3-set-row{grid-template-columns:1fr!important;gap:5px!important}}
+</style>
+<style id="r5-set-ultra-compact">
+/* R5: dense responsive slot dashboard, one editor for one selected slot. */
+#r28-set-panel #r28-slot-inputs.r3-set-grid{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:5px!important;align-items:stretch}
+#r28-set-panel .r5-gear-chip{display:flex;align-items:center;justify-content:space-between;gap:5px;min-width:0;min-height:38px;padding:7px 9px;border:1px solid #294251;border-radius:8px;background:#081924;color:#c5d5dd;cursor:pointer;text-align:left}
+#r28-set-panel .r5-gear-name{min-width:0;font-size:11.5px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#r28-set-panel .r5-gear-value{flex:none;font-size:11px;color:#a8bac6}
+#r28-set-panel .r5-gear-chip.has-set .r5-gear-value{color:#e8cf9a}
+#r28-set-panel .r5-gear-chip.is-editing{border-color:#d0a65e;background:#263028;box-shadow:inset 0 0 0 1px #846b41}
+#r28-set-panel .r5-gear-chip:hover{border-color:#789daf}
+#r28-set-panel .r5-owned-line{display:flex;align-items:center;min-width:0;min-height:32px;padding:4px 8px;font-size:10.5px;color:#91b7c2;grid-column:1/-1;overflow-wrap:anywhere}
+#r28-set-panel .r5-active-editor{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:9px 12px;background:#112530;border:1px solid #607d86;border-radius:10px}
+#r28-set-panel .r5-active-editor>strong{font-size:12px;white-space:nowrap}
+#r28-set-panel .r5-active-choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));flex:1;gap:7px}
+#r28-set-panel .r5-active-choices .r3-set-choice{min-height:38px!important;font-size:12px!important}
+#r28-set-panel #r34-set-summary{margin:4px 0 6px!important}
+#r28-set-panel .r34-set-details{margin:3px 0!important}
+#r28-set-panel .r34-set-details>summary{padding:8px 10px!important;font-size:11px!important}
+@media(max-width:1050px){#r28-set-panel #r28-slot-inputs.r3-set-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media(max-width:700px){#r28-set-panel #r28-slot-inputs.r3-set-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}#r28-set-panel .r5-gear-chip{min-height:36px;padding:6px 7px}#r28-set-panel .r5-gear-name,#r28-set-panel .r5-gear-value{font-size:10.5px}#r28-set-panel .r5-active-editor{display:block}#r28-set-panel .r5-active-choices{margin-top:8px;gap:5px}}
+@media(max-width:390px){#r28-set-panel #r28-slot-inputs.r3-set-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+</style>
+<style id="r13-r14-style">
+.r13-tools{margin:10px 0 12px;padding:12px;border:1px solid #2d4554;border-radius:13px;background:#081822}
+.r13-top{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}.r13-top strong{font-size:12px;color:#e8d2a0}.r13-tags{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0}
+.r13-tag,.r13-recent-btn{font:inherit;font-size:11px;padding:8px 10px;border:1px solid #2c4758;border-radius:8px;background:#0d202b;color:#c3d5dd;cursor:pointer;min-height:36px}
+.r13-tag.active{color:#f1d69b;border-color:#ba995c;background:#30291d}.r13-lookup{width:100%;min-height:42px;background:#091924;color:#f0f5f7;border:1px solid #385369;border-radius:9px;padding:9px;font-size:16px}
+.r13-results{max-height:225px;overflow:auto;display:none;gap:5px;margin-top:7px;overscroll-behavior:contain}.r13-tools:focus-within .r13-results{display:grid}.r13-tools.r13-browse .r13-results{display:grid}
+.r13-item{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:42px;padding:8px 10px;border:1px solid #203b4b;border-radius:9px;background:#0c1c26;color:#e6eff1;text-align:left;font:inherit;font-size:12px;cursor:pointer}.r13-item.selected{border-color:#bd9e61;background:#30291e}.r13-item small{color:#9aacb4;white-space:nowrap}.r13-recent{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.r13-lookup-panel[hidden],.r13-results[hidden]{display:none!important}
+.r14-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin:13px 0}.r14-metric{background:#0b1d27;border:1px solid #294252;border-radius:12px;padding:12px;min-width:0}.r14-metric b{font-size:clamp(14px,2vw,22px);font-variant-numeric:tabular-nums;display:block;overflow-wrap:anywhere;color:#f2e0b7;margin-top:7px}.r14-metric small{font-size:11px;color:#9fb3be}.r14-metric.delta b{color:#83d5a9}.r14-message{font-size:11px;color:#9eb4bd;line-height:1.5;margin-top:4px}.r14-report-fold{margin-top:10px}.r14-report-fold summary{font-size:12px}.r14-report-fold>.grid{margin:10px!important}
+@media(max-width:650px){.r14-summary{grid-template-columns:1fr 1fr}.r14-metric.delta{grid-column:1/-1}.r13-top{align-items:flex-start}}
+@media print{.r13-tools{display:none!important}.r14-report-fold{display:block!important}.r14-report-fold>.grid{display:block!important}.r14-report-fold>summary{display:none!important}}
+</style></head>
 <body>
 <script>
 /* APviEwer Release bootstrap: reset test-state once, then preserve normal user saves. */
@@ -1640,7 +1708,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <div class="release-help-panel release-version-panel">
 <div class="release-help-head"><h2 id="releaseVersionTitle">版本資訊</h2><button aria-label="關閉" class="release-version-close release-help-close" type="button">×</button></div>
 <div class="release-help-steps release-version-rows">
-<div class="release-help-step"><strong id="releaseVersionSimulatorLabel">模擬器版本</strong><span id="releaseVersionSimulatorValue">V. 2.2</span></div>
+<div class="release-help-step"><strong id="releaseVersionSimulatorLabel">模擬器版本</strong><span id="releaseVersionSimulatorValue">V2.2.1</span></div>
 <div class="release-help-step"><strong id="releaseVersionGameLabel">適用遊戲版本</strong><span id="releaseVersionGameValue">V. 2.6</span></div>
 </div>
 </div>
@@ -1648,6 +1716,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <main>
 <section class="screen active">
 <div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div>
+<div id="r15-updates-entry" class="r15-update-entry no-print" data-no-translate><span class="r15-new-dot"></span><strong id="r15-updates-short">模擬前使用提示</strong><span id="r15-updates-desc">設定前建議先閱讀注意事項</span><button type="button" id="r15-updates-open">查看使用提示 ›</button></div>
 <div class="grid two">
 <div class="card"><h3>角色／主武</h3>
 <div class="field"><label>角色等級</label><input id="level" max="600" min="1" type="number"/></div>
@@ -1813,11 +1882,11 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <div class="hero"><h2>03｜裝備配置</h2><p>自動最佳化與手動實裝共用同一套已驗證裝備規則；所有輸入即時同步全域 Build State。</p></div><div class="beta-build-strip no-print" id="betaBuildStrip"></div><div id="betaModeMount"></div>
 <section class="card no-print" id="r28-set-panel" style="margin:14px 0;border:1px solid #8c784f">
 <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><h3 id="r28-title" style="margin:0">新增套裝｜配置與效果預覽</h3><span id="r28-calcstatus" style="border:1px solid #aa8645;border-radius:16px;padding:4px 10px;color:#e8c77d;font-size:12px">僅統計，尚未納入任何傷害計算</span></div>
-<p class="small" id="r28-explain" style="margin-top:10px">請依實際裝備選擇各部位的套裝；武器最多計入 1 件，人工製品僅指定為主人工製品的 1 件列入。九件計數、可混搭；此區目前不連動原裝備詞條及傷害公式。</p>
-<div aria-live="polite" class="r34-summaries" id="r34-set-summary"></div>
-<details class="r34-set-details" id="r34-gear-details"><summary id="r34-gear-summary">配置 11 個裝備部位 / Configure gear / 장비 구성</summary> <div id="r28-slot-inputs" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:9px;margin:14px 0"></div> </details>
+<p class="small" id="r28-explain" style="margin-top:10px;display:none">請依實際裝備選擇各部位的套裝；武器最多計入 1 件，人工製品僅指定為主人工製品的 1 件列入。九件計數、可混搭；此區目前不連動原裝備詞條及傷害公式。</p>
+<div aria-live="polite" class="r34-summaries" id="r34-set-summary"></div><div id="r3-set-work" class="r3-set-work" aria-live="polite"></div>
+<details class="r34-set-details" id="r34-gear-details" open><summary id="r34-gear-summary">配置 11 個裝備部位 / Configure gear / 장비 구성</summary> <div id="r28-slot-inputs" class="r3-set-grid"></div> </details>
 <details class="r34-set-details" id="r34-effects-details"><summary id="r34-effect-summary">檢視分階段套裝效果 / View set tiers / 세트 효과 보기</summary> <div id="r28-set-results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px"></div> </details>
-<div class="note" id="r28-tier-note" style="margin-top:8px">官方已確認套裝效果會依件數分階段累加，但目前資料無法確證各效果對應的啟動件數；因此本區只列官方效果供核對，不會宣稱達成任何未驗證門檻。</div>
+<div class="note" id="r28-tier-note" style="margin-top:8px;display:none">官方已確認套裝效果會依件數分階段累加，但目前資料無法確證各效果對應的啟動件數；因此本區只列官方效果供核對，不會宣稱達成任何未驗證門檻。</div>
 </section>
 <div id="manualPane">
 <div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><h3>手動實裝</h3><span class="version" id="manualPicked">已選 0 格</span></div>
@@ -1828,6 +1897,17 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 <div class="note r64-internal-only" hidden="" id="r23ManualAffixLive" style="margin-top:8px">元素及法傷：等待輸入。</div>
 </div>
 <div class="note">手動實裝：武器的 ATK 已為固定詞條、頭盔的 DEF 已為固定詞條，因此這些裝備只有三個可選詞條位置。唯一會影響角色面板 ATK 的武器為主武器；主武 ATK 請直接於 01「角色設定」輸入，不需在此重複設定。每格先選合法詞條，再於下方輸入遊戲實際值；ATK 支援 K／M／B／T／Q／R。</div>
+<style id="v22-affix-ux-style">
+.v22-affix-controls{margin:14px 0 10px;padding:14px;border:1px solid rgba(217,184,111,.38);border-radius:13px;background:linear-gradient(135deg,#102430,#0b161e)}
+.v22-affix-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px;color:#ebeff0}
+.v22-affix-head span{font-size:11px;color:#a6c4d2}.v22-affix-head b{color:#f1d896}
+.v22-affix-row{display:grid;grid-template-columns:minmax(195px,1fr) minmax(200px,1.2fr) auto;align-items:end;gap:9px;margin-top:12px}
+.v22-affix-row label{display:grid;gap:5px;font-size:11px;color:#acbdc8;font-weight:800}
+.v22-affix-row input,.v22-affix-row select{width:100%;min-width:0;min-height:42px;padding:9px;background:#07141e;border:1px solid #365266;border-radius:9px;color:#f2f5f7}
+.v22-affix-row button{min-height:42px}.v22-affix-controls p{margin:8px 0 0;line-height:1.5}
+#equipmentGrid select.v22-cross-element{border-color:#d3a95d!important;color:#f3d7a1!important}
+@media(max-width:700px){.v22-affix-row{grid-template-columns:1fr 1fr}.v22-affix-row label:nth-child(2){grid-column:1/-1;grid-row:2}.v22-affix-row button{grid-column:2;grid-row:1}.v22-affix-head{font-size:12px}}
+</style>
 <div class="eq-table" id="equipmentGrid" style="margin-top:12px"></div>
 <div class="manual-summary" style="margin-top:14px"><div class="small" style="margin-bottom:8px">手動詞條統計｜格數＋合計值</div><div class="summary-list" id="manualSummaryList"></div></div>
 </div>
@@ -3050,14 +3130,78 @@ const specs=[
   {name:'盔甲',basic:null,basicCount:0,plus:'standardPlus',plusCount:3},
   {name:'鞋子',basic:null,basicCount:0,plus:'standardPlus',plusCount:3},
 ];
+/* V2.2 Page 03 input UX test: display filter only; never change calculation rules. */
+const v22AffixUI={mode:'smart',query:''};
+const v22ElementTerms={fire:['火焰'],ice:['冰系'],lightning:['閃電'],normal:['普通']};
+function v22Element(){return skillElementKey(activeSkill());}
+function v22AffixElement(name){
+  for(const [key,words] of Object.entries(v22ElementTerms))if(words.some(w=>name.includes(w)))return key;
+  return '';
+}
+function v22UiOptions(allowed,stored){
+  const all=allowed.filter(x=>v22AffixUI.mode==='all'||!v22AffixElement(x)||v22AffixElement(x)===v22Element());
+  const q=v22AffixUI.query.trim().toLocaleLowerCase();
+  const visible=q?all.filter(x=>x.toLocaleLowerCase().includes(q)):all;
+  // Display out-of-filter current selection so saving and changing elements never destroy a build.
+  if(stored&&!visible.includes(stored))visible.unshift(stored);
+  return visible;
+}
+function v22UpdateToolbar(){
+  const label=document.getElementById('v22CurrentElement');
+  if(label)label.textContent=({fire:'火焰',ice:'冰系',lightning:'閃電',normal:'普通'})[v22Element()]||'普通';
+  const count=document.getElementById('v22AffixModeNote');
+  if(count)count.textContent=v22AffixUI.mode==='smart'?'僅篩選顯示；保留共通詞條與已選配置':'顯示原有全部合法詞條';
+}
+function v22UpdateSelectOptions(){
+  const grid=document.getElementById('equipmentGrid');if(!grid)return;
+  grid.querySelectorAll('select[data-key]').forEach(sel=>{
+    const key=sel.dataset.key;
+    const allowed=JSON.parse(sel.dataset.allowed||'[]');
+    const stored=state.manual.equipment[key]?.type||'';
+    const current=sel.value||stored;
+    const visible=v22UiOptions(allowed,current);
+    sel.replaceChildren(new Option('—',''));
+    if(current&&!allowed.includes(current)){
+      const opt=new Option('⚠ 原配置（不在現行合法清單）：'+current,current);
+      sel.add(opt);
+    }
+    const shared=visible.filter(x=>!v22AffixElement(x));
+    const specific=visible.filter(x=>v22AffixElement(x));
+    for(const [title,items] of [['共通／其他合法詞條',shared],['元素專屬詞條',specific]]){
+      if(!items.length)continue;
+      const group=document.createElement('optgroup');group.label=title;
+      items.forEach(x=>group.appendChild(new Option(x===current&&!allowed.includes(x)?'⚠ '+x:x,x)));
+      sel.appendChild(group);
+    }
+    sel.value=current;
+    if(sel.value!==current)sel.value='';
+    sel.title=current&&v22AffixElement(current)&&v22AffixElement(current)!==v22Element()&&v22AffixUI.mode==='smart'?'已選詞條屬於其他元素，保留原配置':'';
+    sel.classList.toggle('v22-cross-element',!!sel.title);
+  });
+  v22UpdateToolbar();
+}
+function v22InitControls(){
+  if(document.getElementById('v22AffixControls'))return;
+  const target=document.getElementById('equipmentGrid');if(!target)return;
+  const wrap=document.createElement('div');wrap.id='v22AffixControls';wrap.className='v22-affix-controls no-print';
+  wrap.innerHTML=`<div class="v22-affix-head"><strong>詞條智慧選擇｜03 手動實裝</strong><span>目前技能元素：<b id="v22CurrentElement">—</b></span></div>
+    <div class="v22-affix-row"><label>顯示方式<select id="v22AffixMode"><option value="smart">智慧篩選（對應元素＋共通）</option><option value="all">全部合法詞條</option></select></label>
+    <label>搜尋詞條<input id="v22AffixSearch" type="search" placeholder="例：魔法等級、暴擊、冷卻" autocomplete="off" /></label>
+    <button id="v22AffixClear" type="button" class="btn secondary">清除搜尋</button></div>
+    <p id="v22AffixModeNote" class="small"></p><p class="small">切換 01 技能時同步更新元素；已選其他元素詞條仍保留並標示。搜尋只影響下拉候選項，不修改已填數值。</p>`;
+  target.parentNode.insertBefore(wrap,target);
+  wrap.querySelector('#v22AffixMode').addEventListener('change',e=>{v22AffixUI.mode=e.target.value;v22UpdateSelectOptions()});
+  wrap.querySelector('#v22AffixSearch').addEventListener('input',e=>{v22AffixUI.query=e.target.value;v22UpdateSelectOptions()});
+  wrap.querySelector('#v22AffixClear').addEventListener('click',()=>{v22AffixUI.query='';wrap.querySelector('#v22AffixSearch').value='';v22UpdateSelectOptions()});
+  document.getElementById('skill')?.addEventListener('change',()=>queueMicrotask(v22UpdateSelectOptions));
+}
 function makeManualSlot(options,key){
   const item=state.manual.equipment[key]||{};
   const stored=item.type||'';
-  const v=options.includes(stored)?stored:'';
-  if(stored && !v) delete state.manual.equipment[key];
-  const value=v?(item.value??''):'';
-  const opts=options.map(x=>`<option value="${x}" ${x===v?'selected':''}>${x}</option>`).join('');
-  return `<div class="manual-slot"><select data-key="${key}"><option value="">—</option>${opts}</select><input data-value-key="${key}" value="${escHtml(value)}" placeholder="實際值" ${v?'':'disabled'} inputmode="decimal"></div>`;
+  const value=stored?(item.value??''):'';
+  const opts=options.map(x=>`<option value="${escHtml(x)}" ${x===stored?'selected':''}>${escHtml(x)}</option>`).join('');
+  // The underlying full legal list is preserved for each field, regardless of filtering.
+  return `<div class="manual-slot"><select data-key="${key}" data-allowed="${escHtml(JSON.stringify(options))}"><option value="">—</option>${opts}</select><input data-value-key="${key}" value="${escHtml(value)}" placeholder="實際值" ${stored?'':'disabled'} inputmode="decimal"></div>`;
 }
 function renderEquipment(){
   const el=$('#equipmentGrid');el.innerHTML='';
@@ -3077,6 +3221,8 @@ function renderEquipment(){
     }
     row.innerHTML=html; el.appendChild(row);
   });
+  v22InitControls();
+  v22UpdateSelectOptions();
   saveState(state);
   el.querySelectorAll('select[data-key]').forEach(sel=>sel.onchange=()=>{
     const key=sel.dataset.key;
@@ -5002,7 +5148,7 @@ function refreshReport(){
   renderSummaryRows($('#reportManualStats'),manualTypes.map(([type,name])=>{const g=manualItems.filter(x=>x.type===type);return {name,count:g.length,total:formatManualTotal(type,g)}}));
   const autoGroups=at.available?[{name:'ATK',count:at.items.filter(x=>x.type==='ATK').length,total:formatGameBigInt(at.atk)},{name:'元素法術傷害',count:at.items.filter(x=>x.type.startsWith('元素法術傷害')).length,total:`${at.element}%`},{name:'法術傷害',count:at.items.filter(x=>x.type==='法術傷害').length,total:`${at.spell}%`},{name:'暴擊率',count:at.items.filter(x=>x.type==='暴擊率').length,total:`${at.crit}%`},{name:'冷卻時間',count:at.items.filter(x=>x.type==='冷卻時間').length,total:`${at.cooldown}%`},{name:'所有魔法等級',count:at.items.filter(x=>x.type==='所有魔法等級').length,total:`${at.skillLv} Lv`}]:[];
   renderSummaryRows($('#reportAutoStats'),autoGroups);$('#reportAutoNote').textContent=at.available?'此方案固定第一頁與第二頁目前狀態，只由裝備詞條滿足暴擊／冷卻條件並追求最高傷害。':'目前條件下沒有可行的合法裝備配置。';
-  const now=new Date();$('#reportMeta').innerHTML=[reportCondition('模擬器版本','V2.2'),reportCondition('遊戲版本','V2.6'),reportCondition('目前模式',state.mode==='auto'?'自動最佳化':'手動實裝'),reportCondition('匯出時間',now.toLocaleString('zh-TW')),reportCondition('Copyright','© APviEwer. All Rights Reserved.')].join('');
+  const now=new Date();$('#reportMeta').innerHTML=[reportCondition('模擬器版本','V2.2.1'),reportCondition('遊戲版本','V2.6'),reportCondition('目前模式',state.mode==='auto'?'自動最佳化':'手動實裝'),reportCondition('匯出時間',now.toLocaleString('zh-TW')),reportCondition('Copyright','© APviEwer. All Rights Reserved.')].join('');
 }
 function refreshOverview(){refreshReport();}
 $('#level').value=state.player.level; $('#displayAtk').value=state.weapon.displayAtk; $('#weaponLv').value=state.weapon.equipmentLevel;
@@ -5872,7 +6018,7 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
     'zh-Hant':{
       helpBtn:'操作說明', reportBtn:'問題回報', close:'關閉',
       helpTitle:'模擬器操作說明',
-      updateTitle:'更新資訊｜V2.2', updateText:'已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。稱號 48 項已完成三語名稱校正，但稱號能力已納入 ATK 與傷害；手動詞條與系統操作介面已更新。V2.3 將完整整合新特性。',
+      updateTitle:'更新資訊｜V2.2.1', updateText:'已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。稱號 48 項已完成三語名稱校正，但稱號能力已納入 ATK 與傷害；手動詞條與系統操作介面已更新。V2.3 預計加入新特性比較功能，機制與數值仍待驗證。',
       intro:'本模擬器依「角色設定 → 系統效果 → 裝備配置 → 分析報告」四個步驟運作。建議先依遊戲實際面板建立角色條件，再進行手動實裝或自動最佳化。設定會儲存在目前瀏覽器中，重新整理後仍會保留。',
       steps:[
         ['01｜角色設定','輸入角色等級、主武固定 ATK 與主武裝備 Lv，再選擇目前要模擬的武器技能。角色等級、裝備等級與技能選擇都會影響後續傷害與最佳化結果，因此請以遊戲目前實際數值為準。'],
@@ -5892,7 +6038,7 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
     },
     en:{
       helpBtn:'Guide', reportBtn:'Report Issue', close:'Close', helpTitle:'Simulator Guide',
-      updateTitle:'Update Info｜V2.2', updateText:'Updated the character level cap to Lv600, added the new weapon skills from game V2.6, updated all 103 Artifacts (including raised caps for existing Artifacts and newly added Artifacts), and extended Magic Enhancement in the Magic Tree to Lv10 according to the character level cap. Titles now contribute to damage; Japanese added as the fourth language. V2.3 will fully integrate new traits.',
+      updateTitle:'Update Info｜V2.2.1', updateText:'Updated the character level cap to Lv600, added the new weapon skills from game V2.6, updated all 103 Artifacts (including raised caps for existing Artifacts and newly added Artifacts), and extended Magic Enhancement in the Magic Tree to Lv10 according to the character level cap. Titles now contribute to damage; Japanese added as the fourth language. V2.3 is planned to introduce trait comparisons after validation.',
       intro:'This simulator follows four steps: Character Setup → System Effects → Equipment Build → Analysis Report. Start by matching your actual in-game character panel, then use Manual Build or Auto Optimize. Your settings are saved in this browser and remain after refresh.',
       steps:[
         ['01｜Character Setup','Enter character level, main-weapon fixed ATK, and main-weapon equipment Lv, then select the weapon skill to simulate. Character level, equipment level, and skill selection all affect damage and optimization results, so use your current in-game values.'],
@@ -5912,7 +6058,7 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
     },
     ko:{
       helpBtn:'사용 안내', reportBtn:'문제 신고', close:'닫기', helpTitle:'시뮬레이터 사용 안내',
-      updateTitle:'업데이트 정보｜V2.2', updateText:'캐릭터 레벨 상한을 Lv600으로 확장하고, 게임 V2.6 신규 무기 스킬을 추가했으며, 기존 아티팩트 상한 상승과 신규 아티팩트를 포함한 103개 아티팩트 전체 데이터를 업데이트했습니다. 또한 캐릭터 레벨 상한 규칙에 따라 마법 트리의 「마법 강화」를 Lv10까지 확장했습니다. 칭호 능력치가 피해 계산에 반영되며 일본어가 네 번째 언어로 추가되었습니다. V2.3에서는 신규 특성을 완전히 통합합니다.',
+      updateTitle:'업데이트 정보｜V2.2.1', updateText:'캐릭터 레벨 상한을 Lv600으로 확장하고, 게임 V2.6 신규 무기 스킬을 추가했으며, 기존 아티팩트 상한 상승과 신규 아티팩트를 포함한 103개 아티팩트 전체 데이터를 업데이트했습니다. 또한 캐릭터 레벨 상한 규칙에 따라 마법 트리의 「마법 강화」를 Lv10까지 확장했습니다. 칭호 능력치가 피해 계산에 반영되며 일본어가 네 번째 언어로 추가되었습니다. V2.3에서는 검증 후 신규 특성 비교 기능을 추가할 예정입니다.',
       intro:'이 시뮬레이터는 캐릭터 설정 → 시스템 효과 → 장비 구성 → 분석 보고서의 4단계로 동작합니다. 먼저 게임의 실제 패널에 맞춰 캐릭터 조건을 설정한 뒤 수동 빌드 또는 자동 최적화를 사용하세요. 설정은 현재 브라우저에 저장되며 새로고침 후에도 유지됩니다.',
       steps:[
         ['01｜캐릭터 설정','캐릭터 레벨, 주무기 고정 ATK, 주무기 장비 Lv를 입력한 뒤 시뮬레이션할 무기 스킬을 선택합니다. 캐릭터 레벨, 장비 레벨, 스킬 선택은 이후 피해량과 최적화 결과에 영향을 주므로 현재 게임 수치를 사용하세요.'],
@@ -5931,7 +6077,7 @@ if(window.TOWER_SWORD_OFFICIAL_ICONS?.skills){
       reportTip:'신고 예시: Lv 500｜주무기 ATK 178｜빙월참｜수동 빌드｜3페이지 최종 피해 표시 이상｜iPhone Safari｜스크린샷 첨부.'
     }
   };
-  MODAL.ja={...MODAL['zh-Hant'],helpBtn:'操作ガイド',reportBtn:'問題を報告',close:'閉じる',helpTitle:'シミュレーター操作ガイド',updateTitle:'更新情報｜V2.2',updateText:'称号能力をダメージ計算に追加、称号装備で能力×1.5、セット遺物の所持判定、55種類のスキル Lv.1～170、自動最適化、日本語を含む4言語に対応。V2.3では新しい特性を全面的に統合予定。',reportTitle:'問題を報告'};
+  MODAL.ja={...MODAL['zh-Hant'],helpBtn:'操作ガイド',reportBtn:'問題を報告',close:'閉じる',helpTitle:'シミュレーター操作ガイド',updateTitle:'更新情報｜V2.2.1',updateText:'称号能力をダメージ計算に追加、称号装備で能力×1.5、セット遺物の所持判定、55種類のスキル Lv.1～170、自動最適化、日本語を含む4言語に対応。V2.3では検証後に新特性の比較機能を追加予定です。',reportTitle:'問題を報告'};
   function lang(){const x=localStorage.getItem('towerSword.language')||document.documentElement.lang||'zh-Hant';return x.startsWith('en')?'en':x.startsWith('ko')?'ko':x.startsWith('ja')?'ja':'zh-Hant';}
   function renderModalI18n(){
     const L=MODAL[lang()]||MODAL['zh-Hant'];
@@ -6025,7 +6171,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     'zh-Hant':{
       title:'模擬前使用提示', sub:'依序完成設定，可避免條件遺漏並更快取得正確結果。',
       items:[
-        ['更新資訊｜V2.2','已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。稱號 48 項已完成三語名稱校正，但稱號能力已納入 ATK 與傷害；手動詞條與系統操作介面已更新。V2.3 將完整整合新特性。','update'],
+        ['更新資訊｜V2.2.1','已更新角色等級上限至 Lv600、遊戲 V2.6 新增武器技能、人工製品 103 件完整資料（含舊人工製品上限提升與新增人工製品），並將魔法樹「魔法強化」依角色等級上限延伸至 Lv10。稱號 48 項已完成三語名稱校正，但稱號能力已納入 ATK 與傷害；手動詞條與系統操作介面已更新。V2.3 預計加入新特性比較功能，機制與數值仍待驗證。','update'],
         ['進入 03 前會重新計算','完成 01「角色設定」或 02「系統效果」的輸入與調整後，進入 03「裝備配置」時，系統會依目前全部條件重新計算；若條件較多，請稍候片刻。'],
         ['角色等級異動請檢查魔法樹','若調整 01 的角色等級，請務必回到 02 檢查「魔法樹」設定，確認等級上限與目前配置仍符合需求。'],
         ['自動最佳化需要搜尋時間','03「裝備配置」是主要計算頁面。使用「自動最佳化」調整最低暴擊率或最低冷卻條件後，系統會重新搜尋最佳配置；條件越嚴格，計算時間可能略長。']
@@ -6034,7 +6180,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     en:{
       title:'Before You Calculate', sub:'Complete the setup in order to avoid missing conditions and get the correct result faster.',
       items:[
-        ['Update Info｜V2.2','Updated the character level cap to Lv600, added the new weapon skills from game V2.6, updated all 103 Artifacts (including raised caps for existing Artifacts and newly added Artifacts), and extended Magic Enhancement in the Magic Tree to Lv10 according to the character level cap. Titles now contribute to damage; Japanese added as the fourth language. V2.3 will fully integrate new traits.','update'],
+        ['Update Info｜V2.2.1','Updated the character level cap to Lv600, added the new weapon skills from game V2.6, updated all 103 Artifacts (including raised caps for existing Artifacts and newly added Artifacts), and extended Magic Enhancement in the Magic Tree to Lv10 according to the character level cap. Titles now contribute to damage; Japanese added as the fourth language. V2.3 is planned to introduce trait comparisons after validation.','update'],
         ['Recalculation when opening 03','After changing values in 01 Character Setup or 02 System Effects, opening 03 Equipment recalculates the simulator using the full current setup. If many conditions changed, please allow a moment for the result to update.'],
         ['Recheck Magic Tree after level changes','Whenever the character level in 01 is changed, review the Magic Tree in 02 to make sure its level limits and current allocation are still valid.'],
         ['Auto Optimize requires search time','03 Equipment is the main calculation page. In Auto Optimize, changing the minimum Critical Rate or Cooldown requirement starts a new search for the best setup; stricter conditions may take slightly longer.']
@@ -6043,7 +6189,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     ko:{
       title:'계산 전 안내', sub:'설정을 순서대로 완료하면 조건 누락을 줄이고 더 빠르게 정확한 결과를 확인할 수 있습니다.',
       items:[
-        ['업데이트 정보｜V2.2','캐릭터 레벨 상한을 Lv600으로 확장하고, 게임 V2.6 신규 무기 스킬을 추가했으며, 기존 아티팩트 상한 상승과 신규 아티팩트를 포함한 103개 아티팩트 전체 데이터를 업데이트했습니다. 또한 캐릭터 레벨 상한 규칙에 따라 마법 트리의 「마법 강화」를 Lv10까지 확장했습니다. 칭호 능력치가 피해 계산에 반영되며 일본어가 네 번째 언어로 추가되었습니다. V2.3에서는 신규 특성을 완전히 통합합니다.','update'],
+        ['업데이트 정보｜V2.2.1','캐릭터 레벨 상한을 Lv600으로 확장하고, 게임 V2.6 신규 무기 스킬을 추가했으며, 기존 아티팩트 상한 상승과 신규 아티팩트를 포함한 103개 아티팩트 전체 데이터를 업데이트했습니다. 또한 캐릭터 레벨 상한 규칙에 따라 마법 트리의 「마법 강화」를 Lv10까지 확장했습니다. 칭호 능력치가 피해 계산에 반영되며 일본어가 네 번째 언어로 추가되었습니다. V2.3에서는 검증 후 신규 특성 비교 기능을 추가할 예정입니다.','update'],
         ['03 진입 시 전체 재계산','01 캐릭터 설정 또는 02 시스템 효과에서 값을 변경한 뒤 03 장비 구성으로 이동하면 현재 모든 조건을 기준으로 다시 계산합니다. 변경 항목이 많다면 결과가 갱신될 때까지 잠시 기다려 주세요.'],
         ['레벨 변경 후 마법 트리 확인','01에서 캐릭터 레벨을 변경한 경우 02의 마법 트리를 다시 확인하여 레벨 제한과 현재 배치가 올바른지 확인해 주세요.'],
         ['자동 최적화에는 탐색 시간이 필요합니다','03 장비 구성은 핵심 계산 페이지입니다. 자동 최적화에서 최소 치명타율 또는 최소 쿨타임 조건을 바꾸면 최적 구성을 다시 탐색하며, 조건이 엄격할수록 계산 시간이 조금 더 걸릴 수 있습니다.']
@@ -9094,13 +9240,56 @@ function normalizeWeapons(preferred){
  for(const slot of order){const type=values[slot];if(type===''||type===undefined||type===null)continue;if(seen.has(String(type)))values[slot]='';else seen.add(String(type));}
 }
 normalizeWeapons();
+let setCalcTimer=0;
+function queueSetCalculation(){
+ clearTimeout(setCalcTimer);
+ const label=document.getElementById('r3-set-work');if(label)label.textContent='…';
+ setCalcTimer=setTimeout(()=>{
+  try{
+   if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();
+   if(typeof refreshManualSummary==='function')refreshManualSummary();
+   if(typeof refreshAuto==='function')refreshAuto(true);
+   if(typeof refreshReport==='function'&&state?.step===3)refreshReport();
+  }catch(e){console.error('[R3 set refresh]',e)}
+  const status=document.getElementById('r3-set-work');if(status)status.textContent='✓';
+ },320);
+}
+let activeSetSlot='';
 function render(){const l=lang(),data=L[l],m=messages[l];const root=document.getElementById('r28-set-panel');if(!root)return;
 root.querySelector('#r28-title').textContent=m.title;root.querySelector('#r28-calcstatus').textContent=l==='chinese'?'已計入手動與自動傷害（黑月／紅蓮）':l==='english'?'Applied to manual & auto damage (Black Moon / Crimson Lotus)':'수동·자동 피해량 적용 (흑월 / 홍련)';root.querySelector('#r28-explain').textContent=(l==='chinese'?'11 個部位可自由混搭。黑月普通、紅蓮火焰的 3／7 件元素加成及 9 件最終傷害已接入手動與自動；血影流血條件傷害仍待驗證。':l==='english'?'Mix 11 equipment slots. Black Moon normal / Crimson Lotus fire bonuses at 3, 7 and 9 pieces are included in manual and auto damage; Bloodshadow bleed-conditional damage awaits validation.':'11개 부위 혼합 가능. 흑월 일반 / 홍련 화염 3·7·9세트 피해량은 수동·자동 계산에 적용됩니다. 혈영 출혈 조건 피해는 미검증 상태입니다.');root.querySelector('#r28-tier-note').textContent=m.tip;
 const inputs=root.querySelector('#r28-slot-inputs');inputs.replaceChildren();
-slots.forEach((slot,i)=>{const wrap=document.createElement('label');wrap.style.cssText='display:flex;flex-direction:column;gap:5px;color:#d4dce4;font-size:13px';const label=document.createElement('span');label.textContent=slot==='artifact'?(l==='chinese'?'套裝人工製品｜持有自動計數':l==='english'?'Set artifacts | owned counts':'세트 유물 | 보유 자동 계산'):captions[l][i];if(slot==='artifact'){const info=document.createElement('div');info.style.cssText='padding:9px;border-radius:8px;background:#0a1e2a;border:1px solid #334d60;color:#d7e3e8;font-size:12px;line-height:1.5';info.textContent=[99,100,101].map((id,k)=>data.pieces[k][7]+': '+(ownedSetArtifact(k)?(l==='chinese'?'已持有 ✓':l==='english'?'Owned ✓':'보유 ✓'):(l==='chinese'?'未持有':l==='english'?'Not owned':'미보유'))).join(' · ');wrap.append(label,info);inputs.append(wrap);return;}const select=document.createElement('select');select.style.cssText='width:100%;padding:9px;border-radius:8px;background:#0a1e2a;color:#e2e8ef;border:1px solid #334d60';let opt=document.createElement('option');opt.value='';opt.textContent=m.none;select.append(opt);
-for(let k=0;k<3;k++){opt=document.createElement('option');opt.value=String(k);opt.textContent=data.pieces[k][pieceIndex[i]]||data.sets[k];select.append(opt)}
-select.value=values[slot]??'';select.addEventListener('change',()=>{values[slot]=select.value;normalizeWeapons(slot);try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{};render();
-  try{if(typeof betaAutoCache!=='undefined')betaAutoCache.clear();if(typeof refreshManualSummary==='function')refreshManualSummary();if(typeof refreshAuto==='function')refreshAuto(true);if(typeof refreshReport==='function'&&state?.step===3)refreshReport();}catch(e){console.error('[R36 set refresh]',e)}});wrap.append(label,select);inputs.append(wrap)});
+// R5: compact slot dashboard; only selected slot exposes the four choices.
+const short=l==='chinese'?['無','黑月','血影','紅蓮']:l==='korean'?['없음','흑월','혈영','홍련']:['None','Black','Blood','Lotus'];
+const selectedShort=l==='chinese'?['未選','黑月','血影','紅蓮']:l==='korean'?['없음','흑월','혈영','홍련']:['None','Black','Blood','Lotus'];
+slots.forEach((slot,i)=>{
+ if(slot==='artifact')return;
+ const active=activeSetSlot===slot;
+ const v=values[slot]??'';const k=v===''?-1:Number(v);
+ const btn=document.createElement('button');btn.type='button';btn.className='r5-gear-chip'+(active?' is-editing':'')+(k>=0?' has-set set-'+k:'');
+ btn.dataset.r6slot=slot;btn.dataset.r6set=String(k);btn.setAttribute('aria-pressed',String(active));btn.title=captions[l][i]+'：'+selectedShort[k+1];
+ const nm=document.createElement('span');nm.className='r5-gear-name';nm.textContent=captions[l][i];
+ const val=document.createElement('b');val.className='r5-gear-value';val.textContent=selectedShort[k+1];
+ btn.append(nm,val);btn.addEventListener('click',()=>{activeSetSlot=activeSetSlot===slot?'':slot;render()});inputs.append(btn);
+});
+const owned=document.createElement('div');owned.className='r5-owned-line';
+owned.textContent=(l==='chinese'?'人工製品（依持有）：':l==='korean'?'유물 (보유): ':'Artifacts (owned): ')+[99,100,101].map((id,k)=>data.pieces[k][7]+(ownedSetArtifact(k)?' ✓':' —')).join(' · ');
+inputs.append(owned);
+if(activeSetSlot&&slots.includes(activeSetSlot)&&activeSetSlot!=='artifact'){
+ const i=slots.indexOf(activeSetSlot);
+ const ed=document.createElement('div');ed.className='r5-active-editor';
+ const label=document.createElement('strong');label.textContent=captions[l][i]+'  '+(l==='chinese'?'選擇套裝':l==='korean'?'세트 선택':'Choose set');ed.append(label);
+ const choice=document.createElement('div');choice.className='r5-active-choices';choice.setAttribute('role','group');choice.setAttribute('aria-label',label.textContent);
+ for(let k=-1;k<3;k++){
+  const button=document.createElement('button');button.type='button';button.className='r3-set-choice'+((values[activeSetSlot]??'')===String(k<0?'':k)?' is-active':'');
+  button.textContent=short[k+1];button.title=k<0?m.none:(data.pieces[k][pieceIndex[i]]||data.sets[k]);button.setAttribute('aria-pressed',String((values[activeSetSlot]??'')===String(k<0?'':k)));
+  button.addEventListener('click',()=>{
+   const nv=k<0?'':String(k);if((values[activeSetSlot]??'')===nv){activeSetSlot='';render();return;}
+   values[activeSetSlot]=nv;normalizeWeapons(activeSetSlot);
+   try{localStorage.setItem('tower-swords-r28-set-preview',JSON.stringify(values))}catch{}
+   activeSetSlot='';render();queueSetCalculation();
+  });choice.append(button);
+ }ed.append(choice);inputs.append(ed);
+}
 renderResults()}
 function renderResults(){
  const l=lang(),d=L[l],m=messages[l],out=document.getElementById('r28-set-results');if(!out)return;
@@ -9134,21 +9323,21 @@ function renderResults(){
  out.replaceChildren();
  for(let k=0;k<3;k++){
   const count=setPieceCount(k);
-  const card=document.createElement('section');card.style.cssText='border:1px solid #365368;background:#081923;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px';
-  const head=document.createElement('div');head.style.cssText='display:flex;justify-content:space-between;gap:8px';
-  const name=document.createElement('strong');name.style.cssText='color:'+colors[k]+';font-size:16px';name.textContent=d.sets[k];
-  const qty=document.createElement('strong');qty.style.cssText='font-size:18px;color:#e7eef4';qty.textContent=count+'/9';head.append(name,qty);card.append(head);
-  const track=document.createElement('div');track.style.cssText='height:8px;background:#23323c;border-radius:99px;overflow:hidden';const fill=document.createElement('div');fill.style.cssText='height:100%;width:'+(100*count/9)+'%;background:'+colors[k]+';border-radius:99px';track.append(fill);card.append(track);
-  const names=document.createElement('div');names.style.cssText='font-size:12px;line-height:1.6;color:#a6bac8';names.textContent=translations.names+': '+(countedSlots.filter(slot=>values[slot]===String(k)).map(slot=>d.pieces[k][pieceIndex[slots.indexOf(slot)]]).join('、')||'—');card.append(names);
-  const list=document.createElement('div');list.style.cssText='display:flex;flex-direction:column;gap:8px;border-top:1px solid #263a48;padding-top:10px';
+  const card=document.createElement('section');card.className='r4-effect-card';card.style.cssText='border:1px solid #365368;background:#081923;border-radius:10px;padding:9px;display:flex;flex-direction:column;gap:5px';
+  const head=document.createElement('div');head.style.cssText='display:flex;justify-content:space-between;align-items:center;gap:8px';
+  const name=document.createElement('strong');name.style.cssText='color:'+colors[k]+';font-size:13px';name.textContent=d.sets[k];
+  const qty=document.createElement('strong');qty.style.cssText='font-size:14px;color:#e7eef4';qty.textContent=count+'/9';head.append(name,qty);card.append(head);
+  const track=document.createElement('div');track.style.cssText='height:4px;background:#23323c;border-radius:99px;overflow:hidden';const fill=document.createElement('div');fill.style.cssText='height:100%;width:'+(100*count/9)+'%;background:'+colors[k]+';border-radius:99px';track.append(fill);card.append(track);
+  const names=document.createElement('div');names.className='r4-effect-names';names.style.cssText='font-size:10px;line-height:1.4;color:#a6bac8' ;names.textContent=translations.names+': '+(countedSlots.filter(slot=>values[slot]===String(k)).map(slot=>d.pieces[k][pieceIndex[slots.indexOf(slot)]]).join('、')||'—');card.append(names);
+  const list=document.createElement('div');list.className='r4-tier-list';list.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;border-top:1px solid #263a48;padding-top:6px';
   for(let j=0;j<tiers.length;j++){
-    const active=count>=tiers[j],item=document.createElement('div');item.style.cssText='border:1px solid '+(active?colors[k]:'#304351')+';border-radius:8px;padding:9px 10px;background:'+(active?'#142b32':'#0b1a23')+';opacity:'+(active?'1':'0.68');
-    const label=document.createElement('strong');label.style.cssText='color:'+(active?'#a3e0b9':'#bdc8d0')+';font-size:12px';label.textContent='['+tiers[j]+'] '+(active?'● '+translations.on:'○ '+translations.off);item.append(label);
-    for(const v of effects[l][k][j]){const p=document.createElement('div');p.style.cssText='font-size:12px;line-height:1.55;margin-top:3px;color:'+(active?'#e0e9eb':'#a9b9c4');p.textContent=v;item.append(p)}list.append(item);
+    const active=count>=tiers[j],item=document.createElement('div');item.className='r4-tier-item';item.style.cssText='border:1px solid '+(active?colors[k]:'#304351')+';border-radius:6px;padding:5px 7px;background:'+(active?'#142b32':'#0b1a23')+';opacity:'+(active?'1':'0.68');
+    const label=document.createElement('strong');label.style.cssText='color:'+(active?'#a3e0b9':'#bdc8d0')+';font-size:10.5px';label.textContent='['+tiers[j]+'] '+(active?'● '+translations.on:'○ '+translations.off);item.append(label);
+    for(const v of effects[l][k][j]){const p=document.createElement('div');p.style.cssText='font-size:10.5px;line-height:1.35;margin-top:2px;color:'+(active?'#e0e9eb':'#a9b9c4');p.textContent=v;item.append(p)}list.append(item);
   }
   card.append(list);out.append(card);
  }
- const note=document.createElement('div');note.style.cssText='grid-column:1/-1;color:#b6cad5;background:#0a1c28;border:1px solid #314a5b;padding:12px;border-radius:9px;font-size:12px;line-height:1.6';note.textContent=translations.detail;out.append(note);
+ const note=document.createElement('div');note.style.cssText='grid-column:1/-1;color:#b6cad5;background:#0a1c28;border:1px solid #314a5b;padding:8px;border-radius:7px;font-size:10.5px;line-height:1.4';note.textContent=translations.detail;out.append(note);
  const compact=document.getElementById('r34-set-summary');if(compact){
   compact.replaceChildren();const short=l==='chinese'?['黑月','血影','紅蓮']:l==='korean'?['흑월','혈영','홍련']:['Black Moon','Bloodshadow','Crimson Lotus'];
   for(let k=0;k<3;k++){const count=setPieceCount(k);
@@ -9896,6 +10085,487 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 
 
+
+<!-- V2.2 Page 03: actual single-gear editor with same live data as the original overview -->
+<style id="v22-gear-focus-style">
+#v22GearEditor{margin:13px 0;padding:15px;border:1px solid rgba(216,178,102,.40);border-radius:15px;background:linear-gradient(145deg,#0e2330,#07131b);color:#eef4f5}
+#v22GearEditor *{box-sizing:border-box}
+.v22-gear-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}
+.v22-gear-head strong{font-size:15px;color:#f3d89c}
+.v22-gear-view{display:flex;gap:5px;padding:4px;border-radius:11px;background:#07141e;border:1px solid #294554}
+.v22-gear-view button{border:0;border-radius:8px;padding:9px 12px;background:transparent;color:#a9bbc6;cursor:pointer;font:inherit;font-weight:800;font-size:11px}
+.v22-gear-view button.active{background:#354237;color:#f4deaa;box-shadow:inset 0 0 0 1px #7c704c}
+#v22GearTabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-bottom:14px}
+.v22-gear-tab{min-height:57px;border:1px solid #304c5c;border-radius:9px;background:#0a1b27;color:#d9e4e8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;font:inherit}
+.v22-gear-tab.active{border-color:#e0b870;background:linear-gradient(135deg,#403724,#182b30);color:#ffdfa2}
+.v22-gear-tab span{font-size:12px;font-weight:850}.v22-gear-tab small{font-size:9px;color:#9eb7c1}
+.v22-gear-tab.active small{color:#e2c88e}
+.v22-gear-edit{padding:12px;border:1px solid #2a4657;border-radius:12px;background:#071721}
+.v22-gear-edit-top{display:flex;gap:9px;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap}
+.v22-gear-edit-top strong{font-size:15px;color:#f1d9a4}
+.v22-gear-copy{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.v22-gear-copy select,.v22-gear-copy button{min-height:36px;padding:7px;border:1px solid #375568;border-radius:8px;background:#0d2531;color:#e8f0f2;font-size:11px}
+.v22-gear-copy button{cursor:pointer;color:#f3dba3;border-color:#937948}
+.v22-gear-row{display:grid;grid-template-columns:85px minmax(0,1fr) minmax(105px,.42fr);gap:8px;align-items:center;padding:7px 0;border-top:1px solid #183140}
+.v22-gear-row>label{color:#bdcbd3;font-size:11px;font-weight:800}
+.v22-gear-row.is-plus>label{color:#e2c48e}
+.v22-gear-row select,.v22-gear-row input{width:100%;min-width:0;min-height:41px;padding:8px;border:1px solid #385467;border-radius:9px;background:#081923;color:#f4f7f8;font-size:12px}
+.v22-gear-row select:focus,.v22-gear-row input:focus{outline:1px solid #85cbd6}
+.v22-gear-row input:disabled{opacity:.48}
+.v22-gear-row.invalid select{border-color:#ba9464}
+.v22-gear-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:13px}
+.v22-gear-nav button{cursor:pointer;padding:10px 14px;border-radius:9px;border:1px solid #436077;color:#e6eef1;background:#102633;font:inherit;font-size:11px;font-weight:800}
+.v22-gear-nav span{font-size:11px;color:#9db5c1}
+.v22-gear-info{margin-top:10px;font-size:10.5px;line-height:1.6;color:#9bb3be}
+#v22GearEditor[data-view="quick"]~#equipmentGrid{display:none!important}
+#v22GearEditor[data-view="overview"] .v22-gear-focus-area{display:none}
+#v22GearEditor[data-view="overview"]~#equipmentGrid{display:grid!important}
+@media(max-width:640px){#v22GearEditor{padding:10px}#v22GearTabs{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.v22-gear-tab{min-height:51px}.v22-gear-tab span{font-size:10px}.v22-gear-tab small{font-size:8px}.v22-gear-edit{padding:9px}.v22-gear-row{grid-template-columns:70px minmax(0,1fr);gap:6px}.v22-gear-row input{grid-column:2}.v22-gear-copy{width:100%}.v22-gear-copy select{flex:1}}
+@media print{#v22GearEditor{display:none!important}#equipmentGrid{display:grid!important}}
+</style>
+<script id="v22-gear-focus-script">
+(()=>{'use strict';
+const names=['主武','武2','武3','頭盔','戒1','戒2','項鍊','耳環','盔甲','鞋子'];
+let chosen=names[0], view='quick', constructing=false;
+const $=(s,base=document)=>base.querySelector(s);
+function grid(){return $('#equipmentGrid')}
+function originals(name){let row=[...grid().querySelectorAll('.eq-row')].find(r=>r.querySelector('.eq-name')?.textContent.trim()===name);return row?[...row.querySelectorAll('select[data-key]')]:[]}
+function count(name){const slots=originals(name),used=slots.filter(s=>s.value).length;return `${used}/${slots.length}`}
+function updatedTabs(){const root=$('#v22GearTabs');if(!root)return;root.replaceChildren();names.forEach(name=>{const b=document.createElement('button');b.type='button';b.className='v22-gear-tab'+(name===chosen?' active':'');b.innerHTML=`<span>${name}</span><small>${count(name)} 已設定</small>`;b.addEventListener('click',()=>{chosen=name;draw()});root.append(b)})}
+function redrawChoices(){const root=$('#v22GearFields');if(!root)return;root.replaceChildren();const sels=originals(chosen);sels.forEach(original=>{
+ const key=original.dataset.key, input=[...grid().querySelectorAll('input[data-value-key]')].find(i=>i.dataset.valueKey===key);
+ const row=document.createElement('div');row.className='v22-gear-row'+(key.includes('.P')?' is-plus':'');
+ const title=document.createElement('label');title.textContent=(key.includes('.P')?'Plus ':'Basic ')+key.split('.').pop().slice(1);title.htmlFor='v22f-'+key.replaceAll('.','-');
+ const select=document.createElement('select');select.id=title.htmlFor;select.setAttribute('aria-label',chosen+' '+title.textContent);
+ // Copy the current filtered legal list; the original selector remains the sole source of legal options and calculation state.
+ [...original.children].forEach(opt=>select.append(opt.cloneNode(true)));
+ select.value=original.value;
+ const inp=document.createElement('input');inp.type='text';inp.inputMode='decimal';inp.placeholder='實際值';inp.value=input?.value||'';inp.disabled=!select.value;inp.setAttribute('aria-label',chosen+' '+title.textContent+' 數值');
+ select.addEventListener('change',()=>{original.value=select.value;original.dispatchEvent(new Event('change',{bubbles:true}));inp.value=input?.value||'';inp.disabled=!select.value;updatedTabs()});
+ inp.addEventListener('input',()=>{if(!input)return;input.value=inp.value;input.dispatchEvent(new Event('input',{bubbles:true}))});
+ row.append(title,select,inp);root.append(row);
+ });
+ $('#v22GearTitle').textContent=chosen+'｜快速設定';
+ $('#v22GearIndex').textContent=(names.indexOf(chosen)+1)+' / '+names.length;
+ const cp=$('#v22CopySource');cp.replaceChildren(new Option('複製來源裝備…',''));names.filter(n=>n!==chosen&&originals(n).length===sels.length).forEach(n=>cp.add(new Option(n,n)));
+}
+function draw(){if(constructing)return;constructing=true;try{updatedTabs();redrawChoices();const root=$('#v22GearEditor');root.dataset.view=view;root.querySelectorAll('[data-gear-view]').forEach(b=>{const active=b.dataset.gearView===view;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))})}finally{constructing=false}}
+function copyGear(){const from=$('#v22CopySource').value;if(!from||!window.confirm(`將「${from}」的可對應詞條複製到「${chosen}」？此操作會覆蓋目標裝備的已填詞條。`))return;
+ const src=originals(from),dst=originals(chosen);const bySlot=new Map(src.map(s=>[s.dataset.key.split('.').pop(),s]));
+ for(const target of dst){const source=bySlot.get(target.dataset.key.split('.').pop());if(!source)continue;
+ const candidate=source.value;const legal=JSON.parse(target.dataset.allowed||'[]');if(candidate&&!legal.includes(candidate))continue;
+ const oldInput=$(`input[data-value-key="${source.dataset.key}"]`,grid());const nextInput=$(`input[data-value-key="${target.dataset.key}"]`,grid());
+ target.value=candidate;target.dispatchEvent(new Event('change',{bubbles:true}));if(nextInput&&!nextInput.disabled){nextInput.value=oldInput?.value||'';nextInput.dispatchEvent(new Event('input',{bubbles:true}))}
+ }
+ draw();}
+function init(){const gridEl=grid();if(!gridEl||$('#v22GearEditor'))return;
+ const wrap=document.createElement('section');wrap.id='v22GearEditor';wrap.className='no-print';wrap.dataset.view=view;
+ wrap.innerHTML=`<div class="v22-gear-head"><strong>裝備總覽＋單件快速編輯</strong><div class="v22-gear-view"><button data-gear-view="quick" type="button">單件快速編輯</button><button data-gear-view="overview" type="button">全部裝備總覽</button></div></div>
+ <div class="v22-gear-focus-area"><div id="v22GearTabs"></div><div class="v22-gear-edit"><div class="v22-gear-edit-top"><strong id="v22GearTitle"></strong><div class="v22-gear-copy"><select id="v22CopySource" aria-label="複製來源"></select><button id="v22GearCopy" type="button">複製詞條</button></div></div><div id="v22GearFields"></div><div class="v22-gear-nav"><button id="v22GearPrev" type="button">← 上一件</button><span id="v22GearIndex"></span><button id="v22GearNext" type="button">下一件 →</button></div></div><p class="v22-gear-info">本頁直接連動原本的手動實裝資料與即時傷害；詞條候選與上方的元素智慧篩選同步。原橫向總覽仍可隨時切換。</p></div>`;
+ gridEl.before(wrap);
+ wrap.querySelectorAll('[data-gear-view]').forEach(b=>b.addEventListener('click',()=>{view=b.dataset.gearView;draw()}));
+ $('#v22GearPrev').addEventListener('click',()=>{chosen=names[(names.indexOf(chosen)+9)%10];draw()});
+ $('#v22GearNext').addEventListener('click',()=>{chosen=names[(names.indexOf(chosen)+1)%10];draw()});
+ $('#v22GearCopy').addEventListener('click',copyGear);
+ const controls=$('#v22AffixControls');if(controls){controls.addEventListener('input',()=>queueMicrotask(draw));controls.addEventListener('change',()=>queueMicrotask(draw));controls.addEventListener('click',e=>{if(e.target.closest('button'))queueMicrotask(draw)})}
+ $('#skill')?.addEventListener('change',()=>setTimeout(draw,0));
+ // When other UI rebuilds the overview, the quick editor reconnects to the new authoritative inputs.
+ let queued=false;new MutationObserver(()=>{if(constructing||queued)return;queued=true;queueMicrotask(()=>{queued=false;draw()})}).observe(gridEl,{childList:true});
+ gridEl.addEventListener('change',()=>queueMicrotask(()=>{if(view==='overview')updatedTabs()}));
+ draw();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<style id="r6-modal-style">
+#r34-set-summary .r34-set-pill{cursor:pointer;transition:border-color .15s,transform .15s}
+#r34-set-summary .r34-set-pill:hover,#r34-set-summary .r34-set-pill:focus-visible{outline:2px solid #8ab4c3;outline-offset:1px;transform:translateY(-1px)}
+#r34-gear-details,#r34-effects-details{display:none!important}
+.r6-backdrop{position:fixed;inset:0;z-index:11000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,5,10,.76);overscroll-behavior:contain}
+.r6-backdrop.is-open{display:flex}
+.r6-panel{display:flex;flex-direction:column;width:min(720px,100%);max-height:min(90dvh,850px);min-height:0;border-radius:17px;border:1px solid #446073;background:#0b1b26;box-shadow:0 20px 80px #000a;overflow:hidden;color:#eaf0f2}
+.r6-head{display:flex;flex:none;justify-content:space-between;align-items:center;gap:12px;padding:14px 17px;background:#102633;border-bottom:1px solid #304d5e}
+.r6-head strong{font-size:16px}.r6-head small{display:block;color:#a4bdc8;margin-top:3px}
+.r6-close{height:36px;width:36px;flex:none;border-radius:9px;border:1px solid #4c6979;background:#172d3b;color:white;font-size:22px;cursor:pointer}
+.r6-scroll{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:13px 17px;scrollbar-width:thin}
+.r6-section-title{font-size:13px;color:#e9c984;margin:12px 0 8px;font-weight:800}
+.r6-effect .r4-effect-card{width:100%;box-sizing:border-box}.r6-effect .r4-effect-names{max-height:none!important;overflow:visible!important}
+.r6-effect .r4-tier-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.r6-slot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.r6-slot{display:grid;grid-template-columns:minmax(70px,1fr) minmax(0,1.2fr);gap:5px;align-items:center;padding:8px;border-radius:9px;border:1px solid #294455;background:#0b202c;font-size:12px}
+.r6-slot span{min-width:0;overflow-wrap:anywhere}
+.r6-slot button{min-height:35px;padding:5px 6px;border:1px solid #425968;border-radius:7px;background:#172a35;color:#d1dee2;cursor:pointer;font-size:11px}
+.r6-slot button.is-current{border-color:#c49b4e;background:#59462c;color:#ffdea5}
+.r6-slot button:hover{border-color:#b4cbd3}
+.r6-legend{font-size:11px;color:#9bb5c0;line-height:1.5;margin:8px 0}
+.r6-foot{flex:none;display:flex;justify-content:flex-end;align-items:center;border-top:1px solid #304656;padding:9px 15px;background:#102430}
+.r6-foot button{border:1px solid #9b8050;border-radius:9px;padding:9px 22px;background:#393024;color:#f5dbac;cursor:pointer}
+@media(max-width:640px){.r6-backdrop{padding:0;align-items:flex-end}.r6-panel{width:100%;max-height:calc(100dvh - max(10px,env(safe-area-inset-top)));border-radius:17px 17px 0 0;padding-bottom:env(safe-area-inset-bottom);}.r6-head{padding:11px 13px}.r6-scroll{padding:10px 12px}.r6-slot-grid{grid-template-columns:1fr}.r6-effect .r4-tier-list{grid-template-columns:1fr!important}.r6-slot{grid-template-columns:minmax(80px,1fr) minmax(0,1.3fr)}}
+/* Title details: mobile floating content must never escape the visual viewport. */
+.v21-title-float{box-sizing:border-box;max-height:calc(100dvh - 22px);overflow-y:auto;overscroll-behavior:contain;overflow-wrap:anywhere;scrollbar-width:thin}
+.v21-title-float .v21-title-float-top{position:sticky;top:-10px;z-index:2;background:#102431;border-radius:8px;padding:3px}
+@media(max-width:620px){.v21-title-float{position:fixed!important;left:10px!important;top:50%!important;transform:translateY(-50%)!important;width:calc(100vw - 20px)!important;max-width:440px!important;max-height:calc(100dvh - 30px)!important;overflow:auto!important;padding:12px!important}.v21-title-float:before{display:none!important}.v21-title-float-name{font-size:14px!important}.v21-title-float-desc,.v21-title-float-row b,.v21-title-float-warning{font-size:11px!important}.v21-title-float-row span{font-size:10px!important}}
+@media(max-width:390px){.v21-title-float{left:8px!important;width:calc(100vw - 16px)!important;max-height:calc(100dvh - 16px)!important}}
+</style>
+<script id="r6-sets-modal-js">(()=>{'use strict';
+const q=s=>document.querySelector(s);let chosen=-1,previousFocus=null;
+const sl=['weapon','weapon2','weapon3','armor','helmet','boots','ring','ring2','necklace','earrings'];
+const labels={chinese:['主武器','武器 2','武器 3','盔甲','頭盔','鞋子','戒指 1','戒指 2','項鍊','耳環'],english:['Main weapon','Weapon 2','Weapon 3','Armor','Helmet','Boots','Ring 1','Ring 2','Necklace','Earrings'],korean:['주무기','무기 2','무기 3','갑옷','투구','신발','반지 1','반지 2','목걸이','귀걸이']};
+function l(){const x=(document.documentElement.lang||'').toLowerCase();return x.startsWith('ko')?'korean':x.startsWith('en')?'english':'chinese'}
+function ensure(){let back=q('#r6-set-backdrop');if(back)return back;back=document.createElement('div');back.id='r6-set-backdrop';back.className='r6-backdrop';back.innerHTML='<div class="r6-panel" role="dialog" aria-modal="true" aria-labelledby="r6-set-title"><div class="r6-head"><div><strong id="r6-set-title"></strong><small id="r6-set-count"></small></div><button class="r6-close" type="button" aria-label="關閉">×</button></div><div class="r6-scroll"><div class="r6-effect"></div><div class="r6-section-title" id="r6-geartitle"></div><div class="r6-legend" id="r6-hint"></div><div class="r6-slot-grid" id="r6-slot-grid"></div></div><div class="r6-foot"><button type="button" class="r6-done">完成</button></div></div>';document.body.append(back);
+ back.addEventListener('pointerdown',e=>{if(e.target===back)close()});back.querySelector('.r6-close').addEventListener('click',close);back.querySelector('.r6-done').addEventListener('click',close);
+ return back;}
+function close(){let b=q('#r6-set-backdrop');if(b)b.classList.remove('is-open');chosen=-1;if(previousFocus?.isConnected)previousFocus.focus({preventScroll:true});previousFocus=null;}
+function currentSlot(slot){const el=[...document.querySelectorAll('#r28-slot-inputs .r5-gear-chip')].find(n=>n.textContent&&n.classList.contains('r5-gear-chip')&&n.dataset.r6slot===slot);return el;}
+function sync(){if(chosen<0)return;const back=ensure(),pills=[...q('#r34-set-summary')?.querySelectorAll('.r34-set-pill')||[]];const cards=[...q('#r28-set-results')?.querySelectorAll('.r4-effect-card')||[]];if(!pills[chosen])return;
+ let name=pills[chosen].querySelector('strong')?.textContent||'',count=pills[chosen].querySelector('b')?.textContent||'';
+ back.querySelector('#r6-set-title').textContent=name;back.querySelector('#r6-set-count').textContent=count;
+ const eff=back.querySelector('.r6-effect');eff.replaceChildren();if(cards[chosen])eff.append(cards[chosen].cloneNode(true));
+ const language=l(),tr=language==='chinese'?['裝備部位｜點選切換此套裝','已選此套裝的部位，點擊可移除；其他部位點擊即可改為此套裝。','移除','使用此套','完成']:language==='korean'?['장비 슬롯｜클릭하여 선택','선택된 슬롯을 클릭하여 해제하거나 이 세트로 변경하세요.','해제','이 세트 적용','완료']:['Gear slots | Tap to assign','Tap an equipped slot to remove, or another slot to assign this set.','Remove','Equip this set','Done'];
+ back.querySelector('#r6-geartitle').textContent=tr[0];back.querySelector('#r6-hint').textContent=tr[1];back.querySelector('.r6-done').textContent=tr[4];
+ const grid=back.querySelector('#r6-slot-grid');grid.replaceChildren();
+ sl.forEach((slot,i)=>{const chip=currentSlot(slot);if(!chip)return;const idx=Number(chip.dataset.r6set||'-1');const is=idx===chosen;const row=document.createElement('div');row.className='r6-slot';const text=document.createElement('span');text.textContent=labels[language][i]+' · '+(chip.querySelector('.r5-gear-value')?.textContent||'');const btn=document.createElement('button');btn.type='button';btn.className=is?'is-current':'';btn.textContent=is?tr[2]:tr[3];btn.addEventListener('click',()=>{
+ const real=currentSlot(slot);if(!real)return;
+ // Delegate to existing R5 controls so weapon uniqueness, persistence, and recalculation stay authoritative.
+ real.click();const editor=q('#r28-slot-inputs .r5-active-editor');if(editor){const opts=editor.querySelectorAll('.r3-set-choice');const choice=opts[is?0:chosen+1];choice?.click();}
+ sync();
+ });row.append(text,btn);grid.append(row)});
+}
+function open(k){const b=ensure();previousFocus=document.activeElement;chosen=k;sync();b.classList.add('is-open');b.querySelector('.r6-close').focus({preventScroll:true});}
+function init(){ensure();const sum=q('#r34-set-summary');if(!sum)return;
+ sum.addEventListener('click',e=>{const pill=e.target.closest('.r34-set-pill');if(!pill)return;const pills=[...sum.querySelectorAll('.r34-set-pill')];open(pills.indexOf(pill))});
+ sum.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const pill=e.target.closest('.r34-set-pill');if(!pill)return;e.preventDefault();open([...sum.querySelectorAll('.r34-set-pill')].indexOf(pill))});
+ const observer=new MutationObserver(()=>{[...sum.querySelectorAll('.r34-set-pill')].forEach((pill,k)=>{pill.tabIndex=0;pill.setAttribute('role','button');pill.setAttribute('aria-label',(pill.querySelector('strong')?.textContent||'')+' set details')});if(chosen>=0)sync()});observer.observe(sum,{childList:true});
+ const gear=q('#r34-gear-details');if(gear)gear.open=false;
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&chosen>=0){e.preventDefault();close()} });
+ // Reuse existing click-away behavior for all floating windows; never close on clicking content.
+ document.addEventListener('pointerdown',e=>{const pop=q('.v21-title-float');if(pop&&!pop.contains(e.target)&&!e.target.closest('#v21TitleGrid .v21-title-card'))pop.querySelector('.v21-title-float-close')?.click();},{capture:true});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();</script>
+<style id="r8-auto-ux-css">
+#autoPane .r8-condition-summary{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap;margin:4px 0 12px}
+#autoPane .r8-toggle{border:1px solid #456578;background:#0d2430;border-radius:10px;padding:10px 13px;color:#e1ecee;font-weight:750;cursor:pointer;min-height:42px}
+#autoPane .r8-trait-wrap{border:1px solid #294252;background:#081821;border-radius:13px;padding:10px 12px;margin-top:12px}
+#autoPane .r8-trait-wrap>summary{display:flex;justify-content:space-between;align-items:center;gap:8px;cursor:pointer;padding:7px 2px;font-weight:800;font-size:12px;color:#e9edf0;list-style:none}
+#autoPane .r8-trait-wrap>summary:after{content:'＋';color:#ddb975}#autoPane .r8-trait-wrap[open]>summary:after{content:'−'}
+#autoPane .r8-trait-wrap .auto-trait-grid{margin-top:12px}
+#autoPane .r8-eq-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:16px 0 8px;flex-wrap:wrap}
+#autoPane .r8-eq-cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:8px 0 12px}
+#autoPane .r8-eq-card{appearance:none;min-width:0;border:1px solid #304b5c;border-radius:12px;background:linear-gradient(155deg,#102634,#07151d);padding:12px 8px;min-height:85px;color:#ecf2f4;cursor:pointer;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:7px}
+#autoPane .r8-eq-card:hover,#autoPane .r8-eq-card:focus-visible{border-color:#d6b571;outline:none;background:#142b36}
+#autoPane .r8-eq-card strong{font-size:12px;color:#f0d59b}#autoPane .r8-eq-card small{font-size:10px;color:#9fbbc8;line-height:1.4;overflow-wrap:anywhere}
+#autoPane .r8-hidden-source{display:none!important}
+.r8-backdrop{position:fixed;inset:0;z-index:11500;background:rgba(1,6,10,.78);display:none;justify-content:center;align-items:center;padding:16px}
+.r8-backdrop.is-open{display:flex}
+.r8-dialog{width:min(680px,100%);max-height:calc(100dvh - 32px);max-height:calc(100svh - 32px);background:linear-gradient(145deg,#102735,#07131b);border:1px solid #476273;border-radius:17px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 22px 60px #0009;color:#e8f0f2}
+.r8-modal-head{padding:15px 17px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;border-bottom:1px solid #2c4757}
+.r8-modal-head b{color:#f1d69c;font-size:17px}.r8-modal-close{background:#1a3441;border:1px solid #466272;color:#fff;border-radius:9px;min-width:42px;min-height:42px;cursor:pointer;font-size:20px}
+.r8-modal-body{padding:15px 17px;overflow-y:auto;overscroll-behavior:contain;min-height:0;flex:1;-webkit-overflow-scrolling:touch}
+.r8-modal-body .auto-slots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.r8-modal-body .auto-slot{display:block;padding:10px;overflow-wrap:anywhere;white-space:normal}.r8-modal-body .auto-slot b{display:block;margin-bottom:4px;color:#b8cbd3}
+.r8-modal-foot{flex-shrink:0;padding:10px 17px max(10px,env(safe-area-inset-bottom));border-top:1px solid #2c4757;text-align:right}
+.r8-modal-foot button{background:#c5a464;color:#15120b;border:0;border-radius:9px;padding:10px 23px;min-height:42px;font-weight:800;cursor:pointer}
+@media(max-width:850px){#autoPane .r8-eq-cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:640px){#autoPane .r8-eq-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}#autoPane .r8-eq-card{min-height:67px;padding:10px} .r8-backdrop{padding:0;align-items:flex-end}.r8-dialog{width:100%;max-height:calc(100dvh - max(12px,env(safe-area-inset-top)));max-height:calc(100svh - max(12px,env(safe-area-inset-top)));border-radius:18px 18px 0 0}.r8-modal-body .auto-slots{grid-template-columns:1fr}}
+@media print{#autoPane .r8-eq-cards{display:none!important}#autoEquipmentGrid.r8-hidden-source{display:grid!important}.r8-backdrop{display:none!important}}
+</style>
+<script id="r8-auto-ux">(()=>{'use strict';
+function init(){const pane=document.getElementById('autoPane'),trait=document.getElementById('autoTraitConditions'),grid=document.getElementById('autoEquipmentGrid');if(!pane||!trait||!grid)return;
+// Keep the genuine selectors and their existing listeners in their original DOM subtree.
+const details=document.createElement('details');details.className='r8-trait-wrap';details.id='r8-trait-details';
+const heading=document.createElement('summary');heading.innerHTML='<span>Basic 詞條／特性指定</span><span class="small">點擊展開編輯</span>';details.append(heading);
+trait.parentNode.insertBefore(details,trait);details.append(trait);
+const note=trait.querySelector('.auto-trait-head');if(note)note.style.marginTop='10px';
+// Original optimized equipment DOM remains authoritative for all calculations and reports.
+const parent=grid.parentNode;const h=document.createElement('div');h.className='r8-eq-header';h.innerHTML='<strong>最佳配裝｜點選裝備查看詞條</strong><span class="small">10 件裝備快速總覽</span>';
+const cards=document.createElement('div');cards.id='r8AutoCards';cards.className='r8-eq-cards';parent.insertBefore(h,grid);parent.insertBefore(cards,grid);grid.classList.add('r8-hidden-source');
+const overlay=document.createElement('div');overlay.className='r8-backdrop';overlay.id='r8AutoBackdrop';overlay.innerHTML='<div class="r8-dialog" role="dialog" aria-modal="true" aria-labelledby="r8AutoTitle"><div class="r8-modal-head"><b id="r8AutoTitle">裝備詞條</b><button type="button" class="r8-modal-close" aria-label="關閉">×</button></div><div class="r8-modal-body" id="r8AutoBody"></div><div class="r8-modal-foot"><button type="button">完成</button></div></div>';document.body.append(overlay);
+let focusBefore=null, oldOverflow='';const close=()=>{if(!overlay.classList.contains('is-open'))return;overlay.classList.remove('is-open');document.body.style.overflow=oldOverflow;focusBefore?.focus?.();};
+const open=(index)=>{const rows=[...grid.querySelectorAll('.auto-eq-row')],row=rows[index];if(!row)return;focusBefore=document.activeElement;overlay.querySelector('#r8AutoTitle').textContent=row.querySelector('.auto-eq-name')?.textContent?.trim()||'裝備詞條';const body=overlay.querySelector('#r8AutoBody');body.replaceChildren();const slots=row.querySelector('.auto-slots');if(slots)body.append(slots.cloneNode(true));else body.textContent='目前沒有可顯示的最佳化詞條';oldOverflow=document.body.style.overflow;document.body.style.overflow='hidden';overlay.classList.add('is-open');overlay.querySelector('.r8-modal-close').focus();};
+overlay.addEventListener('click',e=>{if(e.target===overlay||e.target.closest('.r8-modal-close,.r8-modal-foot button'))close();});
+document.addEventListener('keydown',e=>{if(!overlay.classList.contains('is-open'))return;if(e.key==='Escape'){e.preventDefault();close()}if(e.key==='Tab'){const visible=[...overlay.querySelectorAll('button')].filter(x=>x.getClientRects().length);if(!visible.length)return;const first=visible[0],last=visible.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+function render(){const rows=[...grid.querySelectorAll('.auto-eq-row')];cards.replaceChildren();if(!rows.length){const hint=document.createElement('div');hint.className='small';hint.textContent='尚無最佳化結果；設定條件後即可查看配裝。';cards.append(hint);return;}
+rows.forEach((row,i)=>{const name=row.querySelector('.auto-eq-name')?.textContent.trim()||'裝備';const n=row.querySelectorAll('.auto-slot').length;const b=document.createElement('button');b.type='button';b.className='r8-eq-card';const strong=document.createElement('strong');strong.textContent=name;const caption=document.createElement('small');caption.textContent=n?`${n} 個詞條｜點擊查看`:'尚無攻擊向候選';b.append(strong,caption);b.addEventListener('click',()=>open(i));cards.append(b);});}
+let scheduled=false;new MutationObserver(()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;render()})}).observe(grid,{childList:true});render();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();</script>
+<style id="r9-auto-difference-style">
+/* Differences are by affix identity, not by numeric value. */
+#autoPane .r8-eq-card.r9-has-difference{border-color:rgba(216,174,99,.73);background:linear-gradient(155deg,#28291f,#0b1c24)}
+#autoPane .r8-eq-card .r9-diff-count{display:inline-block;color:#f0d49c;font-weight:800;font-size:10px}
+#r8AutoBody .auto-slot.r9-different-affix{border-color:#ddba76!important;background:rgba(196,147,59,.22)!important;box-shadow:inset 3px 0 0 #e8bf78}
+#r8AutoBody .auto-slot.r9-different-affix span{color:#f5dda5!important;font-weight:800}
+#r8AutoBody .r9-diff-legend{padding:8px 10px;margin-bottom:11px;background:#182934;border:1px solid #455667;border-radius:9px;color:#bbccd4;font-size:11px}
+#r8AutoBody .r9-diff-legend strong{color:#f2d394}
+@media print{#autoPane .r8-eq-card.r9-has-difference{border-color:#aa7a35!important}}
+</style>
+<script id="r9-auto-difference-script">
+(()=>{'use strict';
+function init(){
+ const grid=document.getElementById('autoEquipmentGrid'),cards=document.getElementById('r8AutoCards'),overlay=document.getElementById('r8AutoBackdrop');
+ if(!grid||!cards||!overlay)return;
+ // The manual state is authoritative; a filtered dropdown must not alter its comparison semantics.
+ const manualType=(gear,slot)=>{
+   const match=/^(Basic|Plus)([1-4])$/.exec(slot);
+   if(!match)return '';
+   const key=gear+'.'+(match[1]==='Basic'?'B':'P')+match[2];
+   return (typeof state!=='undefined'?state?.manual?.equipment?.[key]?.type:'')||'';
+ };
+ function isDifferent(gear,slot){
+   const tag=slot.querySelector('b')?.textContent?.trim()||'';
+   const displayed=slot.querySelector('span')?.textContent?.trim()||'';
+   if(!/^(Basic|Plus)[1-4]$/.test(tag)||!displayed)return false;
+   const prior=manualType(gear,tag);
+   // Match the exact affix name; the rest of the displayed value is numeric data.
+   return !(prior && (displayed===prior || displayed.startsWith(prior+' ') || displayed.startsWith(prior+'+') || displayed.startsWith(prior+'-')));
+ }
+ function markSlots(root,gear){let count=0;
+   root.querySelectorAll('.auto-slot').forEach(slot=>{
+     const different=isDifferent(gear,slot);
+     slot.classList.toggle('r9-different-affix',different);
+     if(different)count++;
+   });return count;
+ }
+ let queued=false;
+ function sync(){queued=false;
+   const rows=[...grid.querySelectorAll('.auto-eq-row')];
+   rows.forEach((row,i)=>{
+     const gear=row.querySelector('.auto-eq-name')?.textContent?.trim()||'';
+     const count=markSlots(row,gear);
+     const card=cards.children[i];if(!card||card.tagName!=='BUTTON')return;
+     card.classList.toggle('r9-has-difference',count>0);
+     let marker=card.querySelector('.r9-diff-count');
+     if(count){if(!marker){marker=document.createElement('span');marker.className='r9-diff-count';card.append(marker)}marker.textContent=`差異詞條 ${count} 格`;}
+     else marker?.remove();
+   });
+   if(overlay.classList.contains('is-open')){
+     const title=overlay.querySelector('#r8AutoTitle')?.textContent?.trim()||'';
+     const body=overlay.querySelector('#r8AutoBody');if(!body)return;
+     const count=markSlots(body,title);
+     let legend=body.querySelector('.r9-diff-legend');
+     if(!legend){legend=document.createElement('div');legend.className='r9-diff-legend';body.prepend(legend)}
+     legend.innerHTML=count?`<strong>金色高亮：</strong>與手動實裝不同的詞條（${count} 格）`:'與手動實裝比較：目前沒有不同的詞條種類';
+   }
+ }
+ function schedule(){if(queued)return;queued=true;requestAnimationFrame(sync)}
+ new MutationObserver(schedule).observe(grid,{childList:true,subtree:true,characterData:true});
+ // R8 updates its cards from the original equipment markup.
+ new MutationObserver(schedule).observe(cards,{childList:true});
+ document.addEventListener('click',e=>{if(e.target.closest('#r8AutoCards .r8-eq-card'))queueMicrotask(schedule)},true);
+ document.addEventListener('input',e=>{if(e.target.closest('#manualPane'))schedule()},true);
+ document.addEventListener('change',e=>{if(e.target.closest('#manualPane'))schedule()},true);
+ const manualReport=document.getElementById('reportManualGear');
+ if(manualReport)new MutationObserver(schedule).observe(manualReport,{childList:true,subtree:true,characterData:true});
+ schedule();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<!-- R11: conservative 02 page search and filter improvements. Existing cards and calculation remain intact. -->
+<style id="r11-filters-css">
+.r11-filterbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:8px 10px;padding:0}
+.r11-filterbar button{background:#0b1d29;border:1px solid #345066;border-radius:8px;padding:7px 11px;min-height:34px;color:#adbdc7;font-size:11px;font-weight:750;cursor:pointer}
+.r11-filterbar button.is-active{color:#f7dfa8;border-color:#d0a95c;background:#392f22}
+.r11-filterbar .r11-count{margin-left:auto;color:#9ab1c1;font-size:10px}
+.r11-hidden{display:none!important}
+#r11TitleBar{margin:8px 2px 4px}
+#r11TreeBar{margin:8px 12px 6px}
+@media(max-width:620px){.r11-filterbar{gap:4px;margin:7px 5px}.r11-filterbar button{padding:6px 8px;min-height:36px;font-size:10px}.r11-filterbar .r11-count{width:100%;text-align:right}}
+</style>
+<script id="r11-conservative-filters">
+(()=>{'use strict';
+const LANG={
+ 'zh-Hant':{all:'全部',owned:'已取得',missing:'未取得',partial:'未滿級',active:'已投入',inactive:'未投入',equipped:'已裝備',show:'顯示'},
+ en:{all:'All',owned:'Owned',missing:'Not owned',partial:'Not maxed',active:'Invested',inactive:'Not invested',equipped:'Equipped',show:'Showing'},
+ ko:{all:'전체',owned:'보유',missing:'미보유',partial:'미최대',active:'투자됨',inactive:'미투자',equipped:'장착',show:'표시'},
+ ja:{all:'すべて',owned:'所持',missing:'未所持',partial:'未最大',active:'振分済',inactive:'未振分',equipped:'装備中',show:'表示'}
+};
+const t=k=>(LANG[document.querySelector('.lang-btn.active')?.dataset.lang]||LANG['zh-Hant'])[k];
+const specs={art:{options:['all','owned','missing','partial'],mode:'all'},title:{options:['all','owned','missing','equipped'],mode:'all'},tree:{options:['all','active','inactive'],mode:'all'}};
+function bar(id,kind,parent,after){let el=document.getElementById(id);if(el)return el;el=document.createElement('div');el.id=id;el.className='r11-filterbar';el.setAttribute('role','group');el.setAttribute('aria-label',kind+' filters');(after?parent.parentNode:parent).insertBefore(el,after?parent.nextSibling:parent.firstChild);return el}
+function draw(el,kind){const s=specs[kind];el.innerHTML=s.options.map(k=>`<button type="button" data-r11-mode="${k}" class="${s.mode===k?'is-active':''}">${t(k)}</button>`).join('')+'<span class="r11-count" aria-live="polite"></span>';el.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{s.mode=b.dataset.r11Mode;draw(el,kind);apply(kind)}))}
+const gridCard=(grid,selector)=>[...grid.querySelectorAll(selector)];
+function apply(kind){
+ if(kind==='art'){
+  const grid=document.getElementById('artifactGameGrid'), barEl=document.getElementById('r11ArtBar');if(!grid||!barEl)return;
+  let shown=0;const data=window.TOWER_SWORD_SYSTEM_DATA?.artifacts||[];
+  gridCard(grid,'[data-game-artifact]').forEach(card=>{
+   const id=Number(card.dataset.gameArtifact);const a=data.find(x=>Number(x.id)===id);const level=Number(document.querySelector(`#artifactList [data-artifact-lv="${id}"]`)?.value||0);
+   const ok=specs.art.mode==='all'||(specs.art.mode==='owned'&&level>0)||(specs.art.mode==='missing'&&level===0)||(specs.art.mode==='partial'&&level>0&&a&&level<Number(a.maxLevel||0));
+   card.classList.toggle('r11-hidden',!ok);if(ok)shown++;
+  });barEl.querySelector('.r11-count').textContent=t('show')+' '+shown;
+ }
+ if(kind==='title'){
+  const grid=document.getElementById('v21TitleGrid'),barEl=document.getElementById('r11TitleBar');if(!grid||!barEl)return;
+  let shown=0;gridCard(grid,'[data-title-id]').forEach(card=>{
+   const unlocked=card.classList.contains('is-unlocked'),equipped=card.classList.contains('is-equipped-title');
+   const ok=specs.title.mode==='all'||(specs.title.mode==='owned'&&unlocked)||(specs.title.mode==='missing'&&!unlocked)||(specs.title.mode==='equipped'&&equipped);
+   card.classList.toggle('r11-hidden',!ok);if(ok)shown++;
+  });barEl.querySelector('.r11-count').textContent=t('show')+' '+shown;
+ }
+ if(kind==='tree'){
+  const grid=document.getElementById('treeList'),barEl=document.getElementById('r11TreeBar');if(!grid||!barEl)return;
+  let shown=0;gridCard(grid,'[data-tree-row]').forEach(card=>{
+   const lv=Number(card.querySelector('[data-tree-lv]')?.value||0);
+   const ok=specs.tree.mode==='all'||(specs.tree.mode==='active'&&lv>0)||(specs.tree.mode==='inactive'&&lv===0);
+   card.classList.toggle('r11-hidden',!ok);if(ok)shown++;
+  });barEl.querySelector('.r11-count').textContent=t('show')+' '+shown;
+ }
+}
+let pending={};function schedule(kind){if(pending[kind])return;pending[kind]=true;requestAnimationFrame(()=>{pending[kind]=false;apply(kind)})}
+function watch(el,kind){new MutationObserver(()=>schedule(kind)).observe(el,{childList:true,subtree:true});el.addEventListener('change',()=>schedule(kind));el.addEventListener('input',()=>schedule(kind))}
+function init(){
+  const gallery=document.querySelector('.artifact-game-shell');const artGrid=document.getElementById('artifactGameGrid');
+  if(gallery&&artGrid){const wrap=gallery.querySelector('.artifact-game-grid-wrap');if(wrap){const b=bar('r11ArtBar','art',wrap,false);wrap.parentNode.insertBefore(b,wrap);draw(b,'art');watch(artGrid,'art');document.getElementById('artifactList')?.addEventListener('input',()=>schedule('art'));schedule('art')}}
+  const titleRoot=document.getElementById('v21TitleRoot');if(titleRoot){const titleGrid=document.getElementById('v21TitleGrid');if(titleGrid){const b=bar('r11TitleBar','title',titleRoot,false);const toolbar=titleRoot.querySelector('.v21-title-toolbar');if(toolbar)toolbar.after(b);draw(b,'title');schedule('title')}
+   new MutationObserver(()=>{const newGrid=document.getElementById('v21TitleGrid');if(newGrid&&!document.getElementById('r11TitleBar')){const b=bar('r11TitleBar','title',titleRoot,false);const toolbar=titleRoot.querySelector('.v21-title-toolbar');if(toolbar)toolbar.after(b);draw(b,'title')}schedule('title')}).observe(titleRoot,{childList:true});
+   titleRoot.addEventListener('click',()=>setTimeout(()=>schedule('title'),30));
+  }
+  const tree=document.getElementById('treeList');if(tree){const b=bar('r11TreeBar','tree',tree,false);tree.parentNode.insertBefore(b,tree);draw(b,'tree');watch(tree,'tree');schedule('tree')}
+  document.querySelectorAll('.lang-btn').forEach(btn=>btn.addEventListener('click',()=>setTimeout(()=>{for(const [kind,id] of [['art','r11ArtBar'],['title','r11TitleBar'],['tree','r11TreeBar']]){const x=document.getElementById(id);if(x){draw(x,kind);schedule(kind)}}},60)));
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,900));else setTimeout(init,900);
+})();
+</script>
+<!-- R12: Fashion / Pet conservative usability polish. Data sources and calculation untouched. -->
+<style id="r12-polish-css">
+.r12-bar{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:8px 0;padding:8px 10px;border:1px solid #294352;border-radius:10px;background:#081923}
+.r12-bar input{flex:1 1 155px;min-width:0;max-width:310px;height:36px;padding:7px 10px;background:#07131d;color:#eaf1f4;border:1px solid #325066;border-radius:8px;font-size:12px}
+.r12-tabs{display:flex;flex-wrap:wrap;gap:5px}
+.r12-tabs button{padding:7px 10px;border:1px solid #345066;background:#0b1e2b;color:#bdcdd5;border-radius:8px;min-height:35px;font-size:11px;cursor:pointer}
+.r12-tabs button.r12-active{border-color:#c6a76c;color:#f3d79b;background:#342d22}
+.r12-count{color:#96afbe;font-size:11px;margin-left:auto;white-space:nowrap}
+.r12-hidden{display:none!important}
+@media(max-width:620px){
+ .r12-bar{margin:6px 0;padding:7px;gap:6px}.r12-bar input{flex-basis:100%;max-width:none;font-size:16px}
+ .r12-tabs{flex:1}.r12-tabs button{padding:7px 8px;font-size:10px}
+ .r12-count{font-size:10px}
+ .pet-game-head,.fashion-game-head{gap:6px}
+ .pet-slot-row{gap:4px;padding:7px}.pet-slot{min-height:69px;min-width:68px;padding:4px}.pet-slot-art{width:38px;height:38px}
+ .pet-game-grid{max-height:310px}.pet-game-detail{gap:6px}
+}
+@media(max-width:390px){.r12-count{width:100%;text-align:right}.pet-game-grid{max-height:270px}}
+</style>
+<script id="r12-polish-js">
+(()=>{'use strict';
+const data={
+ 'zh-Hant':{all:'全部',onFashion:'已擁有',offFashion:'未擁有',onPet:'已裝備',offPet:'未裝備',searchFashion:'搜尋時裝…',searchPet:'搜尋寵物…',show:'顯示'},
+ en:{all:'All',onFashion:'Owned',offFashion:'Not owned',onPet:'Equipped',offPet:'Not equipped',searchFashion:'Search fashion…',searchPet:'Search pets…',show:'Showing'},
+ ko:{all:'전체',onFashion:'보유',offFashion:'미보유',onPet:'장착',offPet:'미장착',searchFashion:'코스튬 검색…',searchPet:'펫 검색…',show:'표시'},
+ ja:{all:'すべて',onFashion:'所持',offFashion:'未所持',onPet:'装備中',offPet:'未装備',searchFashion:'衣装を検索…',searchPet:'ペットを検索…',show:'表示'}
+};
+const getL=()=>data[document.querySelector('.lang-btn.active')?.dataset.lang]||data['zh-Hant'];
+const configs={fashion:{root:'fashionGameGallery',item:'[data-fashion-game]',on:'is-owned',search:'searchFashion',onText:'onFashion',offText:'offFashion'},pet:{root:'petGameGallery',item:'[data-pet-game]',on:'is-equipped',search:'searchPet',onText:'onPet',offText:'offPet'}};
+const states={fashion:{mode:'all',query:''},pet:{mode:'all',query:''}};
+function apply(kind){const cfg=configs[kind],root=document.getElementById(cfg.root),bar=document.getElementById('r12-'+kind+'-bar');if(!root||!bar)return;
+ const st=states[kind];let visible=0;
+ root.querySelectorAll(cfg.item).forEach(btn=>{const owned=btn.classList.contains(cfg.on);const name=((btn.title||'')+' '+(btn.querySelector('.fashion-game-name,.pet-game-name')?.textContent||'')).toLocaleLowerCase();const ok=(st.mode==='all'||(st.mode==='on'&&owned)||(st.mode==='off'&&!owned))&&name.includes(st.query.toLocaleLowerCase());btn.classList.toggle('r12-hidden',!ok);if(ok)visible++});
+ bar.querySelector('.r12-count').textContent=getL().show+' '+visible;
+ bar.querySelectorAll('[data-r12-mode]').forEach(b=>{b.classList.toggle('r12-active',b.dataset.r12Mode===st.mode);b.setAttribute('aria-pressed',String(b.dataset.r12Mode===st.mode))});
+}
+function mount(kind){const cfg=configs[kind],root=document.getElementById(cfg.root);if(!root)return;
+ let bar=document.getElementById('r12-'+kind+'-bar');const l=getL(),st=states[kind];
+ if(!bar){bar=document.createElement('div');bar.className='r12-bar';bar.id='r12-'+kind+'-bar';root.before(bar);bar.innerHTML='<input type="search" class="r12-search" autocomplete="off"><div class="r12-tabs"><button type="button" data-r12-mode="all"></button><button type="button" data-r12-mode="on"></button><button type="button" data-r12-mode="off"></button></div><span class="r12-count" aria-live="polite"></span>';
+  bar.querySelector('input').addEventListener('input',e=>{st.query=e.target.value;apply(kind)});
+  bar.querySelectorAll('[data-r12-mode]').forEach(b=>b.addEventListener('click',()=>{st.mode=b.dataset.r12Mode;apply(kind)}));
+  // Observe only direct children; gallery re-renders its shell when users change selections.
+  new MutationObserver(()=>requestAnimationFrame(()=>apply(kind))).observe(root,{childList:true});
+ }
+ const input=bar.querySelector('input');input.placeholder=l[cfg.search];input.setAttribute('aria-label',l[cfg.search]);
+ bar.querySelector('[data-r12-mode="all"]').textContent=l.all;
+ bar.querySelector('[data-r12-mode="on"]').textContent=l[cfg.onText];
+ bar.querySelector('[data-r12-mode="off"]').textContent=l[cfg.offText];
+ apply(kind);
+}
+let scheduled=false;
+function refresh(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;mount('fashion');mount('pet')})}
+function init(){refresh();
+ const body=document.body;new MutationObserver(refresh).observe(body,{childList:true,subtree:false});
+ // Gallery roots can appear lazily on mobile; bind observers to their parent details.
+ document.querySelectorAll('#fashionList,#petList').forEach(list=>{const holder=list.closest('details')||list.parentElement;if(holder)new MutationObserver(refresh).observe(holder,{childList:true})});
+ document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(refresh,75)));
+ document.addEventListener('tower-page2-enter',refresh);document.addEventListener('tower-system-refresh',refresh);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,1100));else setTimeout(init,1100);
+})();
+</script>
+<script id="r13-r14-script">
+(()=>{'use strict';
+ const t={
+ 'zh':{head:'技能快速選擇',all:'全部',fire:'火',ice:'冰',lightning:'雷',normal:'普通',search:'搜尋武器技能名稱…',recent:'最近使用',empty:'找不到符合條件的技能',manual:'手動實裝',auto:'自動最佳化',delta:'傷害差異',pending:'目前尚無可比較的完整自動最佳化結果',detail:'完整裝備與詞條明細',hint:'僅在兩組傷害都有有效計算結果時顯示百分比。'},
+ 'en':{head:'Quick skill selection',all:'All',fire:'Fire',ice:'Ice',lightning:'Lightning',normal:'Normal',search:'Search skills…',recent:'Recent',empty:'No matching skill',manual:'Manual',auto:'Optimized',delta:'Damage change',pending:'No complete comparable auto result yet',detail:'Full equipment and affix details',hint:'Percent change appears only when both damage results are available.'},
+ 'ko':{head:'스킬 빠른 선택',all:'전체',fire:'불',ice:'얼음',lightning:'번개',normal:'일반',search:'스킬 검색…',recent:'최근 사용',empty:'검색 결과 없음',manual:'수동',auto:'최적화',delta:'피해 차이',pending:'비교할 자동 최적화 결과 없음',detail:'장비 및 옵션 상세',hint:'양쪽 피해 결과가 유효할 때만 비율을 표시합니다.'},
+ 'ja':{head:'スキル簡単選択',all:'すべて',fire:'炎',ice:'氷',lightning:'雷',normal:'通常',search:'スキルを検索…',recent:'最近使った',empty:'該当スキルなし',manual:'手動装備',auto:'最適化',delta:'ダメージ差',pending:'比較可能な最適化結果はまだありません',detail:'装備・オプションの詳細',hint:'両方のダメージが有効な場合のみ割合を表示します。'}};
+ const $=id=>document.getElementById(id);
+ let filter='all',query='',previousSkill='',renderTimer=0;
+ function lang(){let x=(document.documentElement.lang||'zh').toLowerCase();return x.startsWith('en')?t.en:x.startsWith('ko')?t.ko:x.startsWith('ja')?t.ja:t.zh;}
+ function skills(){let s=$('skill');return s?[...s.options].filter(o=>o.value!=='').map(o=>({id:o.value,label:o.textContent||'',name:(o.textContent||'').split('｜')[0],element:(o.textContent||'').split('｜').slice(-1)[0]})):[];}
+ function group(x){const n=x.element+' '+x.label;if(/火|fire/i.test(n))return 'fire';if(/冰|ice/i.test(n))return 'ice';if(/雷|閃電|lightning|thunder/i.test(n))return 'lightning';return 'normal';}
+ function getRecent(){try{return JSON.parse(localStorage.getItem('ts-r13-recent')||'[]').filter(x=>typeof x==='string').slice(0,5)}catch(e){return []}}
+ function remember(id){if(!id)return;try{localStorage.setItem('ts-r13-recent',JSON.stringify([id,...getRecent().filter(x=>x!==id)].slice(0,5)))}catch(e){}}
+ function choose(id){const s=$('skill');if(!s||!Array.from(s.options).some(o=>o.value===id))return;s.value=id;s.dispatchEvent(new Event('change',{bubbles:true}));remember(id);$('r13Tools')?.classList.remove('r13-browse');drawQuick();}
+ function drawQuick(){const h=$('r13Tools');if(!h)return;const d=lang(),s=$('skill');h.querySelector('[data-r13-head]').textContent=d.head;h.querySelector('input').placeholder=d.search;h.querySelectorAll('[data-r13-filter]').forEach(b=>{b.textContent=d[b.dataset.r13Filter];b.classList.toggle('active',b.dataset.r13Filter===filter);b.setAttribute('aria-pressed',String(b.dataset.r13Filter===filter))});const all=skills(),matching=all.filter(x=>(filter==='all'||group(x)===filter)&&(!query||x.label.toLocaleLowerCase().includes(query.toLocaleLowerCase()))),res=$('r13Results');res.replaceChildren();for(const item of matching){const b=document.createElement('button');b.type='button';b.className='r13-item'+(s?.value===item.id?' selected':'');const title=document.createElement('span');title.textContent=item.name;const sub=document.createElement('small');sub.textContent=item.element;b.append(title,sub);b.onclick=()=>choose(item.id);res.append(b)}if(!matching.length){const empty=document.createElement('div');empty.className='small';empty.textContent=d.empty;res.append(empty)}const rec=$('r13Recent');rec.replaceChildren();const ids=getRecent(),vals=all.filter(x=>ids.includes(x.id)).sort((a,b)=>ids.indexOf(a.id)-ids.indexOf(b.id));if(vals.length){const txt=document.createElement('span');txt.className='small';txt.textContent=d.recent+'：';rec.append(txt);for(const x of vals){const b=document.createElement('button');b.type='button';b.className='r13-recent-btn';b.textContent=x.name;b.onclick=()=>choose(x.id);rec.append(b)}}}
+ function makeQuick(){const s=$('skill'),field=s?.closest('.skill-field');if(!field||$('r13Tools'))return;const h=document.createElement('div');h.id='r13Tools';h.className='r13-tools no-print';h.innerHTML='<div class="r13-top"><strong data-r13-head></strong></div><div class="r13-tags">'+['all','fire','ice','lightning','normal'].map(x=>'<button type="button" class="r13-tag" data-r13-filter="'+x+'"></button>').join('')+'</div><input class="r13-lookup" id="r13Search" autocomplete="off"/><div class="r13-recent" id="r13Recent"></div><div class="r13-results" id="r13Results"></div>';field.insertBefore(h,s);h.querySelectorAll('[data-r13-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.r13Filter;h.classList.add('r13-browse');drawQuick()});$('r13Search').addEventListener('input',e=>{query=e.target.value;h.classList.add('r13-browse');drawQuick()});s.addEventListener('change',()=>{remember(s.value);drawQuick()});previousSkill=s.value;drawQuick();}
+ function reportNumbers(){try{const m=typeof manualDamageResult==='function'?manualDamageResult():null;const a=typeof autoEquipmentTotals==='function'?autoEquipmentTotals():null;const mVal=m?.valid&&Number.isFinite(Number(m.crit))?Number(m.crit):null;const aVal=a?.available&&a?.result?.critDamage!=null&&Number.isFinite(Number(a.result.critDamage))?Number(a.result.critDamage):null;return [mVal,aVal]}catch(e){return [null,null]}}
+ function pretty(x){try{return typeof formatDamageR==='function'?formatDamageR(x):Number(x).toLocaleString('en-US',{maximumFractionDigits:3})}catch(e){return String(x)}}
+ function drawReport(){const h=$('r14Summary');if(!h)return;const [m,a]=reportNumbers(),d=lang();const els=h.querySelectorAll('.r14-metric');els[0].querySelector('small').textContent=d.manual;els[1].querySelector('small').textContent=d.auto;els[2].querySelector('small').textContent=d.delta;els[0].querySelector('b').textContent=m===null?'—':pretty(m);els[1].querySelector('b').textContent=a===null?'—':pretty(a);els[2].querySelector('b').textContent=m!==null&&m>0&&a!==null?((a-m)/m*100>=0?'+':'')+(((a-m)/m)*100).toFixed(2)+'%':'—';$('r14Hint').textContent=a===null?d.pending:d.hint;$('r14DetailsTitle').textContent=d.detail;}
+ function makeReport(){const screen=$('reportScreen'),cmp=screen?.querySelector('#reportCompareBody')?.closest('.report-section'),build=screen?.querySelector('.report-builds');if(!screen||!cmp||!build||$('r14Summary'))return;const block=document.createElement('div');block.className='card report-section';block.innerHTML='<h3>手動實裝 vs 自動最佳化｜傷害摘要</h3><div class="r14-summary" id="r14Summary"><div class="r14-metric"><small></small><b>—</b></div><div class="r14-metric"><small></small><b>—</b></div><div class="r14-metric delta"><small></small><b>—</b></div></div><div class="r14-message" id="r14Hint"></div>';cmp.parentNode.insertBefore(block,cmp);const fold=document.createElement('details');fold.className='r14-report-fold report-section';fold.open=false;const summary=document.createElement('summary');summary.id='r14DetailsTitle';fold.append(summary);build.parentNode.insertBefore(fold,build);fold.append(build);const mo=new MutationObserver(()=>{clearTimeout(renderTimer);renderTimer=setTimeout(drawReport,90)});mo.observe($('reportCompareBody'),{childList:true,subtree:false});document.querySelectorAll('.step').forEach(b=>b.addEventListener('click',()=>setTimeout(drawReport,80)));document.querySelector('#skill')?.addEventListener('change',()=>setTimeout(drawReport,80));drawReport();}
+ function boot(){makeQuick();makeReport();setInterval(()=>{const s=$('skill');if(s&&previousSkill!==s.value){previousSkill=s.value;drawQuick()}},1500);}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script>\n<style id="r15-final-ui">
+/* Small update entry, not a large announcement occupying Page 01. */
+.r15-update-entry{display:flex;align-items:center;flex-wrap:wrap;gap:8px 11px;margin:-4px 0 13px;padding:9px 12px;border:1px solid rgba(208,177,103,.24);background:rgba(28,34,33,.69);border-radius:11px;font-size:11px;color:#bed0d6}
+.r15-update-entry strong{font-size:11.5px;color:#e3cc98}.r15-new-dot{height:7px;width:7px;border-radius:50%;background:#d7b36c;flex:none}
+#r15-updates-desc{flex:1;min-width:115px}
+#r15-updates-open{border:1px solid rgba(211,180,113,.4);background:#182b33;color:#eee0bf;border-radius:8px;padding:8px 12px;min-height:36px;cursor:pointer;font-weight:750}
+#r15-updates-open:focus-visible,.r15-updates-close:focus-visible{outline:2px solid #8ad8ee;outline-offset:2px}
+.r15-updates-backdrop{position:fixed;inset:0;z-index:20001;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(1,7,12,.76);backdrop-filter:blur(4px)}
+.r15-updates-backdrop.is-open{display:flex}
+.r15-updates-panel{width:min(100%,540px);max-height: min(86dvh,740px);display:flex;flex-direction:column;overflow:hidden;border:1px solid #486474;border-radius:17px;background:#0b1923;box-shadow:0 24px 75px #000b;color:#e8f0f1}
+.r15-updates-head{padding:15px 17px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #27404d;flex:none}
+.r15-updates-head h3{margin:0;font-size:16px}.r15-updates-close{cursor:pointer;background:#172a36;color:#dce7eb;border:1px solid #385466;border-radius:9px;min-width:38px;min-height:38px;font-size:22px}
+.r15-updates-scroll{overflow-y:auto;min-height:0;padding:14px 18px 20px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;line-height:1.7}
+.r15-updates-scroll h4{font-size:12px;color:#e0c48b;margin:10px 0 3px}.r15-updates-scroll p{font-size:12px;color:#bdccd3;margin:0 0 8px}
+.r15-updates-scroll ul{margin:5px 0 12px;padding-left:20px;color:#d1dde0;font-size:12px}
+.r15-updates-scroll li{margin:5px 0}.r15-updates-note{border-top:1px solid #28404c;padding-top:10px}
+@media(max-width:620px){
+ .r15-update-entry{padding:8px 9px;gap:6px 9px;font-size:10px}.r15-update-entry strong{font-size:10.5px}
+ #r15-updates-open{min-height:40px}
+ .r15-updates-backdrop{padding:0;align-items:flex-end}
+ .r15-updates-panel{width:100%;max-height:calc(100dvh - env(safe-area-inset-top) - 12px);border-radius:18px 18px 0 0;border-bottom:0}
+ .r15-updates-scroll{padding-bottom:max(18px,env(safe-area-inset-bottom))}
+}
+/* R15: prevent long multilingual content from pushing panels past viewport width. */
+.screen,.hero,.card,.r6-panel,.r8-detail-panel,.r10-art-modal{min-width:0;overflow-wrap:anywhere}
+@media(max-width:620px){.screen .field input,.screen .field select{max-width:100%}}
+@media(prefers-reduced-motion:reduce){.r15-updates-backdrop{transition:none}}
+</style>
+<script id="r15-update-notes">(()=>{'use strict';
+const translations={
+'zh-Hant':{short:'V2.2｜介面更新摘要',desc:'01～04 操作優化・四語支援',open:'查看更新說明 ›',title:'V2.2｜更新說明',sections:[['01｜角色設定','新增元素篩選、技能搜尋與最近使用技能，保留既有武器與傷害設定。'],['02｜系統效果','人工製品、魔法樹、稱號、時裝及寵物加入篩選；保留原有圖卡與操作。'],['03｜裝備配置','智慧詞條篩選、單件快速編輯、套裝摘要浮窗、自動最佳化配裝查看與差異詞條高亮。'],['04｜分析報告','新增手動與自動傷害比較摘要；沒有有效最佳化結果時，不顯示推估提升率。']],note:'V2.3 新特性仍在研究與驗證，尚未納入此版本計算。'},
+'en':{short:'V2.2 | Interface updates',desc:'Pages 01–04 · Four languages',open:'View what’s new ›',title:'V2.2 | What’s New',sections:[['01 | Character','Element filters, skill search, and recently used skills while preserving existing calculations.'],['02 | Systems','Filters for artifacts, magic tree, titles, costumes, and pets; original cards and controls remain.'],['03 | Equipment','Smart affix filtering, focused editing, compact set dialogs, optimizer equipment previews, and highlighted affix differences.'],['04 | Report','Manual-versus-auto damage summary; no speculative improvement percentage without a valid optimizer result.']],note:'New V2.3 traits are under investigation and are not included in these calculations.'},
+'ko':{short:'V2.2 | 인터페이스 업데이트',desc:'01~04 개선 · 4개 언어',open:'업데이트 보기 ›',title:'V2.2 | 업데이트 안내',sections:[['01 | 캐릭터','속성 필터, 스킬 검색, 최근 사용 스킬 기능을 추가했습니다.'],['02 | 시스템','유물, 마법 트리, 칭호, 코스튬, 펫 필터를 추가하고 기존 조작을 유지했습니다.'],['03 | 장비','옵션 필터, 장비별 편집, 세트 팝업, 최적화 장비 보기, 옵션 차이 강조를 추가했습니다.'],['04 | 보고서','수동/자동 피해 비교 요약을 추가했습니다. 유효한 결과가 없으면 증가율을 표시하지 않습니다.']],note:'V2.3 신규 특성은 검증 중이며 현재 계산에 포함되지 않습니다.'},
+'ja':{short:'V2.2｜UI更新情報',desc:'01～04 改善・4言語対応',open:'更新内容を見る ›',title:'V2.2｜更新情報',sections:[['01｜キャラクター','属性フィルター、スキル検索、最近使用したスキルを追加しました。'],['02｜システム','アーティファクト、魔法ツリー、称号、衣装、ペットに絞り込みを追加し、従来の操作を維持しています。'],['03｜装備','オプションの絞り込み、装備別編集、セットのポップアップ、最適化結果の表示、差分強調を追加しました。'],['04｜レポート','手動／自動ダメージ比較を追加。有効な結果がなければ推定上昇率は表示しません。']],note:'V2.3の新特性は検証中であり、現在の計算には含まれません。'}
+};
+let backdrop=null,previousFocus=null,previousOverflow='';
+function lang(){const l=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';return translations[l]?l:'zh-Hant'}
+function apply(){const t=translations[lang()];[['r15-updates-short',t.short],['r15-updates-desc',t.desc],['r15-updates-open',t.open]].forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.textContent=v});if(!backdrop)return;backdrop.querySelector('#r15-title').textContent=t.title;const content=backdrop.querySelector('.r15-updates-scroll');content.replaceChildren();t.sections.forEach(([heading,copy])=>{const h=document.createElement('h4'),p=document.createElement('p');h.textContent=heading;p.textContent=copy;content.append(h,p)});const foot=document.createElement('p');foot.className='r15-updates-note';foot.textContent=t.note;content.append(foot)}
+function close(){if(!backdrop?.classList.contains('is-open'))return;backdrop.classList.remove('is-open');backdrop.setAttribute('aria-hidden','true');document.body.style.overflow=previousOverflow;previousFocus?.focus?.()}
+function open(){previousFocus=document.activeElement;previousOverflow=document.body.style.overflow;apply();backdrop.classList.add('is-open');backdrop.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';backdrop.querySelector('.r15-updates-close').focus()}
+function init(){if(!document.getElementById('r15-updates-entry'))return;
+ backdrop=document.createElement('div');backdrop.id='r15-updates-backdrop';backdrop.className='r15-updates-backdrop no-print';backdrop.setAttribute('aria-hidden','true');backdrop.setAttribute('data-no-translate','');backdrop.innerHTML='<section class="r15-updates-panel" role="dialog" aria-modal="true" aria-labelledby="r15-title"><header class="r15-updates-head"><h3 id="r15-title"></h3><button type="button" class="r15-updates-close" aria-label="Close">×</button></header><div class="r15-updates-scroll" tabindex="0"></div></section>';document.body.append(backdrop);
+ document.getElementById('r15-updates-open').addEventListener('click',open);
+ backdrop.querySelector('.r15-updates-close').addEventListener('click',close);
+ backdrop.addEventListener('click',e=>{if(e.target===backdrop)close()});
+ document.addEventListener('keydown',e=>{if(!backdrop.classList.contains('is-open'))return;if(e.key==='Escape'){e.preventDefault();close()}if(e.key==='Tab'){const focusable=[backdrop.querySelector('.r15-updates-close'),backdrop.querySelector('.r15-updates-scroll')];if(e.shiftKey&&document.activeElement===focusable[0]){e.preventDefault();focusable[1].focus()}else if(!e.shiftKey&&document.activeElement===focusable[1]){e.preventDefault();focusable[0].focus()}}});
+ document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(apply,30)));
+ window.addEventListener('tower-language-changed',apply);apply();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();</script>
+
 </body></html>
 <!-- STAGING R49: testing only, Lv600 optional extrapolation; title formula untouched -->
 <!-- STAGING R35: three set tiers changed to 3/5/7/9; final magic multiplier stays preview-only. -->
@@ -10313,7 +10983,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 @media(max-width:360px){.pet-game-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 </style>
 <script id="r14-localized-update-banner">(()=>{'use strict';
-const messages={'zh-Hant':'V2.2 更新｜新增稱號裝備 ×1.5、套裝持有計數、55 把技能 Lv.1～170、自動最佳化與四語介面。V2.3 將完整整合新特性。','en':'V2.2 Update | Equipped title ×1.5, owned set artifacts, 55 skill tables (Lv.1–170), optimization, and four languages. V2.3 will fully integrate new traits.','ko':'V2.2 업데이트｜장착 칭호 ×1.5, 보유 세트 유물, 55개 스킬 Lv.1–170, 자동 최적화, 4개 언어. V2.3에서 신규 특성을 완전히 통합합니다.','ja':'V2.2 更新｜称号装備 ×1.5、セット所持判定、55スキル Lv.1～170、自動最適化、4言語対応。V2.3で新特性を全面的に統合します。'};
+const messages={'zh-Hant':'V2.2 更新｜新增稱號裝備 ×1.5、套裝持有計數、55 把技能 Lv.1～170、自動最佳化與四語介面。V2.3 預計加入新特性比較功能，機制與數值仍待驗證。','en':'V2.2 Update | Equipped title ×1.5, owned set artifacts, 55 skill tables (Lv.1–170), optimization, and four languages. V2.3 is planned to introduce trait comparisons after validation.','ko':'V2.2 업데이트｜장착 칭호 ×1.5, 보유 세트 유물, 55개 스킬 Lv.1–170, 자동 최적화, 4개 언어. V2.3에서 신규 특성을 완전히 통합합니다.','ja':'V2.2 更新｜称号装備 ×1.5、セット所持判定、55スキル Lv.1～170、自動最適化、4言語対応。V2.3で新特性を全面的に統合します。'};
 function apply(){const e=document.querySelector('.safe-title-announcement');if(!e)return;const l=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';e.textContent=messages[l]||messages['zh-Hant'];}
 function init(){apply();document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(apply,25)));window.addEventListener('tower-language-changed',apply);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();</script>
@@ -10364,3 +11034,82 @@ function init(){apply();const root=document.querySelector('#manualPane');if(root
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();</script>
 <style id="r67-title-single-language">#v21TitleRoot .v21-title-card-ko{display:none!important}</style>
+
+<!-- R7: stable UI refinement for set cards and mobile dialogs. Calculation untouched. -->
+<style id="r7-ui-closeout">
+#r34-set-summary .r34-set-pill{min-height:74px;box-shadow:none;transition:background .13s,border-color .13s,transform .13s}
+#r34-set-summary .r34-set-pill:active{transform:scale(.995)}
+#r34-set-summary .r34-set-pill:focus-visible{outline:2px solid #9fd1df;outline-offset:3px}
+.r6-backdrop{padding:max(12px,env(safe-area-inset-top)) 14px max(12px,env(safe-area-inset-bottom))}
+.r6-panel{max-height:min(90dvh,850px);max-height:min(90svh,850px)}
+.r6-effect .r4-tier-list{gap:6px!important}
+.r6-effect .r4-effect-card{box-shadow:none!important}
+.r6-slot button:active{transform:scale(.98)}
+.r6-slot button:focus-visible,.r6-close:focus-visible,.r6-done:focus-visible{outline:2px solid #9fd1df;outline-offset:2px}
+.r7-toast{position:fixed;z-index:12000;left:50%;bottom:max(25px,env(safe-area-inset-bottom));transform:translateX(-50%);max-width:min(90vw,440px);padding:9px 15px;background:#17313b;border:1px solid #658b99;border-radius:11px;color:#e9f6f5;box-shadow:0 12px 32px #0008;font-size:12px;pointer-events:none}
+@media(max-width:640px){.r6-backdrop{padding:0}.r6-panel{max-height:calc(100dvh - max(12px,env(safe-area-inset-top)));max-height:calc(100svh - max(12px,env(safe-area-inset-top)));border-radius:18px 18px 0 0}.r6-slot button{min-height:42px}.r6-head{position:relative}.r6-scroll{-webkit-overflow-scrolling:touch}.r6-foot{padding-bottom:max(10px,env(safe-area-inset-bottom))}}
+@media(prefers-reduced-motion:reduce){#r34-set-summary .r34-set-pill{transition:none}}
+</style>
+<script id="r7-modal-usability">(()=>{'use strict';
+ const backdrop=()=>document.getElementById('r6-set-backdrop');
+ let lastOpen=false, toastTimer=0;
+ function toast(message){let x=document.getElementById('r7-set-toast');if(!x){x=document.createElement('div');x.id='r7-set-toast';x.className='r7-toast';x.setAttribute('role','status');x.setAttribute('aria-live','polite');document.body.append(x)}x.textContent=message;x.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>x.hidden=true,1350)}
+ function init(){const b=backdrop();if(!b)return;
+ // Disable background page scrolling only while set modal is visible; restore original inline value.
+ let oldOverflow='';
+ new MutationObserver(()=>{const isOpen=b.classList.contains('is-open');if(isOpen===lastOpen)return;lastOpen=isOpen;if(isOpen){oldOverflow=document.body.style.overflow;document.body.style.overflow='hidden'}else{document.body.style.overflow=oldOverflow}}).observe(b,{attributes:true,attributeFilter:['class']});
+ // Show lightweight feedback when applying an existing R6 set change; no duplicate data/calculation paths.
+ b.querySelector('#r6-slot-grid')?.addEventListener('click',e=>{const btn=e.target.closest('button');if(!btn)return;const slot=btn.closest('.r6-slot');const label=slot?.querySelector('span')?.textContent?.split(' · ')[0]||'';toast(label?label+' · 已更新套裝配置':'已更新套裝配置')});
+ // Keep the modal usable with keyboard tab focus.
+ b.addEventListener('keydown',e=>{if(e.key!=='Tab'||!b.classList.contains('is-open'))return;const a=[...b.querySelectorAll('button:not([disabled])')].filter(n=>n.getClientRects().length);if(!a.length)return;const first=a[0],last=a[a.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();</script>
+
+
+<style id="r16-announcements-styles">
+/* R16: 01 header hint + dated announcement board replacing large pre-simulation hint. */
+#test27HintCard.r16-board{padding:16px 17px!important;min-height:0!important}
+#test27HintCard.r16-board .hint-head{margin-bottom:12px}
+#test27HintCard.r16-board .hint-mark{background:rgba(215,178,100,.12);color:#f0d69f;border-color:rgba(215,178,100,.35)}
+#test27HintCard.r16-board .r16-board-list{display:grid;gap:8px;max-height:310px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:2px}
+#test27HintCard.r16-board .r16-news{padding:11px 12px;border:1px solid rgba(75,104,120,.4);border-radius:10px;background:rgba(7,19,27,.8)}
+#test27HintCard.r16-board .r16-news-head{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px;margin-bottom:5px}
+#test27HintCard.r16-board time{font-size:10px;color:#c5ac77;font-variant-numeric:tabular-nums;white-space:nowrap}
+#test27HintCard.r16-board .r16-news-title{font-size:12px;color:#f2f5f6;font-weight:850;line-height:1.4}
+#test27HintCard.r16-board .r16-news-text{font-size:11.5px;line-height:1.6;color:#b9c9d1}
+#test27HintCard.r16-board .r16-news-label{font-size:9px;color:#e9c986;border:1px solid rgba(217,184,111,.25);border-radius:999px;padding:2px 5px}
+.r15-update-entry .r15-new-dot{background:#75cbd5}
+@media(max-width:620px){#test27HintCard.r16-board{padding:12px!important}#test27HintCard.r16-board .r16-board-list{max-height:240px}#test27HintCard.r16-board .r16-news{padding:10px}#test27HintCard.r16-board .r16-news-text{font-size:11px}}
+</style>
+<script id="r16-announcement-board-and-hints">(()=>{'use strict';
+const i18n={
+ 'zh-Hant':{
+  board:'公告欄',boardSub:'版本公告・最新消息依時間由新到舊排列',new:'更新',
+  hint:'模擬前使用提示',hintSub:'完成設定前，建議先確認以下事項',hintOpen:'查看使用提示 ›',hintTitle:'模擬前使用提示',
+  notices:[['2026-10-17','V2.3｜新特性比較功能預告','規劃加入新特性效果比較、不同特性搭配與裝備詞條替換的傷害差異分析。相關機制與數值仍在實測驗證中，尚未開放。'],['2026-10-17','V2.2.1｜正式版更新','完成 01～04 頁介面改善：技能搜尋、系統篩選、裝備快速編輯、套裝浮窗、差異詞條高亮與傷害比較。'],['2026-10-16','V2.2｜介面操作改善','01～04 頁已優化技能搜尋、系統篩選、裝備快速編輯、套裝浮窗與傷害比較。'],['2026-10-13','V2.2｜資料與功能更新','角色等級上限 600；支援遊戲 V2.6 新增內容、人工製品與稱號效果。']],
+  tips:[['依序設定','建議先完成 01 角色／技能、02 系統效果，再前往 03 裝備配置與 04 分析報告。'],['切換角色等級後檢查魔法樹','若調整角色等級，請回到 02 確認魔法樹的等級限制與分配。'],['03 頁重新計算','在 01 或 02 變更條件後進入 03，系統會依目前設定重新計算，請稍候。'],['自動最佳化需要搜尋時間','調整最低暴擊率或冷卻要求後可能需要重新搜尋；條件越嚴格，耗時可能越長。']]
+ },
+ en:{board:'Notice Board',boardSub:'Release news · newest first',new:'Update',hint:'Before You Calculate',hintSub:'Check a few setup notes before starting',hintOpen:'View usage tips ›',hintTitle:'Before You Calculate',notices:[['2026-10-17','V2.3 | Trait comparison preview','Planned: compare new trait effects, combinations and damage changes caused by replacing equipment affixes. Mechanics and values are still being tested; not yet available.'],['2026-10-17','V2.2.1 | Official release','Updated Pages 01–04 with skill search, filters, focused equipment editing, set dialogs, affix difference highlights and damage comparison.'],['2026-10-16','V2.2 | Interface improvements','Pages 01–04: skill search, system filters, focused equipment editing, set dialogs and damage comparisons.'],['2026-10-13','V2.2 | Data and features','Character level cap 600; game V2.6 content, artifacts and title effects.']],tips:[['Complete setup in order','Set up 01 Character, 02 Systems, then 03 Equipment and 04 Report.'],['Recheck Magic Tree after changing levels','When character level changes, verify Magic Tree allocation and caps in 02.'],['Recalculation on Page 03','After editing 01 or 02, entering 03 recalculates results using current settings.'],['Auto optimization takes time','Changing minimum critical rate or cooldown may start a new search; stricter limits can take longer.']]},
+ ko:{board:'공지사항',boardSub:'버전 소식 · 최신순',new:'업데이트',hint:'계산 전 안내',hintSub:'계산 전에 설정 사항을 확인하세요',hintOpen:'사용 안내 보기 ›',hintTitle:'계산 전 안내',notices:[['2026-10-17','V2.3 | 신규 특성 비교 예고','신규 특성 효과, 특성 조합 및 장비 옵션 교체에 따른 피해량 차이 비교를 계획 중입니다. 메커니즘과 수치는 검증 중이며 아직 제공되지 않습니다.'],['2026-10-17','V2.2.1 | 정식 업데이트','01~04 페이지의 스킬 검색, 필터, 장비 편집, 세트 팝업, 옵션 차이 강조 및 피해량 비교 개선.'],['2026-10-16','V2.2 | UI 개선','01~04 페이지 스킬 검색, 필터, 장비 편집, 세트 팝업, 피해량 비교 개선.'],['2026-10-13','V2.2 | 데이터 업데이트','캐릭터 레벨 상한 600, 게임 V2.6 콘텐츠, 아티팩트 및 칭호 효과 지원.']],tips:[['순서대로 설정','01 캐릭터, 02 시스템, 03 장비, 04 보고서 순서로 설정하세요.'],['레벨 변경 후 마법 트리 확인','캐릭터 레벨을 바꾸면 02에서 마법 트리 배분과 제한을 다시 확인하세요.'],['03 페이지 재계산','01 또는 02 변경 후 03 진입 시 최신 설정으로 다시 계산합니다.'],['자동 최적화 대기','최소 치명타율 또는 쿨타임 조건 변경 시 탐색이 다시 실행될 수 있습니다.']]},
+ ja:{board:'お知らせ',boardSub:'更新情報・新しい順',new:'更新',hint:'シミュレーション前のご案内',hintSub:'設定前に注意事項をご確認ください',hintOpen:'使い方を見る ›',hintTitle:'シミュレーション前のご案内',notices:[['2026-10-17','V2.3｜新特性の比較機能予告','新特性の効果、組み合わせ、装備オプション置換によるダメージ差を比較する機能を計画中です。仕組みと数値は検証中で、まだ利用できません。'],['2026-10-17','V2.2.1｜正式リリース','01～04のスキル検索、絞り込み、装備編集、セット表示、オプション差分の強調、ダメージ比較を改善しました。'],['2026-10-16','V2.2｜UI改善','01～04のスキル検索、絞り込み、装備編集、セット表示、ダメージ比較を改善しました。'],['2026-10-13','V2.2｜データ更新','キャラクター上限Lv600、ゲームV2.6の追加内容、アーティファクトと称号効果に対応。']],tips:[['順番に設定','01キャラクター、02システム、03装備、04レポートの順に設定してください。'],['レベル変更後に魔法ツリーを確認','キャラクターレベルを変更したら02で魔法ツリーの上限と配分を確認してください。'],['03で再計算','01または02を変更後、03に進むと現在の設定で再計算されます。'],['自動最適化には時間が必要','会心率やクールタイムの条件変更後、再検索に時間がかかる場合があります。']]} 
+};
+let lastKey='',observer=null;
+function key(){const x=document.querySelector('.lang-btn.active')?.dataset.lang || document.documentElement.lang || 'zh-Hant';return i18n[x]?x:'zh-Hant'}
+function render(){const d=i18n[key()],card=document.getElementById('test27HintCard');
+ if(card){card.classList.add('r16-board');card.replaceChildren();
+ const head=document.createElement('div');head.className='hint-head';
+ const mark=document.createElement('span');mark.className='hint-mark';mark.textContent='↧';
+ const titleBox=document.createElement('div');const title=document.createElement('div');title.className='hint-title';title.textContent=d.board;
+ const subtitle=document.createElement('div');subtitle.className='hint-sub';subtitle.textContent=d.boardSub;titleBox.append(title,subtitle);head.append(mark,titleBox);
+ const list=document.createElement('div');list.className='r16-board-list';
+ const notices=[...d.notices].sort((a,b)=>b[0].localeCompare(a[0]));
+ notices.forEach(([date,name,description],index)=>{const article=document.createElement('article');article.className='r16-news';const top=document.createElement('div');top.className='r16-news-head';const time=document.createElement('time');time.dateTime=date;time.textContent=date;const heading=document.createElement('span');heading.className='r16-news-title';heading.textContent=name;top.append(time,heading);if(index===0){const badge=document.createElement('span');badge.className='r16-news-label';badge.textContent=d.new;top.append(badge)}const body=document.createElement('div');body.className='r16-news-text';body.textContent=description;article.append(top,body);list.append(article)});card.append(head,list);
+ }
+ const t=[['r15-updates-short',d.hint],['r15-updates-desc',d.hintSub],['r15-updates-open',d.hintOpen]];t.forEach(([id,value])=>{const el=document.getElementById(id);if(el)el.textContent=value});
+ const modal=document.getElementById('r15-updates-backdrop');if(modal){const heading=modal.querySelector('#r15-title');if(heading)heading.textContent=d.hintTitle;const body=modal.querySelector('.r15-updates-scroll');if(body){body.replaceChildren();d.tips.forEach(([title,detail])=>{const h=document.createElement('h4'),p=document.createElement('p');h.textContent=title;p.textContent=detail;body.append(h,p)})}}
+ lastKey=key();
+}
+function init(){render();const target=document.getElementById('test27HintCard');if(target){observer=new MutationObserver(()=>{if(!target.querySelector('.r16-board-list')){observer.disconnect();render();observer.observe(target,{childList:true})}});observer.observe(target,{childList:true})}document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(render,80)));window.addEventListener('tower-language-changed',()=>setTimeout(render,50));document.getElementById('r15-updates-open')?.addEventListener('click',()=>setTimeout(render,0));}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,180));else setTimeout(init,180);
+})();</script>
