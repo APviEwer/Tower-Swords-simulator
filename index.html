@@ -1567,7 +1567,7 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 @media(max-width:620px){.language-switch .lang-btn{font-size:8px!important}}
 </style>
 <meta content="V2.2-game2.6" name="ts-release"/>
-</head>
+<style id="v22-one-click-cleanup">#r83-audit,#r82-audit{display:none!important}</style></head>
 <body>
 <script>
 /* APviEwer Release bootstrap: reset test-state once, then preserve normal user saves. */
@@ -9779,11 +9779,27 @@ function ready(){
  const host=document.getElementById('r82-audit')||document.getElementById('autoPane');if(!host)return;
  const pane=document.getElementById('r82-audit')||document.createElement('section');
  pane.id='r83-audit';
- pane.innerHTML='<h3>進階傷害最佳化</h3><p class="small">在原本自動推薦上執行受控多起點、雙欄位與三欄位聯合搜尋，套用更高且符合暴擊／冷卻門檻的合法配置。與手動配裝獨立；執行時間依裝置而異。搜尋結果為目前找到的較佳配置，不保證數學上的全域最大值。</p><div class="r82-actions"><button id="r83-check" type="button">進行進階最佳化</button></div><pre id="r83-log" aria-live="polite">尚未執行</pre>';
+ pane.innerHTML='<button id="r83-check" type="button" hidden tabindex="-1">最佳化核心</button><pre id="r83-log" hidden aria-hidden="true"></pre>';pane.hidden=true;pane.style.display='none';
  if(!pane.parentElement)host.appendChild(pane);
  const log=document.getElementById('r83-log'),button=document.getElementById('r83-check');
- const say=s=>{log.textContent=s;};
+ const say=s=>{log.textContent=s;const status=document.getElementById('autoStatus');if(status && busy){status.textContent='自動最佳化搜尋中，請稍候…';}};
  const breathe=()=>new Promise(r=>setTimeout(r,0));
+
+ let pending=null;
+ function scheduleIntegrated(){
+  if(pending!==null)clearTimeout(pending);
+  pending=setTimeout(()=>{pending=null;
+   if(document.getElementById('autoPane')?.hidden)return;
+   if(busy){scheduleIntegrated();return;}
+   button.click();
+  },220);
+ }
+ document.addEventListener('click',e=>{
+  if(e.target?.closest?.('.mode[data-mode="auto"]'))scheduleIntegrated();
+ });
+ for(const id of ['critTarget','cdTarget']){
+  document.getElementById(id)?.addEventListener('change',()=>{if(!document.getElementById('autoPane')?.hidden)scheduleIntegrated();});
+ }
  button.addEventListener('click',async()=>{
   if(busy)return;busy=true;button.disabled=true;
   try{
@@ -9870,9 +9886,9 @@ function ready(){
    if(found&&!r90CompareOff){accepted={sig,baseDamage:base.critDamage,layoutKey:JSON.stringify(base.setLayout||{}),layout,eq:clone(best.eq)};refreshAuto(true);}
    const winnerFixedPair=null;
    lastReport={version:'V2.2-release-optimizer',baselineFixedPair,winnerFixedPair,skillIdentity,conditions:limits,skill:{id:activeSkill().id,name:activeSkill().name},baseline:baseline.critDamage,best:best.damage,improved:found,changes:best.changes,path,rounds,tested,feasible,rejectedByTrait:invalidTrait,rejectedByLimitsOrFormula:invalidLimit,fields:defs.length,threeFieldScope:chosen.map(d=>d.key),baselineWarnings,seedStats,setBonusEnabled:!r90CompareOff,setLayout:clone(layout||{}),globallyProven:false,applied:found&&!r90CompareOff};window.TS_R87_AUDIT_LAST=JSON.parse(JSON.stringify(lastReport));
-   say([`進階最佳化完成（${r90CompareOff?'不計套裝增傷；不套用':'計入套裝增傷'}）｜${found?'找到較高候選':'未找到更好的局部候選'}`,`固定原推薦：計入 ${numberV(baselineFixedPair.on?.damage)} ／排除 ${numberV(baselineFixedPair.off?.damage)}（只切換套裝效果）`,`固定搜尋勝出：計入 ${numberV(winnerFixedPair.on?.damage)} ／排除 ${numberV(winnerFixedPair.off?.damage)}`,`技能 ID：${skillIdentity.selectedId} / ${skillIdentity.activeId}；名稱 ${skillIdentity.activeName}；對應 ${skillIdentity.idMatched&&skillIdentity.nameMatched?'一致':'異常'}`,`原自動傷害：${numberV(baseline.critDamage)}`,`稽核最高：${numberV(best.damage)}`,`共評估 ${tested} 組，符合條件 ${feasible} 組，詞條限制排除 ${invalidTrait} 組，門檻/運算排除 ${invalidLimit} 組`,`多起點預篩：${seedStats.attempted} 組，合法 ${seedStats.feasible} 組，改善 ${seedStats.better} 次；起點類別 ${seedStats.selected||"無"}` ,`共執行 ${rounds.length} 輪，改善 ${rounds.filter(r=>r.improved).length} 輪`,...best.changes,...(baselineWarnings.length?['原始配置與當前候選表差異：'+baselineWarnings.length+' 格',...baselineWarnings.slice(0,8)]:[]),'未證明全域最大值；未窮舉全部三格或四格以上組合。'].join('\n'));
+   say([`進階最佳化完成（${r90CompareOff?'不計套裝增傷；不套用':'計入套裝增傷'}）｜${found?'找到較高候選':'未找到更好的局部候選'}`,`技能 ID：${skillIdentity.selectedId} / ${skillIdentity.activeId}；名稱 ${skillIdentity.activeName}；對應 ${skillIdentity.idMatched&&skillIdentity.nameMatched?'一致':'異常'}`,`原自動傷害：${numberV(baseline.critDamage)}`,`稽核最高：${numberV(best.damage)}`,`共評估 ${tested} 組，符合條件 ${feasible} 組，詞條限制排除 ${invalidTrait} 組，門檻/運算排除 ${invalidLimit} 組`,`多起點預篩：${seedStats.attempted} 組，合法 ${seedStats.feasible} 組，改善 ${seedStats.better} 次；起點類別 ${seedStats.selected||"無"}` ,`共執行 ${rounds.length} 輪，改善 ${rounds.filter(r=>r.improved).length} 輪`,...best.changes,...(baselineWarnings.length?['原始配置與當前候選表差異：'+baselineWarnings.length+' 格',...baselineWarnings.slice(0,8)]:[]),'未證明全域最大值；未窮舉全部三格或四格以上組合。'].join('\n'));
   }catch(e){say('進階最佳化失敗：'+(e?.message||e));}
-  finally{busy=false;button.disabled=false;}
+  finally{busy=false;button.disabled=false;const status=document.getElementById('autoStatus');if(status&&lastReport){status.textContent=lastReport.improved?'自動最佳化已完成｜已採用更高傷害的合法配置':'自動最佳化已完成｜維持目前較佳合法配置';}}
  });
  }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
