@@ -10571,7 +10571,13 @@ const names=['主武','武2','武3','頭盔','戒1','戒2','項鍊','耳環','�
 let chosen=names[0], view='quick', constructing=false;
 const $=(s,base=document)=>base.querySelector(s);
 function grid(){return $('#equipmentGrid')}
-function originals(name){let row=[...grid().querySelectorAll('.eq-row')].find(r=>r.querySelector('.eq-name')?.textContent.trim()===name);return row?[...row.querySelectorAll('select[data-key]')]:[]}
+function originals(name){
+ // Stable equipment identity: display names are translated, but data-key always uses the source gear ID.
+ const root=grid();if(!root)return [];
+ const rows=[...root.querySelectorAll('.eq-row')];
+ const row=rows.find(r=>[...r.querySelectorAll('select[data-key]')].some(s=>s.dataset.key?.startsWith(name+'.')));
+ return row?[...row.querySelectorAll('select[data-key]')].filter(s=>s.dataset.key?.startsWith(name+'.')):[];
+}
 function count(name){const slots=originals(name),used=slots.filter(s=>s.value).length;return `${used}/${slots.length}`}
 function updatedTabs(){const root=$('#v22GearTabs');if(!root)return;root.replaceChildren();names.forEach(name=>{const b=document.createElement('button');b.type='button';b.className='v22-gear-tab'+(name===chosen?' active':'');b.innerHTML=`<span>${name}</span><small>${count(name)} 已設定</small>`;b.addEventListener('click',()=>{chosen=name;draw()});root.append(b)})}
 function redrawChoices(){const root=$('#v22GearFields');if(!root)return;root.replaceChildren();const sels=originals(chosen);sels.forEach(original=>{
