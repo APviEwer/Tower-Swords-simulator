@@ -1756,6 +1756,11 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 }
 
 </style>
+<style id="r58-fashion-visibility-fallback">
+/* Show the original working fashion list until the gallery has rendered. */
+#fashionList{display:grid!important}
+html.fashion-gallery-ready #fashionList{display:none!important}
+</style>
 </head>
 <body>
 <script>
@@ -7456,6 +7461,16 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     try { if(typeof state!=='undefined' && state?.system) return state; } catch(e){}
     return window.state?.system ? window.state : null;
   }
+  // Fashion gallery must not call the pet gallery's private r49EffectDisplay.
+  // Keep the original source text if a locale effect helper is unavailable.
+  function fashionEffectDisplay(raw){
+    const value=String(raw??'—');
+    try{
+      if(typeof window.translateSystemEffect==='function') return window.translateSystemEffect(value);
+      if(typeof window.__tsEffectText==='function') return window.__tsEffectText(value);
+    }catch(_){}
+    return value;
+  }
   function render(){
     const root=ensureMount(); const st=getState(); if(!root||!st?.system)return;
     const items=getData();
@@ -7468,8 +7483,9 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
         const isOwned=!!st.system.fashions?.[f.key];
         return `<button type="button" class="fashion-game-item ${isOwned?'is-owned':''} ${f.key===selectedKey?'is-selected':''}" data-fashion-game="${esc(f.key)}" title="${esc(f.name)}｜${esc(f.effect)}"><span class="fashion-game-art">${iconHTML(f.key)}${isOwned?'<span class="fashion-owned-mark">✓</span>':''}</span><span class="fashion-game-name">${esc(f.name)}</span></button>`;
       }).join('')}</div>
-      ${selected?`<div class="fashion-game-detail"><div class="fashion-detail-art">${iconHTML(selected.key)}</div><div><div class="fashion-detail-title">${esc(selected.name)}</div><div class="fashion-detail-effect">${esc(r49EffectDisplay(selected.effect))}</div>${selected.note?`<div class="fashion-detail-note">${esc(selected.note)}</div>`:''}</div><button type="button" class="fashion-own-btn ${st.system.fashions?.[selected.key]?'is-owned':''}" data-fashion-own="${esc(selected.key)}">${st.system.fashions?.[selected.key]?'✓ 已擁有':'設為擁有'}</button></div>`:''}
+      ${selected?`<div class="fashion-game-detail"><div class="fashion-detail-art">${iconHTML(selected.key)}</div><div><div class="fashion-detail-title">${esc(selected.name)}</div><div class="fashion-detail-effect">${esc(fashionEffectDisplay(selected.effect))}</div>${selected.note?`<div class="fashion-detail-note">${esc(selected.note)}</div>`:''}</div><button type="button" class="fashion-own-btn ${st.system.fashions?.[selected.key]?'is-owned':''}" data-fashion-own="${esc(selected.key)}">${st.system.fashions?.[selected.key]?'✓ 已擁有':'設為擁有'}</button></div>`:''}
     </div>`;
+    document.documentElement.classList.add('fashion-gallery-ready');
     root.querySelectorAll('[data-fashion-game]').forEach(btn=>btn.addEventListener('click',()=>{selectedKey=btn.dataset.fashionGame;render();}));
     root.querySelectorAll('[data-fashion-own]').forEach(btn=>btn.addEventListener('click',()=>{
       const key=btn.dataset.fashionOwn, st=getState();
@@ -7482,17 +7498,18 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
       render();
     }));
   }
+  let initialized=false;
   function init(){
+    if(initialized)return; initialized=true;
     const details=$('#fashionList')?.closest('details');
     if(details) details.addEventListener('toggle',()=>{if(details.open)requestAnimationFrame(render);});
     render();
     window.addEventListener('languagechange',render);
     document.addEventListener('tower-system-refresh',render);
   }
-  try{
-    if(matchMedia('(max-width:620px)').matches) document.addEventListener('tower-page2-enter',init,{once:true});
-    else init();
-  }catch(_){init();}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+  document.addEventListener('tower-page2-enter',()=>{init();render();});
 })();
 </script>
 <!-- PREVIEW ONLY — Game-style Pet gallery + four equipment slots. Presentation/input shell only. -->
