@@ -5397,21 +5397,84 @@ function systemSourceStats(){
 function sourceSummaryText(s){
   const parts=[]; if(s.atk)parts.push(`ATK ${signedNumber(s.atk)}`);if(s.flatAtk)parts.push(`固定ATK +${roundStat(s.flatAtk)}`);if(s.spell)parts.push(`法傷 ${signedNumber(s.spell)}`);if(s.crit)parts.push(`暴擊 ${signedNumber(s.crit)}`);if(s.critDamage)parts.push(`暴傷 ${signedNumber(s.critDamage)}`);if(s.cooldown)parts.push(`冷卻 ${signedNumber(s.cooldown)}`);if(s.skillLv)parts.push(`Skill Lv ${signedNumber(s.skillLv,'')}`);if(s.fire)parts.push(`火 ${signedNumber(s.fire)}`);if(s.ice)parts.push(`冰 ${signedNumber(s.ice)}`);if(s.lightning)parts.push(`雷 ${signedNumber(s.lightning)}`);if(s.normal)parts.push(`普通 ${signedNumber(s.normal)}`);if(s.boss)parts.push(`BOSS ${signedNumber(s.boss)}`);return parts.join('｜')||'目前無傷害向效果';
 }
+// R57: Render report equipment from canonical equipment/affix IDs, never from translated DOM text.
+const R57_GEAR_NAMES={
+ '主武':['主武器','Main Weapon','주무기','メイン武器'], '武2':['武器2','Weapon 2','무기 2','武器2'],
+ '武3':['武器3','Weapon 3','무기 3','武器3'], '頭盔':['頭盔','Helmet','투구','兜'],
+ '盔甲':['盔甲','Armor','갑옷','鎧'], '鞋子':['鞋子','Boots','신발','靴'],
+ '戒1':['戒指1','Ring 1','반지 1','指輪1'], '戒2':['戒指2','Ring 2','반지 2','指輪2'],
+ '項鍊':['項鍊','Necklace','목걸이','ネックレス'], '耳環':['耳環','Earrings','귀걸이','イヤリング']
+};
+const R57_AFFIX_NAMES={
+ 'ATK':['ATK','ATK','ATK','ATK'], '所有魔法等級':['所有魔法等級','All Magic Levels','모든 마법 레벨','全魔法レベル'],
+ '暴擊率':['暴擊率','Critical Rate','치명타 확률','クリティカル率'], '暴擊傷害':['暴擊傷害','Critical Damage','치명타 피해','クリティカルダメージ'],
+ '冷卻時間':['冷卻時間','Cooldown Reduction','재사용 대기시간 감소','クールタイム短縮'],
+ '法術傷害':['法術傷害','Spell Damage','마법 피해','魔法ダメージ'],
+ '元素法術傷害':['元素法術傷害','Elemental Spell Damage','속성 마법 피해','属性魔法ダメージ'],
+ '火焰法術傷害':['火焰法術傷害','Fire Spell Damage','화염 마법 피해','炎魔法ダメージ'],
+ '冰系法術傷害':['冰系法術傷害','Ice Spell Damage','얼음 마법 피해','氷魔法ダメージ'],
+ '閃電法術傷害':['閃電法術傷害','Lightning Spell Damage','번개 마법 피해','雷魔法ダメージ'],
+ '普通法術傷害':['普通法術傷害','Normal Spell Damage','일반 마법 피해','通常魔法ダメージ'],
+ '火焰魔法等級':['火焰魔法等級','Fire Magic Level','화염 마법 레벨','炎魔法レベル'],
+ '冰系魔法等級':['冰系魔法等級','Ice Magic Level','얼음 마법 레벨','氷魔法レベル'],
+ '閃電魔法等級':['閃電魔法等級','Lightning Magic Level','번개 마법 레벨','雷魔法レベル'],
+ '普通魔法等級':['普通魔法等級','Normal Magic Level','일반 마법 레벨','通常魔法レベル'],
+ 'MP消耗降低':['MP消耗降低','MP Cost Reduction','MP 소모 감소','MP消費軽減'],
+ '未指定':['未指定','Not specified','지정 안 함','未指定'], '元素法傷':['元素法傷','Elemental Spell Damage','속성 마법 피해','属性魔法ダメージ'],
+ '火元素':['火元素','Fire Element','화염 속성','炎属性'], '冰元素':['冰元素','Ice Element','얼음 속성','氷属性'],
+ '雷元素':['雷元素','Lightning Element','번개 속성','雷属性'], '普通元素':['普通元素','Normal Element','일반 속성','通常属性'],
+ 'MP減耗':['MP減耗','MP Reduction','MP 소모 감소','MP消費軽減']
+};
+function r57LocaleIndex(){const v=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';return v==='en'?1:v==='ko'?2:v==='ja'?3:0;}
+function r57Name(names,key){return names[key]?.[r57LocaleIndex()]||key;}
+function r57GearText(key){return r57Name(R57_GEAR_NAMES,key);}
+function r57AffixText(key){return r57Name(R57_AFFIX_NAMES,key);}
+function r57ReportUi(key){const d={
+ empty:['未配置','Not configured','설정되지 않음','未設定'],
+ noAuto:['無攻擊向候選','No offensive candidate','공격용 후보 없음','攻撃向け候補なし'],
+ noBuild:['目前條件沒有已驗證的逐格自動配置。','No verified slot-by-slot automatic configuration for these conditions.','현재 조건에서 검증된 슬롯별 자동 장비 구성이 없습니다.','現在の条件に対して、検証済みのスロット別自動構成はありません。'],
+ slot:[' 格',' slots','칸','枠'],sum:['合計 ','Total ','合計 ','合計 '],noAffix:['尚無詞條。','No affixes.','옵션 없음.','オプションがありません。']
+ };return d[key][r57LocaleIndex()];}
 function renderReportGear(host,eq,manual=false){
-  if(!host)return;
-  const order=['主武','武2','武3','頭盔','盔甲','鞋子','戒1','戒2','項鍊','耳環'];
-  const slotOrder=['Basic1','Basic2','Basic3','Basic4','Plus1','Plus2','Plus3'];
-  if(manual){
-    const map={};for(const [key,item] of Object.entries(state.manual.equipment||{})){if(!item?.type)continue;const [gear,short]=key.split('.');const slot=short?.startsWith('B')?`Basic${short.slice(1)}`:`Plus${short?.slice(1)}`;(map[gear]??={})[slot]=item;}
-    host.innerHTML=order.map(gear=>{const slots=map[gear]||{},cells=slotOrder.filter(k=>slots[k]).map(k=>{const it=slots[k],val=String(it.value??'').trim();return `<div class="auto-slot"><b>${k}</b><span>${escHtml(it.type)}${val?` ${escHtml(val)}`:''}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${gear}</div><div class="auto-slots">${cells||'<span class="small">未配置</span>'}</div></div>`}).join('');return;
-  }
-  if(!eq){host.innerHTML='<div class="small">目前條件沒有已驗證的逐格自動配置。</div>';return;}
-  host.innerHTML=order.map(gear=>{const slots=eq[gear]||{},cells=slotOrder.filter(k=>slots[k]).map(k=>{const [t,v]=slots[k];return `<div class="auto-slot"><b>${k}</b><span>${escHtml(t)} ${t==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(Number(v||0))))):`${R9_TRAITS.some(x=>x[0]===t)?'':`${v}${t==='所有魔法等級'?' Lv':'%'}`}`}</span></div>`}).join('');return `<div class="auto-eq-row"><div class="auto-eq-name">${gear}</div><div class="auto-slots">${cells||'<span class="small">無攻擊向候選</span>'}</div></div>`}).join('');
+ if(!host)return;
+ const order=['主武','武2','武3','頭盔','盔甲','鞋子','戒1','戒2','項鍊','耳環'];
+ const slotOrder=['Basic1','Basic2','Basic3','Basic4','Plus1','Plus2','Plus3'];
+ if(manual){
+   const map={};for(const [key,item] of Object.entries(state.manual.equipment||{})){
+     if(!item?.type)continue;const [gear,short]=key.split('.');const slot=short?.startsWith('B')?`Basic${short.slice(1)}`:`Plus${short?.slice(1)}`;
+     (map[gear]??={})[slot]=item;
+   }
+   host.innerHTML=order.map(gear=>{
+     const slots=map[gear]||{};
+     const cells=slotOrder.filter(k=>slots[k]).map(k=>{
+       const it=slots[k],val=String(it.value??'').trim();
+       return `<div class="auto-slot"><b>${k}</b><span>${escHtml(r57AffixText(it.type))}${val?` ${escHtml(val)}`:''}</span></div>`;
+     }).join('');
+     return `<div class="auto-eq-row"><div class="auto-eq-name">${escHtml(r57GearText(gear))}</div><div class="auto-slots">${cells||`<span class="small">${r57ReportUi('empty')}</span>`}</div></div>`;
+   }).join('');return;
+ }
+ if(!eq){host.innerHTML=`<div class="small">${r57ReportUi('noBuild')}</div>`;return;}
+ host.innerHTML=order.map(gear=>{
+   const slots=eq[gear]||{};
+   const cells=slotOrder.filter(k=>slots[k]).map(k=>{
+     const [type,value]=slots[k];
+     const val=type==='ATK'?formatGameBigInt(BigInt(Math.max(0,Math.round(Number(value||0))))):
+       R9_TRAITS.some(x=>x[0]===type)?'':`${value}${type==='所有魔法等級'?' Lv':'%'}`;
+     return `<div class="auto-slot"><b>${k}</b><span>${escHtml(r57AffixText(type))} ${escHtml(val)}</span></div>`;
+   }).join('');
+   return `<div class="auto-eq-row"><div class="auto-eq-name">${escHtml(r57GearText(gear))}</div><div class="auto-slots">${cells||`<span class="small">${r57ReportUi('noAuto')}</span>`}</div></div>`;
+ }).join('');
 }
 function renderSummaryRows(host,groups){
-  if(!host)return; const rows=groups.filter(x=>x.count||x.always);host.innerHTML=rows.length?rows.map(x=>`<div class="summary-row"><div class="name">${escHtml(x.name)}</div><div class="count">${x.count} 格</div><div class="total">合計 ${escHtml(x.total)}</div></div>`).join(''):'<div class="small">尚無詞條。</div>';
+ if(!host)return;const rows=groups.filter(x=>x.count||x.always);
+ host.innerHTML=rows.length?rows.map(x=>`<div class="summary-row"><div class="name">${escHtml(r57AffixText(x.name))}</div><div class="count">${x.count}${r57ReportUi('slot')}</div><div class="total">${r57ReportUi('sum')}${escHtml(x.total)}</div></div>`).join(''):`<div class="small">${r57ReportUi('noAffix')}</div>`;
 }
 function refreshReport(){
+  if(!refreshReport._r57LanguageBound){
+    refreshReport._r57LanguageBound=true;
+    document.querySelectorAll('.lang-btn').forEach(btn=>btn.addEventListener('click',()=>setTimeout(()=>{if(document.getElementById('reportScreen')?.classList.contains('active'))refreshReport();},90)));
+  }
+
   if(state.skill.id===''){
     const host=$('#reportTotals'); if(host){host.hidden=true;let note=$('#r18NoSkillReport');if(!note){note=document.createElement('div');note.id='r18NoSkillReport';note.className='note';host.before(note);}note.textContent='未選擇技能：不計算 Skill Lv、Skill ATK 或技能傷害。';note.hidden=false;}
     for(const id of ['manualCritDamage','manualNonCritDamage','autoDamage'])if($('#'+id))$('#'+id).textContent='—';
@@ -11825,7 +11888,7 @@ function translateChipText(txt){
  Object.entries(AFFIX).forEach(([k,v])=>{out=out.replace(new RegExp(k,'g'), v[lang()]||v['en']);});
  return out;
 }
-function translateAutoBuildLists(){
+function translateAutoBuildLists(){return;
  document.querySelectorAll('#reportAutoGear .auto-slot span, #reportAutoGear .auto-slot strong, #reportAutoGear .auto-slot b, #r8AutoBody .auto-slot span, #r8AutoBody .auto-slot strong, #r8AutoBody .auto-slot b').forEach(el=>{ if(!isLeaf(el)) return; const txt=(el.textContent||'').trim(); if(!txt) return; el.textContent=translateChipText(txt); });
  document.querySelectorAll('#reportAutoGear .auto-row-title, #r8AutoBody .auto-row-title, #reportAutoGear .gear-name, #r8AutoBody .gear-name, #reportAutoGear .auto-slot-title, #r8AutoBody .auto-slot-title').forEach(el=>{ if(!isLeaf(el)) return; const txt=(el.textContent||'').trim(); if(SLOT[txt]) el.textContent=SLOT[txt][lang()]||SLOT[txt].en; });
  // generic slot labels in cards
