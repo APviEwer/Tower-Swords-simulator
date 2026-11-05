@@ -6987,18 +6987,22 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     setTimeout(render,0);
   }
   function setPrimary(id,on){const box=list.querySelector(`[data-artifact-primary="${id}"]`);if(!box||box.disabled)return;box.checked=!!on;box.dispatchEvent(new Event('change',{bubbles:true}));setTimeout(render,0)}
+  function displayName(a){
+    const l=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';
+    return a?.localizedNames?.[l] || a.name;
+  }
   function currentFilter(){return String(search?.value||'').trim().toLowerCase()}
   function renderGrid(){
     const kw=currentFilter();
-    const items=sys.artifacts.filter(a=>!kw||String(a.name).toLowerCase().includes(kw));
-    grid.innerHTML=items.map(a=>{const lv=getLv(a.id),p=isPrimary(a.id),path=iconPath(a.id);return `<button type="button" class="artifact-game-item ${lv>0?'is-owned':''} ${Number(a.id)===Number(selected)?'is-selected':''} ${p?'is-primary':''}" data-game-artifact="${a.id}" title="${esc(a.name)}"><span class="artifact-game-icon">${path?`${window.v2MobileProgressiveImg?window.v2MobileProgressiveImg(path,"",""): `<img src="${esc(path)}" alt="" loading="lazy" decoding="async">`}`:''}</span><span class="artifact-game-name">${esc(a.name)}</span><span class="artifact-game-lv">Lv ${lv} / ${a.maxLevel}</span></button>`}).join('');
+    const items=sys.artifacts.filter(a=>!kw||String(a.name).toLowerCase().includes(kw)||String(displayName(a)).toLowerCase().includes(kw));
+    grid.innerHTML=items.map(a=>{const lv=getLv(a.id),p=isPrimary(a.id),path=iconPath(a.id);return `<button type="button" class="artifact-game-item ${lv>0?'is-owned':''} ${Number(a.id)===Number(selected)?'is-selected':''} ${p?'is-primary':''}" data-game-artifact="${a.id}" title="${esc(displayName(a))}"><span class="artifact-game-icon">${path?`${window.v2MobileProgressiveImg?window.v2MobileProgressiveImg(path,"",""): `<img src="${esc(path)}" alt="" loading="lazy" decoding="async">`}`:''}</span><span class="artifact-game-name">${esc(displayName(a))}</span><span class="artifact-game-lv">Lv ${lv} / ${a.maxLevel}</span></button>`}).join('');
     grid.querySelectorAll('[data-game-artifact]').forEach(b=>b.addEventListener('click',()=>{selected=Number(b.dataset.gameArtifact);render()}));
     const owned=sys.artifacts.reduce((n,a)=>n+(getLv(a.id)>0?1:0),0);count.textContent=`${owned} / ${sys.artifacts.length}`;
   }
   function renderDetail(){
     const a=sys.artifacts.find(x=>Number(x.id)===Number(selected))||sys.artifacts[0]; if(!a)return;
     selected=Number(a.id);const lv=getLv(a.id),p=isPrimary(a.id),path=iconPath(a.id),info=levelInfo(a.id,lv);const effect=lv>0?(info?.effect||a.maxEffect||'已啟用'):r43L('Lv0｜未取得／未啟用','Lv0 | Not acquired / inactive','Lv0｜미획득／비활성','Lv0｜未入手／無効');
-    detail.innerHTML=`<div class="artifact-detail-icon">${path?`<img src="${esc(path)}" alt="">`:''}</div><div><div class="artifact-detail-name">${esc(a.name)}</div><div class="artifact-detail-effect">${esc(effect)}</div><div class="artifact-detail-status">最高 Lv ${a.maxLevel}${p?'｜目前主要人工製品':''}</div></div><div class="artifact-detail-controls"><button type="button" class="artifact-level-btn" data-art-minus>−</button><div class="artifact-level-read">Lv ${lv}</div><button type="button" class="artifact-level-btn" data-art-plus>＋</button><button type="button" class="artifact-level-btn" data-art-max>MAX</button><button type="button" class="artifact-primary-btn ${p?'is-on':''}" data-art-primary>${p?'主要中':'設主要'}</button></div>`;
+    detail.innerHTML=`<div class="artifact-detail-icon">${path?`<img src="${esc(path)}" alt="">`:''}</div><div><div class="artifact-detail-name">${esc(displayName(a))}</div><div class="artifact-detail-effect">${esc(effect)}</div><div class="artifact-detail-status">最高 Lv ${a.maxLevel}${p?'｜目前主要人工製品':''}</div></div><div class="artifact-detail-controls"><button type="button" class="artifact-level-btn" data-art-minus>−</button><div class="artifact-level-read">Lv ${lv}</div><button type="button" class="artifact-level-btn" data-art-plus>＋</button><button type="button" class="artifact-level-btn" data-art-max>MAX</button><button type="button" class="artifact-primary-btn ${p?'is-on':''}" data-art-primary>${p?'主要中':'設主要'}</button></div>`;
     detail.querySelector('[data-art-minus]')?.addEventListener('click',()=>setLv(a.id,lv-1));
     detail.querySelector('[data-art-plus]')?.addEventListener('click',()=>setLv(a.id,lv+1));
     detail.querySelector('[data-art-max]')?.addEventListener('click',()=>setLv(a.id,a.maxLevel));
@@ -9439,17 +9443,17 @@ function renderResults(){
  }
  const note=document.createElement('div');note.style.cssText='grid-column:1/-1;color:#b6cad5;background:#0a1c28;border:1px solid #314a5b;padding:8px;border-radius:7px;font-size:10.5px;line-height:1.4';note.textContent=translations.detail;out.append(note);
  const compact=document.getElementById('r34-set-summary');if(compact){
-  compact.replaceChildren();const short=l==='chinese'?['黑月','血影','紅蓮','永霜']:l==='korean'?['흑월','혈영','홍련','영설']:['Black Moon','Bloodshadow','Crimson Lotus','Everfrost'];
+  compact.replaceChildren();const short=l==='chinese'?['黑月','血影','紅蓮','永霜']:l==='korean'?['흑월','혈영','홍련','영설']:l==='japanese'?['黒月','血影','紅蓮','永雪']:['Black Moon','Bloodshadow','Crimson Lotus','Everfrost'];
   for(let k=0;k<4;k++){const count=setPieceCount(k);
    const box=document.createElement('div');box.className='r34-set-pill';box.style.setProperty('--set-color',colors[k]);
    const h=document.createElement('div');h.className='r34-pill-head';const title=document.createElement('strong');title.textContent=short[k];const val=document.createElement('b');val.textContent=count+'/9';h.append(title,val);
    const line=document.createElement('div');line.className='r34-meter';const fill=document.createElement('div');fill.style.width=(100*count/9)+'%';line.append(fill);
-   const next=[3,5,7,9].find(t=>t>count);const tag=document.createElement('small');tag.textContent=next?(l==='chinese'?'下一階段 '+next+' 件':l==='korean'?'다음 단계 '+next+'개':'Next tier '+next):translations.complete;
+   const next=[3,5,7,9].find(t=>t>count);const tag=document.createElement('small');tag.textContent=next?(l==='chinese'?'下一階段 '+next+' 件':l==='korean'?'다음 단계 '+next+'개':l==='japanese'?'次の段階 '+next+'点':'Next tier '+next):translations.complete;
    box.append(h,line,tag);compact.append(box);
   }
  }
  const sum1=document.getElementById('r34-gear-summary'),sum2=document.getElementById('r34-effect-summary');
- if(sum1)sum1.textContent=l==='chinese'?'裝備部位配置（11 欄）':l==='korean'?'장비 부위 구성 (11칸)':'Gear slot configuration (11 slots)';
+ if(sum1)sum1.textContent=l==='chinese'?'裝備部位配置（11 欄）':l==='korean'?'장비 부위 구성 (11칸)':l==='japanese'?'装備部位の構成（11枠）':'Gear slot configuration (11 slots)';
  if(sum2)sum2.textContent=l==='chinese'?'檢視已啟動／未啟動套裝效果':l==='korean'?'발동 및 미발동 세트 효과 보기':'View active / inactive set effects';
   const tip=document.getElementById('r28-tier-note');if(tip)tip.textContent=translations.detail;
 }
@@ -12142,3 +12146,128 @@ function render(){const d=i18n[key()],card=document.getElementById('test27HintCa
 function init(){render();const target=document.getElementById('test27HintCard');if(target){observer=new MutationObserver(()=>{if(!target.querySelector('.r16-board-list')){observer.disconnect();render();observer.observe(target,{childList:true})}});observer.observe(target,{childList:true})}document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(render,80)));window.addEventListener('tower-language-changed',()=>setTimeout(render,50));document.getElementById('r15-updates-open')?.addEventListener('click',()=>setTimeout(render,0));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,180));else setTimeout(init,180);
 })();</script>
+
+<script id="v225-r25-locale-data-sync-qa">
+(()=>{'use strict';
+const T={"zh-Hant":{"p1":"遊戲 V2.602｜角色上限 Lv.700、裝備上限 Lv.850；魔法樹高階四項上限 Lv.50。已整合 56 招技能 Lv.1～170、8 件新人工製品及永霜系列資料。部分高等級技能數值為遊戲實測校正的反推候選，魔法強化 Lv.11～12 仍需遊戲驗證。","p2":"請依遊戲實際持有與等級設定人工製品、魔法樹、時裝、寵物及稱號；新玩家預設未取得／Lv.0／未裝備。","p2note":"系統能力包含已解鎖稱號的相關屬性與傷害加成；裝備中的一張稱號，其自身效果額外 ×1.5。基礎暴擊傷害為 150%；未取得的項目不提供加成。最大生命值等非傷害屬性不參與技能傷害計算。","p3":"遊戲 V2.602｜永霜之主：3 件冰霜魔法傷害 +10%；5 件技能 MP 消耗 -3%；7 件冰霜魔法傷害再 +15%、暴擊率 +3%；9 件冰霜魔法最終傷害 ×1.15。「永霜征服者」稱號：冰霜魔法傷害 +6%、最大生命值 +3%；裝備該稱號後分別為 +9%、+4.5%。僅傷害相關屬性進入傷害公式。","artifact":"已收錄 111 件人工製品，包含新增加的 8 件；圖示由 assets/img/artifacts 統一讀取。","artifactinfo":"點選圖示調整人工製品的擁有狀態、等級與主要人工製品；本版共 111 件。","setstatus":"已納入手動與自動傷害計算（黑月／紅蓮／永霜）","reportauto":"自動最佳化配置","titlebrief":"已解鎖稱號的相關屬性與傷害加成會參與計算","artcount":"人工製品｜111 件"},"en":{"p1":"Game V2.602 | Character cap Lv.700, equipment cap Lv.850, and Lv.50 for four advanced Magic Tree nodes. Includes 56 skills through Lv.170, eight new artifacts, and the Everfrost content. Some high-level skill values are estimates calibrated against in-game measurements; Magic Enhancement Lv.11–12 is not yet independently verified.","p2":"Set artifacts, Magic Tree, costumes, pets, and titles to match your actual in-game progress. New builds start with nothing owned, Lv.0, and nothing equipped.","p2note":"Unlocked titles contribute applicable stats and damage bonuses. One equipped title receives a further ×1.5 multiplier on its own effects. Base critical damage is 150%. Unowned items grant no bonuses; HP and other non-damage stats do not directly increase skill damage.","p3":"Game V2.602 | Everfrost set: 3 pieces grant +10% ice magic damage; 5 reduce skill MP cost by 3%; 7 grant a further +15% ice magic damage and +3% critical rate; 9 multiply final ice magic damage by 1.15. Everfrost Conqueror title: +6% ice magic damage and +3% max HP; when equipped, +9% and +4.5%, respectively. Only damage-relevant effects enter damage calculations.","artifact":"111 artifacts are available, including eight new ones. Icons are loaded from assets/img/artifacts.","artifactinfo":"Select an artifact to set ownership, level, and primary status. Total: 111 artifacts.","setstatus":"Included in manual and auto damage (Black Moon / Crimson Lotus / Everfrost)","reportauto":"Auto-optimized Equipment","titlebrief":"Unlocked title bonuses contribute to applicable stats and damage","artcount":"Artifacts | 111"},"ko":{"p1":"게임 V2.602 | 캐릭터 최대 Lv.700, 장비 최대 Lv.850, 마법 트리의 상위 4개 항목 최대 Lv.50. 스킬 56종의 Lv.1~170 데이터, 신규 아티팩트 8종과 영설 콘텐츠를 반영했습니다. 일부 고레벨 스킬 수치는 게임 실측값으로 보정한 추정치이며, 마법 강화 Lv.11~12는 추가 검증이 필요합니다.","p2":"실제 게임 진행 상황에 맞춰 아티팩트, 마법 트리, 코스튬, 펫, 칭호를 설정하세요. 새 빌드는 미보유·Lv.0·미장착 상태에서 시작합니다.","p2note":"해금한 칭호의 관련 능력치와 피해 보너스가 계산에 반영됩니다. 장착한 칭호 1개의 고유 효과는 추가로 ×1.5 적용됩니다. 기본 치명타 피해는 150%이며, 미보유 항목은 보너스가 없습니다. HP 등 피해와 무관한 능력치는 스킬 피해에 직접 더하지 않습니다.","p3":"게임 V2.602 | 영설 세트: 3세트 얼음 마법 피해 +10%, 5세트 스킬 MP 소모 -3%, 7세트 얼음 마법 피해 추가 +15% 및 치명타 확률 +3%, 9세트 얼음 마법 최종 피해 ×1.15. 영설 정복자 칭호: 얼음 마법 피해 +6%, 최대 HP +3%; 장착 시 각각 +9%, +4.5%. 피해 계산에는 관련 보너스만 반영됩니다.","artifact":"신규 8종을 포함한 아티팩트 111종을 제공합니다. 아이콘 경로: assets/img/artifacts.","artifactinfo":"아이콘을 선택해 보유 상태, 레벨, 주 아티팩트를 설정하세요. 총 111종입니다.","setstatus":"수동·자동 피해 계산에 반영 (흑월 / 홍련 / 영설)","reportauto":"자동 최적화 장비","titlebrief":"해금 칭호의 관련 능력치와 피해 보너스가 적용됩니다","artcount":"아티팩트｜111개"},"ja":{"p1":"ゲーム V2.602｜キャラクター上限 Lv.700、装備上限 Lv.850、魔法ツリーの上位4項目は Lv.50 まで対応。56種類のスキル（Lv.1～170）、新アーティファクト8種類、永雪シリーズを収録しました。一部の高レベルスキル値はゲーム実測に基づく推定値です。魔法強化 Lv.11～12 は引き続き検証が必要です。","p2":"ゲーム内の進行状況に合わせて、アーティファクト・魔法ツリー・コスチューム・ペット・称号を設定してください。初期状態は未所持・Lv.0・未装備です。","p2note":"解放済み称号の対応する能力値とダメージボーナスは計算に反映されます。装備した称号1つの固有効果には、さらに×1.5が適用されます。基本クリティカルダメージは150%です。未所持の効果は加算されず、HPなどダメージと無関係な能力値はスキルダメージに直接加算されません。","p3":"ゲーム V2.602｜永雪セット：3点で氷魔法ダメージ+10%、5点でスキルMP消費-3%、7点で氷魔法ダメージがさらに+15%・クリティカル率+3%、9点で氷魔法の最終ダメージ×1.15。「永雪の征服者」の称号は氷魔法ダメージ+6%・最大HP+3%、装備するとそれぞれ+9%・+4.5%。ダメージに関係する効果のみ計算に反映します。","artifact":"新規8種類を含む計111種類のアーティファクトに対応。アイコンは assets/img/artifacts から読み込みます。","artifactinfo":"アイコンを選択して所持状態・レベル・メインアーティファクトを設定できます。全111種類。","setstatus":"手動・自動ダメージ計算に反映（黒月／紅蓮／永雪）","reportauto":"自動最適化装備","titlebrief":"解放済み称号の対応する能力値とダメージ効果を計算に反映","artcount":"アーティファクト｜111個"}};
+const SN={"1":{"z":"大搖擺","e":"Big Swing","k":"일격","j":"大振り"},"2":{"z":"粉碎","e":"Smash","k":"회전베기","j":"粉砕"},"3":{"z":"劍氣","e":"Aura Attack","k":"검기","j":"剣気"},"4":{"z":"三重斜杠","e":"Triple Slash","k":"삼연참","j":"三連斬り"},"5":{"z":"穿刺劍","e":"Piercing Sword","k":"꿰뚫는 검","j":"貫通剣"},"6":{"z":"匆忙","e":"Rush","k":"돌진","j":"突進"},"7":{"z":"閃電衝刺","e":"Lightning Dash","k":"일섬일격","j":"雷光ダッシュ"},"8":{"z":"消防路","e":"Fire Road","k":"불의 길","j":"炎の道"},"9":{"z":"火焰斬Jr","e":"Flame Slash Jr","k":"화염베기","j":"炎斬り Jr."},"10":{"z":"火焰斬","e":"Flame Slash","k":"진'화염베기","j":"炎斬り"},"11":{"z":"冰斬Jr","e":"Ice Slash Jr","k":"서리베기","j":"氷斬り Jr."},"12":{"z":"冰斬","e":"Ice Slash","k":"진'서리베기","j":"氷斬り"},"13":{"z":"冰花","e":"Ice Flower","k":"얼음꽃","j":"氷の花"},"14":{"z":"燃燒的火焰","e":"Burning Flame","k":"타오르는 불꽃","j":"燃え盛る炎"},"15":{"z":"火浪","e":"Waves Of Fire","k":"불의 파도","j":"炎の波"},"16":{"z":"閃電之舞","e":"Dance Of Lightning","k":"진'전격의 춤","j":"雷光の舞"},"17":{"z":"閃電之舞Jr","e":"Dance Of Lightning Jr","k":"전격의 춤","j":"雷光の舞 Jr."},"18":{"z":"藍色光束","e":"Blue Light Beam","k":"푸른 광선","j":"青い光線"},"19":{"z":"明亮的光束","e":"Bright Light Beam","k":"빛의 광선","j":"輝く光線"},"20":{"z":"紅色光束","e":"Red Light Beam","k":"붉은 광선","j":"赤い光線"},"21":{"z":"太陽寶珠","e":"Solar Orb","k":"태양구","j":"太陽の宝珠"},"22":{"z":"地面震動","e":"Ground Shaking","k":"진'땅울림","j":"地響き"},"23":{"z":"地面震動Jr","e":"Ground Shaking Jr","k":"땅울림","j":"地響き Jr."},"24":{"z":"雷擊","e":"Thunder Strike","k":"진'천둥의 전격","j":"落雷"},"25":{"z":"雷擊Jr","e":"Thunder Strike Jr","k":"천둥의 전격","j":"落雷 Jr."},"26":{"z":"雪矛","e":"Snow Spear","k":"눈의 창","j":"雪の槍"},"27":{"z":"大劍之魂","e":"Great Aura Attack","k":"대검기","j":"大剣の魂"},"28":{"z":"大斜線","e":"Great Slash","k":"대검격","j":"大斬撃"},"29":{"z":"火焰三連擊","e":"Flame Triple Strike","k":"화염 삼연격","j":"炎の三連撃"},"30":{"z":"幻覺攻擊","e":"Illusion Attack","k":"환영격","j":"幻影攻撃"},"31":{"z":"狂野之舞","e":"Wild Dance","k":"난무","j":"乱舞"},"32":{"z":"冰吹","e":"Ice Blow","k":"얼음 송곳","j":"氷の一撃"},"33":{"z":"火焰之刃","e":"Blade Of Flame","k":"화염의 칼날","j":"炎の刃"},"34":{"z":"雷雨","e":"Lightning Storm","k":"번개의 폭풍","j":"雷雨"},"35":{"z":"冰凍斬擊","e":"Freezing Slash","k":"얼음의 참격","j":"氷結斬撃"},"36":{"z":"紅色斜線","e":"Red Slash","k":"붉은 참격","j":"赤い斬撃"},"37":{"z":"匆忙","e":"Rush","k":"돌진","j":"突進"},"38":{"z":"地面震動","e":"Ground Shaking","k":"진'땅울림","j":"地響き"},"39":{"z":"火焰斬","e":"Flame Slash","k":"진'화염베기","j":"炎斬り"},"40":{"z":"冰斬","e":"Ice Slash","k":"진'서리베기","j":"氷斬り"},"41":{"z":"雷擊","e":"Thunder Strike","k":"진'천둥의 전격","j":"落雷"},"42":{"z":"閃電之舞","e":"Dance Of Lightning","k":"진'전격의 춤","j":"雷光の舞"},"43":{"z":"燃燒的火焰","e":"Burning Flame","k":"타오르는 불꽃","j":"燃え盛る炎"},"44":{"z":"消防路","e":"Fire Road","k":"불의 길","j":"炎の道"},"45":{"z":"大斜線","e":"Great Slash","k":"대검격","j":"大斬撃"},"46":{"z":"明亮的光束","e":"Bright Light Beam","k":"빛의 광선","j":"輝く光線"},"47":{"z":"太陽寶珠","e":"Solar Orb","k":"태양구","j":"太陽の宝珠"},"48":{"z":"冰花","e":"Ice Flower","k":"얼음꽃","j":"氷の花"},"49":{"z":"閃電衝刺","e":"Lightning Dash","k":"일섬일격","j":"雷光ダッシュ"},"50":{"z":"幻覺攻擊","e":"Illusion Attack","k":"환영격","j":"幻影攻撃"},"51":{"z":"拉斜線","e":"Pulling Slash","k":"인력참","j":"引き寄せ斬り"},"52":{"z":"冰月斬","e":"Frost Moon Slash","k":"빙월참","j":"氷月斬"},"53":{"z":"月蝕斬","e":"Eclipse Slash","k":"월식참","j":"月蝕斬"},"54":{"z":"血影四連斬","e":"Blood Shadow Quad Slash","k":"혈영사연참","j":"血影四連斬"},"55":{"z":"烈火一閃","e":"Blazing Flash","k":"열화일섬","j":"烈火一閃"},"56":{"z":"永雪反擊","e":"Eternal Frost Counter","k":"영설 반격","j":"永雪の反撃"}};
+const pick=()=>{const k=document.querySelector('.lang-btn.active')?.dataset.lang;return T[k]?k:'zh-Hant';};
+const screen=()=>document.querySelectorAll('main > section.screen');
+const set=(node,txt)=>{if(node&&typeof txt==='string'&&node.textContent!==txt)node.textContent=txt;};
+const byId=(id)=>document.getElementById(id);
+const skills=new Map();for(const x of Object.values(SN))for(const v of Object.values(x))if(v&&!skills.has(v))skills.set(v,x);
+let active=false;
+function apply(){if(active)return;active=true;try{
+ const lang=pick(), d=T[lang], ss=screen();if(ss.length<4)return;
+ set(byId('v260240-data-notice'),d.p1);
+ set(ss[1].querySelector('.hero p'),d.p2);
+ set(ss[1].querySelector('.safe-stat-card > .note'),d.p2note);
+ set(byId('v260240-r15-note'),d.p3);
+ // Title source panel: old legacy text contradicted the actual damage calculation.
+ const brief=ss[1].querySelector('.safe-brief[data-safe-stat="title"] small');
+ set(brief,d.titlebrief);
+ const extra=byId('safeTitlesExtra');if(extra){for(const el of extra.querySelectorAll('span')){
+  const v=(el.textContent||'').trim();
+  if(/稱號能力僅獨立統計|称号.*含めません|excluded from|피해 계산 제외/.test(v))set(el,d.titlebrief);
+ }}
+ // Artifact header & outdated source-status note: do not modify numerical artifact records.
+ const ac=ss[1].querySelector('.artifact-game-title');if(ac)set(ac,lang==='zh-Hant'?'人工製品圖鑑':lang==='en'?'Artifact Collection':lang==='ko'?'아티팩트 도감':'アーティファクト図鑑');
+ const am=ss[1].querySelector('.artifact-game-meta');set(am,d.artifactinfo);
+ const artArea=ss[1].querySelector('.artifact-game-head');if(artArea){
+  for(const el of artArea.querySelectorAll('*'))if(el.children.length===0 && /(?:103|111)/.test(el.textContent||'') && /人工製品|Artifacts|아티팩트|アーティファクト/i.test(el.textContent||''))set(el,d.artcount);
+ }
+ for(const el of ss[1].querySelectorAll('.note, .small, .artifact-game-note, .artifact-game-subtitle')){
+  const t=(el.textContent||'').trim();if(t.length<300&&(/7 件原始貼圖待解碼|第 8 件待定位|Slime.*unverified/.test(t)))set(el,d.artifact);
+ }
+ // Always render selected skills in the chosen language; retain stable skill IDs and numbers.
+ const key={ 'zh-Hant':'z',en:'e',ko:'k',ja:'j'}[lang];
+ const candidates=['.skill-preview-title','.beta-build-v','.v2-share-skill-name','.r13-item span','.skill-current-name'];
+ for(const selector of candidates)for(const node of document.querySelectorAll(selector)){
+  const value=(node.textContent||'').trim(),sk=skills.get(value);if(sk&&sk[key])set(node,sk[key]);
+ }
+ // Report may use a bare strong element for the selected skill name.
+ for(const node of ss[3].querySelectorAll('strong')){if(node.children.length)continue;const sk=skills.get((node.textContent||'').trim());if(sk&&sk[key])set(node,sk[key]);}
+ const report=ss[3].querySelectorAll('h3');for(const h of report)if(/^(自動最佳化配置|Auto-optimized Equipment|자동 최적화 장비|自動最適化装備)$/.test(h.textContent.trim()))set(h,d.reportauto);
+ // Old set status could show Korean inside Japanese UI.
+ const r28=byId('r28-calcstatus');if(r28&&(/수동·자동|manual.*auto|手動.*自動|手動.*自動/.test(r28.textContent)))set(r28,d.setstatus);
+ // Correct static count labels without touching any runtime count numerators.
+ const captions=ss[1].querySelectorAll('.artifact-game-head span,.artifact-game-head strong,.artifact-game-head small');for(const el of captions){if(/103/.test(el.textContent||'')&&/人工製品|Artifacts|아티팩트|アーティファクト/.test(el.textContent||''))set(el,d.artcount)}
+}finally{active=false}}
+let scheduled=false;
+function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;apply();});}
+function boot(){schedule();document.querySelectorAll('.lang-btn,nav.steps .step').forEach(b=>b.addEventListener('click',()=>{schedule();setTimeout(schedule,80);setTimeout(schedule,300)}));window.addEventListener('tower-language-changed',()=>{schedule();setTimeout(schedule,150)});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script>
+
+<script id="v225-r26-locale-final-qa">
+(()=>{'use strict';
+const SKILLS={"1":{"z":"大搖擺","e":"Big Swing","k":"일격","j":"大振り"},"2":{"z":"粉碎","e":"Smash","k":"회전베기","j":"粉砕"},"3":{"z":"劍氣","e":"Aura Attack","k":"검기","j":"剣気"},"4":{"z":"三重斜杠","e":"Triple Slash","k":"삼연참","j":"三連斬り"},"5":{"z":"穿刺劍","e":"Piercing Sword","k":"꿰뚫는 검","j":"貫通剣"},"6":{"z":"匆忙","e":"Rush","k":"돌진","j":"突進"},"7":{"z":"閃電衝刺","e":"Lightning Dash","k":"일섬일격","j":"雷光ダッシュ"},"8":{"z":"消防路","e":"Fire Road","k":"불의 길","j":"炎の道"},"9":{"z":"火焰斬Jr","e":"Flame Slash Jr","k":"화염베기","j":"炎斬り Jr."},"10":{"z":"火焰斬","e":"Flame Slash","k":"진'화염베기","j":"炎斬り"},"11":{"z":"冰斬Jr","e":"Ice Slash Jr","k":"서리베기","j":"氷斬り Jr."},"12":{"z":"冰斬","e":"Ice Slash","k":"진'서리베기","j":"氷斬り"},"13":{"z":"冰花","e":"Ice Flower","k":"얼음꽃","j":"氷の花"},"14":{"z":"燃燒的火焰","e":"Burning Flame","k":"타오르는 불꽃","j":"燃え盛る炎"},"15":{"z":"火浪","e":"Waves Of Fire","k":"불의 파도","j":"炎の波"},"16":{"z":"閃電之舞","e":"Dance Of Lightning","k":"진'전격의 춤","j":"雷光の舞"},"17":{"z":"閃電之舞Jr","e":"Dance Of Lightning Jr","k":"전격의 춤","j":"雷光の舞 Jr."},"18":{"z":"藍色光束","e":"Blue Light Beam","k":"푸른 광선","j":"青い光線"},"19":{"z":"明亮的光束","e":"Bright Light Beam","k":"빛의 광선","j":"輝く光線"},"20":{"z":"紅色光束","e":"Red Light Beam","k":"붉은 광선","j":"赤い光線"},"21":{"z":"太陽寶珠","e":"Solar Orb","k":"태양구","j":"太陽の宝珠"},"22":{"z":"地面震動","e":"Ground Shaking","k":"진'땅울림","j":"地響き"},"23":{"z":"地面震動Jr","e":"Ground Shaking Jr","k":"땅울림","j":"地響き Jr."},"24":{"z":"雷擊","e":"Thunder Strike","k":"진'천둥의 전격","j":"落雷"},"25":{"z":"雷擊Jr","e":"Thunder Strike Jr","k":"천둥의 전격","j":"落雷 Jr."},"26":{"z":"雪矛","e":"Snow Spear","k":"눈의 창","j":"雪の槍"},"27":{"z":"大劍之魂","e":"Great Aura Attack","k":"대검기","j":"大剣の魂"},"28":{"z":"大斜線","e":"Great Slash","k":"대검격","j":"大斬撃"},"29":{"z":"火焰三連擊","e":"Flame Triple Strike","k":"화염 삼연격","j":"炎の三連撃"},"30":{"z":"幻覺攻擊","e":"Illusion Attack","k":"환영격","j":"幻影攻撃"},"31":{"z":"狂野之舞","e":"Wild Dance","k":"난무","j":"乱舞"},"32":{"z":"冰吹","e":"Ice Blow","k":"얼음 송곳","j":"氷の一撃"},"33":{"z":"火焰之刃","e":"Blade Of Flame","k":"화염의 칼날","j":"炎の刃"},"34":{"z":"雷雨","e":"Lightning Storm","k":"번개의 폭풍","j":"雷雨"},"35":{"z":"冰凍斬擊","e":"Freezing Slash","k":"얼음의 참격","j":"氷結斬撃"},"36":{"z":"紅色斜線","e":"Red Slash","k":"붉은 참격","j":"赤い斬撃"},"37":{"z":"匆忙","e":"Rush","k":"돌진","j":"突進"},"38":{"z":"地面震動","e":"Ground Shaking","k":"진'땅울림","j":"地響き"},"39":{"z":"火焰斬","e":"Flame Slash","k":"진'화염베기","j":"炎斬り"},"40":{"z":"冰斬","e":"Ice Slash","k":"진'서리베기","j":"氷斬り"},"41":{"z":"雷擊","e":"Thunder Strike","k":"진'천둥의 전격","j":"落雷"},"42":{"z":"閃電之舞","e":"Dance Of Lightning","k":"진'전격의 춤","j":"雷光の舞"},"43":{"z":"燃燒的火焰","e":"Burning Flame","k":"타오르는 불꽃","j":"燃え盛る炎"},"44":{"z":"消防路","e":"Fire Road","k":"불의 길","j":"炎の道"},"45":{"z":"大斜線","e":"Great Slash","k":"대검격","j":"大斬撃"},"46":{"z":"明亮的光束","e":"Bright Light Beam","k":"빛의 광선","j":"輝く光線"},"47":{"z":"太陽寶珠","e":"Solar Orb","k":"태양구","j":"太陽の宝珠"},"48":{"z":"冰花","e":"Ice Flower","k":"얼음꽃","j":"氷の花"},"49":{"z":"閃電衝刺","e":"Lightning Dash","k":"일섬일격","j":"雷光ダッシュ"},"50":{"z":"幻覺攻擊","e":"Illusion Attack","k":"환영격","j":"幻影攻撃"},"51":{"z":"拉斜線","e":"Pulling Slash","k":"인력참","j":"引き寄せ斬り"},"52":{"z":"冰月斬","e":"Frost Moon Slash","k":"빙월참","j":"氷月斬"},"53":{"z":"月蝕斬","e":"Eclipse Slash","k":"월식참","j":"月蝕斬"},"54":{"z":"血影四連斬","e":"Blood Shadow Quad Slash","k":"혈영사연참","j":"血影四連斬"},"55":{"z":"烈火一閃","e":"Blazing Flash","k":"열화일섬","j":"烈火一閃"},"56":{"z":"永雪反擊","e":"Eternal Frost Counter","k":"영설 반격","j":"永雪の反撃"}},L={"zh-Hant":{"auditTitle":"遊戲 V2.602｜永霜套裝與稱號效果已接入計算","auditBody":"永霜 3 件：冰傷 +10%；5 件：技能 MP 消耗 -3%；7 件：冰傷再 +15%、暴擊率 +3%；9 件：冰霜最終傷害 ×1.15。永霜征服者：冰霜魔法傷害 +6%、最大生命值 +3%；裝備後分別為 +9%、+4.5%。","bad":"已收錄 111 件人工製品與新增的 8 件圖片。","elem":["普通","火","冰","雷"]},"en":{"auditTitle":"Game V2.602 | Everfrost Set & Title Effects","auditBody":"Everfrost: 3 pcs +10% ice magic damage; 5 pcs −3% skill MP cost; 7 pcs another +15% ice magic damage and +3% critical rate; 9 pcs ×1.15 final ice damage. Everfrost Conqueror title: +6% ice magic damage and +3% max HP; when equipped, +9% and +4.5%.","bad":"111 artifacts are available, including the eight new artifact images.","elem":["Normal","Fire","Ice","Lightning"]},"ko":{"auditTitle":"게임 V2.602｜영설 세트 및 칭호 효과","auditBody":"영설: 3세트 얼음 마법 피해 +10%, 5세트 스킬 MP 소모 −3%, 7세트 얼음 마법 피해 추가 +15% 및 치명타 확률 +3%, 9세트 얼음 최종 피해 ×1.15. 영설 정복자 칭호: 얼음 마법 피해 +6%, 최대 HP +3%; 장착 시 +9%, +4.5%.","bad":"신규 8종의 이미지를 포함해 아티팩트 총 111종이 등록되어 있습니다.","elem":["일반","화염","얼음","번개"]},"ja":{"auditTitle":"ゲーム V2.602｜永雪セットと称号の効果","auditBody":"永雪：3点で氷魔法ダメージ+10%、5点でスキルMP消費−3%、7点で氷魔法ダメージがさらに+15%・クリティカル率+3%、9点で氷の最終ダメージ×1.15。永雪の征服者：氷魔法ダメージ+6%・最大HP+3%、装備時は+9%・+4.5%。","bad":"新規8種類の画像を含め、全111種類のアーティファクトを収録しています。","elem":["通常","炎","氷","雷"]}},ki={ 'zh-Hant':'z',en:'e',ko:'k',ja:'j'};
+const nameByAny=new Map();for(const s of Object.values(SKILLS))for(const n of Object.values(s))if(n&&!nameByAny.has(n))nameByAny.set(n,s);
+function current(){const x=document.querySelector('.lang-btn.active')?.dataset.lang;return L[x]?x:'zh-Hant';}
+function set(n,value){if(n&&n.textContent!==value)n.textContent=value;}
+let busy=false;
+function update(){if(busy)return;busy=true;try{
+const l=current(),v=L[l],key=ki[l],screens=document.querySelectorAll('main > section.screen');if(screens.length<4)return;
+// Fix the new skill entry using the approved skill-ID multilingual mapping.
+const skillSelect=document.getElementById('skill');if(skillSelect){
+ for(const option of skillSelect.options){const record=SKILLS[option.value];if(option.value!=='56'||!record)continue;
+  const label=record[key],el=window.TOWER_SWORD_SKILLS?.find(s=>String(s.id)===option.value)?.element||'普通';
+  const idx=el==='火'?1:el==='冰'?2:el==='雷'?3:0;
+  const suffix=v.elem[idx];if(label)set(option,`${label}｜${suffix}`);
+ }
+}
+// Skill name in top preview, 03 summary and 04 report: text only, not form values.
+for(const css of ['#skillPreview span','#skillPreview .skill-preview-title','.beta-build-v','.v2-share-skill-name','.v2-share-skill strong']){
+ for(const n of document.querySelectorAll(css)){if(n.children.length)continue;const sk=nameByAny.get((n.textContent||'').trim());if(sk&&sk[key])set(n,sk[key]);}
+}
+// Artifact details summary was left at the old 103 even though 111 artifacts were loaded.
+const summary=screens[1].querySelector('details[data-v22-system="artifact"] > summary');
+if(summary){set(summary,l==='zh-Hant'?'人工製品｜111':l==='en'?'Artifacts | 111':l==='ko'?'아티팩트｜111':'アーティファクト｜111');}
+const preview=screens[1].querySelector('.artifact-preview-note');if(preview)set(preview,v.bad);
+// Old R17-only diagnostic note remained in Chinese after other page sections were localized.
+const audit=document.getElementById('r17-native-audit');if(audit){set(audit.querySelector('summary'),v.auditTitle);const body=audit.querySelector('div');if(body)set(body,v.auditBody);}
+}finally{busy=false}}
+let queued=false;function run(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;update()});}
+function init(){run();document.querySelectorAll('.lang-btn,nav.steps .step').forEach(b=>b.addEventListener('click',()=>{run();setTimeout(run,70);setTimeout(run,240)}));window.addEventListener('tower-language-changed',()=>{run();setTimeout(run,180)});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
+<script id="v225-r28-artifacts-four-language-sync">
+(()=>{'use strict';
+let busy=false,scheduled=false;
+const lang=()=>document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';
+const known=()=>new Map((window.TOWER_SWORD_SYSTEM_DATA?.artifacts||[]).map(x=>[String(x.id),x]));
+function sync(){if(busy)return;busy=true;try{
+  const m=known(),l=lang(),grid=document.getElementById('artifactGameGrid'),detail=document.getElementById('artifactGameDetail');
+  if(!grid)return;
+  for(const el of grid.querySelectorAll('button[data-game-artifact]')){
+    const a=m.get(el.dataset.gameArtifact);if(!a?.localizedNames)continue;
+    const name=a.localizedNames[l]||a.name;
+    const label=el.querySelector('.artifact-game-name');if(label&&label.textContent!==name)label.textContent=name;
+    if(el.getAttribute('title')!==name)el.setAttribute('title',name);
+  }
+  if(detail){const selected=grid.querySelector('button.is-selected[data-game-artifact]');const a=m.get(selected?.dataset.gameArtifact||'');
+    if(a?.localizedNames){const label=detail.querySelector('.artifact-detail-name'),name=a.localizedNames[l]||a.name;if(label&&label.textContent!==name)label.textContent=name;}
+  }
+}finally{busy=false;}}
+function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;sync()});}
+function boot(){schedule();
+ document.querySelectorAll('.lang-btn,nav.steps .step').forEach(b=>b.addEventListener('click',()=>{schedule();setTimeout(schedule,100);setTimeout(schedule,320)}));
+ window.addEventListener('tower-language-changed',()=>{schedule();setTimeout(schedule,180)});
+ const g=document.getElementById('artifactGameGrid'),d=document.getElementById('artifactGameDetail');
+ for(const el of [g,d])if(el)new MutationObserver(()=>schedule()).observe(el,{childList:true});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script>
+
+<script id="v225-r29-headings-and-set-locales">
+(()=>{'use strict';
+const h={'zh-Hant':'01｜角色設定',en:'01 | Character Setup',ko:'01｜캐릭터 설정',ja:'01｜キャラクター設定'};
+let pending=false;function render(){if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;const lang=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant',el=document.querySelector('main > section.screen:first-child > .hero h2');if(el&&el.textContent!==h[lang])el.textContent=h[lang]||h['zh-Hant'];});}
+function boot(){render();document.querySelectorAll('.lang-btn,nav.steps .step').forEach(b=>b.addEventListener('click',()=>{render();setTimeout(render,100);setTimeout(render,300)}));window.addEventListener('tower-language-changed',render);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script>
