@@ -1793,11 +1793,12 @@ try {
 
 <!-- R39 production: compact precision control remains reachable without exposing test reports. -->
 <style id="r39-production-precision">
-#r36-precision-box{display:block!important;border-color:rgba(121,163,180,.22)!important;padding:5px 9px!important}
+#r36-precision-box{display:none!important;border-color:rgba(121,163,180,.22)!important;padding:5px 9px!important}
 #r36-precision-box:not([open]){margin-bottom:2px}
 #r36-precision-box>summary{font-size:11px!important;list-style:auto;color:#adc5cd!important}
 #r36-precision-box:not([open]) #r36-help{display:none}
 #r37-precision-details,#r37-second-check,#r37-check-status{display:none!important}
+html.v225-show-precision-tools #r36-precision-box,
 html.v225-show-precision-tools #r37-precision-details,
 html.v225-show-precision-tools #r37-second-check,
 html.v225-show-precision-tools #r37-check-status{display:block!important}
@@ -10133,284 +10134,174 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #r82-audit pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#05121b;border:1px solid #2a4457;padding:12px;border-radius:9px;max-height:370px;overflow:auto;line-height:1.6;font-size:12px}
 </style>
 <script id="v22-release-optimizer">
+/* V2.2.5 R40: optimize overflow INSIDE the normal synchronous auto result.
+   No delayed second-phase search, no stale accepted-result overlay.
+   Only consider lvl-cap-preserving legal damage affix combinations.
+   Skill cap comes from skill data; no hardcoded Lv170 in this engine. */
 (function(){
-'use strict';
-const clone=x=>JSON.parse(JSON.stringify(x));
-/* R34: Lv170 overflow-aware two-slot reallocation. Preserve normal solver
-   unchanged; expose lower Basic magic only to the verified advanced search.
-   Never generate an elemental level unless game's source data supports it. */
-function r34OverflowSlotDefs(){
- const defs=betaAutoSlotDefs(),pinned=r9SavedTraits();
- for(const d of defs){
-  if(!/^Basic[234]$/.test(d.slot))continue;
-  const value=r10MagicValue(d.gear,d.slot);
-  if(!value||pinned[d.gear+'|'+d.slot])continue;
-  const otherPinned=r9BasicSlots(d.gear).some(slot=>slot!==d.slot && Boolean(pinned[d.gear+'|'+slot]));
-  if(otherPinned)continue;
-  if(!d.opts.some(o=>o.type==='所有魔法等級'))d.opts.push(betaAutoOpt('所有魔法等級',value));
- }
- return defs;
-}
-function r34RawLevel(eq){
- const sk=activeSkill(),t=betaEquipmentTotalsFromEq(eq);
- return Math.round(weaponBaseSkillLv()+Number(betaAutoMaxSystemStats().skillLv||0)+Number(t.skillLv||0));
-}
-const numberV=x=>Number.isFinite(x)?(x/1e24).toFixed(3)+'V':'—';
-const original=window.optimizeMax;
-if(typeof original!=='function')return;
-let accepted=null,lastReport=null,busy=false;
-let r90CompareOff=false; const r90Comparisons=[];
-function signature(){return JSON.stringify({skill:state.skill,player:state.player,system:state.system,auto:state.auto,set:localStorage.getItem('tower-swords-r28-set-preview'),precision:localStorage.getItem('ts-r36-final-atk-inferred-v1')});}
-function evaluate(eq,limits,layout){
- const prior=window.__r56OptimizationSetOverride;
- try{if(layout)window.__r56OptimizationSetOverride=layout;const old=window.__r90AuditNoSetBonus;try{window.__r90AuditNoSetBonus=r90CompareOff;return betaEvaluateEquipmentEq(eq,limits);}finally{window.__r90AuditNoSetBonus=old;}}
- finally{if(prior===undefined)delete window.__r56OptimizationSetOverride;else window.__r56OptimizationSetOverride=prior;}
-}
-// Re-evaluate the SAME equipment under both score rules. Restore audit mode
-// even on errors, so neither normal UI nor the other search can be contaminated.
-function fixedPair(eq,limits,layout){
- const prior=r90CompareOff;
- try{
-   r90CompareOff=false;const on=evaluate(eq,limits,layout);
-   r90CompareOff=true;const off=evaluate(eq,limits,layout);
-   const pack=r=>r?{damage:r.critDamage,skillAtk:r.skillAtk,skillLv:r.skillLv,element:r.elem,spell:r.spell,crit:r.crit,cd:r.cd}:null;
-   return {on:pack(on),off:pack(off),delta:on&&off?on.critDamage-off.critDamage:null,ratio:on&&off&&off.critDamage?on.critDamage/off.critDamage:null};
- }finally{r90CompareOff=prior;}
-}
-function r92SkillIdentity(){
- const sk=activeSkill(),selected=Number(state.skill?.id);
- const catalog=skills.find(x=>x.id===selected);
- return {selectedId:selected,activeId:sk?.id,activeName:sk?.name,catalogName:catalog?.name??null,
-   idMatched:!!catalog&&Number(sk?.id)===selected,nameMatched:!!catalog&&catalog.name===sk?.name};
-}
-// Audit candidates only at changed slots: the trusted baseline was built by the
-// original optimizer, whose canonical representation may include fixed/legacy
-// fields not reproduced in the current editable-options list.
-const r2DefLookupCache=new WeakMap();
-function verifyChanges(eq,defs,changed){
- let byKey=r2DefLookupCache.get(defs);
- if(!byKey){byKey=new Map(defs.map(d=>[d.key,d]));r2DefLookupCache.set(defs,byKey);}
- const errors=[];
- for(const [d,o] of changed){
-  const def=byKey.get(d.key);
-  const pair=eq?.[d.gear]?.[d.slot];
-  if(!def||!pair||!def.opts.some(q=>q.type===pair[0]&&Math.abs(Number(q.value)-Number(pair[1]))<1e-7))errors.push(d.key+'：變更值不在合法候選內');
- }
- // Reject more than one special trait per gear, including unmodified slots.
- for(const [gear,slots] of Object.entries(eq||{})){
-  const count=Object.values(slots||{}).filter(pair=>Array.isArray(pair)&&(pair[0]==='所有魔法等級'||R9_TRAITS.some(tr=>tr[0]===pair[0]))).length;
-  if(count>1)errors.push(gear+'：超過一格特殊特性');
- }
- return errors;
-}
-function baselineDiagnostics(eq,defs){
- const byKey=new Map(defs.map(d=>[d.key,d])),mismatches=[];
- for(const [gear,slots] of Object.entries(eq||{}))for(const [slot,pair] of Object.entries(slots||{})){
-  if(!Array.isArray(pair))continue;
-  const def=byKey.get(gear+'|'+slot);
-  if(!def){mismatches.push(gear+'|'+slot+'：搜尋候選表沒有此欄位');continue;}
-  if(!def.opts.some(o=>o.type===pair[0]&&Math.abs(Number(o.value)-Number(pair[1]))<1e-7))
-   mismatches.push(gear+'|'+slot+'：原始 '+pair[0]+' '+pair[1]+' 不在當前候選表');
- }
- return mismatches;
-}
-window.optimizeMax=function(args={}){
- const base=original(args);
- if(r90CompareOff||!accepted||accepted.sig!==signature()||!base?.eq||base.status!=='dynamic')return base;
- // An improvement cannot be reused against an unrelated baseline/configuration.
- if(accepted.baseDamage!==base.critDamage||JSON.stringify(base.setLayout||{})!==accepted.layoutKey)return base;
- const score=evaluate(accepted.eq,args,accepted.layout);
- if(!score||score.critDamage<=base.critDamage)return base;
- return {...base,...score,eq:clone(accepted.eq),setLayout:base.setLayout,setLayoutSource:base.setLayoutSource,source:'r83-verified-local-improvement'};
-};
-function ready(){
- const host=document.getElementById('r82-audit')||document.getElementById('autoPane');if(!host)return;
- const pane=document.getElementById('r82-audit')||document.createElement('section');
- pane.id='r83-audit';
- pane.innerHTML='<button id="r83-check" type="button" hidden tabindex="-1">最佳化核心</button><pre id="r83-log" hidden aria-hidden="true"></pre>';pane.hidden=true;pane.style.display='none';
- if(!pane.parentElement)host.appendChild(pane);
- const log=document.getElementById('r83-log'),button=document.getElementById('r83-check');
- const say=s=>{log.textContent=s;const status=document.getElementById('autoStatus');if(status && busy){status.textContent='自動最佳化搜尋中，請稍候…';}};
- const breathe=()=>new Promise(r=>setTimeout(r,0));
-
- // R5: the normal solver produces a preliminary candidate first; the
- // asynchronous advanced search is the result users expect as complete.
- // Keep a clear pending presentation until that second stage is done.
- const autoPane=document.getElementById('autoPane');
- let pending=null, lastCompletedKey=null, nextSearchRequested=false;
- function markPending(){
-  if(!autoPane || autoPane.hidden)return;
-  autoPane.classList.add('r5-search-pending');
-  const status=document.getElementById('autoStatus');
-  if(status)status.textContent='完整最佳化搜尋中，請稍候…';
- }
- function scheduleIntegrated(force=false){
-  if(!autoPane || autoPane.hidden || state.mode!=='auto')return;
-  const key=signature();
-  if(!force && key===lastCompletedKey)return;
-  markPending();
-  if(pending!==null)clearTimeout(pending);
-  pending=setTimeout(()=>{pending=null;
-   if(autoPane.hidden||state.mode!=='auto'){autoPane.classList.remove('r5-search-pending');return;}
-   if(busy){nextSearchRequested=true;return;}
-   button.click();
-  },320);
- }
- // Re-run when the regular optimizer updates because Page 01/02, set or
- // equipment constraints changed. Do not launch another expensive pass while
- // the advanced pass is already running.
- const originalRefreshAuto=refreshAuto;
- refreshAuto=function(...args){
-  const result=originalRefreshAuto.apply(this,args);
-  if(!busy && state.mode==='auto')scheduleIntegrated(false);
-  return result;
+ 'use strict';
+ const prior=window.optimizeMax;
+ if(typeof prior!=='function')return;
+ const clone=x=>JSON.parse(JSON.stringify(x));
+ const resultCache=new Map();
+ const specials=new Set(['所有魔法等級',...R9_TRAITS.map(x=>x[0])]);
+ const gears=['主武','武2','武3','頭盔','戒1','戒2','項鍊','耳環'];
+ const locales={
+  'zh-Hant':{name:'滿級詞條最佳化',yes:'已提高傷害',no:'已檢查，維持較高傷害配置',levels:'技能總等級',overflow:'溢出',bonus:'傷害提升',checked:'比較組合'},
+  en:{name:'Capped-level optimization',yes:'Damage improved',no:'Current build retained',levels:'Total skill level',overflow:'Overflow',bonus:'Damage gain',checked:'Candidates compared'},
+  ko:{name:'최대 레벨 옵션 최적화',yes:'피해량 개선',no:'기존 구성이 더 유리',levels:'스킬 총 레벨',overflow:'초과',bonus:'피해 증가',checked:'비교한 조합'},
+  ja:{name:'上限レベルのオプション最適化',yes:'ダメージ改善',no:'現在の構成を維持',levels:'スキルレベル合計',overflow:'超過',bonus:'ダメージ増加',checked:'比較候補'}
  };
- // Explicit run button is small and belongs only to the auto panel.
- const action=document.createElement('button');action.type='button';
- action.id='r39-run-overflow';action.className='btn secondary';
- action.style.cssText='font-size:11px;padding:6px 9px;min-height:30px;margin:5px 0 2px';
- const labelRun=()=>{const l=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';action.textContent=({en:'Recheck Lv.170 optimization',ko:'Lv.170 최적화 다시 계산',ja:'Lv.170 最適化を再計算','zh-Hant':'重新精算 Lv.170 溢出'})[l]||'重新精算 Lv.170 溢出'};
- labelRun();document.querySelectorAll('.lang-btn').forEach(el=>el.addEventListener('click',()=>setTimeout(labelRun,50)));
- document.getElementById('autoStatus')?.insertAdjacentElement('afterend',action);
- action.addEventListener('click',()=>{lastCompletedKey=null;scheduleIntegrated(true)});
- setTimeout(()=>scheduleIntegrated(false),450);
- document.addEventListener('click',e=>{
-  if(e.target?.closest?.('.mode[data-mode="auto"]'))setTimeout(scheduleIntegrated,0);
- });
- for(const id of ['critTarget','cdTarget','skill']){
-  document.getElementById(id)?.addEventListener('change',()=>{
-   if(!autoPane?.hidden)scheduleIntegrated();
-  });
+ const locale=()=>locales[document.querySelector('.lang-btn.active')?.dataset.lang]||locales['zh-Hant'];
+ function defsForOverflow(){
+   const defs=betaAutoSlotDefs(),pinned=r9SavedTraits();
+   for(const d of defs){
+     if(!/^Basic[234]$/.test(d.slot))continue;
+     const v=r10MagicValue(d.gear,d.slot);
+     if(!v || pinned[d.key])continue;
+     if(r9BasicSlots(d.gear).some(s=>s!==d.slot&&pinned[d.gear+'|'+s]))continue;
+     if(!d.opts.some(o=>o.type==='所有魔法等級'))d.opts.push(betaAutoOpt('所有魔法等級',v));
+   }
+   return defs;
  }
- button.addEventListener('click',async()=>{
-  if(busy)return;busy=true;button.disabled=true;markPending();
-  const optimizationStart=performance.now();
-  try{
-   r90CompareOff=false;
-   const sig=signature(),minCrit=Number(document.getElementById('critTarget')?.value||0),minCooldown=Number(document.getElementById('cdTarget')?.value||0);
-   lastCompletedKey=sig;
-   const limits={minCrit,minCooldown};
-   // Always search the original optimizer's result, not an earlier audit replacement.
-   const base=original(limits),defs=r34OverflowSlotDefs();
-   if(base?.status!=='dynamic'||!base.eq)throw Error('目前沒有可檢查的推薦配置');
-   let initial=clone(base.eq);const layout=base.setLayout||null;
-   const baseline=evaluate(initial,limits,layout);
-   const baselineFixedPair=null;
-   const skillIdentity=r92SkillIdentity();
-   if(!baseline)throw Error('原始推薦未達暴擊／冷卻門檻或傷害無法重算（非詞條驗證失敗）');
-   const baselineWarnings=baselineDiagnostics(initial,defs);
-   // When Lv170 is reachable in the baseline, permit only capped candidates.
-   // This phase deliberately excludes sacrificing a skill level for traits.
-   const cap=r10SkillMax(activeSkill());
-   const keepCapped=baseline.skillLv>=cap;
-   const initialRaw=r34RawLevel(initial);
-   let best={eq:clone(initial),damage:baseline.critDamage,changes:[]};let tested=0,feasible=0,invalidTrait=0,invalidLimit=0;const rounds=[];const path=[];let chosen=[];
-   let duplicateSkipped=0;const seenCandidates=new Set();
-   const attempt=(changes)=>{
-    // Within one fixed baseline, a repeated candidate has identical score.
-    // New round clears this set because the baseline equipment may change.
-    const key=changes.map(([d,o])=>JSON.stringify([d.key,o.type,o.value])).sort().join("|");
-    if(seenCandidates.has(key)){duplicateSkipped++;return;}
-    seenCandidates.add(key);
-    const eq=clone(initial);
-    for(const [d,o] of changes)(eq[d.gear]??={})[d.slot]=[o.type,o.value];
-    tested++;
-    if(verifyChanges(eq,defs,changes).length){invalidTrait++;return;}
-    const result=evaluate(eq,limits,layout);if(!result || (keepCapped&&result.skillLv<cap)){invalidLimit++;return;}
-    feasible++;
-    if(result.critDamage>best.damage)best={eq,damage:result.critDamage,changes:changes.map(([d,o])=>`${d.key}→${o.type} ${o.value}`)};
-   };
-   // R89: deterministic, bounded seed exploration. These are legitimate whole-equipment
-   // alternatives evaluated with the same requirements; none reads manual equipment.
-   // This is a seed *screen*, not proof of a global optimum.
-   const seedStats={attempted:0,feasible:0,better:0,selected:null};
-   const seedBase=clone(initial);
-   const seedGroups=['暴擊率','冷卻時間','法術傷害','火焰法術傷害','冰系法術傷害','閃電法術傷害','普通法術傷害','所有魔法等級'];
-   const pool=defs.filter(d=>d.opts.length>1);
-   for(let g=0;g<seedGroups.length;g++){
-    const label=seedGroups[g];
-    const slots=pool.filter(d=>d.opts.some(o=>o.type===label));
-    if(!slots.length)continue;
-    // Rotate stable seeds across different parts of the build; never modify fixed or manual state.
-    for(let trial=0;trial<4;trial++){
-     const eq=clone(seedBase),changed=[];
-     for(let z=0;z<Math.min(3,slots.length);z++){
-      const d=slots[(trial*3+z*7+g)%slots.length];
-      if(changed.some(c=>c[0].key===d.key))continue;
-      const option=d.opts.find(o=>o.type===label);
-      if(!option)continue;
-      (eq[d.gear]??={})[d.slot]=[option.type,option.value];
-      changed.push([d,option]);
+ function rawLevel(eq){
+   const base=weaponBaseSkillLv()+Number(betaAutoMaxSystemStats().skillLv||0);
+   let total=base;
+   for(const slots of Object.values(eq||{}))for(const p of Object.values(slots||{}))if(Array.isArray(p)&&p[0]==='所有魔法等級')total+=Number(p[1]||0);
+   return Math.round(total);
+ }
+ function validGear(slots){
+   return Object.values(slots).filter(p=>Array.isArray(p)&&specials.has(p[0])).length<=1;
+ }
+ function evalWithLayout(eq,lim,layout){
+   const prior=window.__r56OptimizationSetOverride;
+   try{if(layout)window.__r56OptimizationSetOverride=layout;return betaEvaluateEquipmentEq(eq,lim)}
+   finally{if(prior===undefined)delete window.__r56OptimizationSetOverride;else window.__r56OptimizationSetOverride=prior}
+ }
+ function run(base,lim){
+   const sk=activeSkill(),cap=r10SkillMax(sk),initialRaw=rawLevel(base.eq);
+   const defs=defsForOverflow(),byGear=new Map();
+   for(const d of defs){if(!/^Basic[1-4]$/.test(d.slot))continue;
+     if(!byGear.has(d.gear))byGear.set(d.gear,[]);byGear.get(d.gear).push(d);
+   }
+   let bestEq=clone(base.eq),bestScore=evalWithLayout(bestEq,lim,base.setLayout),checks=0,rounds=0;
+   if(!bestScore)return {result:base,report:{active:false,cap,initialRaw,finalRaw:initialRaw,improved:false,checked:0}};
+   const initialScore=bestScore.critDamage;
+   // First establish a reachable capped candidate if the ordinary solver returned
+   // an uncapped result. This phase does not trade DOWN skill levels for traits.
+   // Prefer the highest-scoring one-gear increase each step, strictly increasing
+   // raw level, with the exact usual crit/CD constraint and trait legality.
+   let capBuilt=bestScore.skillLv>=cap;
+   if(!capBuilt){
+     for(let step=0;step<gears.length&&!capBuilt;step++){
+       let candidate=null, candidateRaw=-Infinity;
+       const before=rawLevel(bestEq);
+       for(const gear of gears){
+         const ds=byGear.get(gear)||[];
+         const current=bestEq[gear]||{};
+         if(Object.values(current).some(p=>Array.isArray(p)&&specials.has(p[0])))continue;
+         for(const d of ds){
+           const magic=d.opts.find(o=>o.type==='所有魔法等級');
+           if(!magic)continue;
+           const eq=clone(bestEq);(eq[gear]??={})[d.slot]=[magic.type,magic.value];
+           if(!validGear(eq[gear]))continue;
+           const raw=rawLevel(eq);if(raw<=before)continue;
+           checks++;
+           const score=evalWithLayout(eq,lim,base.setLayout);
+           if(!score)continue;
+           // Find least damaging way to secure the next required levels.
+           if(!candidate||score.critDamage>candidate.score.critDamage ||
+              (score.critDamage===candidate.score.critDamage&&raw>candidateRaw)){
+             candidate={eq,score};candidateRaw=raw;
+           }
+         }
+       }
+       if(!candidate)break;
+       bestEq=candidate.eq;bestScore=candidate.score;capBuilt=bestScore.skillLv>=cap;
      }
-     if(!changed.length)continue;
-     seedStats.attempted++;
-     if(verifyChanges(eq,defs,changed).length)continue;
-     const score=evaluate(eq,limits,layout);
-     if(!score || (keepCapped&&score.skillLv<cap))continue;
-     seedStats.feasible++;
-     if(score.critDamage>best.damage){best={eq,damage:score.critDamage,changes:changed.map(([d,o])=>`${d.key}→${o.type} ${o.value}`)};seedStats.better++;seedStats.selected=label;}
-    }
-    if(signature()!==sig)throw Error('搜尋期間條件已變更，結果已作廢');
-    await breathe();
    }
-   // Several complete improving neighborhoods: a candidate that requires >3 simultaneous
-   // changes may be reachable through a sequence of 2/3-field steps. Each round
-   // is compared against the best verified feasible point, not the original baseline.
-   for(let round=1;round<=3;round++){
-   seenCandidates.clear();
-   const beforeRound=best.damage;
-   initial=clone(best.eq);
-   say(`第 ${round}/3 輪：搜尋雙欄位合法配置中…`);await breathe();
-   for(let i=0;i<defs.length;i++){
-    for(let j=i+1;j<defs.length;j++)for(const a of defs[i].opts)for(const b of defs[j].opts)attempt([[defs[i],a],[defs[j],b]]);
-    if(i%3===0){if(signature()!==sig)throw Error('搜尋期間條件已變更，結果已作廢');say(`雙欄位進度 ${i+1}/${defs.length}｜已比較 ${tested} 組`);await breathe();}
+   if(!capBuilt)return {result:base,report:{active:false,cap,initialRaw,finalRaw:initialRaw,improved:false,checked:checks,unreachable:true}};
+   const capStartScore=bestScore.critDamage;
+   // Each gear is optimized as a legal unit, not as independent Basic fields.
+   // This permits Basic1 magic +8 -> damage +61% with Basic2 damage +41% -> magic +7.
+   // Search another pass when an earlier change alters available overflow.
+   for(let pass=0;pass<3;pass++){
+     const start=bestScore.critDamage;
+     for(const gear of gears){
+       const ds=byGear.get(gear)||[];
+       if(!ds.length)continue;
+       const priorSlots=bestEq[gear]||{},choices=ds.map(d=>{
+         const current=priorSlots[d.slot];
+         const out=d.opts.filter(o=>o.type!=='未指定');
+         // Pinned special or a retained historical trait must never be erased.
+         if(current&&specials.has(current[0])&&current[0]!=='所有魔法等級')return out.filter(o=>o.type===current[0]);
+         if(!out.some(o=>current && o.type===current[0]&&Number(o.value)===Number(current[1]))&&current)out.push(betaAutoOpt(current[0],current[1]));
+         return out;
+       });
+       const picked=[];
+       function walk(i,magicCount){
+         if(i===ds.length){
+           const eq=clone(bestEq),slots=eq[gear]||{};
+           let changed=false;
+           for(let k=0;k<ds.length;k++){
+             const d=ds[k],o=picked[k],old=slots[d.slot];
+             if(!o)return;
+             if(!old||old[0]!==o.type||Number(old[1])!==o.value){slots[d.slot]=[o.type,o.value];changed=true;}
+           }
+           if(!changed||!validGear(slots))return;
+           checks++;
+           const scored=evalWithLayout(eq,lim,base.setLayout);
+           if(scored&&scored.skillLv>=cap&&scored.critDamage>bestScore.critDamage){bestEq=eq;bestScore=scored;}
+           return;
+         }
+         for(const o of choices[i]){
+           const count=magicCount+(specials.has(o.type)?1:0);
+           if(count>1)continue;
+           picked[i]=o;walk(i+1,count);
+         }
+       }
+       walk(0,0);
+     }
+     rounds++;
+     if(bestScore.critDamage<=start)break;
    }
-   // Controlled 3-field audit: choose the varying offensive Basic slots, then a
-   // second pass of selected Plus slots. No claim that this covers all triples.
-   chosen=defs.filter(d=>d.opts.length>1&&(/Basic[23]$/.test(d.slot)||d.gear==='戒1'&&d.slot==='Basic4'||d.gear==='戒2'&&d.slot==='Basic4')).slice(0,17);
-   say(`雙欄位完成，檢查 ${chosen.length} 格中的三欄位組合…`);await breathe();
-   for(let i=0;i<chosen.length;i++){
-    for(let j=i+1;j<chosen.length;j++)for(let k=j+1;k<chosen.length;k++)for(const a of chosen[i].opts)for(const b of chosen[j].opts)for(const c of chosen[k].opts)attempt([[chosen[i],a],[chosen[j],b],[chosen[k],c]]);
-    if(i%2===0){if(signature()!==sig)throw Error('搜尋期間條件已變更，結果已作廢');say(`三欄位進度 ${i+1}/${chosen.length}｜已比較 ${tested} 組`);await breathe();}
-   }
-   rounds.push({round,from:beforeRound,to:best.damage,improved:best.damage>beforeRound});if(best.damage>beforeRound)path.push({round,changes:best.changes.slice(),damage:best.damage});
-   if(best.damage<=beforeRound+Math.max(1e-9,Math.abs(beforeRound)*1e-13))break;
-   }
-   const found=best.damage>baseline.critDamage;
-   const finalRaw=r34RawLevel(best.eq);
-   // Require same baseline and input state before integrating into normal UI.
-   if(signature()!==sig)throw Error('條件已變更，取消套用');
-   if(found&&!r90CompareOff){accepted={sig,baseDamage:base.critDamage,layoutKey:JSON.stringify(base.setLayout||{}),layout,eq:clone(best.eq)};refreshAuto(true);}
-   const winnerFixedPair=null;
-   lastReport={version:'V2.2.5-R34-overflow-reallocation',cap,keepCapped,initialRaw,finalRaw,initialOverflow:Math.max(0,initialRaw-cap),finalOverflow:Math.max(0,finalRaw-cap),baselineFixedPair,winnerFixedPair,skillIdentity,conditions:limits,skill:{id:activeSkill().id,name:activeSkill().name},baseline:baseline.critDamage,best:best.damage,improved:found,changes:best.changes,path,rounds,tested,duplicateSkipped,elapsedMs:Math.round(performance.now()-optimizationStart),feasible,rejectedByTrait:invalidTrait,rejectedByLimitsOrFormula:invalidLimit,fields:defs.length,threeFieldScope:chosen.map(d=>d.key),baselineWarnings,seedStats,setBonusEnabled:!r90CompareOff,setLayout:clone(layout||{}),globallyProven:false,applied:found&&!r90CompareOff};window.TS_R87_AUDIT_LAST=JSON.parse(JSON.stringify(lastReport));
-   say([`進階最佳化完成（${r90CompareOff?'不計套裝增傷；不套用':'計入套裝增傷'}）｜${found?'找到較高候選':'未找到更好的局部候選'}`,`技能 ID：${skillIdentity.selectedId} / ${skillIdentity.activeId}；名稱 ${skillIdentity.activeName}；對應 ${skillIdentity.idMatched&&skillIdentity.nameMatched?'一致':'異常'}`,`保留滿級：${keepCapped?'是':'原配置未滿級，維持舊搜尋規則'}；原始等級 ${initialRaw} → ${finalRaw}；溢出 ${Math.max(0,initialRaw-cap)} → ${Math.max(0,finalRaw-cap)}`,`原自動傷害：${numberV(baseline.critDamage)}`,`稽核最高：${numberV(best.damage)}`,`共評估 ${tested} 組，重複略過 ${duplicateSkipped} 組，耗時 ${Math.round(performance.now()-optimizationStart)} ms，符合條件 ${feasible} 組，詞條限制排除 ${invalidTrait} 組，門檻/運算排除 ${invalidLimit} 組`,`多起點預篩：${seedStats.attempted} 組，合法 ${seedStats.feasible} 組，改善 ${seedStats.better} 次；起點類別 ${seedStats.selected||"無"}` ,`共執行 ${rounds.length} 輪，改善 ${rounds.filter(r=>r.improved).length} 輪`,...best.changes,...(baselineWarnings.length?['原始配置與當前候選表差異：'+baselineWarnings.length+' 格',...baselineWarnings.slice(0,8)]:[]),'未證明全域最大值；未窮舉全部三格或四格以上組合。'].join('\n'));
-  }catch(e){
-   lastReport=null;lastCompletedKey=null;
-   say('進階最佳化失敗：'+(e?.message||e));
-   const status=document.getElementById('autoStatus');
-   if(status)status.textContent='Lv.170 溢出搜尋未完成：'+(e?.message||e);
-  }
-  finally{
-   busy=false;button.disabled=false;
-   // Show the final value only after the full advanced pass exits.
-   autoPane?.classList.remove('r5-search-pending');
-   const status=document.getElementById('autoStatus');
-   if(status&&lastReport){
-    const d=lastReport;const a=d.initialOverflow,b=d.finalOverflow;
-    const l=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';
-    const labels={en:['Auto optimization complete','overflow'],ko:['자동 최적화 완료','초과'],ja:['自動最適化完了','超過'],'zh-Hant':['自動最佳化完成','溢出']}[l]||['自動最佳化完成','溢出'];
-    const outcome=d.improved
-     ? ({en:'Better build applied',ko:'더 높은 피해 구성 적용',ja:'より高ダメージの構成を適用','zh-Hant':'已採用較高傷害配置'}[l]||'已採用較高傷害配置')
-     : ({en:'No better local build found',ko:'더 나은 후보 없음',ja:'改善候補なし','zh-Hant':'尚未找到更高傷害候選'}[l]||'尚未找到更高傷害候選');
-    status.textContent=labels[0]+'｜'+labels[1]+' +'+a+' → +'+b+'｜'+outcome;
-    try{r33RefreshSkillLevelSummary('auto',window.__r33LastAutoResult||null)}catch(_){}
-   }
-   if(nextSearchRequested){nextSearchRequested=false;lastCompletedKey=null;scheduleIntegrated(false);}
-  }
- });
+   const improved=bestScore.critDamage>capStartScore;
+   const changed=JSON.stringify(bestEq)!==JSON.stringify(base.eq);
+   return {result:changed?{...base,...bestScore,eq:clone(bestEq),setLayout:base.setLayout,setLayoutSource:base.setLayoutSource,source:'r40-synchronous-capped-overflow'}:base,
+     report:{active:true,cap,initialRaw,finalRaw:rawLevel(bestEq),initialDamage:initialScore,capStartDamage:capStartScore,finalDamage:bestScore.critDamage,improved,capBuiltFromUncapped:base.skillLv<cap,checked:checks,rounds}};
  }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
-})();</script>
+ window.optimizeMax=function(limits={}){
+   const base=prior(limits);
+   if(!base?.eq||base.status!=='dynamic')return base;
+   const cacheKey=JSON.stringify({skill:state.skill,player:state.player,system:state.system,auto:state.auto,weapon:state.weapon,limits,eq:base.eq,damage:base.critDamage,layout:base.setLayout,precision:localStorage.getItem('ts-r36-final-atk-inferred-v1')});
+   const cached=resultCache.get(cacheKey);
+   if(cached){window.TS_OVERFLOW_LAST=cached.report;return cached.result}
+   const output=run(base,limits);
+   resultCache.set(cacheKey,output);
+   if(resultCache.size>8)resultCache.delete(resultCache.keys().next().value);
+   window.TS_OVERFLOW_LAST=output.report;
+   return output.result;
+ };
+ function display(){
+   const auto=document.getElementById('autoPane'),status=document.getElementById('autoStatus');
+   if(!auto||!status)return;
+   let el=document.getElementById('r40-overflow-status');
+   if(!el){el=document.createElement('div');el.id='r40-overflow-status';el.className='small';el.style.cssText='margin:5px 0 9px;color:#b8cbd4;font-size:11px;line-height:1.5';status.insertAdjacentElement('afterend',el)}
+   const d=window.TS_OVERFLOW_LAST,l=locale();
+   if(!d||!d.active){el.textContent='';return}
+   const over1=Math.max(0,d.initialRaw-d.cap),over2=Math.max(0,d.finalRaw-d.cap);
+   const gain=d.initialDamage>0?(d.finalDamage/d.initialDamage-1)*100:0;
+   el.textContent=l.name+'｜'+l.levels+' '+d.initialRaw+' → '+d.finalRaw+'｜'+l.overflow+' +'+over1+' → +'+over2+'｜'+l.bonus+' '+gain.toFixed(4)+'%｜'+l.checked+' '+d.checked+'｜'+(d.capBuiltFromUncapped?'已找到滿級配置':d.improved?l.yes:l.no);
+ }
+ const beforeRefresh=refreshAuto;
+ refreshAuto=function(...args){const v=beforeRefresh.apply(this,args);if(state.mode==='auto')display();return v};
+ document.addEventListener('DOMContentLoaded',()=>{
+   document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(display,100)));
+   document.addEventListener('click',e=>{if(e.target.closest?.('.mode[data-mode="auto"]'))setTimeout(display,100)});
+   display();
+ });
+})();
+</script>
 
 
 
