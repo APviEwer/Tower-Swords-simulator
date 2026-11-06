@@ -1790,6 +1790,19 @@ try {
   }
 } catch (e) { /* default to production display */ }
 </script>
+
+<!-- R39 production: compact precision control remains reachable without exposing test reports. -->
+<style id="r39-production-precision">
+#r36-precision-box{display:block!important;border-color:rgba(121,163,180,.22)!important;padding:5px 9px!important}
+#r36-precision-box:not([open]){margin-bottom:2px}
+#r36-precision-box>summary{font-size:11px!important;list-style:auto;color:#adc5cd!important}
+#r36-precision-box:not([open]) #r36-help{display:none}
+#r37-precision-details,#r37-second-check,#r37-check-status{display:none!important}
+html.v225-show-precision-tools #r37-precision-details,
+html.v225-show-precision-tools #r37-second-check,
+html.v225-show-precision-tools #r37-check-status{display:block!important}
+@media(max-width:600px){#r36-precision-box{padding:5px 7px!important}}
+</style>
 </head>
 <body>
 <script>
@@ -3384,7 +3397,8 @@ function betaAutoEffectiveAtkResult(extraEquipmentAtk=0n,sys=betaAutoMaxSystemSt
   // Current Page-2 system state supplies ATK%; keep the independent
   // Berserker multiplier in the same damage chain when its current condition applies.
   const atkIndependent=manualAtkIndependentMultiplier();
-  const effectiveAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent+r48TitleAtkExtra(weaponAtk));
+  const nativeAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent+r48TitleAtkExtra(weaponAtk));
+  const effectiveAtk=typeof window.__r36FinalAtk==='function'?window.__r36FinalAtk(nativeAtk):nativeAtk;
   return {valid:true,effectiveAtk,resolved,weaponAtk,levelAtk,flatAtk,atkPool,atkIndependent};
 }
 
@@ -3885,6 +3899,7 @@ function betaAutoCacheKey({minCrit=0,minCooldown=0}={}){
     sysCd:Number(sys.cooldown||0),sysCritDmg:Number(sys.critDamage||0),
     sysElem:Number(mx.value||0),sysSkill:Number(sys.skillLv||0),
     systemState:state.system||{},
+    precisionCalibration:(()=>{try{return localStorage.getItem('ts-r36-final-atk-inferred-v1')||''}catch(_){return ''}})(),
     setSlots:window.__r56OptimizationSetOverride ? JSON.stringify(window.__r56OptimizationSetOverride) : (()=>{try{return localStorage.getItem('tower-swords-r28-set-preview')||'{}'}catch(_){return '{}'}})()
   });
 }
@@ -10145,7 +10160,7 @@ const original=window.optimizeMax;
 if(typeof original!=='function')return;
 let accepted=null,lastReport=null,busy=false;
 let r90CompareOff=false; const r90Comparisons=[];
-function signature(){return JSON.stringify({skill:state.skill,player:state.player,system:state.system,auto:state.auto,set:localStorage.getItem('tower-swords-r28-set-preview')});}
+function signature(){return JSON.stringify({skill:state.skill,player:state.player,system:state.system,auto:state.auto,set:localStorage.getItem('tower-swords-r28-set-preview'),precision:localStorage.getItem('ts-r36-final-atk-inferred-v1')});}
 function evaluate(eq,limits,layout){
  const prior=window.__r56OptimizationSetOverride;
  try{if(layout)window.__r56OptimizationSetOverride=layout;const old=window.__r90AuditNoSetBonus;try{window.__r90AuditNoSetBonus=r90CompareOff;return betaEvaluateEquipmentEq(eq,limits);}finally{window.__r90AuditNoSetBonus=old;}}
@@ -10222,23 +10237,43 @@ function ready(){
  // asynchronous advanced search is the result users expect as complete.
  // Keep a clear pending presentation until that second stage is done.
  const autoPane=document.getElementById('autoPane');
- let pending=null;
+ let pending=null, lastCompletedKey=null, nextSearchRequested=false;
  function markPending(){
   if(!autoPane || autoPane.hidden)return;
   autoPane.classList.add('r5-search-pending');
   const status=document.getElementById('autoStatus');
   if(status)status.textContent='完整最佳化搜尋中，請稍候…';
  }
- function scheduleIntegrated(){
-  if(!autoPane || autoPane.hidden)return;
+ function scheduleIntegrated(force=false){
+  if(!autoPane || autoPane.hidden || state.mode!=='auto')return;
+  const key=signature();
+  if(!force && key===lastCompletedKey)return;
   markPending();
   if(pending!==null)clearTimeout(pending);
   pending=setTimeout(()=>{pending=null;
-   if(autoPane.hidden){autoPane.classList.remove('r5-search-pending');return;}
-   if(busy){scheduleIntegrated();return;}
+   if(autoPane.hidden||state.mode!=='auto'){autoPane.classList.remove('r5-search-pending');return;}
+   if(busy){nextSearchRequested=true;return;}
    button.click();
-  },220);
+  },320);
  }
+ // Re-run when the regular optimizer updates because Page 01/02, set or
+ // equipment constraints changed. Do not launch another expensive pass while
+ // the advanced pass is already running.
+ const originalRefreshAuto=refreshAuto;
+ refreshAuto=function(...args){
+  const result=originalRefreshAuto.apply(this,args);
+  if(!busy && state.mode==='auto')scheduleIntegrated(false);
+  return result;
+ };
+ // Explicit run button is small and belongs only to the auto panel.
+ const action=document.createElement('button');action.type='button';
+ action.id='r39-run-overflow';action.className='btn secondary';
+ action.style.cssText='font-size:11px;padding:6px 9px;min-height:30px;margin:5px 0 2px';
+ const labelRun=()=>{const l=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';action.textContent=({en:'Recheck Lv.170 optimization',ko:'Lv.170 최적화 다시 계산',ja:'Lv.170 最適化を再計算','zh-Hant':'重新精算 Lv.170 溢出'})[l]||'重新精算 Lv.170 溢出'};
+ labelRun();document.querySelectorAll('.lang-btn').forEach(el=>el.addEventListener('click',()=>setTimeout(labelRun,50)));
+ document.getElementById('autoStatus')?.insertAdjacentElement('afterend',action);
+ action.addEventListener('click',()=>{lastCompletedKey=null;scheduleIntegrated(true)});
+ setTimeout(()=>scheduleIntegrated(false),450);
  document.addEventListener('click',e=>{
   if(e.target?.closest?.('.mode[data-mode="auto"]'))setTimeout(scheduleIntegrated,0);
  });
@@ -10253,6 +10288,7 @@ function ready(){
   try{
    r90CompareOff=false;
    const sig=signature(),minCrit=Number(document.getElementById('critTarget')?.value||0),minCooldown=Number(document.getElementById('cdTarget')?.value||0);
+   lastCompletedKey=sig;
    const limits={minCrit,minCooldown};
    // Always search the original optimizer's result, not an earlier audit replacement.
    const base=original(limits),defs=r34OverflowSlotDefs();
@@ -10348,13 +10384,28 @@ function ready(){
    const winnerFixedPair=null;
    lastReport={version:'V2.2.5-R34-overflow-reallocation',cap,keepCapped,initialRaw,finalRaw,initialOverflow:Math.max(0,initialRaw-cap),finalOverflow:Math.max(0,finalRaw-cap),baselineFixedPair,winnerFixedPair,skillIdentity,conditions:limits,skill:{id:activeSkill().id,name:activeSkill().name},baseline:baseline.critDamage,best:best.damage,improved:found,changes:best.changes,path,rounds,tested,duplicateSkipped,elapsedMs:Math.round(performance.now()-optimizationStart),feasible,rejectedByTrait:invalidTrait,rejectedByLimitsOrFormula:invalidLimit,fields:defs.length,threeFieldScope:chosen.map(d=>d.key),baselineWarnings,seedStats,setBonusEnabled:!r90CompareOff,setLayout:clone(layout||{}),globallyProven:false,applied:found&&!r90CompareOff};window.TS_R87_AUDIT_LAST=JSON.parse(JSON.stringify(lastReport));
    say([`進階最佳化完成（${r90CompareOff?'不計套裝增傷；不套用':'計入套裝增傷'}）｜${found?'找到較高候選':'未找到更好的局部候選'}`,`技能 ID：${skillIdentity.selectedId} / ${skillIdentity.activeId}；名稱 ${skillIdentity.activeName}；對應 ${skillIdentity.idMatched&&skillIdentity.nameMatched?'一致':'異常'}`,`保留滿級：${keepCapped?'是':'原配置未滿級，維持舊搜尋規則'}；原始等級 ${initialRaw} → ${finalRaw}；溢出 ${Math.max(0,initialRaw-cap)} → ${Math.max(0,finalRaw-cap)}`,`原自動傷害：${numberV(baseline.critDamage)}`,`稽核最高：${numberV(best.damage)}`,`共評估 ${tested} 組，重複略過 ${duplicateSkipped} 組，耗時 ${Math.round(performance.now()-optimizationStart)} ms，符合條件 ${feasible} 組，詞條限制排除 ${invalidTrait} 組，門檻/運算排除 ${invalidLimit} 組`,`多起點預篩：${seedStats.attempted} 組，合法 ${seedStats.feasible} 組，改善 ${seedStats.better} 次；起點類別 ${seedStats.selected||"無"}` ,`共執行 ${rounds.length} 輪，改善 ${rounds.filter(r=>r.improved).length} 輪`,...best.changes,...(baselineWarnings.length?['原始配置與當前候選表差異：'+baselineWarnings.length+' 格',...baselineWarnings.slice(0,8)]:[]),'未證明全域最大值；未窮舉全部三格或四格以上組合。'].join('\n'));
-  }catch(e){say('進階最佳化失敗：'+(e?.message||e));}
+  }catch(e){
+   lastReport=null;lastCompletedKey=null;
+   say('進階最佳化失敗：'+(e?.message||e));
+   const status=document.getElementById('autoStatus');
+   if(status)status.textContent='Lv.170 溢出搜尋未完成：'+(e?.message||e);
+  }
   finally{
    busy=false;button.disabled=false;
    // Show the final value only after the full advanced pass exits.
    autoPane?.classList.remove('r5-search-pending');
    const status=document.getElementById('autoStatus');
-   if(status&&lastReport){status.textContent=lastReport.improved?'自動最佳化已完成｜已採用更高傷害的合法配置':'自動最佳化已完成｜維持目前較佳合法配置';}
+   if(status&&lastReport){
+    const d=lastReport;const a=d.initialOverflow,b=d.finalOverflow;
+    const l=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';
+    const labels={en:['Auto optimization complete','overflow'],ko:['자동 최적화 완료','초과'],ja:['自動最適化完了','超過'],'zh-Hant':['自動最佳化完成','溢出']}[l]||['自動最佳化完成','溢出'];
+    const outcome=d.improved
+     ? ({en:'Better build applied',ko:'더 높은 피해 구성 적용',ja:'より高ダメージの構成を適用','zh-Hant':'已採用較高傷害配置'}[l]||'已採用較高傷害配置')
+     : ({en:'No better local build found',ko:'더 나은 후보 없음',ja:'改善候補なし','zh-Hant':'尚未找到更高傷害候選'}[l]||'尚未找到更高傷害候選');
+    status.textContent=labels[0]+'｜'+labels[1]+' +'+a+' → +'+b+'｜'+outcome;
+    try{r33RefreshSkillLevelSummary('auto',window.__r33LastAutoResult||null)}catch(_){}
+   }
+   if(nextSearchRequested){nextSearchRequested=false;lastCompletedKey=null;scheduleIntegrated(false);}
   }
  });
  }
@@ -11937,6 +11988,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    return Number.isFinite(lo)&&Number.isFinite(hi)&&hi>lo?{lo,hi,step}:null;
  }
  function refresh(){
+   try{betaAutoCache?.clear()}catch(e){}
    try{refreshManualSummary()}catch(e){console.warn('R36 manual refresh',e)}
    try{if(state.mode==='auto')refreshAuto(true)}catch(e){console.warn('R36 auto refresh',e)}
    try{if(state.step===3)refreshReport()}catch(e){console.warn('R36 report refresh',e)}
@@ -12026,10 +12078,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  }
  function clear(){saved=null;trial=null;try{localStorage.removeItem(keyStorage)}catch(e){}refresh();showStatus();const output=get('r37-check-status');if(output)output.textContent='已取消精度校正。'}
  const locales={
-   'zh-Hant':['最終 ATK 隱藏精度校驗（選用）','填入遊戲顯示的最終面板 ATK 和這套手動配置的實測暴擊傷害，程式會依原傷害公式反推 ATK 的隱藏位數。不是固定傷害補正；換配置時可重新交叉驗證。','遊戲最終面板 ATK','遊戲實測最終暴擊傷害','依實測反推最終 ATK','取消校正'],
-   en:['Final ATK precision check (optional)','Enter the in-game final panel ATK and critical damage for this exact manual build. The simulator estimates hidden ATK digits within the displayed interval, without a fixed damage bonus.','In-game final panel ATK','Measured in-game final critical damage','Infer final ATK from damage','Clear calibration'],
-   ko:['최종 ATK 숨은 소수점 검증 (선택)','현재 수동 장비의 게임 내 최종 ATK와 치명타 피해를 입력하세요. 표시값 범위 안에서 숨은 소수점을 역산하며 고정 피해 보정은 사용하지 않습니다.','게임 최종 패널 ATK','게임에서 측정한 최종 치명타 피해','실측으로 최종 ATK 역산','보정 해제'],
-   ja:['最終 ATK の内部精度検証（任意）','同じ手動装備で測定したゲーム内の最終 ATK とクリティカルダメージを入力してください。表示値の範囲内で内部小数を推定し、固定ダメージ補正は行いません。','ゲーム内最終 ATK','ゲーム内実測クリティカルダメージ','実測値から最終 ATK を逆算','補正を解除']
+   'zh-Hant':['ATK 精度校正（選用）','填入遊戲顯示的最終面板 ATK 和這套手動配置的實測暴擊傷害，程式會依原傷害公式反推 ATK 的隱藏位數。不是固定傷害補正；換配置時可重新交叉驗證。','遊戲最終面板 ATK','遊戲實測最終暴擊傷害','依實測反推最終 ATK','取消校正'],
+   en:['ATK precision (optional)','Enter the in-game final panel ATK and critical damage for this exact manual build. The simulator estimates hidden ATK digits within the displayed interval, without a fixed damage bonus.','In-game final panel ATK','Measured in-game final critical damage','Infer final ATK from damage','Clear calibration'],
+   ko:['ATK 정밀 보정 (선택)','현재 수동 장비의 게임 내 최종 ATK와 치명타 피해를 입력하세요. 표시값 범위 안에서 숨은 소수점을 역산하며 고정 피해 보정은 사용하지 않습니다.','게임 최종 패널 ATK','게임에서 측정한 최종 치명타 피해','실측으로 최종 ATK 역산','보정 해제'],
+   ja:['ATK 精度補正（任意）','同じ手動装備で測定したゲーム内の最終 ATK とクリティカルダメージを入力してください。表示値の範囲内で内部小数を推定し、固定ダメージ補正は行いません。','ゲーム内最終 ATK','ゲーム内実測クリティカルダメージ','実測値から最終 ATK を逆算','補正を解除']
  };
  function translate(){
    const lang=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant',t=locales[lang]||locales['zh-Hant'];
