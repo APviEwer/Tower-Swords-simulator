@@ -1764,32 +1764,16 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 html.fashion-gallery-ready #fashionList{display:none!important}
 </style>
 
-<!-- V2.2.5 production display: retain precision engine and saved calibration; hide test controls by default. -->
-<style id="v225-production-display">
-/* The calibration tool remains accessible to the site owner with ?atk_tools=1.
-   Merely hiding it preserves the existing saved ATK precision and calculations. */
+<!-- V2.2.5 public release: no player-facing ATK calibration controls.
+     Preserve calculation and saved calibration state internally. -->
+<style id="v225-hide-atk-calibration-public">
 #r36-precision-box,
-#r51-weapon-compare,
-#r40-level-diagnostic,
-#r41-auto-result,
-#r20BareAtkPanel,
-#v260240-data-notice,
-#v260240-skill-status,
-#v260240-r15-note,
-#r28-calcstatus,
-#r28-tier-note,
-#r48-title-atk-test,
-#r38-title-atk-audit,
-#r44-normal-audit { display: none !important; }
-html.v225-show-precision-tools #r36-precision-box { display: block !important; }
+html.v225-show-precision-tools #r36-precision-box { display:none !important; visibility:hidden !important; }
+#r51-weapon-compare, #r40-level-diagnostic, #r41-auto-result,
+#r20BareAtkPanel, #v260240-data-notice, #v260240-skill-status,
+#v260240-r15-note, #r28-calcstatus, #r28-tier-note,
+#r48-title-atk-test, #r38-title-atk-audit, #r44-normal-audit {display:none!important;}
 </style>
-<script id="v225-production-owner-mode">
-try {
-  if (new URLSearchParams(location.search).get('atk_tools') === '1') {
-    document.documentElement.classList.add('v225-show-precision-tools');
-  }
-} catch (e) { /* default to production display */ }
-</script>
 
 <!-- R39 production: compact precision control remains reachable without exposing test reports. -->
 <style id="r39-production-precision">
@@ -1798,12 +1782,12 @@ try {
 #r36-precision-box>summary{font-size:11px!important;list-style:auto;color:#adc5cd!important}
 #r36-precision-box:not([open]) #r36-help{display:none}
 #r37-precision-details,#r37-second-check,#r37-check-status{display:none!important}
-html.v225-show-precision-tools #r36-precision-box,
 html.v225-show-precision-tools #r37-precision-details,
 html.v225-show-precision-tools #r37-second-check,
 html.v225-show-precision-tools #r37-check-status{display:block!important}
 @media(max-width:600px){#r36-precision-box{padding:5px 7px!important}}
 </style>
+<style id="v225-final-hide-precision">#manualPane #r36-precision-box{display:none!important;visibility:hidden!important}</style>
 </head>
 <body>
 <script>
