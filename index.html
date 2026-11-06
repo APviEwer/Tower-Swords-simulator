@@ -2694,6 +2694,34 @@ function resolveNativeAtk(level, displayAtk){
 
 
 
+/* R41: source-aware integer ATK accumulation.
+   Preserve the complete raw weapon ATK integer until all percentage multipliers
+   have been applied. This removes avoidable IEEE-754 loss during ATK assembly,
+   but DOES NOT invent the hidden digits of an abbreviated game display.
+   Damage/skill formulas and persisted player data remain unchanged. */
+function r41ExactFinalAtk(weaponRaw,levelAtk,flatAtk,atkPool,atkIndependent){
+  const scale=1000000000000n;
+  const dec=(x)=>{
+    if(!Number.isFinite(Number(x))||Number(x)<0)return null;
+    const v=Number(x).toFixed(12),parts=v.split('.');
+    return BigInt(parts[0])*scale+BigInt((parts[1]||'').padEnd(12,'0'));
+  };
+  try{
+    const weapon=BigInt(String(weaponRaw));
+    const lv=BigInt(Math.round(Number(levelAtk)));
+    const flat=typeof flatAtk==='bigint'?flatAtk:BigInt(Math.round(Number(flatAtk)));
+    const pool=dec(atkPool),independent=dec(atkIndependent);
+    const titlePct=dec(typeof r48TitleAtkEnabled==='function'&&r48TitleAtkEnabled()?r50TitleAtkPercentage()/100:0);
+    if(pool===null||independent===null||titlePct===null||weapon<0n||lv<0n||flat<0n)return NaN;
+    // All operations are nonnegative; floor once, as in the original formula.
+    const baseNumer=(weapon+lv+flat)*pool*independent;
+    const titleNumer=weapon*titlePct*scale;
+    const result=(baseNumer+titleNumer)/(scale*scale);
+    return Number(result);
+  }catch(_){return NaN}
+}
+
+
 /* Beta 0.1 dynamic auto optimizer.
    Candidate library is the verified V1.5Q DB_候選 set.
    Page 1 + Page 2 are fixed current-state inputs.
@@ -3382,7 +3410,7 @@ function betaAutoEffectiveAtkResult(extraEquipmentAtk=0n,sys=betaAutoMaxSystemSt
   // Current Page-2 system state supplies ATK%; keep the independent
   // Berserker multiplier in the same damage chain when its current condition applies.
   const atkIndependent=manualAtkIndependentMultiplier();
-  const nativeAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent+r48TitleAtkExtra(weaponAtk));
+  const nativeAtk=r41ExactFinalAtk(resolved.raw,levelAtk,flatAtk,atkPool,atkIndependent);
   const effectiveAtk=typeof window.__r36FinalAtk==='function'?window.__r36FinalAtk(nativeAtk):nativeAtk;
   return {valid:true,effectiveAtk,resolved,weaponAtk,levelAtk,flatAtk,atkPool,atkIndependent};
 }
@@ -5060,7 +5088,7 @@ function effectiveAtkResult(extraEquipmentAtk=0n){
   const flatAtk=Number(extraEquipmentAtk||0n)+Number(sys.stats.flatAtk||0);
   const atkPool=1+Number(sys.stats.atk||0)/100;
   const atkIndependent=manualAtkIndependentMultiplier();
-  const effectiveAtk=Math.floor((weaponAtk+levelAtk+flatAtk)*atkPool*atkIndependent+r48TitleAtkExtra(weaponAtk));
+  const effectiveAtk=r41ExactFinalAtk(resolved.raw,levelAtk,flatAtk,atkPool,atkIndependent);
   return {valid:true,effectiveAtk,resolved,weaponAtk,levelAtk,flatAtk,atkPool,atkIndependent};
 }
 function manualDamageResult(){
@@ -6354,7 +6382,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     const dynamicSkillAtk=skillAtkAtLevel(ctx.sk.id,r10AutoSkillLevel(ctx.sk,t));
     if(!Number.isFinite(dynamicSkillAtk))return -Infinity;
     const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
-    const nativeAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent+r48TitleAtkExtra(ctx.weaponAtk));
+    const nativeAtk=r41ExactFinalAtk(ctx.resolved.raw,ctx.levelAtk,flatAtk,ctx.atkPool,ctx.atkIndependent);
     const effectiveAtk=window.__r36FinalAtk?window.__r36FinalAtk(nativeAtk):nativeAtk;
     return effectiveAtk*dynamicSkillAtk*(1+(ctx.elemBase+t.elem)/100)*(1+(ctx.spellBase+t.spell)/100);
   };
@@ -6366,7 +6394,7 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     const skillLv=r10AutoSkillLevel(ctx.sk,t),skillAtk=skillAtkAtLevel(ctx.sk.id,skillLv);
     if(!Number.isFinite(skillAtk))return null;
     const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
-    const nativeAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent+r48TitleAtkExtra(ctx.weaponAtk));
+    const nativeAtk=r41ExactFinalAtk(ctx.resolved.raw,ctx.levelAtk,flatAtk,ctx.atkPool,ctx.atkIndependent);
     const effectiveAtk=window.__r36FinalAtk?window.__r36FinalAtk(nativeAtk):nativeAtk,elem=ctx.elemBase+t.elem,spell=ctx.spellBase+t.spell;
     const nonCritDamage=Math.floor(effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*ctx.bossMultiplier*ctx.otherMultiplier),critDamage=Math.floor(nonCritDamage*(ctx.critDamagePct/100));
     const rawCrit=betaAutoPctValue(rawCritUnits),cd=betaAutoPctValue(cdUnits);
@@ -10249,10 +10277,115 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
      rounds++;
      if(bestScore.critDamage<=start)break;
    }
+
+   // R42: capped global-affix refinement across all Basic and Plus positions.
+   // R40's gear-by-gear Basic search misses two-slot compensating swaps,
+   // particularly when crit/CD moves to another slot, or when different
+   // elemental/spell/ATK contributions need to be redistributed together.
+   // Keep the SAME authoritative evaluator, pin rules, and final skill cap.
+   let pairedChecks=0,pairedImprovements=0;
+   function refineDamageSwaps(){
+     const allDefs=defs;
+     const sys=betaAutoMaxSystemStats();
+     const targetCrit=Math.max(0,Number(lim.minCrit||0));
+     const targetCd=Math.max(0,Number(lim.minCooldown||0));
+     const elemType=betaAutoElemType();
+     const getFields=p=>{
+       if(!p)return {atk:0,elem:0,spell:0,crit:0,cd:0,lv:0};
+       const t=p[0],v=Number(p[1]||0);
+       return {atk:t==='ATK'?v:0,elem:t===elemType?v:0,spell:t==='法術傷害'?v:0,
+         crit:t==='暴擊率'?v:0,cd:t==='冷卻時間'?v:0,lv:t==='所有魔法等級'?v:0};
+     };
+     for(let round=0;round<5;round++){
+       const raw=rawLevel(bestEq),totals=betaEquipmentTotalsFromEq(bestEq);
+       const sysAtk=betaAutoEffectiveAtkResult(totals.atk,sys);
+       if(!sysAtk.valid)break;
+       // Effective ATK varies linearly with the additive ATK affixes;
+       // measure its local slope rather than fitting to any game damage.
+       const atkProbe=betaAutoEffectiveAtkResult(totals.atk+1000000000000n,sys);
+       const slope=atkProbe.valid?(atkProbe.effectiveAtk-sysAtk.effectiveAtk)/1000000000000:0;
+       const moves=[];
+       for(let i=0;i<allDefs.length;i++){
+         const d=allDefs[i],old=bestEq[d.gear]?.[d.slot];
+         const f=getFields(old);
+         for(const o of d.opts){
+           if(o.type==='未指定')continue;
+           if(old&&old[0]===o.type&&Number(old[1])===o.value)continue;
+           // An explicitly selected trait is immutable. Auto-selected
+           // magic is free to move as long as the per-gear rule holds.
+           if(r9SavedTraits()[d.key] && (!old || o.type!==old[0]))continue;
+           if(old&&specials.has(old[0])&&old[0]!=='所有魔法等級'&&o.type!==old[0])continue;
+           const n=getFields([o.type,o.value]);
+           moves.push({i,gear:d.gear,slot:d.slot,pair:[o.type,o.value],
+             atk:n.atk-f.atk,elem:n.elem-f.elem,spell:n.spell-f.spell,
+             crit:n.crit-f.crit,cd:n.cd-f.cd,lv:n.lv-f.lv});
+         }
+       }
+       const specialByGear={};
+       for(const [gear,slots] of Object.entries(bestEq))
+         specialByGear[gear]=Object.values(slots||{}).filter(p=>Array.isArray(p)&&specials.has(p[0])).length;
+       for(const m of moves){
+         const old=bestEq[m.gear]?.[m.slot];
+         m.specialDelta=Number(specials.has(m.pair[0]))-Number(!!old&&specials.has(old[0]));
+       }
+       const candidates=[];
+       const scoreCandidate=(a,b)=>{
+         const sa=(specialByGear[a.gear]||0)+a.specialDelta+(b?.gear===a.gear?b.specialDelta:0);
+         if(sa>1||sa<0)return;
+         if(b&&b.gear!==a.gear){
+           const sb=(specialByGear[b.gear]||0)+b.specialDelta;
+           if(sb>1||sb<0)return;
+         }
+         const lv=a.lv+(b?.lv||0);
+         if(raw+lv<cap)return;
+         const crit=bestScore.rawCrit+a.crit+(b?.crit||0);
+         const cd=bestScore.cd+a.cd+(b?.cd||0);
+         if(crit+1e-7<targetCrit||cd+1e-7<targetCd)return;
+         // Prefilter using the exact damage model's multiplicative factors.
+         // All feasible candidates are at the same capped skill level.
+         const atk=sysAtk.effectiveAtk+(a.atk+(b?.atk||0))*slope;
+         const elem=bestScore.elem+a.elem+(b?.elem||0);
+         const spell=bestScore.spell+a.spell+(b?.spell||0);
+         if(atk<=0||elem<=-100||spell<=-100)return;
+         const heuristic=atk*(1+elem/100)*(1+spell/100);
+         candidates.push({a,b,heuristic});
+       };
+       for(let i=0;i<moves.length;i++){
+         const a=moves[i];
+         scoreCandidate(a,null);
+         for(let j=i+1;j<moves.length;j++){
+           const b=moves[j];
+           if(a.i===b.i)continue;
+           // Test within-gear and cross-gear two-slot moves. Single-slot
+           // tests alone cannot preserve two coupled constraints.
+           scoreCandidate(a,b);
+         }
+       }
+       if(!candidates.length)break;
+       candidates.sort((a,b)=>b.heuristic-a.heuristic);
+       // A bounded shortlist keeps normal page updates responsive. The
+       // shortlisted moves always use the full evaluator before acceptance.
+       let winner=null;
+       for(const c of candidates.slice(0,160)){
+         const eq=clone(bestEq);
+         (eq[c.a.gear]??={})[c.a.slot]=c.a.pair;
+         if(c.b)(eq[c.b.gear]??={})[c.b.slot]=c.b.pair;
+         if(!validGear(eq[c.a.gear])||(c.b&&!validGear(eq[c.b.gear])))continue;
+         pairedChecks++;
+         const score=evalWithLayout(eq,lim,base.setLayout);
+         if(score&&score.skillLv>=cap&&score.critDamage>bestScore.critDamage&&
+           (!winner||score.critDamage>winner.score.critDamage))winner={eq,score};
+       }
+       if(!winner)break;
+       bestEq=winner.eq;bestScore=winner.score;pairedImprovements++;
+     }
+   }
+   refineDamageSwaps();
+
    const improved=bestScore.critDamage>capStartScore;
    const changed=JSON.stringify(bestEq)!==JSON.stringify(base.eq);
    return {result:changed?{...base,...bestScore,eq:clone(bestEq),setLayout:base.setLayout,setLayoutSource:base.setLayoutSource,source:'r40-synchronous-capped-overflow'}:base,
-     report:{active:true,cap,initialRaw,finalRaw:rawLevel(bestEq),initialDamage:initialScore,capStartDamage:capStartScore,finalDamage:bestScore.critDamage,improved,capBuiltFromUncapped:base.skillLv<cap,checked:checks,rounds}};
+     report:{active:true,cap,initialRaw,finalRaw:rawLevel(bestEq),initialDamage:initialScore,capStartDamage:capStartScore,finalDamage:bestScore.critDamage,improved,capBuiltFromUncapped:base.skillLv<cap,checked:checks+pairedChecks,rounds,pairedChecks,pairedImprovements}};
  }
  window.optimizeMax=function(limits={}){
    const base=prior(limits);
