@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <title>Tower &amp; Swords｜Build &amp; Damage Analysis｜V2.2.5</title>
-<meta content="Tower &amp; Swords Build &amp; Damage Analysis｜V2.2.5｜APviEwer 建置實驗室" name="description"/>
+<meta content="Tower &amp; Swords Build &amp; Damage Analysis｜V2.2.5｜APviEwer" name="description"/>
 <meta content="no-referrer" name="referrer"/>
 <meta content="#0b0f14" name="theme-color"/>
 <meta content="website" property="og:type"/>
@@ -1763,6 +1763,33 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 #fashionList{display:grid!important}
 html.fashion-gallery-ready #fashionList{display:none!important}
 </style>
+
+<!-- V2.2.5 production display: retain precision engine and saved calibration; hide test controls by default. -->
+<style id="v225-production-display">
+/* The calibration tool remains accessible to the site owner with ?atk_tools=1.
+   Merely hiding it preserves the existing saved ATK precision and calculations. */
+#r36-precision-box,
+#r51-weapon-compare,
+#r40-level-diagnostic,
+#r41-auto-result,
+#r20BareAtkPanel,
+#v260240-data-notice,
+#v260240-skill-status,
+#v260240-r15-note,
+#r28-calcstatus,
+#r28-tier-note,
+#r48-title-atk-test,
+#r38-title-atk-audit,
+#r44-normal-audit { display: none !important; }
+html.v225-show-precision-tools #r36-precision-box { display: block !important; }
+</style>
+<script id="v225-production-owner-mode">
+try {
+  if (new URLSearchParams(location.search).get('atk_tools') === '1') {
+    document.documentElement.classList.add('v225-show-precision-tools');
+  }
+} catch (e) { /* default to production display */ }
+</script>
 </head>
 <body>
 <script>
@@ -2010,6 +2037,17 @@ html.fashion-gallery-ready #fashionList{display:none!important}
 </section>
 <section class="screen">
 <div class="hero"><h2>03｜裝備配置</h2><p>自動最佳化與手動實裝共用同一套已驗證裝備規則；所有輸入即時同步全域 Build State。</p></div><div class="beta-build-strip no-print" id="betaBuildStrip"></div><div id="betaModeMount"></div>
+<div id="r33-skill-level-summary" class="card no-print" style="margin:10px 0 12px;padding:11px 14px;border:1px solid rgba(105,165,193,.35);background:rgba(7,25,39,.7)" aria-live="polite">
+ <div style="display:flex;flex-wrap:wrap;gap:7px 16px;align-items:center;justify-content:space-between">
+  <strong id="r33-skill-title" style="font-size:13px">目前技能等級（手動實裝）</strong>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px">
+   <span><span id="r33-raw-label" class="small">總合計</span> <b id="r33-raw">—</b></span>
+   <span><span id="r33-effective-label" class="small">有效等級</span> <b id="r33-effective">—</b></span>
+   <span><span id="r33-over-label" class="small">溢出</span> <b id="r33-over">—</b></span>
+  </div>
+ </div>
+ <div id="r33-skill-detail" class="small" style="font-size:11px;line-height:1.6;margin-top:5px;overflow-wrap:anywhere">請先選擇武器技能</div>
+</div>
 <div id="v260240-r15-note" style="border:1px solid #38566b;background:#091b26;padding:9px 12px;border-radius:9px;font-size:11px;color:#b7d5e2;margin:8px 0">V2.60240 R17：永霜套裝 3 件冰霜魔法 +10%；5 件技能 MP 消耗 -3%；7 件冰霜魔法再 +15% 且暴擊機率 +3%；9 件冰霜魔法最終傷害 ×1.15。元素傷害 3／7 件沿用黑月及紅蓮的同一傷害計算路徑。稱號「永霜征服者」為冰霜魔法傷害 +6%、最大生命值 +3%；裝備 ×1.5 後分別為 +9%、+4.5%。</div><section class="card no-print" id="r28-set-panel" style="margin:14px 0;border:1px solid #8c784f">
 <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><h3 id="r28-title" style="margin:0">新增套裝｜配置與效果預覽</h3><span id="r28-calcstatus" style="border:1px solid #aa8645;border-radius:16px;padding:4px 10px;color:#e8c77d;font-size:12px">僅統計，尚未納入任何傷害計算</span></div>
 <p class="small" id="r28-explain" style="margin-top:10px;display:none">請依實際裝備選擇各部位的套裝；武器最多計入 1 件，人工製品僅指定為主人工製品的 1 件列入。九件計數、可混搭；此區目前不連動原裝備詞條及傷害公式。</p>
@@ -2031,6 +2069,23 @@ html.fashion-gallery-ready #fashionList{display:none!important}
 <div class="small" style="margin-bottom:8px">手動實裝即時傷害</div>
 <div class="statgrid"><div class="stat"><div class="k">未暴擊傷害</div><div class="v" id="manualNonCritDamage">—</div></div><div class="stat"><div class="k">最終暴擊傷害</div><div class="v" id="manualCritDamage">—</div></div></div>
 <div class="note" id="manualDamageNote" style="margin-top:10px">—</div>
+<details id="r36-precision-box" class="no-print" style="margin-top:9px;border:1px solid rgba(150,182,195,.35);border-radius:9px;padding:8px 10px;max-width:100%">
+<summary id="r36-caption" style="cursor:pointer;font-size:12px;color:#acd3df">最終 ATK 隱藏精度校驗（選用）</summary>
+<p id="r36-help" class="small" style="margin:8px 0">填入遊戲顯示的最終面板 ATK 和這套手動配置的實測暴擊傷害，程式會依原傷害公式反推 ATK 的隱藏位數。不是固定傷害補正；換配置時可重新交叉驗證。</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:7px">
+ <label class="small"><span id="r36-atk-label">遊戲最終面板 ATK</span><input id="r36-panel-atk" placeholder="9.546R" autocomplete="off" style="width:100%;margin-top:3px" /></label>
+ <label class="small"><span id="r36-damage-label">遊戲實測最終暴擊傷害</span><input id="r36-game-damage" placeholder="2115287.246V" autocomplete="off" style="width:100%;margin-top:3px" /></label>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button type="button" id="r36-solve">依實測反推最終 ATK</button><button type="button" id="r36-clear">取消校正</button></div>
+<div class="small" id="r36-status" role="status" aria-live="polite" style="margin-top:7px">尚未校正，使用模擬器原本的 ATK 計算。</div>
+<div class="small" id="r37-precision-details" style="margin-top:5px;line-height:1.55;color:#98b2be">校正狀態：目前使用原始 ATK 計算。</div>
+<div id="r37-second-check" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-top:9px">
+ <label class="small" style="flex:1;min-width:200px"><span id="r37-check-label">其它詞條配置的遊戲實測暴擊傷害（可選）</span>
+  <input id="r37-second-damage" placeholder="例如 2114203.183V" autocomplete="off" style="width:100%;margin-top:3px" /></label>
+ <button id="r37-check" type="button">不重新校正，直接驗證</button>
+</div>
+<div id="r37-check-status" class="small" role="status" aria-live="polite" style="margin-top:4px;color:#8fb0bf">請先切換到另一組手動配裝，再輸入該組的實測傷害。</div>
+</details>
 <div class="note r64-internal-only" hidden="" id="r23ManualAffixLive" style="margin-top:8px">元素及法傷：等待輸入。</div>
 </div>
 <div class="note">手動實裝：武器的 ATK 已為固定詞條、頭盔的 DEF 已為固定詞條，因此這些裝備只有三個可選詞條位置。唯一會影響角色面板 ATK 的武器為主武器；主武 ATK 請直接於 01「角色設定」輸入，不需在此重複設定。每格先選合法詞條，再於下方輸入遊戲實際值；ATK 支援 K／M／B／T／Q／R。</div>
@@ -2897,6 +2952,7 @@ function activeSkill(){return skills.find(s=>s.id===Number(state.skill.id))||ski
 
 function setMode(mode){
   state.mode=mode;saveState(state);
+  if(typeof r33RefreshSkillLevelSummary==='function')r33RefreshSkillLevelSummary(mode,mode==='auto'?window.__r33LastAutoResult:null);
   $$('.mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
   $('#manualPane').hidden=mode!=='manual';
   $('#autoPane').hidden=mode!=='auto';
@@ -3110,6 +3166,7 @@ function refreshManualSummary(){
   const sysLive=systemSelectionSummary();
   const skLive=state.skill.id===''?null:activeSkill();
   const elKeyLive=skLive?skillElementKey(skLive):null;
+  if(state.mode==='manual')r33RefreshSkillLevelSummary('manual');
   const statLabels={fire:'火焰',ice:'冰系',lightning:'閃電',normal:'普通'};
   const livePanel=$('#r23ManualAffixLive');
   if(livePanel){
@@ -3456,6 +3513,11 @@ function r10AutoSkillLevel(sk,t){const lv=weaponBaseSkillLv()+Number(betaAutoMax
 // Defer UI creation, without blocking original app boot.
 window.addEventListener('DOMContentLoaded',()=>{try{r9RenderTraitSelectors();}catch(e){console.warn('R9 trait panel',e);}});
 
+/* R31: Lv.850 offensive-affix maximums from player-supplied reference spreadsheet.
+   Table text still cites Lv.750 examples; treat as user-provided Lv.850 reference,
+   NOT independently verified game memory. Only damage-facing candidate stats changed.
+   Skill-level Basic2-4 reallocation and special-trait exclusivity require a
+   separate coupled-slot solver; do not create illegal free per-slot rolls here. */
 function betaAutoSlotDefs(){
   const E=betaAutoElemType(),defs=[];
   const add=(gear,slot,opts)=>defs.push({gear,slot,key:`${gear}|${slot}`,opts});
@@ -3466,8 +3528,8 @@ function betaAutoSlotDefs(){
     let choices=[];
     if(['主武','武2','武3'].includes(gear))choices=[betaAutoOpt(E,61),betaAutoOpt('暴擊率',16)];
     else if(gear==='頭盔')choices=[betaAutoOpt(E,61),betaAutoOpt('冷卻時間',12)];
-    else if(['戒1','戒2'].includes(gear))choices=[betaAutoOpt('法術傷害',51),betaAutoOpt('暴擊率',16),betaAutoOpt('冷卻時間',12)];
-    else if(['項鍊','耳環'].includes(gear))choices=[betaAutoOpt('法術傷害',25),betaAutoOpt('暴擊率',8),betaAutoOpt('冷卻時間',6)];
+    else if(['戒1','戒2'].includes(gear))choices=[betaAutoOpt('ATK',510995000000000),betaAutoOpt('法術傷害',54),betaAutoOpt('暴擊率',16),betaAutoOpt('冷卻時間',12)];
+    else if(['項鍊','耳環'].includes(gear))choices=[betaAutoOpt('ATK',255497000000000),betaAutoOpt('法術傷害',27),betaAutoOpt('暴擊率',8),betaAutoOpt('冷卻時間',6)];
     else choices=[betaAutoOpt('未指定',0)];
     // R55: magic is a true optimizer candidate, not only a manually pinned trait.
     // A gear can carry at most one special trait; if another Basic slot has a
@@ -3491,8 +3553,8 @@ function betaAutoSlotDefs(){
   for(const gear of ['戒1','戒2'])
     for(const slot of ['Basic2','Basic3','Basic4'])
       add(gear,slot,[
-        betaAutoOpt('ATK',20083720144218),
-        betaAutoOpt('法術傷害',34),
+        betaAutoOpt('ATK',340663000000000),
+        betaAutoOpt('法術傷害',36),
         betaAutoOpt('暴擊率',11),
         betaAutoOpt('冷卻時間',8)
       ]);
@@ -3501,8 +3563,8 @@ function betaAutoSlotDefs(){
   for(const gear of ['項鍊','耳環'])
     for(const slot of ['Basic2','Basic3','Basic4'])
       add(gear,slot,[
-        betaAutoOpt('ATK',10041860072109),
-        betaAutoOpt('法術傷害',17),
+        betaAutoOpt('ATK',170331000000000),
+        betaAutoOpt('法術傷害',18),
         betaAutoOpt('暴擊率',5),
         betaAutoOpt('冷卻時間',4)
       ]);
@@ -3511,9 +3573,9 @@ function betaAutoSlotDefs(){
   for(const gear of ['主武','武2','武3','頭盔','盔甲','鞋子','戒1','戒2'])
     for(const slot of ['Plus1','Plus2','Plus3'])
       add(gear,slot,[
-        betaAutoOpt('ATK',41458000000000),
+        betaAutoOpt('ATK',162220000000000),
         betaAutoOpt(E,20),
-        betaAutoOpt('法術傷害',16),
+        betaAutoOpt('法術傷害',17),
         betaAutoOpt('暴擊率',5),
         betaAutoOpt('冷卻時間',3)
       ]);
@@ -3522,7 +3584,7 @@ function betaAutoSlotDefs(){
   for(const gear of ['項鍊','耳環'])
     for(const slot of ['Plus1','Plus2','Plus3'])
       add(gear,slot,[
-        betaAutoOpt('ATK',20828000000000),
+        betaAutoOpt('ATK',81110000000000),
         betaAutoOpt(E,10),
         betaAutoOpt('法術傷害',8),
         betaAutoOpt('暴擊率',2),
@@ -4529,12 +4591,65 @@ function renderAutoBreakdown(r){
 // No equipment values, skill stats, or damage formula are changed here.
 let betaAutoRefreshing=false;
 let r2AutoInitReady=false;
+/* R33: Read-only skill-level total & overflow indicator for Page 03.
+   Uses the same system and equipment sources as the existing damage functions;
+   does not alter the optimizer, search, damage formula or Page 05. */
+function r33RefreshSkillLevelSummary(mode=state.mode,autoResult=null){
+  const root=document.getElementById('r33-skill-level-summary');
+  if(!root)return;
+  const lang=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';
+  const dict={
+    'zh-Hant':['目前技能等級','手動實裝','自動最佳化','總合計','有效等級','溢出','尚未選擇技能','尚無有效自動配置','基礎','系統（含魔法樹、人工製品主件×1.5）','裝備所有魔法','裝備元素魔法','技能上限'],
+    'en':['Current skill level','Manual build','Auto optimization','Total','Effective','Overflow','Choose a skill first','No valid auto build','Base','System (tree & artifacts; primary ×1.5)','Equipment all-magic','Equipment elemental magic','Skill cap'],
+    'ko':['현재 스킬 레벨','수동 장비','자동 최적화','총합','적용 레벨','초과','먼저 스킬을 선택하세요','유효한 자동 구성이 없습니다','기본','시스템 (마법 나무·유물 주 장착 ×1.5 포함)','장비 모든 마법','장비 속성 마법','스킬 상한'],
+    'ja':['現在のスキルレベル','手動装備','自動最適化','合計','有効レベル','超過','先にスキルを選択してください','有効な自動構成がありません','基本','システム（魔法ツリー・メインアーティファクト×1.5を含む）','装備の全魔法','装備の属性魔法','スキル上限']
+  };
+  const loc=lang==='en'?'en':lang==='ko'?'ko':lang==='ja'?'ja':'zh-Hant';
+  const L=dict[loc];
+  const put=(id,txt)=>{const el=document.getElementById(id);if(el)el.textContent=String(txt);};
+  const auto=mode==='auto';
+  put('r33-skill-title',`${L[0]}（${auto?L[2]:L[1]}）`);
+  put('r33-raw-label',L[3]);put('r33-effective-label',L[4]);put('r33-over-label',L[5]);
+  if(state.skill.id===''){
+    put('r33-raw','—');put('r33-effective','—');put('r33-over','—');put('r33-skill-detail',L[6]);return;
+  }
+  if(auto&&(!autoResult||autoResult.status!=='dynamic'||!autoResult.eq)){
+    put('r33-raw','—');put('r33-effective','—');put('r33-over','—');put('r33-skill-detail',L[7]);return;
+  }
+  const sk=activeSkill(),element=skillElementKey(sk),base=weaponBaseSkillLv();
+  // systemSelectionSummary already includes the active Magic Tree and artifact
+  // levels, with the primary artifact's ×1.5 effect.
+  const sys=Number(systemSelectionSummary()?.stats?.skillLv||0);
+  let all=0,elemental=0;
+  if(auto){
+    const totals=betaEquipmentTotalsFromEq(autoResult.eq);
+    all=Number(totals.skillLv||0);
+    // Current auto candidates do not provide elemental-magic-level affixes;
+    // count any explicitly present in the actual returned equipment as well.
+    const matching={fire:'火焰魔法等級',ice:'冰系魔法等級',lightning:'閃電魔法等級',normal:'普通魔法等級'}[element];
+    for(const slots of Object.values(autoResult.eq||{}))for(const pair of Object.values(slots||{})){
+      if(Array.isArray(pair)&&pair[0]===matching)elemental+=Number(pair[1]||0);
+    }
+  }else{
+    const totals=manualTotals();all=Number(totals.skillLv||0);elemental=Number(totals[`${element}Lv`]||0);
+  }
+  const raw=Math.round(base+sys+all+elemental);
+  const cap=r10SkillMax(sk),effective=Math.max(1,Math.min(cap,raw)),over=Math.max(0,raw-cap);
+  const fmt=n=>Number.isInteger(n)?String(n):String(Math.round(n*1000)/1000);
+  put('r33-raw',fmt(raw));put('r33-effective',`${fmt(effective)} / ${fmt(cap)}`);put('r33-over',`+${fmt(over)}`);
+  const overNode=document.getElementById('r33-over');if(overNode)overNode.style.color=over>0?'#e6b66c':'#78d6ad';
+  put('r33-skill-detail',`${L[8]} ${fmt(base)} + ${L[9]} ${fmt(sys)} + ${L[10]} ${fmt(all)} + ${L[11]} ${fmt(elemental)} = ${fmt(raw)} ｜${L[12]} ${fmt(cap)}`);
+}
+// Existing language buttons update the indicator after the locale handler.
+document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(()=>r33RefreshSkillLevelSummary(state.mode,window.__r33LastAutoResult||null),75)));
+
 function refreshAuto(force=false){
   if(state.skill.id===''){
     for(const id of ['autoCrit','autoCd','autoElem','autoSpell','autoDamage'])if($('#'+id))$('#'+id).textContent='—';
     if($('#autoStatus')){$('#autoStatus').textContent='未選擇技能：停用技能傷害最佳化，可先核對 ATK 來源';$('#autoStatus').className='warn';}
     for(const id of ['autoEquipmentGrid','autoSummaryList'])if($('#'+id))$('#'+id).innerHTML='<div class="small">請選擇技能後再進行傷害最佳化。</div>';
     if($('#autoBreakdownNote'))$('#autoBreakdownNote').textContent='未選擇技能，不產生技能配裝及傷害結果';
+    r33RefreshSkillLevelSummary('auto');
     return;
   }
   if(betaAutoRefreshing)return;
@@ -4550,6 +4665,7 @@ function refreshAuto(force=false){
     r2AutoInitReady=true;
   }
   const r=optimizeMax(state.auto); saveState(state);
+  window.__r33LastAutoResult=r; r33RefreshSkillLevelSummary('auto',r);
   $('#autoStatus').textContent=r.status==='dynamic'?'已完成候選搜尋｜目前較佳配置，尚未證明全域最大值':r.status==='infeasible'?'目前條件無可行合法配置':'目前基準無法計算';
   $('#autoStatus').className=r.status==='dynamic'?'pass':'warn';
   $('#autoCrit').textContent=r.crit??'—';
@@ -6238,7 +6354,8 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     const dynamicSkillAtk=skillAtkAtLevel(ctx.sk.id,r10AutoSkillLevel(ctx.sk,t));
     if(!Number.isFinite(dynamicSkillAtk))return -Infinity;
     const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
-    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent+r48TitleAtkExtra(ctx.weaponAtk));
+    const nativeAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent+r48TitleAtkExtra(ctx.weaponAtk));
+    const effectiveAtk=window.__r36FinalAtk?window.__r36FinalAtk(nativeAtk):nativeAtk;
     return effectiveAtk*dynamicSkillAtk*(1+(ctx.elemBase+t.elem)/100)*(1+(ctx.spellBase+t.spell)/100);
   };
   betaAutoEvalTotals=function(t,targetCrit,targetCd){
@@ -6249,7 +6366,8 @@ main > .screen:first-of-type .mode-only-card{display:none!important}
     const skillLv=r10AutoSkillLevel(ctx.sk,t),skillAtk=skillAtkAtLevel(ctx.sk.id,skillLv);
     if(!Number.isFinite(skillAtk))return null;
     const flatAtk=Number(BigInt(Math.max(0,Math.round(t.atk))))+Number(ctx.sys.flatAtk||0);
-    const effectiveAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent+r48TitleAtkExtra(ctx.weaponAtk)),elem=ctx.elemBase+t.elem,spell=ctx.spellBase+t.spell;
+    const nativeAtk=Math.floor((ctx.weaponAtk+ctx.levelAtk+flatAtk)*ctx.atkPool*ctx.atkIndependent+r48TitleAtkExtra(ctx.weaponAtk));
+    const effectiveAtk=window.__r36FinalAtk?window.__r36FinalAtk(nativeAtk):nativeAtk,elem=ctx.elemBase+t.elem,spell=ctx.spellBase+t.spell;
     const nonCritDamage=Math.floor(effectiveAtk*skillAtk*(1+elem/100)*(1+spell/100)*ctx.bossMultiplier*ctx.otherMultiplier),critDamage=Math.floor(nonCritDamage*(ctx.critDamagePct/100));
     const rawCrit=betaAutoPctValue(rawCritUnits),cd=betaAutoPctValue(cdUnits);
     return {status:'dynamic',crit:rawCrit,rawCrit,cd,elem,spell,critDamage,nonCritDamage,critDamagePct:ctx.critDamagePct,skillLv,skillAtk,effectiveAtk};
@@ -10003,6 +10121,25 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 (function(){
 'use strict';
 const clone=x=>JSON.parse(JSON.stringify(x));
+/* R34: Lv170 overflow-aware two-slot reallocation. Preserve normal solver
+   unchanged; expose lower Basic magic only to the verified advanced search.
+   Never generate an elemental level unless game's source data supports it. */
+function r34OverflowSlotDefs(){
+ const defs=betaAutoSlotDefs(),pinned=r9SavedTraits();
+ for(const d of defs){
+  if(!/^Basic[234]$/.test(d.slot))continue;
+  const value=r10MagicValue(d.gear,d.slot);
+  if(!value||pinned[d.gear+'|'+d.slot])continue;
+  const otherPinned=r9BasicSlots(d.gear).some(slot=>slot!==d.slot && Boolean(pinned[d.gear+'|'+slot]));
+  if(otherPinned)continue;
+  if(!d.opts.some(o=>o.type==='所有魔法等級'))d.opts.push(betaAutoOpt('所有魔法等級',value));
+ }
+ return defs;
+}
+function r34RawLevel(eq){
+ const sk=activeSkill(),t=betaEquipmentTotalsFromEq(eq);
+ return Math.round(weaponBaseSkillLv()+Number(betaAutoMaxSystemStats().skillLv||0)+Number(t.skillLv||0));
+}
 const numberV=x=>Number.isFinite(x)?(x/1e24).toFixed(3)+'V':'—';
 const original=window.optimizeMax;
 if(typeof original!=='function')return;
@@ -10118,7 +10255,7 @@ function ready(){
    const sig=signature(),minCrit=Number(document.getElementById('critTarget')?.value||0),minCooldown=Number(document.getElementById('cdTarget')?.value||0);
    const limits={minCrit,minCooldown};
    // Always search the original optimizer's result, not an earlier audit replacement.
-   const base=original(limits),defs=betaAutoSlotDefs();
+   const base=original(limits),defs=r34OverflowSlotDefs();
    if(base?.status!=='dynamic'||!base.eq)throw Error('目前沒有可檢查的推薦配置');
    let initial=clone(base.eq);const layout=base.setLayout||null;
    const baseline=evaluate(initial,limits,layout);
@@ -10126,6 +10263,11 @@ function ready(){
    const skillIdentity=r92SkillIdentity();
    if(!baseline)throw Error('原始推薦未達暴擊／冷卻門檻或傷害無法重算（非詞條驗證失敗）');
    const baselineWarnings=baselineDiagnostics(initial,defs);
+   // When Lv170 is reachable in the baseline, permit only capped candidates.
+   // This phase deliberately excludes sacrificing a skill level for traits.
+   const cap=r10SkillMax(activeSkill());
+   const keepCapped=baseline.skillLv>=cap;
+   const initialRaw=r34RawLevel(initial);
    let best={eq:clone(initial),damage:baseline.critDamage,changes:[]};let tested=0,feasible=0,invalidTrait=0,invalidLimit=0;const rounds=[];const path=[];let chosen=[];
    let duplicateSkipped=0;const seenCandidates=new Set();
    const attempt=(changes)=>{
@@ -10138,7 +10280,7 @@ function ready(){
     for(const [d,o] of changes)(eq[d.gear]??={})[d.slot]=[o.type,o.value];
     tested++;
     if(verifyChanges(eq,defs,changes).length){invalidTrait++;return;}
-    const result=evaluate(eq,limits,layout);if(!result){invalidLimit++;return;}
+    const result=evaluate(eq,limits,layout);if(!result || (keepCapped&&result.skillLv<cap)){invalidLimit++;return;}
     feasible++;
     if(result.critDamage>best.damage)best={eq,damage:result.critDamage,changes:changes.map(([d,o])=>`${d.key}→${o.type} ${o.value}`)};
    };
@@ -10168,7 +10310,7 @@ function ready(){
      seedStats.attempted++;
      if(verifyChanges(eq,defs,changed).length)continue;
      const score=evaluate(eq,limits,layout);
-     if(!score)continue;
+     if(!score || (keepCapped&&score.skillLv<cap))continue;
      seedStats.feasible++;
      if(score.critDamage>best.damage){best={eq,damage:score.critDamage,changes:changed.map(([d,o])=>`${d.key}→${o.type} ${o.value}`)};seedStats.better++;seedStats.selected=label;}
     }
@@ -10199,12 +10341,13 @@ function ready(){
    if(best.damage<=beforeRound+Math.max(1e-9,Math.abs(beforeRound)*1e-13))break;
    }
    const found=best.damage>baseline.critDamage;
+   const finalRaw=r34RawLevel(best.eq);
    // Require same baseline and input state before integrating into normal UI.
    if(signature()!==sig)throw Error('條件已變更，取消套用');
    if(found&&!r90CompareOff){accepted={sig,baseDamage:base.critDamage,layoutKey:JSON.stringify(base.setLayout||{}),layout,eq:clone(best.eq)};refreshAuto(true);}
    const winnerFixedPair=null;
-   lastReport={version:'V2.2-release-optimizer',baselineFixedPair,winnerFixedPair,skillIdentity,conditions:limits,skill:{id:activeSkill().id,name:activeSkill().name},baseline:baseline.critDamage,best:best.damage,improved:found,changes:best.changes,path,rounds,tested,duplicateSkipped,elapsedMs:Math.round(performance.now()-optimizationStart),feasible,rejectedByTrait:invalidTrait,rejectedByLimitsOrFormula:invalidLimit,fields:defs.length,threeFieldScope:chosen.map(d=>d.key),baselineWarnings,seedStats,setBonusEnabled:!r90CompareOff,setLayout:clone(layout||{}),globallyProven:false,applied:found&&!r90CompareOff};window.TS_R87_AUDIT_LAST=JSON.parse(JSON.stringify(lastReport));
-   say([`進階最佳化完成（${r90CompareOff?'不計套裝增傷；不套用':'計入套裝增傷'}）｜${found?'找到較高候選':'未找到更好的局部候選'}`,`技能 ID：${skillIdentity.selectedId} / ${skillIdentity.activeId}；名稱 ${skillIdentity.activeName}；對應 ${skillIdentity.idMatched&&skillIdentity.nameMatched?'一致':'異常'}`,`原自動傷害：${numberV(baseline.critDamage)}`,`稽核最高：${numberV(best.damage)}`,`共評估 ${tested} 組，重複略過 ${duplicateSkipped} 組，耗時 ${Math.round(performance.now()-optimizationStart)} ms，符合條件 ${feasible} 組，詞條限制排除 ${invalidTrait} 組，門檻/運算排除 ${invalidLimit} 組`,`多起點預篩：${seedStats.attempted} 組，合法 ${seedStats.feasible} 組，改善 ${seedStats.better} 次；起點類別 ${seedStats.selected||"無"}` ,`共執行 ${rounds.length} 輪，改善 ${rounds.filter(r=>r.improved).length} 輪`,...best.changes,...(baselineWarnings.length?['原始配置與當前候選表差異：'+baselineWarnings.length+' 格',...baselineWarnings.slice(0,8)]:[]),'未證明全域最大值；未窮舉全部三格或四格以上組合。'].join('\n'));
+   lastReport={version:'V2.2.5-R34-overflow-reallocation',cap,keepCapped,initialRaw,finalRaw,initialOverflow:Math.max(0,initialRaw-cap),finalOverflow:Math.max(0,finalRaw-cap),baselineFixedPair,winnerFixedPair,skillIdentity,conditions:limits,skill:{id:activeSkill().id,name:activeSkill().name},baseline:baseline.critDamage,best:best.damage,improved:found,changes:best.changes,path,rounds,tested,duplicateSkipped,elapsedMs:Math.round(performance.now()-optimizationStart),feasible,rejectedByTrait:invalidTrait,rejectedByLimitsOrFormula:invalidLimit,fields:defs.length,threeFieldScope:chosen.map(d=>d.key),baselineWarnings,seedStats,setBonusEnabled:!r90CompareOff,setLayout:clone(layout||{}),globallyProven:false,applied:found&&!r90CompareOff};window.TS_R87_AUDIT_LAST=JSON.parse(JSON.stringify(lastReport));
+   say([`進階最佳化完成（${r90CompareOff?'不計套裝增傷；不套用':'計入套裝增傷'}）｜${found?'找到較高候選':'未找到更好的局部候選'}`,`技能 ID：${skillIdentity.selectedId} / ${skillIdentity.activeId}；名稱 ${skillIdentity.activeName}；對應 ${skillIdentity.idMatched&&skillIdentity.nameMatched?'一致':'異常'}`,`保留滿級：${keepCapped?'是':'原配置未滿級，維持舊搜尋規則'}；原始等級 ${initialRaw} → ${finalRaw}；溢出 ${Math.max(0,initialRaw-cap)} → ${Math.max(0,finalRaw-cap)}`,`原自動傷害：${numberV(baseline.critDamage)}`,`稽核最高：${numberV(best.damage)}`,`共評估 ${tested} 組，重複略過 ${duplicateSkipped} 組，耗時 ${Math.round(performance.now()-optimizationStart)} ms，符合條件 ${feasible} 組，詞條限制排除 ${invalidTrait} 組，門檻/運算排除 ${invalidLimit} 組`,`多起點預篩：${seedStats.attempted} 組，合法 ${seedStats.feasible} 組，改善 ${seedStats.better} 次；起點類別 ${seedStats.selected||"無"}` ,`共執行 ${rounds.length} 輪，改善 ${rounds.filter(r=>r.improved).length} 輪`,...best.changes,...(baselineWarnings.length?['原始配置與當前候選表差異：'+baselineWarnings.length+' 格',...baselineWarnings.slice(0,8)]:[]),'未證明全域最大值；未窮舉全部三格或四格以上組合。'].join('\n'));
   }catch(e){say('進階最佳化失敗：'+(e?.message||e));}
   finally{
    busy=false;button.disabled=false;
@@ -11742,6 +11885,182 @@ function boot(){schedule();setTimeout(schedule,250);setTimeout(schedule,1100);
  }).observe(grid,{childList:true});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script>
+<script id="r36-final-atk-precision" data-regression="r37">
+/* Final-ATK precision calibration; no hardcoded multiplier or artificial fixed damage.
+   A user-provided in-game final panel ATK defines the allowed display interval.
+   Inverse search reuses manualDamageResult and the existing damage formula.
+   The inferred factor is shared with auto ranking, summary and Page 04.
+   Fail closed if the game observation does not fit its final ATK display interval. */
+(function(){
+ 'use strict';
+ const keyStorage='ts-r36-final-atk-inferred-v1';
+ const originalEffective=effectiveAtkResult;
+ let saved=null,trial=null;
+ try{saved=JSON.parse(localStorage.getItem(keyStorage)||'null')}catch(e){}
+ function fingerprint(){
+   try{
+     // Protect calibration against changes to weapon, character, artifacts,
+     // magic tree, titles, or systemic ATK; allow manual spell-affix changes.
+     const base=originalEffective(0n);
+     return [state.weapon.equipmentLevel,normalizeInput(state.weapon.displayAtk),state.player.level,
+       base.valid?String(base.effectiveAtk):'invalid'].join('|');
+   }catch(e){return 'invalid'}
+ }
+ function factor(){
+   if(trial!==null)return trial;
+   return saved&&saved.key===fingerprint()&&Number.isFinite(saved.ratio)?saved.ratio:1;
+ }
+ window.__r36FinalAtk=function(finalAtk){
+   if(!Number.isFinite(finalAtk))return finalAtk;
+   return Math.floor(finalAtk*factor());
+ };
+ effectiveAtkResult=function(){
+   const r=originalEffective.apply(this,arguments);
+   if(!r?.valid)return r;
+   const k=factor();
+   if(k===1)return r;
+   return {...r,effectiveAtk:Math.floor(r.effectiveAtk*k),precisionMode:'r36-inferred-final-atk',precisionRatio:k};
+ };
+ function get(id){return document.getElementById(id)}
+ function status(t,good){const e=get('r36-status');if(e){e.textContent=t;e.style.color=good?'#8de0c0':'#c5ac9c'}}
+ function parseDamage(s){
+   const m=String(s||'').trim().replace(/,/g,'').replace(/\s/g,'').match(/^(\d+(?:\.\d+)?)([RV])$/i);
+   return m?Number(m[1])*(m[2].toUpperCase()==='V'?1e21:1e18):NaN;
+ }
+ function displayInterval(s){
+   const p=parseGameNumber(s);
+   if(!p||p.mode!=='display'||p.decimals>UNIT_POWERS[p.unit])return null;
+   const step=10n**BigInt(UNIT_POWERS[p.unit]-p.decimals);
+   const lo=Number(p.raw),hi=Number(BigInt(p.raw)+step);
+   return Number.isFinite(lo)&&Number.isFinite(hi)&&hi>lo?{lo,hi,step}:null;
+ }
+ function refresh(){
+   try{refreshManualSummary()}catch(e){console.warn('R36 manual refresh',e)}
+   try{if(state.mode==='auto')refreshAuto(true)}catch(e){console.warn('R36 auto refresh',e)}
+   try{if(state.step===3)refreshReport()}catch(e){console.warn('R36 report refresh',e)}
+   try{if(typeof window.r15RefreshSkillCard==='function')window.r15RefreshSkillCard()}catch(e){}
+ }
+ function showStatus(){
+   const detail=get('r37-precision-details');
+   if(detail){
+     const active=saved&&saved.key===fingerprint()&&Number.isFinite(saved.ratio);
+     const raw=originalEffective(manualTotals().atk);
+     const corrected=raw?.valid&&active?Math.floor(raw.effectiveAtk*saved.ratio):raw?.effectiveAtk;
+     detail.textContent=active
+       ?'已自動沿用已保存的 ATK 精度：原始計算 '+(raw?.valid?formatGameBigInt(BigInt(Math.floor(raw.effectiveAtk))):'—')+'；校正後 '+(Number.isFinite(corrected)?formatGameBigInt(BigInt(Math.floor(corrected))):'—')+'；來源 '+saved.panel+'／'+saved.reference+'。更換法傷／元素詞條不必再次反推。'
+       :'未套用校正：從裝備／系統數值計算 ATK。面板縮寫的隱藏小數無法單憑三位顯示值唯一還原；需要實測參考才能取得更高精度。';
+   }
+   if(saved&&saved.key===fingerprint()){
+     status('已啟用最終 ATK 精度推算：×'+saved.ratio.toFixed(10)+'，校正後最終 ATK 約 '+formatGameBigInt(BigInt(Math.floor(originalEffective(manualTotals().atk).effectiveAtk*saved.ratio)))+'。可修改法術／元素傷害詞條交叉驗證。',true);
+   }else status('未啟用校正，使用原本的最終 ATK；需要遊戲實測才能反推隱藏小數。',false);
+ }
+ function solve(){
+   const panel=get('r36-panel-atk')?.value, input=get('r36-game-damage')?.value;
+   const interval=displayInterval(panel),target=parseDamage(input);
+   if(!interval){status('請填入遊戲顯示的最終面板 ATK，例如 9.546R。',false);return}
+   if(!Number.isFinite(target)||target<=0){status('請填入遊戲實測暴擊傷害，例如 2115287.246V。',false);return}
+   if(!state.skill.id){status('請先選擇武器技能，並切換到對應的手動實裝配置。',false);return}
+   const flat=manualTotals().atk;
+   const base=originalEffective(flat);
+   if(!base.valid||!Number.isFinite(base.effectiveAtk)||base.effectiveAtk<=0){status('目前的面板 ATK 無法計算，未更改校正。',false);return}
+   const current=base.effectiveAtk;
+   // Display interval is used to constrain the inverse search, not a target
+   // artificially set to its midpoint.
+   const left=interval.lo/current,right=interval.hi/current;
+   if(!(right>left)||left<=0){status('最終 ATK 顯示區間無法辨識。',false);return}
+   function evaluate(k){
+     trial=k;
+     const r=manualDamageResult();
+     return r.valid?Number(r.crit):NaN;
+   }
+   let atL,atR;
+   try{atL=evaluate(left);atR=evaluate(right)}finally{trial=null}
+   if(!Number.isFinite(atL)||!Number.isFinite(atR)||atR<=atL){status('目前配置無法進行精度反推；請確認技能、元素和裝備。',false);return}
+   // V display granularity: allow up to one least significant display digit.
+   const tolerance=1e18;
+   if(target<atL-tolerance||target>atR+tolerance){
+     status('這筆實測傷害超出面板 '+normalizeInput(panel)+' 的可推算範圍；可能還有倍率／技能或輸入來源差異，未套用任何補正。',false);return;
+   }
+   let lo=left,hi=right;
+   let best=null;
+   try{
+     for(let i=0;i<72;i++){
+       const mid=(lo+hi)/2;
+       if(mid===lo||mid===hi)break;
+       const d=evaluate(mid);
+       if(!Number.isFinite(d))break;
+       if(!best||Math.abs(d-target)<best.error)best={ratio:mid,error:Math.abs(d-target)};
+       if(d<target)lo=mid;else hi=mid;
+     }
+     for(const k of [lo,hi,(lo+hi)/2]){
+       const d=evaluate(k);
+       if(Number.isFinite(d)&&(!best||Math.abs(d-target)<best.error))best={ratio:k,error:Math.abs(d-target)};
+     }
+   }finally{trial=null}
+   if(!best||best.error>3e18){status('校正仍有超過 0.003V 的誤差，無法確認是 ATK 精度問題；未套用。',false);return}
+   saved={key:fingerprint(),ratio:best.ratio,panel:normalizeInput(panel),reference:normalizeInput(input),errorV:best.error/1e21};
+   try{localStorage.setItem(keyStorage,JSON.stringify(saved))}catch(e){}
+   refresh();showStatus();
+   const sim=manualDamageResult();
+   status('已根據遊戲實測推算最終 ATK（非固定補正）；目前模擬器 '+(sim.valid?formatDamageR(sim.crit):'—')+'，對照 '+saved.reference+'。再切換另一條法傷詞條驗證是否也吻合。',true);
+ }
+ function crossValidate(){
+   const output=get('r37-check-status');
+   if(!output)return;
+   if(!saved||saved.key!==fingerprint()){
+     output.textContent='目前沒有適用的已保存 ATK 精度，請先完成一次實測反推。'; output.style.color='#e9bb7f';return;
+   }
+   const observed=parseDamage(get('r37-second-damage')?.value);
+   if(!Number.isFinite(observed)||observed<=0){output.textContent='請輸入這組手動配置的遊戲實測暴擊傷害。';output.style.color='#e9bb7f';return;}
+   const result=manualDamageResult();
+   if(!result.valid){output.textContent='目前配置尚無法計算傷害。';output.style.color='#e9bb7f';return;}
+   // Independent cross-check only. Never adjust the saved ratio using this value.
+   const diffV=(observed-result.crit)/1e21;
+   const relativePct=(observed-result.crit)/observed*100;
+   const passed=Math.abs(diffV)<=0.003;
+   output.textContent='目前模擬器 '+formatDamageR(result.crit)+'｜遊戲 '+normalizeInput(get('r37-second-damage')?.value)+'｜差 '+(diffV>=0?'+':'')+diffV.toFixed(3)+'V（'+relativePct.toFixed(9)+'%）｜'+(passed?'交叉驗證吻合':'仍有差異，請核對配置／ATK 來源');
+   output.style.color=passed?'#8de0c0':'#e9bb7f';
+   if(passed){saved.checked=true;saved.checkReference=normalizeInput(get('r37-second-damage')?.value);try{localStorage.setItem(keyStorage,JSON.stringify(saved))}catch(e){}}
+ }
+ function clear(){saved=null;trial=null;try{localStorage.removeItem(keyStorage)}catch(e){}refresh();showStatus();const output=get('r37-check-status');if(output)output.textContent='已取消精度校正。'}
+ const locales={
+   'zh-Hant':['最終 ATK 隱藏精度校驗（選用）','填入遊戲顯示的最終面板 ATK 和這套手動配置的實測暴擊傷害，程式會依原傷害公式反推 ATK 的隱藏位數。不是固定傷害補正；換配置時可重新交叉驗證。','遊戲最終面板 ATK','遊戲實測最終暴擊傷害','依實測反推最終 ATK','取消校正'],
+   en:['Final ATK precision check (optional)','Enter the in-game final panel ATK and critical damage for this exact manual build. The simulator estimates hidden ATK digits within the displayed interval, without a fixed damage bonus.','In-game final panel ATK','Measured in-game final critical damage','Infer final ATK from damage','Clear calibration'],
+   ko:['최종 ATK 숨은 소수점 검증 (선택)','현재 수동 장비의 게임 내 최종 ATK와 치명타 피해를 입력하세요. 표시값 범위 안에서 숨은 소수점을 역산하며 고정 피해 보정은 사용하지 않습니다.','게임 최종 패널 ATK','게임에서 측정한 최종 치명타 피해','실측으로 최종 ATK 역산','보정 해제'],
+   ja:['最終 ATK の内部精度検証（任意）','同じ手動装備で測定したゲーム内の最終 ATK とクリティカルダメージを入力してください。表示値の範囲内で内部小数を推定し、固定ダメージ補正は行いません。','ゲーム内最終 ATK','ゲーム内実測クリティカルダメージ','実測値から最終 ATK を逆算','補正を解除']
+ };
+ function translate(){
+   const lang=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant',t=locales[lang]||locales['zh-Hant'];
+   for(const [i,id] of ['r36-caption','r36-help','r36-atk-label','r36-damage-label','r36-solve','r36-clear'].entries()){
+     const el=get(id);if(el)el.textContent=t[i];
+   }
+ }
+ function r37Translate(){
+  const lang=document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant';
+  const m={
+   'zh-Hant':['其它詞條配置的遊戲實測暴擊傷害（可選）','不重新校正，直接驗證'],
+   en:['Measured critical damage for another affix setup (optional)','Verify without recalibrating'],
+   ko:['다른 옵션 조합의 게임 내 치명타 피해 (선택)','재보정 없이 확인'],
+   ja:['別のオプション構成の実測クリティカルダメージ（任意）','再補正せず検証']
+  }[lang]||['其它詞條配置的遊戲實測暴擊傷害（可選）','不重新校正，直接驗證'];
+  if(get('r37-check-label'))get('r37-check-label').textContent=m[0];
+  if(get('r37-check'))get('r37-check').textContent=m[1];
+ }
+ function boot(){
+   get('r36-solve')?.addEventListener('click',solve);
+   get('r36-clear')?.addEventListener('click',clear);
+   get('r37-check')?.addEventListener('click',crossValidate);
+   for(const id of ['displayAtk','weaponLv','level'])get(id)?.addEventListener('change',showStatus);
+   if(saved&&saved.key===fingerprint()){if(get('r36-panel-atk'))get('r36-panel-atk').value=saved.panel||'';if(get('r36-game-damage'))get('r36-game-damage').value=saved.reference||'';if(get('r37-second-damage'))get('r37-second-damage').value=saved.checkReference||'';}
+   const other=get('r51-game-atk');
+   if(other?.value&&!get('r36-panel-atk')?.value)get('r36-panel-atk').value=other.value;
+   document.querySelectorAll('.lang-btn').forEach(el=>el.addEventListener('click',()=>setTimeout(translate,80)));
+   translate();r37Translate();showStatus();
+   document.querySelectorAll('.lang-btn').forEach(el=>el.addEventListener('click',()=>setTimeout(r37Translate,80)));
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
 </script>
 </body></html>
