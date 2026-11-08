@@ -1763,7 +1763,6 @@ body[data-element="normal"]{--el:#c9d4d8;--el-soft:rgba(180,196,202,.09);--el-li
 #fashionList{display:grid!important}
 html.fashion-gallery-ready #fashionList{display:none!important}
 </style>
-
 <!-- V2.2.5 public release: no player-facing ATK calibration controls.
      Preserve calculation and saved calibration state internally. -->
 <style id="v225-hide-atk-calibration-public">
@@ -1774,7 +1773,6 @@ html.v225-show-precision-tools #r36-precision-box { display:none !important; vis
 #v260240-r15-note, #r28-calcstatus, #r28-tier-note,
 #r48-title-atk-test, #r38-title-atk-audit, #r44-normal-audit {display:none!important;}
 </style>
-
 <!-- R39 production: compact precision control remains reachable without exposing test reports. -->
 <style id="r39-production-precision">
 #r36-precision-box{display:none!important;border-color:rgba(121,163,180,.22)!important;padding:5px 9px!important}
@@ -1788,6 +1786,42 @@ html.v225-show-precision-tools #r37-check-status{display:block!important}
 @media(max-width:600px){#r36-precision-box{padding:5px 7px!important}}
 </style>
 <style id="v225-final-hide-precision">#manualPane #r36-precision-box{display:none!important;visibility:hidden!important}</style>
+<style id="r03-description-cleanup">/* R03 — presentation-only clean-up, original navigation and controls unchanged. */
+#r28-explain{display:none!important}
+/* Suppress verbose help blocks while preserving runtime nodes and diagnostics. */
+</style>
+<style id="r04-targeted-copy-cleanup">
+/* R04: hide only user-specified, redundant help/status text. No DOM movement,
+   calculation changes, save-state changes, or translations rewritten. */
+/* 01: bottom Build Status Summary */
+main > section.screen:first-of-type .v2-p1-build-status-only{display:none!important;}
+/* 02: artifact tutorial and internal asset extraction notice */
+#safeSystemCard .artifact-game-meta,
+#safeSystemCard .artifact-preview-note{display:none!important;}
+/* 02: title tutorial and duplicated summary explanation; retain current title,
+   earned bonus amounts, equipped status and actionable controls. */
+#v21TitleRoot .v21-title-head span,
+#v21TitleRoot .v21-title-effect-preview small{display:none!important;}
+/* 03: duplicate V2.602 damage integration note below manual configuration */
+main > section.screen:nth-of-type(3) #r17-native-audit{display:none!important;}
+/* 03: long auto optimizer post-result diagnostic notice */
+#autoPane #autoBreakdownNote{display:none!important;}
+/* 04: final 'More damage and system details' redundant section */
+#reportScreen #r9Overview{display:none!important;}
+</style>
+<style id="r05-title-explanations-final-cleanup">
+/* R05: remove title explanatory/status cards; preserve title chooser, cards,
+   primary-title selection in popup, calculated data, and stored state. */
+#v21TitleDetails > .note,
+#v21TitleRoot .v21-title-head > div > span,
+#v21TitleRoot #v21TitleEffectPreview,
+#v21TitleRoot .r62-title-equip,
+#safeTitlesExtra .v21-title-stat-meta > span:not([id]) {
+  display:none !important;
+}
+/* Avoid empty spacing from the now-hidden summary rows. */
+#v21TitleRoot .v21-title-head { margin-bottom:0 !important; }
+</style>
 </head>
 <body>
 <script>
@@ -1868,15 +1902,15 @@ html.v225-show-precision-tools #r37-check-status{display:block!important}
 </div>
 <main>
 <section class="screen active">
-<div class="hero"><h2>01｜角色設定</h2><p>只放玩家最常修改的基本資料。自動最佳化條件已從主控台移除。</p></div>
-<div id="r15-updates-entry" class="r15-update-entry no-print" data-no-translate><span class="r15-new-dot"></span><strong id="r15-updates-short">模擬前使用提示</strong><span id="r15-updates-desc">設定前建議先閱讀注意事項</span><button type="button" id="r15-updates-open">查看使用提示 ›</button></div>
+<div class="hero"><h2>01｜角色設定</h2></div>
+<div class="r15-update-entry no-print" data-no-translate="" id="r15-updates-entry"><span class="r15-new-dot"></span><strong id="r15-updates-short">模擬前使用提示</strong><span id="r15-updates-desc">設定前建議先閱讀注意事項</span><button id="r15-updates-open" type="button">查看使用提示 ›</button></div>
 <div class="grid two">
 <div class="card"><h3>角色／主武</h3>
 <div class="note" id="v260240-data-notice" style="margin:9px 0">遊戲 V2.60240 R2：角色上限 Lv700、裝備上限 Lv850；魔法樹高階四項 Lv50；魔法強化至 Lv12（Lv11～12 為舊規則延伸，尚待遊戲驗證）；已識別新增 8 件人工製品資料鍵，效果及等級尚未驗證，不計入傷害。新武器「永雪反擊」四語名稱已核實，技能數值尚待核對。角色 Lv510 以上的基礎 ATK 舊試算不代表新版已驗證公式。</div>
-<div id="v260240-skill-status" class="note" style="display:none;margin:9px 0;border-left-color:#e8c06e">永雪反擊：目前已核對遊戲正式四語名稱，但缺少新版逐級技能資料，傷害結果不可作為遊戲實際數值。</div>
+<div class="note" id="v260240-skill-status" style="display:none;margin:9px 0;border-left-color:#e8c06e">永雪反擊：目前已核對遊戲正式四語名稱，但缺少新版逐級技能資料，傷害結果不可作為遊戲實際數值。</div>
 <div class="field"><label>角色等級</label><input id="level" max="700" min="1" type="number"/></div>
 <div class="field"><label>主武固定 ATK（照遊戲顯示輸入）</label><input id="displayAtk"/></div>
-<div class="field"><label>主武裝備 Lv</label><input id="weaponLv" min="1" max="850" type="number"/></div>
+<div class="field"><label>主武裝備 Lv</label><input id="weaponLv" max="850" min="1" type="number"/></div>
 <div class="field skill-field"><label>武器技能（可留空）</label><select id="skill"></select><div aria-live="polite" class="skill-preview" id="skillPreview"></div></div>
 </div>
 <div class="card mode-only-card"><h3>模式</h3>
@@ -1897,9 +1931,9 @@ html.v225-show-precision-tools #r37-check-status{display:block!important}
 <strong>R51｜第二把武器交叉核對</strong>
 <p class="small">切換武器後，其他設定維持一致。下方可輸入新測得的遊戲面板 ATK，直接查看與目前模擬器的差距。這只比對數字，<strong>不會將遊戲數值寫進 ATK 或傷害公式</strong>。</p>
 <label for="r51-game-atk">此武器的遊戲面板 ATK（例如 516.472B）</label>
-<input autocomplete="off" id="r51-game-atk" placeholder="輸入遊戲面板 ATK">
+<input autocomplete="off" id="r51-game-atk" placeholder="輸入遊戲面板 ATK"/>
 <p aria-live="polite" class="small" id="r51-atk-compare-result">輸入遊戲面板後顯示差異。</p>
-</input></div>
+</div>
 <div id="r50-precision-panel" style="border:1px solid #526577;border-radius:10px;padding:12px;margin:10px 0">
 <strong>R51｜稱號星級精度（B 為預設候選模型）</strong>
 <p class="small">遊戲畫面顯示 ★1 2%／★2 4%／★3 6%；實際運算是否為 1.98%／3.96%／6% 尚待遊戲程式證實。只在上方稱號 ATK 試算開啟時生效。</p>
@@ -1944,8 +1978,8 @@ html.v225-show-precision-tools #r37-check-status{display:block!important}
 </div>
 </section>
 <section class="screen">
-<div class="hero"><h2>02｜系統效果</h2><p>依角色實際進度逐項設定。新手預設全部未取得／Lv0／未裝備；不再強制使用 MAX。資料由獨立後台檔載入，之後可直接擴充。</p></div>
-<div class="note safe-title-announcement" data-safe-lang="title-announcement" role="note">更新資訊｜正式版 R12：48 個稱號保留圖卡、星級與獨立能力統計；稱號能力已納入角色 ATK 與技能傷害。已整合手動輸入修正、系統單一捲動及寵物圖卡版面；原生稱號加成規則尚待驗證。</div>
+<div class="hero"><h2>02｜系統效果</h2></div>
+
 <div class="card safe-stat-card" id="safeStatCard"><h3>系統統計總覽</h3>
 <div class="safe-stat-ui" id="safeStatUI">
 <div class="safe-brief-grid">
@@ -1958,7 +1992,7 @@ html.v225-show-precision-tools #r37-check-status{display:block!important}
 <details open=""><summary>查看各稱號能力貢獻</summary><div id="v21TitleStatSources"></div></details>
 </div>
 </div>
-<div class="note">此區以遊戲初始屬性為起點，再累加「人工製品／魔法樹／時裝／寵物」效果；稱號另行統計，不列入角色 ATK、最佳化或技能傷害。稱號貢獻可於「稱號來源明細」查看。暴擊傷害初始 150%；其餘本頁追蹤項目未取得效果時為 0。</div>
+
 <div class="statgrid" style="margin-top:12px">
 <div class="stat"><div class="k">ATK %</div><div class="v" id="sysAtkPct">0%</div></div>
 <div class="stat"><div class="k">法術傷害</div><div class="v" id="sysSpellPct">0%</div></div>
@@ -1989,7 +2023,7 @@ html.v225-show-precision-tools #r37-check-status{display:block!important}
 <div class="warn small" id="sysWarning" style="margin-top:5px"></div>
 </div>
 <div class="card safe-system-card" id="safeSystemCard"><h3>系統設定</h3>
-<div class="note">所有設定都會保存於瀏覽器草稿。人工製品輸入 Lv 後不會再跳回清單頂端。魔法樹使用等級下拉；「魔法強化」依角色 Lv 限制最高至 12，Lv11～12 待新版遊戲核實。時裝擁有即生效；寵物最多裝備 4 隻。</div>
+
 <div aria-label="五大系統分類" class="safe-sys-tabs" id="safeSysTabs" role="tablist">
 <button class="is-active" data-safe-system="artifact" type="button">人工製品 <small id="safe-artifact">0 / 103</small><i></i></button>
 <button data-safe-system="tree" type="button">魔法樹 <small id="safe-tree">0 / 29</small><i></i></button>
@@ -1998,7 +2032,7 @@ html.v225-show-precision-tools #r37-check-status{display:block!important}
 <button data-safe-system="pet" type="button">寵物 <small id="safe-pet">0 / 4</small><i></i></button>
 </div>
 <details open=""><summary>人工製品｜111 件（新 8 件數值待核對）</summary>
-<div class="sys-toolbar"><input id="artifactSearch" placeholder="搜尋人工製品名稱"><button class="r19-max-all" id="r19ArtifactMaxAll" type="button">一鍵全滿</button></input></div>
+<div class="sys-toolbar"><input id="artifactSearch" placeholder="搜尋人工製品名稱"/><button class="r19-max-all" id="r19ArtifactMaxAll" type="button">一鍵全滿</button></div>
 <div class="sys-list" id="artifactList"></div>
 </details>
 <details><summary>魔法樹｜29 節點</summary>
@@ -2030,63 +2064,63 @@ html.v225-show-precision-tools #r37-check-status{display:block!important}
 <div class="stat"><div class="k">法傷</div><div class="v">346%</div></div>
 <div class="stat"><div class="k">暴擊／冷卻</div><div class="v">56% / 62%</div></div>
 </div>
-<div class="note" style="margin-top:10px">這些數值只用於 MAX 回歸測試，不會灌入目前角色。角色目前值依遊戲初始基準與玩家實際選擇逐項累加。</div>
+
 </details>
 </section>
 <section class="screen">
-<div class="hero"><h2>03｜裝備配置</h2><p>自動最佳化與手動實裝共用同一套已驗證裝備規則；所有輸入即時同步全域 Build State。</p></div><div class="beta-build-strip no-print" id="betaBuildStrip"></div><div id="betaModeMount"></div>
-<div id="r33-skill-level-summary" class="card no-print" style="margin:10px 0 12px;padding:11px 14px;border:1px solid rgba(105,165,193,.35);background:rgba(7,25,39,.7)" aria-live="polite">
- <div style="display:flex;flex-wrap:wrap;gap:7px 16px;align-items:center;justify-content:space-between">
-  <strong id="r33-skill-title" style="font-size:13px">目前技能等級（手動實裝）</strong>
-  <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px">
-   <span><span id="r33-raw-label" class="small">總合計</span> <b id="r33-raw">—</b></span>
-   <span><span id="r33-effective-label" class="small">有效等級</span> <b id="r33-effective">—</b></span>
-   <span><span id="r33-over-label" class="small">溢出</span> <b id="r33-over">—</b></span>
-  </div>
- </div>
- <div id="r33-skill-detail" class="small" style="font-size:11px;line-height:1.6;margin-top:5px;overflow-wrap:anywhere">請先選擇武器技能</div>
+<div class="hero"><h2>03｜裝備配置</h2></div><div class="beta-build-strip no-print" id="betaBuildStrip"></div><div id="betaModeMount"></div>
+<div aria-live="polite" class="card no-print" id="r33-skill-level-summary" style="margin:10px 0 12px;padding:11px 14px;border:1px solid rgba(105,165,193,.35);background:rgba(7,25,39,.7)">
+<div style="display:flex;flex-wrap:wrap;gap:7px 16px;align-items:center;justify-content:space-between">
+<strong id="r33-skill-title" style="font-size:13px">目前技能等級（手動實裝）</strong>
+<div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px">
+<span><span class="small" id="r33-raw-label">總合計</span> <b id="r33-raw">—</b></span>
+<span><span class="small" id="r33-effective-label">有效等級</span> <b id="r33-effective">—</b></span>
+<span><span class="small" id="r33-over-label">溢出</span> <b id="r33-over">—</b></span>
+</div>
+</div>
+<div class="small" id="r33-skill-detail" style="font-size:11px;line-height:1.6;margin-top:5px;overflow-wrap:anywhere">請先選擇武器技能</div>
 </div>
 <div id="v260240-r15-note" style="border:1px solid #38566b;background:#091b26;padding:9px 12px;border-radius:9px;font-size:11px;color:#b7d5e2;margin:8px 0">V2.60240 R17：永霜套裝 3 件冰霜魔法 +10%；5 件技能 MP 消耗 -3%；7 件冰霜魔法再 +15% 且暴擊機率 +3%；9 件冰霜魔法最終傷害 ×1.15。元素傷害 3／7 件沿用黑月及紅蓮的同一傷害計算路徑。稱號「永霜征服者」為冰霜魔法傷害 +6%、最大生命值 +3%；裝備 ×1.5 後分別為 +9%、+4.5%。</div><section class="card no-print" id="r28-set-panel" style="margin:14px 0;border:1px solid #8c784f">
 <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><h3 id="r28-title" style="margin:0">新增套裝｜配置與效果預覽</h3><span id="r28-calcstatus" style="border:1px solid #aa8645;border-radius:16px;padding:4px 10px;color:#e8c77d;font-size:12px">僅統計，尚未納入任何傷害計算</span></div>
 <p class="small" id="r28-explain" style="margin-top:10px;display:none">請依實際裝備選擇各部位的套裝；武器最多計入 1 件，人工製品僅指定為主人工製品的 1 件列入。九件計數、可混搭；此區目前不連動原裝備詞條及傷害公式。</p>
-<div aria-live="polite" class="r34-summaries" id="r34-set-summary"></div><div id="r3-set-work" class="r3-set-work" aria-live="polite"></div>
-<details class="r34-set-details" id="r34-gear-details" open><summary id="r34-gear-summary">配置 11 個裝備部位 / Configure gear / 장비 구성</summary> <div id="r28-slot-inputs" class="r3-set-grid"></div> </details>
+<div aria-live="polite" class="r34-summaries" id="r34-set-summary"></div><div aria-live="polite" class="r3-set-work" id="r3-set-work"></div>
+<details class="r34-set-details" id="r34-gear-details" open=""><summary id="r34-gear-summary">配置 11 個裝備部位 / Configure gear / 장비 구성</summary> <div class="r3-set-grid" id="r28-slot-inputs"></div> </details>
 <details class="r34-set-details" id="r34-effects-details"><summary id="r34-effect-summary">檢視分階段套裝效果 / View set tiers / 세트 효과 보기</summary> <div id="r28-set-results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px"></div> </details>
 <div class="note" id="r28-tier-note" style="margin-top:8px;display:none">官方已確認套裝效果會依件數分階段累加，但目前資料無法確證各效果對應的啟動件數；因此本區只列官方效果供核對，不會宣稱達成任何未驗證門檻。</div>
 </section>
 <div id="manualPane">
-<section id="r17Profiles" class="card no-print" style="margin:12px 0;border-color:rgba(213,173,100,.35)">
- <h3>手動詞條｜配置保存與讀取</h3>
- <p class="small">切換火／冰／雷／普通技能時，載入先前儲存的詞條，不必重新選擇。保存包含所有手動 Basic／Plus 詞條與數值；不改變傷害公式。</p>
- <div class="r17-line"><label>配置名稱 <input id="r17Name" maxlength="48" placeholder="例：火系月蝕斬、普通血牙劍"></label><label>已保存配置 <select id="r17Saved"></select></label></div>
- <div class="r17-buttons"><button type="button" class="btn primary" id="r17Save">保存目前手動配裝</button><button type="button" class="btn secondary" id="r17Load">載入選定配置</button><button type="button" class="btn secondary" id="r17Delete">刪除</button><button type="button" class="btn secondary" id="r17Export">匯出 JSON</button><button type="button" class="btn secondary" id="r17Import">匯入 JSON</button><input type="file" id="r17File" accept=".json,application/json" hidden></div>
- <div id="r17Message" role="status" aria-live="polite" class="small" style="margin-top:8px">目前配裝不會因切換技能而自動覆蓋保存的配置。</div>
+<section class="card no-print" id="r17Profiles" style="margin:12px 0;border-color:rgba(213,173,100,.35)">
+<h3>手動詞條｜配置保存與讀取</h3>
+
+<div class="r17-line"><label>配置名稱 <input id="r17Name" maxlength="48" placeholder="例：火系月蝕斬、普通血牙劍"/></label><label>已保存配置 <select id="r17Saved"></select></label></div>
+<div class="r17-buttons"><button class="btn primary" id="r17Save" type="button">保存目前手動配裝</button><button class="btn secondary" id="r17Load" type="button">載入選定配置</button><button class="btn secondary" id="r17Delete" type="button">刪除</button><button class="btn secondary" id="r17Export" type="button">匯出 JSON</button><button class="btn secondary" id="r17Import" type="button">匯入 JSON</button><input accept=".json,application/json" hidden="" id="r17File" type="file"/></div>
+<div aria-live="polite" class="small" id="r17Message" role="status" style="margin-top:8px">目前配裝不會因切換技能而自動覆蓋保存的配置。</div>
 </section>
 <div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><h3>手動實裝</h3><span class="version" id="manualPicked">已選 0 格</span></div>
 <div class="manual-damage" style="margin-top:12px;margin-bottom:14px">
 <div class="small" style="margin-bottom:8px">手動實裝即時傷害</div>
 <div class="statgrid"><div class="stat"><div class="k">未暴擊傷害</div><div class="v" id="manualNonCritDamage">—</div></div><div class="stat"><div class="k">最終暴擊傷害</div><div class="v" id="manualCritDamage">—</div></div></div>
 <div class="note" id="manualDamageNote" style="margin-top:10px">—</div>
-<details id="r36-precision-box" class="no-print" style="margin-top:9px;border:1px solid rgba(150,182,195,.35);border-radius:9px;padding:8px 10px;max-width:100%">
+<details class="no-print" id="r36-precision-box" style="margin-top:9px;border:1px solid rgba(150,182,195,.35);border-radius:9px;padding:8px 10px;max-width:100%">
 <summary id="r36-caption" style="cursor:pointer;font-size:12px;color:#acd3df">最終 ATK 隱藏精度校驗（選用）</summary>
-<p id="r36-help" class="small" style="margin:8px 0">填入遊戲顯示的最終面板 ATK 和這套手動配置的實測暴擊傷害，程式會依原傷害公式反推 ATK 的隱藏位數。不是固定傷害補正；換配置時可重新交叉驗證。</p>
+<p class="small" id="r36-help" style="margin:8px 0">填入遊戲顯示的最終面板 ATK 和這套手動配置的實測暴擊傷害，程式會依原傷害公式反推 ATK 的隱藏位數。不是固定傷害補正；換配置時可重新交叉驗證。</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:7px">
- <label class="small"><span id="r36-atk-label">遊戲最終面板 ATK</span><input id="r36-panel-atk" placeholder="9.546R" autocomplete="off" style="width:100%;margin-top:3px" /></label>
- <label class="small"><span id="r36-damage-label">遊戲實測最終暴擊傷害</span><input id="r36-game-damage" placeholder="2115287.246V" autocomplete="off" style="width:100%;margin-top:3px" /></label>
+<label class="small"><span id="r36-atk-label">遊戲最終面板 ATK</span><input autocomplete="off" id="r36-panel-atk" placeholder="9.546R" style="width:100%;margin-top:3px"/></label>
+<label class="small"><span id="r36-damage-label">遊戲實測最終暴擊傷害</span><input autocomplete="off" id="r36-game-damage" placeholder="2115287.246V" style="width:100%;margin-top:3px"/></label>
 </div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button type="button" id="r36-solve">依實測反推最終 ATK</button><button type="button" id="r36-clear">取消校正</button></div>
-<div class="small" id="r36-status" role="status" aria-live="polite" style="margin-top:7px">尚未校正，使用模擬器原本的 ATK 計算。</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button id="r36-solve" type="button">依實測反推最終 ATK</button><button id="r36-clear" type="button">取消校正</button></div>
+<div aria-live="polite" class="small" id="r36-status" role="status" style="margin-top:7px">尚未校正，使用模擬器原本的 ATK 計算。</div>
 <div class="small" id="r37-precision-details" style="margin-top:5px;line-height:1.55;color:#98b2be">校正狀態：目前使用原始 ATK 計算。</div>
 <div id="r37-second-check" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-top:9px">
- <label class="small" style="flex:1;min-width:200px"><span id="r37-check-label">其它詞條配置的遊戲實測暴擊傷害（可選）</span>
-  <input id="r37-second-damage" placeholder="例如 2114203.183V" autocomplete="off" style="width:100%;margin-top:3px" /></label>
- <button id="r37-check" type="button">不重新校正，直接驗證</button>
+<label class="small" style="flex:1;min-width:200px"><span id="r37-check-label">其它詞條配置的遊戲實測暴擊傷害（可選）</span>
+<input autocomplete="off" id="r37-second-damage" placeholder="例如 2114203.183V" style="width:100%;margin-top:3px"/></label>
+<button id="r37-check" type="button">不重新校正，直接驗證</button>
 </div>
-<div id="r37-check-status" class="small" role="status" aria-live="polite" style="margin-top:4px;color:#8fb0bf">請先切換到另一組手動配裝，再輸入該組的實測傷害。</div>
+<div aria-live="polite" class="small" id="r37-check-status" role="status" style="margin-top:4px;color:#8fb0bf">請先切換到另一組手動配裝，再輸入該組的實測傷害。</div>
 </details>
 <div class="note r64-internal-only" hidden="" id="r23ManualAffixLive" style="margin-top:8px">元素及法傷：等待輸入。</div>
 </div>
-<div class="note">手動實裝：武器的 ATK 已為固定詞條、頭盔的 DEF 已為固定詞條，因此這些裝備只有三個可選詞條位置。唯一會影響角色面板 ATK 的武器為主武器；主武 ATK 請直接於 01「角色設定」輸入，不需在此重複設定。每格先選合法詞條，再於下方輸入遊戲實際值；ATK 支援 K／M／B／T／Q／R。</div>
+
 <style id="v22-affix-ux-style">
 .v22-affix-controls{margin:14px 0 10px;padding:14px;border:1px solid rgba(217,184,111,.38);border-radius:13px;background:linear-gradient(135deg,#102430,#0b161e)}
 .v22-affix-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px;color:#ebeff0}
@@ -2105,7 +2139,7 @@ html.v225-show-precision-tools #r37-check-status{display:block!important}
 <div hidden="" id="autoPane">
 <div class="card"><h3>自動最佳化</h3>
 <div class="grid two"><div class="field"><label>指定暴擊率 %（0＝不限制）</label><input id="critTarget" max="200" min="0" type="number"/></div><div class="field"><label>最低冷卻 %（0＝不限制）</label><input id="cdTarget" max="100" min="0" type="number"/></div></div>
-<div class="note">固定第一頁角色／技能與第二頁系統效果；暴擊率、冷卻採 AND 最低條件，達標後只以合法裝備詞條追求最大單次暴擊傷害。</div>
+
 <div class="no-print" id="autoTraitConditions">
 <div class="auto-trait-head"><strong>Basic 詞條／特性條件｜Lv.850</strong><span class="small" id="autoTraitCount">未指定</span></div>
 <div class="small" style="margin-bottom:12px;padding:12px 14px;border:1px solid #b49350;border-radius:10px;background:rgba(177,138,68,.13);color:#f1dfa9;line-height:1.7">【自動最佳化・新特性規則】每件裝備最多指定一格特殊特性（包含「所有魔法等級」）；其餘格由最佳化配置一般詞條。Basic 欄位逐格計入，魔法等級依各格加總。特殊特性的觸發傷害目前不納入公式。</div>
@@ -2129,12 +2163,12 @@ html.v225-show-precision-tools #r37-check-status{display:block!important}
 <div class="report-condition-grid" id="reportConditions"></div>
 </div>
 <div class="card report-section"><h3>目前角色重要總合</h3>
-<div class="note">只顯示傷害／配裝判斷的重要屬性。此區依「角色初始值＋目前系統效果＋目前模式裝備」彙總；不重要的移速、掉落率、HP、DEF 不佔主畫面。</div>
+
 <div class="report-stat-grid" id="reportTotals"></div>
 <details class="report-detail"><summary>查看系統效果來源摘要</summary><div class="source-grid" id="reportSystemSources"></div></details>
 </div>
 <div class="card report-section"><h3>手動實裝 vs 自動最佳化</h3>
-<div class="note">裝備貢獻採同一口徑比較；自動欄固定沿用目前角色與系統效果，只最佳化合法裝備詞條。</div>
+
 <div class="compare-wrap"><table class="compare-table"><thead><tr><th>項目</th><th>手動實裝</th><th>自動最佳化</th><th>差異（自動－手動）</th></tr></thead><tbody id="reportCompareBody"></tbody></table></div>
 </div>
 <div class="grid two report-builds">
@@ -10419,10 +10453,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  });
 })();
 </script>
-
-
-
-
 <!-- V2.2 Page 03: actual single-gear editor with same live data as the original overview -->
 <style id="v22-gear-focus-style">
 #v22GearEditor{margin:13px 0;padding:15px;border:1px solid rgba(216,178,102,.40);border-radius:15px;background:linear-gradient(145deg,#0e2330,#07131b);color:#eef4f5}
@@ -10670,7 +10700,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #r8AutoBody .r9-diff-legend strong{color:#f2d394}
 @media print{#autoPane .r8-eq-card.r9-has-difference{border-color:#aa7a35!important}}
 </style>
-
 <style id="r10-affix-matching-css">
 /* Gold only means new affix type/count; neutral cyan dotted means same affix moved. */
 #autoPane .auto-slot.r10-moved-affix,#r8AutoBody .auto-slot.r10-moved-affix,#reportAutoGear .auto-slot.r10-moved-affix{border:1px dashed rgba(113,178,198,.75)!important;background:rgba(70,132,152,.10)!important;box-shadow:none!important}
@@ -10881,9 +10910,6 @@ function init(){if(!document.getElementById('r15-updates-entry'))return;
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();</script>
-
-
-
 <style id="r9-report-order-css">
 /* R9 — consolidate report reading flow; calculation/render targets remain in place within their sections */
 #reportScreen .r9-main-result{border-color:rgba(217,184,111,.42);}
@@ -10927,7 +10953,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(start,300),{once:true});else setTimeout(start,300);
 })();
 </script>
-
 <style id="r12-report-advice-layout">
 /* R12: Put actionable judgment next to the two equipment builds, not in a standalone report card. */
 #reportScreen #v2ReportEquipment #r11Advice{margin:12px 12px 14px;padding:15px;border:1px solid rgba(213,173,100,.42);border-radius:12px;background:linear-gradient(145deg,rgba(31,35,29,.8),rgba(8,21,30,.92));box-shadow:none}
@@ -10986,7 +11011,6 @@ function init(){if(!make())return;let timer;const refresh=()=>{clearTimeout(time
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-
 <script id="r14-manual-compare-warning">
 (()=>{'use strict';
 function run(){
@@ -11202,8 +11226,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 <style id="v222-four-language-responsive">@media(max-width:650px){.language-switch{display:flex!important;flex-wrap:nowrap!important;max-width:100%;gap:2px}.language-switch .lang-btn{flex:0 1 auto;min-width:0!important;padding:5px 5px!important;font-size:9px!important}}</style>
-
-
 <script id="r33-select-l10n">(()=>{'use strict';
 const DATA={"未指定": ["Not specified", "지정 안 함", "지정なし"], "未設定": ["Not configured", "설정 안 됨", "未設定"], "全部合法詞條": ["All valid options", "모든 유효 옵션", "すべての有効なオプション"], "全部合法": ["All valid options", "모든 유효 옵션", "すべての有効なオプション"], "智慧篩選": ["Smart filter", "스마트 필터", "スマートフィルター"], "搜尋詞條": ["Search options", "옵션 검색", "オプションを検索"], "所有魔法等級": ["All Magic Levels", "모든 마법 레벨", "全魔法レベル"], "火焰魔法等級": ["Fire Magic Level", "화염 마법 레벨", "炎魔法レベル"], "冰系魔法等級": ["Ice Magic Level", "얼음 마법 레벨", "氷魔法レベル"], "閃電魔法等級": ["Lightning Magic Level", "번개 마법 레벨", "雷魔法レベル"], "普通魔法等級": ["Normal Magic Level", "일반 마법 레벨", "通常魔法レベル"], "普通法術傷害": ["Normal Spell Damage", "일반 마법 피해", "通常魔法ダメージ"], "火焰法術傷害": ["Fire Spell Damage", "화염 마법 피해", "炎魔法ダメージ"], "冰系法術傷害": ["Ice Spell Damage", "얼음 마법 피해", "氷魔法ダメージ"], "閃電法術傷害": ["Lightning Spell Damage", "번개 마법 피해", "雷魔法ダメージ"], "法術傷害": ["Spell Damage", "마법 피해", "魔法ダメージ"], "元素傷害": ["Elemental Damage", "속성 피해", "属性ダメージ"], "元素法術傷害": ["Elemental Spell Damage", "속성 마법 피해", "属性魔法ダメージ"], "暴擊率": ["Critical Rate", "치명타 확률", "クリティカル率"], "暴擊傷害": ["Critical Damage", "치명타 피해", "クリティカルダメージ"], "冷卻時間": ["Cooldown Reduction", "재사용 대기시간 감소", "クールタイム短縮"], "MP消耗降低": ["MP Cost Reduction", "MP 소모 감소", "MP消費軽減"], "主武": ["Main Weapon", "주무기", "メイン武器"], "武2": ["Weapon 2", "무기 2", "武器2"], "武3": ["Weapon 3", "무기 3", "武器3"], "武器2": ["Weapon 2", "무기 2", "武器2"], "武器3": ["Weapon 3", "무기 3", "武器3"], "頭盔": ["Helmet", "투구", "兜"], "盔甲": ["Armor", "갑옷", "鎧"], "鞋子": ["Boots", "신발", "靴"], "戒指1": ["Ring 1", "반지 1", "指輪1"], "戒指2": ["Ring 2", "반지 2", "指輪2"], "戒1": ["Ring 1", "반지 1", "指輪1"], "戒2": ["Ring 2", "반지 2", "指輪2"], "項鍊": ["Necklace", "목걸이", "ネックレス"], "耳環": ["Earrings", "귀걸이", "イヤリング"], "無": ["None", "없음", "なし"], "未選擇": ["Not selected", "미선택", "未選択"], "全部": ["All", "전체", "すべて"], "已取得": ["Obtained", "획득 완료", "獲得済み"], "未取得": ["Not obtained", "미획득", "未獲得"], "未滿級": ["Below max level", "최대 레벨 미달", "最大レベル未満"], "已投入": ["Invested", "투자함", "振り分け済み"], "未投入": ["Not invested", "미투자", "未振り分け"], "已裝備": ["Equipped", "장착 중", "装備中"], "未裝備": ["Unequipped", "미장착", "未装備"], "普通": ["Normal", "일반", "通常"], "火焰": ["Fire", "불", "炎"], "冰系": ["Ice", "얼음", "氷"], "閃電": ["Lightning", "번개", "雷"], "黑月": ["Black Moon", "흑월", "黒月"], "血影": ["Blood Shadow", "혈영", "血影"], "紅蓮": ["Crimson Lotus", "홍련", "紅蓮"], "選擇詞條": ["Select option", "옵션 선택", "オプションを選択"], "選擇裝備": ["Select equipment", "장비 선택", "装備を選択"], "實際數值": ["Actual value", "실제 수치", "実際の値"], "— 選擇已保存配置 —": ["— Select a saved build —", "— 저장된 구성 선택 —", "— 保存済み構成を選択 —"], "複製來源裝備…": ["Source equipment…", "복사할 장비…", "コピー元の装備…"]};
 const languages=['en','ko','ja'];
@@ -11343,7 +11365,6 @@ function init(){request();document.querySelectorAll('.lang-btn').forEach(b=>b.ad
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();</script>
-
 <script id="r35-skill-select-final-refresh">
 (()=>{
  let scheduled=false;
@@ -11354,7 +11375,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  request();
 })();
 </script>
-
 <script id="r36-deep-locale-audit-fixes">
 (()=>{'use strict';
 const LANGS=['en','ko','ja'];
@@ -11449,7 +11469,6 @@ window.__towerLanguageAudit=()=>{
  return {locale,scannedOptions:document.querySelectorAll('option').length,issues,warning:'Heuristic only: items without translations and Chinese-only text in Japanese need manual locale-dictionary comparison.'};
 };
 </script>
-
 <script id="r53-deep-locale-fixes">(()=>{'use strict';
 const i18n={
  'zh-Hant':{
@@ -11557,8 +11576,6 @@ function updateSetupSummary(){document.querySelectorAll('h2,h3,small,div,span').
 function run(){updateSavedBuilds();updateAutoTop();updateAutoRule();updateGearPreview();updateReportNotes();updateAdvice();updateSetupSummary();}
 function boot(){run(); let timer; const mo=new MutationObserver(()=>{clearTimeout(timer);timer=setTimeout(run,60)}); mo.observe(document.body,{subtree:true,childList:true,characterData:true}); document.querySelectorAll('.lang-btn,.step').forEach(b=>b.addEventListener('click',()=>setTimeout(run,80))); window.addEventListener('tower-language-changed',()=>setTimeout(run,80));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();})();</script>
-
-
 <script id="r54-final-locale-sweep">(()=>{'use strict';
 const L={
  'zh-Hant':{
@@ -11744,7 +11761,6 @@ function page3Hero(){
 function run(){titleSection(); localizeLeafText(); specialNotes(); translateAutoBuildLists(); savedBuildSection(); page3Hero();}
 function boot(){run(); let timer; new MutationObserver(()=>{clearTimeout(timer); timer=setTimeout(run,80);}).observe(document.body,{subtree:true,childList:true,characterData:true}); document.querySelectorAll('.lang-btn,.step').forEach(b=>b.addEventListener('click',()=>setTimeout(run,100))); window.addEventListener('tower-language-changed',()=>setTimeout(run,100));}
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();})();</script>
-
 <script id="v260240-cap-guard">
 (()=>{const setup=()=>{const w=document.getElementById('weaponLv');if(!w)return;w.min='1';w.max='850';w.addEventListener('change',()=>{const n=Number(w.value);if(Number.isFinite(n))w.value=String(Math.max(1,Math.min(850,Math.trunc(n))))});};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();})();
 </script>
@@ -11802,7 +11818,6 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
   }
 })();
 </script>
-
 <style id="v225-r30-layout-guard">
 /* R30: preserve the original 01 two-column layout under every locale. */
 #v2Page1VisibleHub > *, #v2Page1VisibleHub [data-p1-hint],
@@ -11946,7 +11961,7 @@ function boot(){schedule();setTimeout(schedule,250);setTimeout(schedule,1100);
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
 </script>
-<script id="r36-final-atk-precision" data-regression="r37">
+<script data-regression="r37" id="r36-final-atk-precision">
 /* Final-ATK precision calibration; no hardcoded multiplier or artificial fixed damage.
    A user-provided in-game final panel ATK defines the allowed display interval.
    Inverse search reuses manualDamageResult and the existing damage formula.
@@ -12121,6 +12136,198 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    document.querySelectorAll('.lang-btn').forEach(el=>el.addEventListener('click',()=>setTimeout(r37Translate,80)));
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script>
+<!-- V2.2.5 production: accelerated auto primary-artifact selection; manual configuration remains independent. -->
+<style id="r06-artifact-auto-style">
+.r06-artifact-recommendation{display:flex;align-items:center;flex-wrap:wrap;gap:7px 12px;margin:8px 0 11px;padding:10px 12px;border:1px solid rgba(213,173,100,.45);border-radius:11px;background:linear-gradient(115deg,rgba(57,43,22,.58),rgba(11,26,35,.93));color:#f4e5be;font-size:11.5px;line-height:1.5}
+.r06-artifact-recommendation strong{color:#f7d98e;font-size:12.5px}
+.r06-artifact-recommendation .r06-muted{color:#aac0c8;font-size:10.5px}
+.r06-artifact-recommendation img{width:34px;height:34px;object-fit:contain;border-radius:7px}
+@media(max-width:620px){.r06-artifact-recommendation{font-size:11px;padding:9px}.r06-artifact-recommendation img{width:30px;height:30px}}
+@media print{.r06-artifact-recommendation{break-inside:avoid}}
+</style>
+<script id="r06-owned-artifact-auto-optimizer">
+(function(){
+ 'use strict';
+ if(typeof optimizeMax!=='function'||typeof systemSelectionSummary!=='function'||typeof betaEvaluateEquipmentEq!=='function')return;
+ const previousOptimize=optimizeMax,previousRender=renderAutoBreakdown;
+ let inSearch=false,cacheKey='',cacheResult=null,cachedOverflow=null;
+ const relevant=['atkPct','flatAtk','spellPct','critPct','critDmg','cooldownPct','allSkillLv','firePct','icePct','lightningPct','normalPct'];
+ const langLabels={
+  'zh-Hant':{heading:'自動推薦主要人工製品',none:'未指定',detail:'本次自動方案使用主要 ×1.5；02 頁手動指定保持不變',scope:'共用合法配裝快速評估候選，最佳候選再完整精修；非數學全域最優證明',tested:'已評估',items:'件主要候選'},
+  'en':{heading:'Auto-selected primary artifact',none:'None',detail:'Auto uses primary ×1.5; your selection on Page 02 is unchanged',scope:'Reuses legal equipment to rank candidates; refines the top candidate; global optimum not proven',tested:'Evaluated',items:'primary candidates'},
+  'ko':{heading:'자동 추천 주요 아티팩트',none:'미지정',detail:'자동 구성에 주요 ×1.5 적용; 02의 수동 선택은 유지',scope:'합법 장비로 후보 비교 후 상위 후보 재최적화; 전역 최적 보장 아님',tested:'평가',items:'개 후보'},
+  'ja':{heading:'自動推奨メインアーティファクト',none:'なし',detail:'自動構成のみ主装備×1.5、02の手動設定は変更しません',scope:'合法装備を再利用して候補比較後、最上位を再最適化。全域最適の保証ではありません',tested:'評価',items:'候補'}
+ };
+ function locale(){return document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant'}
+ function owned(){
+  return (systemData?.artifacts||[]).filter(a=>{
+   const lv=Number(state.system?.artifacts?.[a.id]||0),info=artifactLevelData(a.id,lv);
+   return lv>0 && info && relevant.some(k=>Number(info[k]||0)!==0);
+  });
+ }
+ function scoped(id,fn){
+  const before=state.system.artifactPrimary;
+  state.system.artifactPrimary=id;
+  try{return fn()}finally{state.system.artifactPrimary=before}
+ }
+ function rankWithEquipment(id,base,args){
+  return scoped(id,()=>{
+   const before=window.__r56OptimizationSetOverride;
+   if(base?.setLayout)window.__r56OptimizationSetOverride=base.setLayout;
+   try{
+    const v=base?.eq?betaEvaluateEquipmentEq(base.eq,args):null;
+    return v?.status==='dynamic'&&Number.isFinite(Number(v.critDamage))?Number(v.critDamage):-Infinity;
+   }finally{
+    if(before===undefined)delete window.__r56OptimizationSetOverride;
+    else window.__r56OptimizationSetOverride=before;
+   }
+  });
+ }
+ function identifyArtifact(id){return (systemData?.artifacts||[]).find(a=>Number(a.id)===Number(id))||null}
+ function selectKey(args){
+  return JSON.stringify({
+   key:betaAutoCacheKey(args),manual:state.manual?.equipment||{},
+   currentPrimary:state.system?.artifactPrimary,
+   artifacts:state.system?.artifacts||{},
+   skill:state.skill?.id
+  });
+ }
+ optimizeMax=function(args={}){
+  if(inSearch)return previousOptimize(args);
+  const key=selectKey(args);
+  if(cacheKey===key&&cacheResult){
+   if(cachedOverflow!==null)window.TS_OVERFLOW_LAST=cachedOverflow;
+   return cacheResult;
+  }
+  inSearch=true;
+  const originalPrimary=state.system?.artifactPrimary;
+  const originalOverflow=window.TS_OVERFLOW_LAST;
+  try{
+   // R07: one complete search for the incumbent; all other primary artifacts
+   // are first evaluated with the SAME already-legal equipment and set layout.
+   // This avoids up to five-eight redundant bounded combinatorial searches.
+   const baseline=previousOptimize(args),baselineOverflow=window.TS_OVERFLOW_LAST;
+   const options=owned();
+   const tested=[];
+   const chosen=[];
+   if(baseline?.status==='dynamic' && baseline?.eq){
+    chosen.push({id:originalPrimary,result:baseline,score:Number(baseline.critDamage),overflow:baselineOverflow});
+    tested.push(String(originalPrimary));
+   }
+   const scores=[];
+   if(baseline?.status==='dynamic' && baseline?.eq){
+    for(const artifact of options){
+     if(String(artifact.id)===String(originalPrimary))continue;
+     const pre=rankWithEquipment(artifact.id,baseline,args);
+     if(Number.isFinite(pre)){
+      scores.push({id:artifact.id,pre});
+      tested.push(String(artifact.id));
+     }
+    }
+    scores.sort((a,b)=>b.pre-a.pre||Number(a.id)-Number(b.id));
+    // Re-evaluated results use the real equipment evaluator, not the
+    // approximate ranking score. Thresholds and legal slots stay unchanged.
+    for(const candidate of scores){
+     const evaluated=scoped(candidate.id,()=>{
+      const before=window.__r56OptimizationSetOverride;
+      if(baseline.setLayout)window.__r56OptimizationSetOverride=baseline.setLayout;
+      try{return betaEvaluateEquipmentEq(baseline.eq,args)}
+      finally{
+       if(before===undefined)delete window.__r56OptimizationSetOverride;
+       else window.__r56OptimizationSetOverride=before;
+      }
+     });
+     if(evaluated?.status==='dynamic' && Number.isFinite(Number(evaluated.critDamage))){
+      chosen.push({id:candidate.id,
+       result:{...baseline,...evaluated,eq:baseline.eq,
+        source:'r07-reused-legal-equipment'},
+       score:Number(evaluated.critDamage),overflow:baselineOverflow});
+     }
+    }
+   }
+   // Only the strongest alternative gets the full joint artifact/affix/set
+   // search. Unlike R06, never solve five to eight alternatives from scratch.
+   // A missing baseline has no equipment to rank: try a small deterministic
+   // owned fallback, rather than silently claiming there is no solution.
+   const ranked=scores.length?scores.slice(0,1):
+     (!chosen.length?options.filter(a=>String(a.id)!==String(originalPrimary)).slice(0,2).map(a=>({id:a.id})):[]);
+   for(const candidate of ranked){
+    const candidateResult=scoped(candidate.id,()=>previousOptimize(args));
+    if(!tested.includes(String(candidate.id)))tested.push(String(candidate.id));
+    if(candidateResult?.status==='dynamic'&&Number.isFinite(Number(candidateResult.critDamage))){
+     chosen.push({id:candidate.id,result:candidateResult,
+      score:Number(candidateResult.critDamage),overflow:window.TS_OVERFLOW_LAST});
+    }
+   }
+   chosen.sort((a,b)=>b.score-a.score);
+   const winner=chosen[0];
+   const out=winner?{...winner.result,
+    autoArtifactPrimary:winner.id,
+    autoArtifactSearched:tested.length,
+    autoArtifactEligible:options.length,
+    autoArtifactMethod:'r07-reuse-equipment-top1-full-refine',
+    autoArtifactFullSearches:1+ranked.length,
+    autoArtifactUnchangedManual:true
+   }:{...baseline,autoArtifactPrimary:originalPrimary,
+    autoArtifactSearched:tested.length,autoArtifactEligible:options.length,
+    autoArtifactFullSearches:1+ranked.length};
+   cacheKey=key;cacheResult=out;
+   cachedOverflow=winner?.overflow??baselineOverflow??null;
+   if(cachedOverflow!==null)window.TS_OVERFLOW_LAST=cachedOverflow;
+   return out;
+  }catch(err){
+   console.error('Artifact optimizer fallback',err);
+   cacheKey='';cacheResult=null;
+   return previousOptimize(args);
+  }finally{
+   state.system.artifactPrimary=originalPrimary;
+   inSearch=false;
+   if(cacheResult===null&&originalOverflow!==undefined)window.TS_OVERFLOW_LAST=originalOverflow;
+  }
+ };
+ function recommendation(result){
+  const id=result?.autoArtifactPrimary;
+  if(result?.status!=='dynamic'||id==null)return null;
+  const a=identifyArtifact(id),d=langLabels[locale()]||langLabels['zh-Hant'];
+  if(!a)return null;
+  const box=document.createElement('div');box.className='r06-artifact-recommendation';box.dataset.r06Artifact='true';
+  const src=a.iconPath;
+  if(src){const icon=document.createElement('img');icon.src=src;icon.alt='';box.append(icon)}
+  const body=document.createElement('div');body.style.flex='1';body.style.minWidth='185px';
+  const title=document.createElement('strong');title.textContent=d.heading+'：'+(a.localizedNames?.[locale()]||a.name);
+  const text=document.createElement('div');text.className='r06-muted';
+  text.textContent=d.detail+' · '+d.tested+' '+(result.autoArtifactSearched||0)+' '+d.items+' · '+d.scope;
+  body.append(title,text);box.append(body);
+  return box;
+ }
+ if(typeof r33RefreshSkillLevelSummary==='function'){
+  const oldSkillSummary=r33RefreshSkillLevelSummary;
+  r33RefreshSkillLevelSummary=function(mode=state.mode,result=null){
+   const id=mode==='auto'?result?.autoArtifactPrimary:null;
+   return id==null?oldSkillSummary(mode,result):scoped(id,()=>oldSkillSummary(mode,result));
+  };
+ }
+ renderAutoBreakdown=function(result){
+  previousRender(result);
+  const host=document.getElementById('autoEquipmentGrid');
+  if(host){host.querySelectorAll('[data-r06-artifact]').forEach(x=>x.remove());const box=recommendation(result);if(box)host.prepend(box)}
+ };
+ // The report's Auto equipment section shares the selected Auto result but leaves manual artifacts untouched.
+ if(typeof refreshReport==='function'){
+  const previousReport=refreshReport;
+  refreshReport=function(...args){
+   const out=previousReport.apply(this,args);
+   const host=document.getElementById('reportAutoGear');
+   if(host){host.querySelectorAll('[data-r06-artifact]').forEach(x=>x.remove());const box=recommendation(cacheResult);if(box)host.prepend(box)}
+   return out;
+  };
+ }
+ document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(()=>{
+  const host=document.getElementById('autoEquipmentGrid');
+  if(host){host.querySelectorAll('[data-r06-artifact]').forEach(x=>x.remove());const box=recommendation(window.__r33LastAutoResult);if(box)host.prepend(box)}
+ },120)));
 })();
 </script>
 </body></html>
@@ -12590,7 +12797,6 @@ function init(){apply();const root=document.querySelector('#manualPane');if(root
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();</script>
 <style id="r67-title-single-language">#v21TitleRoot .v21-title-card-ko{display:none!important}</style>
-
 <!-- R7: stable UI refinement for set cards and mobile dialogs. Calculation untouched. -->
 <style id="r7-ui-closeout">
 #r34-set-summary .r34-set-pill{min-height:74px;box-shadow:none;transition:background .13s,border-color .13s,transform .13s}
@@ -12621,8 +12827,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();</script>
-
-
 <style id="r16-announcements-styles">
 /* R16: 01 header hint + dated announcement board replacing large pre-simulation hint. */
 #test27HintCard.r16-board{padding:16px 17px!important;min-height:0!important}
@@ -12643,12 +12847,12 @@ const i18n={
  'zh-Hant':{
   board:'公告欄',boardSub:'版本公告・最新消息依時間由新到舊排列',new:'更新',
   hint:'模擬前使用提示',hintSub:'完成設定前，建議先確認以下事項',hintOpen:'查看使用提示 ›',hintTitle:'模擬前使用提示',
-  notices:[["2026-11-05","V2.2.5｜正式版更新","配合遊戲 V2.602 更新：武器技能擴充至 Lv.170，更新 56 招技能的名稱、技能 ATK、MP 與冷卻資料；新增 8 件人工製品、永霜征服者稱號與永霜之主套裝，並將相關效果納入既有裝備與傷害計算。部分高等級技能數值為依遊戲實測校正的反推資料，仍會持續核對修正。"],['2026-10-21',"V2.2.2｜正式版更新","改善自動最佳化完整搜尋與首次結果同步；校驗合法手動配置，避免自動推薦傷害較低；整合傷害總覽與智慧詞條調整建議；支援多套手動配裝保存、載入與 JSON 匯入／匯出；修正四語言顯示與人工製品浮窗圖示。"],['2026-10-17','V2.3｜新特性比較功能預告','規劃加入新特性效果比較、不同特性搭配與裝備詞條替換的傷害差異分析。相關機制與數值仍在實測驗證中，尚未開放。'],['2026-10-17','V2.2.1｜正式版更新','完成 01～04 頁介面改善：技能搜尋、系統篩選、裝備快速編輯、套裝浮窗、差異詞條高亮與傷害比較。'],['2026-10-16','V2.2｜介面操作改善','01～04 頁已優化技能搜尋、系統篩選、裝備快速編輯、套裝浮窗與傷害比較。'],['2026-10-13','V2.2｜資料與功能更新','角色等級上限 600；支援遊戲 V2.6 新增內容、人工製品與稱號效果。']],
+  notices:[["2026-11-08","V2.2.5｜自動最佳化效能改善","改善主要人工製品候選的重複搜尋：共用合法裝備配置評估候選，並針對領先候選進行完整精修。維持原有傷害計算、最低暴擊／冷卻條件，以及手動與自動裝備互不覆寫。此搜尋屬有界最佳化，不保證數學全域最優。"],["2026-11-05","V2.2.5｜正式版更新","配合遊戲 V2.602 更新：武器技能擴充至 Lv.170，更新 56 招技能的名稱、技能 ATK、MP 與冷卻資料；新增 8 件人工製品、永霜征服者稱號與永霜之主套裝，並將相關效果納入既有裝備與傷害計算。部分高等級技能數值為依遊戲實測校正的反推資料，仍會持續核對修正。"],['2026-10-21',"V2.2.2｜正式版更新","改善自動最佳化完整搜尋與首次結果同步；校驗合法手動配置，避免自動推薦傷害較低；整合傷害總覽與智慧詞條調整建議；支援多套手動配裝保存、載入與 JSON 匯入／匯出；修正四語言顯示與人工製品浮窗圖示。"],['2026-10-17','V2.3｜新特性比較功能預告','規劃加入新特性效果比較、不同特性搭配與裝備詞條替換的傷害差異分析。相關機制與數值仍在實測驗證中，尚未開放。'],['2026-10-17','V2.2.1｜正式版更新','完成 01～04 頁介面改善：技能搜尋、系統篩選、裝備快速編輯、套裝浮窗、差異詞條高亮與傷害比較。'],['2026-10-16','V2.2｜介面操作改善','01～04 頁已優化技能搜尋、系統篩選、裝備快速編輯、套裝浮窗與傷害比較。'],['2026-10-13','V2.2｜資料與功能更新','角色等級上限 600；支援遊戲 V2.6 新增內容、人工製品與稱號效果。']],
   tips:[['依序設定','建議先完成 01 角色／技能、02 系統效果，再前往 03 裝備配置與 04 分析報告。'],['切換角色等級後檢查魔法樹','若調整角色等級，請回到 02 確認魔法樹的等級限制與分配。'],['03 頁重新計算','在 01 或 02 變更條件後進入 03，系統會依目前設定重新計算，請稍候。'],['自動最佳化需要搜尋時間','調整最低暴擊率或冷卻要求後可能需要重新搜尋；條件越嚴格，耗時可能越長。']]
  },
- en:{board:'Notice Board',boardSub:'Release news · newest first',new:'Update',hint:'Before You Calculate',hintSub:'Check a few setup notes before starting',hintOpen:'View usage tips ›',hintTitle:'Before You Calculate',notices:[["2026-11-05","V2.2.5 | Update","Updated for game V2.602: expanded 56 weapon skills to Lv.170 with updated in-game names, Skill ATK, MP and cooldown data. Added 8 artifacts, the Eternal Frost Conqueror title and the Lord of Everfrost set, with their effects integrated into the existing build and damage calculations. Some high-level skill values are estimates calibrated against in-game tests and will be refined as more data is verified."],['2026-10-21',"V2.2.2 | Official Update","Improved full auto-search completion and first-run results; compare against eligible manual builds; integrated damage overview and actionable affix recommendations; save/load multiple manual builds and import/export JSON; fixed four-language labels and artifact popup icons."],['2026-10-17','V2.3 | Trait comparison preview','Planned: compare new trait effects, combinations and damage changes caused by replacing equipment affixes. Mechanics and values are still being tested; not yet available.'],['2026-10-17','V2.2.1 | Official release','Updated Pages 01–04 with skill search, filters, focused equipment editing, set dialogs, affix difference highlights and damage comparison.'],['2026-10-16','V2.2 | Interface improvements','Pages 01–04: skill search, system filters, focused equipment editing, set dialogs and damage comparisons.'],['2026-10-13','V2.2 | Data and features','Character level cap 600; game V2.6 content, artifacts and title effects.']],tips:[['Complete setup in order','Set up 01 Character, 02 Systems, then 03 Equipment and 04 Report.'],['Recheck Magic Tree after changing levels','When character level changes, verify Magic Tree allocation and caps in 02.'],['Recalculation on Page 03','After editing 01 or 02, entering 03 recalculates results using current settings.'],['Auto optimization takes time','Changing minimum critical rate or cooldown may start a new search; stricter limits can take longer.']]},
- ko:{board:'공지사항',boardSub:'버전 소식 · 최신순',new:'업데이트',hint:'계산 전 안내',hintSub:'계산 전에 설정 사항을 확인하세요',hintOpen:'사용 안내 보기 ›',hintTitle:'계산 전 안내',notices:[["2026-11-05","V2.2.5 | 업데이트","게임 V2.602 대응: 무기 스킬 56종을 Lv.170까지 확장하고 게임 내 명칭, 스킬 ATK, MP, 쿨타임 데이터를 업데이트했습니다. 아티팩트 8종, 영설의 정복자 칭호, 영설의 군주 세트를 추가하고 기존 장비·피해량 계산에 반영했습니다. 일부 고레벨 스킬 수치는 게임 실측값을 바탕으로 보정한 추정치이며, 추가 검증에 따라 수정될 수 있습니다."],['2026-10-21',"V2.2.2 | 정식 업데이트","자동 최적화 전체 탐색과 최초 결과 동기화 개선, 조건을 충족한 수동 장비 구성과 비교, 피해량 요약 및 장비 옵션 변경 권장 사항 통합, 수동 장비 구성 저장·불러오기와 JSON 가져오기·내보내기 추가, 4개 언어와 아티팩트 팝업 아이콘 수정."],['2026-10-17','V2.3 | 신규 특성 비교 예고','신규 특성 효과, 특성 조합 및 장비 옵션 교체에 따른 피해량 차이 비교를 계획 중입니다. 메커니즘과 수치는 검증 중이며 아직 제공되지 않습니다.'],['2026-10-17','V2.2.1 | 정식 업데이트','01~04 페이지의 스킬 검색, 필터, 장비 편집, 세트 팝업, 옵션 차이 강조 및 피해량 비교 개선.'],['2026-10-16','V2.2 | UI 개선','01~04 페이지 스킬 검색, 필터, 장비 편집, 세트 팝업, 피해량 비교 개선.'],['2026-10-13','V2.2 | 데이터 업데이트','캐릭터 레벨 상한 600, 게임 V2.6 콘텐츠, 아티팩트 및 칭호 효과 지원.']],tips:[['순서대로 설정','01 캐릭터, 02 시스템, 03 장비, 04 보고서 순서로 설정하세요.'],['레벨 변경 후 마법 트리 확인','캐릭터 레벨을 바꾸면 02에서 마법 트리 배분과 제한을 다시 확인하세요.'],['03 페이지 재계산','01 또는 02 변경 후 03 진입 시 최신 설정으로 다시 계산합니다.'],['자동 최적화 대기','최소 치명타율 또는 쿨타임 조건 변경 시 탐색이 다시 실행될 수 있습니다.']]},
- ja:{board:'お知らせ',boardSub:'更新情報・新しい順',new:'更新',hint:'シミュレーション前のご案内',hintSub:'設定前に注意事項をご確認ください',hintOpen:'使い方を見る ›',hintTitle:'シミュレーション前のご案内',notices:[["2026-11-05","V2.2.5｜アップデート","ゲーム V2.602 に対応。武器スキル56種をLv.170まで拡張し、ゲーム内名称・スキルATK・MP・クールダウンのデータを更新しました。アーティファクト8種、「永雪の征服者」の称号、「永雪の主」セットを追加し、既存の装備・ダメージ計算に反映しました。一部の高レベルスキル数値はゲーム内実測をもとに補正した推定値で、今後も検証・調整します。"],['2026-10-21',"V2.2.2｜正式アップデート","自動最適化の全探索完了と初回結果の同期を改善。条件を満たす手動構成との比較、ダメージ概要と装備オプションの変更提案を統合。手動構成の保存・読込、JSON入出力に対応。4言語表示とアーティファクトのポップアップ画像を修正。"],['2026-10-17','V2.3｜新特性の比較機能予告','新特性の効果、組み合わせ、装備オプション置換によるダメージ差を比較する機能を計画中です。仕組みと数値は検証中で、まだ利用できません。'],['2026-10-17','V2.2.1｜正式リリース','01～04のスキル検索、絞り込み、装備編集、セット表示、オプション差分の強調、ダメージ比較を改善しました。'],['2026-10-16','V2.2｜UI改善','01～04のスキル検索、絞り込み、装備編集、セット表示、ダメージ比較を改善しました。'],['2026-10-13','V2.2｜データ更新','キャラクター上限Lv600、ゲームV2.6の追加内容、アーティファクトと称号効果に対応。']],tips:[['順番に設定','01キャラクター、02システム、03装備、04レポートの順に設定してください。'],['レベル変更後に魔法ツリーを確認','キャラクターレベルを変更したら02で魔法ツリーの上限と配分を確認してください。'],['03で再計算','01または02を変更後、03に進むと現在の設定で再計算されます。'],['自動最適化には時間が必要','会心率やクールタイムの条件変更後、再検索に時間がかかる場合があります。']]} 
+ en:{board:'Notice Board',boardSub:'Release news · newest first',new:'Update',hint:'Before You Calculate',hintSub:'Check a few setup notes before starting',hintOpen:'View usage tips ›',hintTitle:'Before You Calculate',notices:[["2026-11-08","V2.2.5 | Auto optimization performance","Reduced repeated full searches across primary-artifact candidates by reusing a legal equipment build for preliminary evaluation and refining the leading candidate. Damage calculations, minimum crit/cooldown requirements, and separate Manual/Auto builds remain unchanged. The bounded search does not guarantee a global optimum."],["2026-11-05","V2.2.5 | Update","Updated for game V2.602: expanded 56 weapon skills to Lv.170 with updated in-game names, Skill ATK, MP and cooldown data. Added 8 artifacts, the Eternal Frost Conqueror title and the Lord of Everfrost set, with their effects integrated into the existing build and damage calculations. Some high-level skill values are estimates calibrated against in-game tests and will be refined as more data is verified."],['2026-10-21',"V2.2.2 | Official Update","Improved full auto-search completion and first-run results; compare against eligible manual builds; integrated damage overview and actionable affix recommendations; save/load multiple manual builds and import/export JSON; fixed four-language labels and artifact popup icons."],['2026-10-17','V2.3 | Trait comparison preview','Planned: compare new trait effects, combinations and damage changes caused by replacing equipment affixes. Mechanics and values are still being tested; not yet available.'],['2026-10-17','V2.2.1 | Official release','Updated Pages 01–04 with skill search, filters, focused equipment editing, set dialogs, affix difference highlights and damage comparison.'],['2026-10-16','V2.2 | Interface improvements','Pages 01–04: skill search, system filters, focused equipment editing, set dialogs and damage comparisons.'],['2026-10-13','V2.2 | Data and features','Character level cap 600; game V2.6 content, artifacts and title effects.']],tips:[['Complete setup in order','Set up 01 Character, 02 Systems, then 03 Equipment and 04 Report.'],['Recheck Magic Tree after changing levels','When character level changes, verify Magic Tree allocation and caps in 02.'],['Recalculation on Page 03','After editing 01 or 02, entering 03 recalculates results using current settings.'],['Auto optimization takes time','Changing minimum critical rate or cooldown may start a new search; stricter limits can take longer.']]},
+ ko:{board:'공지사항',boardSub:'버전 소식 · 최신순',new:'업데이트',hint:'계산 전 안내',hintSub:'계산 전에 설정 사항을 확인하세요',hintOpen:'사용 안내 보기 ›',hintTitle:'계산 전 안내',notices:[["2026-11-08","V2.2.5 | 자동 최적화 성능 개선","주요 아티팩트 후보마다 반복되던 전체 탐색을 줄였습니다. 합법 장비 구성을 재사용해 후보를 평가하고 선두 후보를 정밀 탐색합니다. 피해 계산, 최소 치명타/쿨다운 조건, 수동·자동 장비 분리는 유지됩니다. 제한 탐색으로 전역 최적을 보장하지 않습니다."],["2026-11-05","V2.2.5 | 업데이트","게임 V2.602 대응: 무기 스킬 56종을 Lv.170까지 확장하고 게임 내 명칭, 스킬 ATK, MP, 쿨타임 데이터를 업데이트했습니다. 아티팩트 8종, 영설의 정복자 칭호, 영설의 군주 세트를 추가하고 기존 장비·피해량 계산에 반영했습니다. 일부 고레벨 스킬 수치는 게임 실측값을 바탕으로 보정한 추정치이며, 추가 검증에 따라 수정될 수 있습니다."],['2026-10-21',"V2.2.2 | 정식 업데이트","자동 최적화 전체 탐색과 최초 결과 동기화 개선, 조건을 충족한 수동 장비 구성과 비교, 피해량 요약 및 장비 옵션 변경 권장 사항 통합, 수동 장비 구성 저장·불러오기와 JSON 가져오기·내보내기 추가, 4개 언어와 아티팩트 팝업 아이콘 수정."],['2026-10-17','V2.3 | 신규 특성 비교 예고','신규 특성 효과, 특성 조합 및 장비 옵션 교체에 따른 피해량 차이 비교를 계획 중입니다. 메커니즘과 수치는 검증 중이며 아직 제공되지 않습니다.'],['2026-10-17','V2.2.1 | 정식 업데이트','01~04 페이지의 스킬 검색, 필터, 장비 편집, 세트 팝업, 옵션 차이 강조 및 피해량 비교 개선.'],['2026-10-16','V2.2 | UI 개선','01~04 페이지 스킬 검색, 필터, 장비 편집, 세트 팝업, 피해량 비교 개선.'],['2026-10-13','V2.2 | 데이터 업데이트','캐릭터 레벨 상한 600, 게임 V2.6 콘텐츠, 아티팩트 및 칭호 효과 지원.']],tips:[['순서대로 설정','01 캐릭터, 02 시스템, 03 장비, 04 보고서 순서로 설정하세요.'],['레벨 변경 후 마법 트리 확인','캐릭터 레벨을 바꾸면 02에서 마법 트리 배분과 제한을 다시 확인하세요.'],['03 페이지 재계산','01 또는 02 변경 후 03 진입 시 최신 설정으로 다시 계산합니다.'],['자동 최적화 대기','최소 치명타율 또는 쿨타임 조건 변경 시 탐색이 다시 실행될 수 있습니다.']]},
+ ja:{board:'お知らせ',boardSub:'更新情報・新しい順',new:'更新',hint:'シミュレーション前のご案内',hintSub:'設定前に注意事項をご確認ください',hintOpen:'使い方を見る ›',hintTitle:'シミュレーション前のご案内',notices:[["2026-11-08","V2.2.5｜自動最適化の高速化","メインアーティファクト候補ごとの全探索の繰り返しを削減しました。合法な装備構成で候補を比較し、上位候補のみ精密探索します。ダメージ計算、会心率・クールダウンの最低条件、手動／自動装備の独立性を維持します。探索は有界で、全域最適は保証しません。"],["2026-11-05","V2.2.5｜アップデート","ゲーム V2.602 に対応。武器スキル56種をLv.170まで拡張し、ゲーム内名称・スキルATK・MP・クールダウンのデータを更新しました。アーティファクト8種、「永雪の征服者」の称号、「永雪の主」セットを追加し、既存の装備・ダメージ計算に反映しました。一部の高レベルスキル数値はゲーム内実測をもとに補正した推定値で、今後も検証・調整します。"],['2026-10-21',"V2.2.2｜正式アップデート","自動最適化の全探索完了と初回結果の同期を改善。条件を満たす手動構成との比較、ダメージ概要と装備オプションの変更提案を統合。手動構成の保存・読込、JSON入出力に対応。4言語表示とアーティファクトのポップアップ画像を修正。"],['2026-10-17','V2.3｜新特性の比較機能予告','新特性の効果、組み合わせ、装備オプション置換によるダメージ差を比較する機能を計画中です。仕組みと数値は検証中で、まだ利用できません。'],['2026-10-17','V2.2.1｜正式リリース','01～04のスキル検索、絞り込み、装備編集、セット表示、オプション差分の強調、ダメージ比較を改善しました。'],['2026-10-16','V2.2｜UI改善','01～04のスキル検索、絞り込み、装備編集、セット表示、ダメージ比較を改善しました。'],['2026-10-13','V2.2｜データ更新','キャラクター上限Lv600、ゲームV2.6の追加内容、アーティファクトと称号効果に対応。']],tips:[['順番に設定','01キャラクター、02システム、03装備、04レポートの順に設定してください。'],['レベル変更後に魔法ツリーを確認','キャラクターレベルを変更したら02で魔法ツリーの上限と配分を確認してください。'],['03で再計算','01または02を変更後、03に進むと現在の設定で再計算されます。'],['自動最適化には時間が必要','会心率やクールタイムの条件変更後、再検索に時間がかかる場合があります。']]} 
 };
 let lastKey='',observer=null;
 function key(){const x=document.querySelector('.lang-btn.active')?.dataset.lang || document.documentElement.lang || 'zh-Hant';return i18n[x]?x:'zh-Hant'}
@@ -12669,11 +12873,3 @@ function render(){const d=i18n[key()],card=document.getElementById('test27HintCa
 function init(){render();const target=document.getElementById('test27HintCard');if(target){observer=new MutationObserver(()=>{if(!target.querySelector('.r16-board-list')){observer.disconnect();render();observer.observe(target,{childList:true})}});observer.observe(target,{childList:true})}document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setTimeout(render,80)));window.addEventListener('tower-language-changed',()=>setTimeout(render,50));document.getElementById('r15-updates-open')?.addEventListener('click',()=>setTimeout(render,0));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,180));else setTimeout(init,180);
 })();</script>
-
-
-
-
-
-
-
-
