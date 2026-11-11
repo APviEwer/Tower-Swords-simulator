@@ -36,7 +36,7 @@ for(const filename of originals){
    });
    ensure(output.code,'Minifier yielded empty output in '+filename);
    // Do not allow an embedded JS string to prematurely close the HTML script.
-   ensure(!/<\\/script\\b/i.test(output.code),'Unsafe script closing sequence in '+filename);
+   ensure(!output.code.toLowerCase().includes('</script'),'Unsafe script closing sequence in '+filename);
    result=result.slice(0,r.start)+output.code+result.slice(r.end);
    changed++;
  }
