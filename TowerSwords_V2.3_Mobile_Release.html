@@ -12843,26 +12843,17 @@ function selected(){return labels[lang()]||labels['zh-Hant']}
 function work(){return Q('.p10-progress-screen .p10-progress-work')}
 function fitTree(){
  const root=work(),wrap=Q('.magic-tree-map-scroll',root||document),canvas=Q('.magic-tree-canvas',wrap||document);
- if(!wrap||!canvas||!root||!root.getClientRects().length||!Q('.magic-tree-map-mode',root))return;
- const width=Math.floor(wrap.getBoundingClientRect().width);
- if(width<30)return;
- // V2.3 mobile fix: node positions and SVG edges are percentages. They can use
- // the actual viewport width; scaling the legacy 900px canvas with CSS zoom
- // shrank both icons and text to ~40% of their intended display size.
- canvas.style.setProperty('zoom','1','important');
- canvas.style.setProperty('width',width+'px','important');
- canvas.style.setProperty('min-width','0px','important');
- canvas.style.setProperty('max-width','100%','important');
- canvas.style.setProperty('height','540px','important');
- wrap.style.setProperty('overflow-x','hidden','important');
- wrap.style.setProperty('overflow-y','visible','important');
+ if(!wrap||!canvas)return;
+ for(const p of ['zoom','width','min-width','max-width','height'])canvas.style.removeProperty(p);
+ for(const p of ['overflow-x','overflow-y'])wrap.style.removeProperty(p);
 }
 function placeArtifactButton(){
- const btn=Q('#r19ArtifactMaxAll'), bar=Q('#r11ArtBar');
- if(!btn||!bar)return;
- if(btn.parentElement!==bar)bar.appendChild(btn);
- btn.hidden=false;
- btn.style.removeProperty('display');
+ const btn=Q('#r19ArtifactMaxAll'),bar=Q('#r11ArtBar');
+ if(!btn||!bar||!bar.parentNode)return;
+ let holder=Q('#v23MobileMaxAllHost');
+ if(!holder){holder=document.createElement('div');holder.id='v23MobileMaxAllHost';bar.insertAdjacentElement('afterend',holder)}
+ if(btn.parentNode!==holder)holder.appendChild(btn);
+ btn.hidden=false;btn.removeAttribute('hidden');btn.style.setProperty('display','inline-flex','important');
  const duplicate=Q('#r18ArtifactMaxAllInline');if(duplicate)duplicate.remove();
 }
 function simplifyTitleFilters(){
@@ -18556,6 +18547,40 @@ html.p07a-mobile-standalone #r33-skill-detail{font-size:12px!important}
   if(head)new MutationObserver(schedule).observe(head,{childList:true});
   const footer=document.querySelector('.p10-footer-utilities');
   if(footer)new MutationObserver(schedule).observe(footer,{childList:true,subtree:true});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<style id="v23-mobile-hotfix2-css">
+html.p07a-mobile-standalone{overflow-x:hidden!important}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-map-wrap{width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important;position:relative!important}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-map-scroll{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;overflow-x:auto!important;overflow-y:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-x pan-y!important;justify-content:initial!important;align-items:initial!important;min-height:0!important;max-height:min(72vh,680px)!important;padding:12px 8px 18px!important;scrollbar-width:thin!important}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-map-scroll>.magic-tree-canvas{display:block!important;position:relative!important;box-sizing:border-box!important;flex:none!important;margin:0!important;zoom:1!important;transform:none!important;width:900px!important;min-width:900px!important;max-width:none!important;height:610px!important;background-size:auto!important}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-node{width:72px!important;max-width:72px!important}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-node-btn{width:60px!important;height:60px!important;min-width:60px!important;min-height:60px!important}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-node-name{width:78px!important;max-width:78px!important;font-size:10px!important;line-height:1.28!important;overflow-wrap:normal!important;white-space:normal!important}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-level-badge{min-width:22px!important;height:20px!important;font-size:10px!important}
+html.p07a-mobile-standalone #v23MobileMaxAllHost{display:flex!important;align-items:center!important;justify-content:flex-end!important;width:100%!important;min-height:37px!important;gap:8px!important;padding:3px 0 8px!important;margin:0 0 5px!important}
+html.p07a-mobile-standalone #v23MobileMaxAllHost #r19ArtifactMaxAll{display:inline-flex!important;visibility:visible!important;opacity:1!important;position:static!important;min-height:38px!important;margin:0!important;padding:7px 12px!important}
+html.p07a-mobile-standalone input,html.p07a-mobile-standalone textarea,html.p07a-mobile-standalone select,html.p07a-mobile-standalone input:focus,html.p07a-mobile-standalone textarea:focus,html.p07a-mobile-standalone select:focus,html.p07a-mobile-standalone [contenteditable="true"]{font-size:16px!important;line-height:1.3!important;-webkit-text-size-adjust:100%!important;text-size-adjust:100%!important}
+html.p07a-mobile-standalone input[type="checkbox"],html.p07a-mobile-standalone input[type="radio"]{width:auto!important;height:auto!important}
+</style>
+<script id="v23-mobile-hotfix2-js">
+(()=>{'use strict';
+ function keep(){
+  const btn=document.getElementById('r19ArtifactMaxAll'),bar=document.getElementById('r11ArtBar');
+  if(!btn||!bar||!bar.parentNode)return;
+  let holder=document.getElementById('v23MobileMaxAllHost');
+  if(!holder){holder=document.createElement('div');holder.id='v23MobileMaxAllHost';bar.insertAdjacentElement('afterend',holder)}
+  if(btn.parentNode!==holder)holder.appendChild(btn);
+  btn.hidden=false;btn.style.setProperty('display','inline-flex','important');
+ }
+ function init(){
+  keep();
+  document.addEventListener('click',e=>{
+   if(e.target.closest?.('[data-safe-system],[data-r11-mode],.step,.lang-btn'))queueMicrotask(keep);
+  },true);
+  document.addEventListener('tower-page2-enter',keep);
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
