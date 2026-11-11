@@ -31,5 +31,22 @@ html,body{height:100%;width:100%;margin:0;overflow:hidden;background:#07131c;col
   document.getElementById('fallback').hidden=true;
 })();
 </script>
+
+<script id="v23-entry-input-focus-guard-r5">
+(function(){
+  var meta=document.querySelector('meta[name="viewport"]');
+  if(!meta)return;
+  var normal=meta.getAttribute('content');
+  var frame=document.getElementById('app');
+  window.addEventListener('message',function(e){
+    if(e.origin!==location.origin || e.source!==frame.contentWindow)return;
+    if(!e.data || typeof e.data.tsMobileInputFocus!=='boolean')return;
+    if(!/iPad|iPhone|iPod/.test(navigator.userAgent))return;
+    var lock=e.data.tsMobileInputFocus;
+    meta.setAttribute('content',lock ?
+      'width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover' : normal);
+  });
+})();
+</script>
 </body>
 </html>
