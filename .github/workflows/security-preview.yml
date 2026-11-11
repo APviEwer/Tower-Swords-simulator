@@ -1,0 +1,38 @@
+name: V2.3 Security Preview (no deployment)
+
+on:
+  push:
+    branches:
+      - security/v2.3-protection
+    paths:
+      - 'security-build/**'
+      - 'TowerSwords_V2.3_Desktop_Release.html'
+      - 'TowerSwords_V2.3_Mobile_Release.html'
+      - 'index.html'
+      - '.github/workflows/security-preview.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install builder
+        run: npm install --no-audit --no-fund --prefix security-build
+      - name: Build protected preview
+        run: node security-build/build.mjs
+      - name: Structural smoke tests
+        run: node security-build/test.mjs
+      - name: Save preview for owner review
+        uses: actions/upload-artifact@v4
+        with:
+          name: protected-preview-not-for-deployment
+          path: security-build/protected-preview/
+          retention-days: 7
