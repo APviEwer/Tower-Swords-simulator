@@ -12843,18 +12843,19 @@ function selected(){return labels[lang()]||labels['zh-Hant']}
 function work(){return Q('.p10-progress-screen .p10-progress-work')}
 function fitTree(){
  const root=work(),wrap=Q('.magic-tree-map-scroll',root||document),canvas=Q('.magic-tree-canvas',wrap||document);
- if(!wrap||!canvas||!root||!root.getClientRects().length)return;
- if(!Q('.magic-tree-map-mode',root))return;
- const width=wrap.getBoundingClientRect().width;
- if(width<20)return;
- // SVG and original game nodes keep their 1080 px geometry; the entire real map is scaled together.
- const base=matchMedia('(max-width:820px)').matches?900:1080;
- const scale=Math.min(1,Math.max(.22,(width-2)/(base*.94)));
- canvas.style.setProperty('zoom',String(scale),'important');
- canvas.style.setProperty('width',base+'px','important');
- canvas.style.setProperty('min-width',base+'px','important');
+ if(!wrap||!canvas||!root||!root.getClientRects().length||!Q('.magic-tree-map-mode',root))return;
+ const width=Math.floor(wrap.getBoundingClientRect().width);
+ if(width<30)return;
+ // V2.3 mobile fix: node positions and SVG edges are percentages. They can use
+ // the actual viewport width; scaling the legacy 900px canvas with CSS zoom
+ // shrank both icons and text to ~40% of their intended display size.
+ canvas.style.setProperty('zoom','1','important');
+ canvas.style.setProperty('width',width+'px','important');
+ canvas.style.setProperty('min-width','0px','important');
+ canvas.style.setProperty('max-width','100%','important');
+ canvas.style.setProperty('height','540px','important');
  wrap.style.setProperty('overflow-x','hidden','important');
- wrap.style.setProperty('overflow-y','hidden','important');
+ wrap.style.setProperty('overflow-y','visible','important');
 }
 function placeArtifactButton(){
  const btn=Q('#r19ArtifactMaxAll'), bar=Q('#r11ArtBar');
@@ -18436,4 +18437,127 @@ function arrange(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',arrange,{once:true});else arrange();
 })();</script>
+
+<style id="v23-mobile-postrelease-fix-css">
+/* Final 02 magic tree: one actual-size canvas, no 900px zoom compression. */
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-map-scroll,
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-map-wrap{
+ width:100%!important;min-width:0!important;max-width:100%!important;
+ overflow-x:hidden!important;box-sizing:border-box!important;
+}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-map-scroll>.magic-tree-canvas{
+ display:block!important;position:relative!important;zoom:1!important;
+ width:100%!important;min-width:0!important;max-width:100%!important;
+ height:540px!important;overflow:visible!important;transform:none!important;
+}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-node{
+ width:38px!important;max-width:38px!important;transform:translate(-50%,-50%)!important;
+}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-node-btn{
+ width:38px!important;height:38px!important;min-width:38px!important;min-height:38px!important;
+}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-node-name{
+ width:46px!important;max-width:46px!important;font-size:9px!important;
+ line-height:1.22!important;white-space:normal!important;overflow-wrap:anywhere!important;
+}
+html.p07a-mobile-standalone .p10-progress-screen .magic-tree-level-badge{
+ min-width:15px!important;height:15px!important;font-size:9px!important;
+}
+@media(max-width:365px){
+ html.p07a-mobile-standalone .p10-progress-screen .magic-tree-node{width:34px!important;max-width:34px!important}
+ html.p07a-mobile-standalone .p10-progress-screen .magic-tree-node-btn{width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important}
+ html.p07a-mobile-standalone .p10-progress-screen .magic-tree-node-name{width:42px!important;max-width:42px!important;font-size:8px!important}
+}
+/* Restore all three original dialog buttons under the language flags. */
+html.p07a-mobile-standalone .app>header.top{
+ grid-template-rows:65px auto!important;align-items:start!important;
+ overflow:visible!important;height:auto!important;min-height:103px!important;
+}
+html.p07a-mobile-standalone .app>header.top>.r84-header-tools{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ grid-column:2!important;grid-row:2!important;align-self:start!important;
+ width:100%!important;max-width:220px!important;min-height:30px!important;
+ visibility:visible!important;opacity:1!important;overflow:visible!important;
+}
+html.p07a-mobile-standalone .app>header.top>.r84-header-tools>.release-help-btn,
+html.p07a-mobile-standalone .app>header.top>.r84-header-tools>.release-report-btn,
+html.p07a-mobile-standalone .app>header.top>.r84-header-tools>.release-version-btn{
+ display:flex!important;position:static!important;visibility:visible!important;opacity:1!important;
+ align-items:center!important;justify-content:center!important;
+ grid-area:auto!important;min-width:0!important;min-height:28px!important;
+ width:100%!important;padding:4px 2px!important;margin:0!important;
+ font-size:9px!important;line-height:1.2!important;white-space:normal!important;
+}
+/* The actual one-click control must never inherit a hidden ancestor. */
+html.p07a-mobile-standalone #r11ArtBar{display:flex!important;visibility:visible!important;flex-wrap:wrap!important;min-height:37px!important}
+html.p07a-mobile-standalone #r11ArtBar>#r19ArtifactMaxAll{
+ display:inline-flex!important;visibility:visible!important;opacity:1!important;
+ position:static!important;min-height:34px!important;margin-left:auto!important;
+}
+/* iOS Safari: controls below 16px trigger automatic viewport zoom on focus. */
+@media (max-width:820px){
+ html.p07a-mobile-standalone input:not([type=checkbox]):not([type=radio]),
+ html.p07a-mobile-standalone select,
+ html.p07a-mobile-standalone textarea,
+ html.p07a-mobile-standalone [contenteditable="true"]{
+   font-size:16px!important;
+ }
+}
+/* 01 real skill card: readable details on phones without expanding layout. */
+html.p07a-mobile-standalone #v2Page1VisibleHub .skill-preview-title,
+html.p07a-mobile-standalone #skillPreview .skill-preview-title{font-size:16px!important;line-height:1.35!important}
+html.p07a-mobile-standalone #v2Page1VisibleHub .skill-preview-sub,
+html.p07a-mobile-standalone #skillPreview .skill-preview-sub,
+html.p07a-mobile-standalone #v2Page1VisibleHub .skill-preview-stat,
+html.p07a-mobile-standalone #skillPreview .skill-preview-stat{
+ font-size:12px!important;line-height:1.45!important;
+}
+html.p07a-mobile-standalone #v2Page1VisibleHub .skill-preview-stat .k,
+html.p07a-mobile-standalone #v2Page1VisibleHub .skill-preview-stat .v{
+ font-size:12px!important;line-height:1.4!important;
+}
+html.p07a-mobile-standalone #r33-skill-detail{font-size:12px!important}
+</style>
+
+<script id="v23-mobile-postrelease-fix-js">
+(()=>{'use strict';
+ const selectors=['release-help-btn','release-report-btn','release-version-btn'];
+ function syncHeader(){
+  const head=document.querySelector('.app>header.top');if(!head)return;
+  let row=head.querySelector(':scope>.r84-header-tools');
+  if(!row){row=document.createElement('div');row.className='r84-header-tools';head.appendChild(row)}
+  selectors.forEach(cls=>{
+   const original=document.querySelector('.'+cls);
+   if(original&&original.parentElement!==row)row.appendChild(original);
+  });
+ }
+ function syncMax(){
+  const btn=document.getElementById('r19ArtifactMaxAll'),bar=document.getElementById('r11ArtBar');
+  if(!btn||!bar)return;
+  if(btn.parentElement!==bar)bar.appendChild(btn);
+  btn.hidden=false;btn.removeAttribute('aria-hidden');
+  btn.style.setProperty('display','inline-flex','important');
+  btn.style.setProperty('visibility','visible','important');
+ }
+ function sync(){syncHeader();syncMax()}
+ let pending=false;
+ function schedule(){if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;sync()})}
+ function init(){
+  sync();requestAnimationFrame(schedule);
+  [100,450,1200].forEach(ms=>setTimeout(schedule,ms));
+  document.addEventListener('click',e=>{
+   if(e.target.closest('.lang-btn,.step,[data-safe-system],#safeSysTabs,.release-help-btn,.release-report-btn,.release-version-btn'))schedule();
+  },true);
+  document.addEventListener('tower-language-changed',schedule);
+  // Observe only small dedicated controls, never the entire app subtree.
+  const bar=document.getElementById('r11ArtBar');
+  if(bar)new MutationObserver(schedule).observe(bar,{childList:true});
+  const head=document.querySelector('.app>header.top');
+  if(head)new MutationObserver(schedule).observe(head,{childList:true});
+  const footer=document.querySelector('.p10-footer-utilities');
+  if(footer)new MutationObserver(schedule).observe(footer,{childList:true,subtree:true});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
 </body></html>
