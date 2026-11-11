@@ -4416,11 +4416,17 @@ function betaAutoHillClimb(defs,seed,targetCrit,targetCd){
     }
 
     // Bounded pair swaps: focus on slots that can redistribute Crit/CD.
-    const swapIdx=[];
+    // R14: the previous 'first 16' truncation ignored many legal ring,
+    // necklace, earring, and Plus positions. Rotate deterministic windows
+    // across passes so every eligible slot can take part in a swap.
+    const allSwapIdx=[];
     for(let i=0;i<defs.length;i++){
-      if(defs[i].opts.some(o=>o.crit>0||o.cd>0))swapIdx.push(i);
-      if(swapIdx.length>=16)break;
+      if(defs[i].opts.some(o=>o.crit>0||o.cd>0))allSwapIdx.push(i);
     }
+    const budget=22;
+    const offset=(pass*11)%Math.max(1,allSwapIdx.length);
+    const swapIdx=allSwapIdx.length<=budget?allSwapIdx:
+      Array.from({length:budget},(_,j)=>allSwapIdx[(offset+j)%allSwapIdx.length]);
     for(let ai=0;ai<swapIdx.length;ai++){
       const i=swapIdx[ai],oi=a[i],oldI=defs[i].opts[oi];
       for(let ak=ai+1;ak<swapIdx.length;ak++){
@@ -12648,16 +12654,19 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  let inSearch=false,cacheKey='',cacheResult=null,cachedOverflow=null;
  const relevant=['atkPct','flatAtk','spellPct','critPct','critDmg','cooldownPct','allSkillLv','firePct','icePct','lightningPct','normalPct'];
  const langLabels={
-  'zh-Hant':{heading:'自動推薦主要人工製品',none:'未指定',detail:'本次自動方案使用主要 ×1.5；02 頁手動指定保持不變',scope:'共用合法配裝快速評估候選，最佳候選再完整精修；非數學全域最優證明',tested:'已評估',items:'件主要候選'},
-  'en':{heading:'Auto-selected primary artifact',none:'None',detail:'Auto uses primary ×1.5; your selection on Page 02 is unchanged',scope:'Reuses legal equipment to rank candidates; refines the top candidate; global optimum not proven',tested:'Evaluated',items:'primary candidates'},
-  'ko':{heading:'자동 추천 주요 아티팩트',none:'미지정',detail:'자동 구성에 주요 ×1.5 적용; 02의 수동 선택은 유지',scope:'합법 장비로 후보 비교 후 상위 후보 재최적화; 전역 최적 보장 아님',tested:'평가',items:'개 후보'},
-  'ja':{heading:'自動推奨メインアーティファクト',none:'なし',detail:'自動構成のみ主装備×1.5、02の手動設定は変更しません',scope:'合法装備を再利用して候補比較後、最上位を再最適化。全域最適の保証ではありません',tested:'評価',items:'候補'}
+  'zh-Hant':{heading:'自動推薦主要人工製品',none:'未指定',detail:'本次自動方案使用主要 ×1.5；02 頁手動指定保持不變',scope:'所有候選均交叉驗算已找到的配裝，並精修部分候選；這是目前找到的最高傷害，非已證明的全域最大值',tested:'已評估',items:'件主要候選'},
+  'en':{heading:'Auto-selected primary artifact',none:'None',detail:'Auto uses primary ×1.5; your selection on Page 02 is unchanged',scope:'Screens all owned primaries against all solved loadouts, then refines leading candidates; global optimum not guaranteed',tested:'Evaluated',items:'primary candidates'},
+  'ko':{heading:'자동 추천 주요 아티팩트',none:'미지정',detail:'자동 구성에 주요 ×1.5 적용; 02의 수동 선택은 유지',scope:'모든 후보를 찾은 장비 조합으로 교차 검증하고 일부 후보를 정밀 검색; 전역 최적은 미보장',tested:'평가',items:'개 후보'},
+  'ja':{heading:'自動推奨メインアーティファクト',none:'なし',detail:'自動構成のみ主装備×1.5、02の手動設定は変更しません',scope:'全候補を発見済みの装備構成で再評価し、一部を精密探索。大域最適は未保証',tested:'評価',items:'候補'}
  };
  function locale(){return document.querySelector('.lang-btn.active')?.dataset.lang||'zh-Hant'}
  function owned(){
+  // Every owned artifact with a valid current-level record is eligible. An
+  // artifact may influence damage indirectly (boss, skill level, etc.), so
+  // never use a restricted stat-name whitelist to drop candidates.
   return (systemData?.artifacts||[]).filter(a=>{
-   const lv=Number(state.system?.artifacts?.[a.id]||0),info=artifactLevelData(a.id,lv);
-   return lv>0 && info && relevant.some(k=>Number(info[k]||0)!==0);
+   const lv=Number(state.system?.artifacts?.[a.id]||0);
+   return lv>0 && !!artifactLevelData(a.id,lv);
   });
  }
  function scoped(id,fn){
@@ -12665,26 +12674,14 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   state.system.artifactPrimary=id;
   try{return fn()}finally{state.system.artifactPrimary=before}
  }
- function rankWithEquipment(id,base,args){
-  return scoped(id,()=>{
-   const before=window.__r56OptimizationSetOverride;
-   if(base?.setLayout)window.__r56OptimizationSetOverride=base.setLayout;
-   try{
-    const v=base?.eq?betaEvaluateEquipmentEq(base.eq,args):null;
-    return v?.status==='dynamic'&&Number.isFinite(Number(v.critDamage))?Number(v.critDamage):-Infinity;
-   }finally{
-    if(before===undefined)delete window.__r56OptimizationSetOverride;
-    else window.__r56OptimizationSetOverride=before;
-   }
-  });
- }
  function identifyArtifact(id){return (systemData?.artifacts||[]).find(a=>Number(a.id)===Number(id))||null}
  function selectKey(args){
+  // Normalize the saved primary: this auto search is independent of the
+  // manually checked radio button. Avoid stale results from that checkbox.
+  const normalized=scoped(null,()=>betaAutoCacheKey(args));
   return JSON.stringify({
-   key:betaAutoCacheKey(args),manual:state.manual?.equipment||{},
-   currentPrimary:state.system?.artifactPrimary,
-   artifacts:state.system?.artifacts||{},
-   skill:state.skill?.id
+   key:normalized,manual:state.manual?.equipment||{},
+   artifacts:state.system?.artifacts||{},skill:state.skill?.id
   });
  }
  optimizeMax=function(args={}){
@@ -12697,89 +12694,374 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   inSearch=true;
   const originalPrimary=state.system?.artifactPrimary;
   const originalOverflow=window.TS_OVERFLOW_LAST;
+  const oldSetOverride=window.__r56OptimizationSetOverride;
   try{
-   // R07: one complete search for the incumbent; all other primary artifacts
-   // are first evaluated with the SAME already-legal equipment and set layout.
-   // This avoids up to five-eight redundant bounded combinatorial searches.
-   const baseline=previousOptimize(args),baselineOverflow=window.TS_OVERFLOW_LAST;
-   const options=owned();
-   const tested=[];
-   const chosen=[];
-   if(baseline?.status==='dynamic' && baseline?.eq){
-    chosen.push({id:originalPrimary,result:baseline,score:Number(baseline.critDamage),overflow:baselineOverflow});
-    tested.push(String(originalPrimary));
-   }
-   const scores=[];
-   if(baseline?.status==='dynamic' && baseline?.eq){
-    for(const artifact of options){
-     if(String(artifact.id)===String(originalPrimary))continue;
-     const pre=rankWithEquipment(artifact.id,baseline,args);
-     if(Number.isFinite(pre)){
-      scores.push({id:artifact.id,pre});
-      tested.push(String(artifact.id));
-     }
+   const ids=owned().map(a=>a.id).sort((a,b)=>Number(a)-Number(b));
+   const candidates=[];
+   const seen=new Set();
+   let expensiveSearches=0;
+   const add=(id,result,layout,overflow,origin)=>{
+    if(result?.status!=='dynamic'||!result.eq||!Number.isFinite(Number(result.critDamage)))return;
+    const item={id,score:Number(result.critDamage),
+      result:{...result,setLayout:layout??result.setLayout},overflow,origin};
+    candidates.push(item);return item;
+   };
+   const inspect=(id,ref,origin)=>scoped(id,()=>{
+    const prev=window.__r56OptimizationSetOverride;
+    try{
+     if(ref.layout)window.__r56OptimizationSetOverride=ref.layout;
+     else delete window.__r56OptimizationSetOverride;
+     return add(id,betaEvaluateEquipmentEq(ref.eq,args),ref.layout,null,origin);
+    }catch(_){return null}
+    finally{
+     if(prev===undefined)delete window.__r56OptimizationSetOverride;
+     else window.__r56OptimizationSetOverride=prev;
     }
-    scores.sort((a,b)=>b.pre-a.pre||Number(a.id)-Number(b.id));
-    // Re-evaluated results use the real equipment evaluator, not the
-    // approximate ranking score. Thresholds and legal slots stay unchanged.
-    for(const candidate of scores){
-     const evaluated=scoped(candidate.id,()=>{
-      const before=window.__r56OptimizationSetOverride;
-      if(baseline.setLayout)window.__r56OptimizationSetOverride=baseline.setLayout;
-      try{return betaEvaluateEquipmentEq(baseline.eq,args)}
-      finally{
-       if(before===undefined)delete window.__r56OptimizationSetOverride;
-       else window.__r56OptimizationSetOverride=before;
+   });
+   const run=(id)=>scoped(id,()=>{
+    const result=previousOptimize(args);
+    expensiveSearches++;
+    return add(id,result,result?.setLayout,window.TS_OVERFLOW_LAST,'full');
+   });
+   // R13: All scoring happens with the same normalized empty-primary baseline.
+   // Never transfer a user's manual radio selection into the automatic search.
+   const baseline=run(null);
+   const references=[];
+   const recordRef=(item)=>{
+    if(!item?.result?.eq)return;
+    const ref={eq:item.result.eq,layout:item.result.setLayout};
+    const signature=JSON.stringify(ref);
+    if(!references.some(x=>JSON.stringify(x)===signature))references.push(ref);
+   };
+   recordRef(baseline);
+   if(baseline)for(const id of ids)inspect(id,references[0],'baseline');
+
+   // A high preliminary score is NOT enough to rank heterogeneous artifacts:
+   // ATK, general Spell Damage, elemental damage, critical damage and skill levels
+   // may require fundamentally different gear reallocations. Select diverse
+   // representatives based on their true system-stat deltas, not their numeric ID.
+   const baselineStats=scoped(null,()=>systemSelectionSummary()?.stats||{});
+   const skillKey=skillElementKey(activeSkill());
+   const metrics=['atk','flatAtk','spell','critDamage','skillLv',skillKey];
+   const roleScores=ids.map(id=>{
+    const stats=scoped(id,()=>systemSelectionSummary()?.stats||{});
+    return {id,delta:metrics.map(k=>Number(stats[k]||0)-Number(baselineStats[k]||0))};
+   });
+   const rankBest=()=>ids.map(id=>({id,score:Math.max(-Infinity,...candidates.filter(x=>x.id===id).map(x=>x.score))}))
+     .sort((a,b)=>b.score-a.score||Number(a.id)-Number(b.id));
+   const leaders=rankBest();
+   const fullIds=[];
+   const addFullId=id=>{if(id!==undefined&&id!==null&&!fullIds.includes(id))fullIds.push(id)};
+   addFullId(leaders[0]?.id);
+   // With a bounded budget, cover genuinely different additive/multiplicative
+   // artifact effects. Crit damage + skill level synergy is especially important.
+   for(const metric of ['critDamage','skillLv','spell','atk',skillKey]){
+    const idx=metrics.indexOf(metric);
+    const leader=roleScores.slice().sort((a,b)=>b.delta[idx]-a.delta[idx]||Number(a.id)-Number(b.id))[0];
+    if(leader?.delta[idx]>0)addFullId(leader.id);
+   }
+   // Compound primaries often unlock distinct affix balances: compare
+   // the joint crit-damage + skill-level delta instead of selecting only
+   // the top single attribute. This is not a user-specific artifact ID.
+   const combo=roleScores.slice().sort((a,b)=>
+     (b.delta[3]>0?b.delta[3]:0)*(1+(b.delta[4]>0?b.delta[4]:0))-
+     (a.delta[3]>0?a.delta[3]:0)*(1+(a.delta[4]>0?a.delta[4]:0)))[0];
+   if(combo && combo.delta[3]>0 && combo.delta[4]>0){
+     const topCombo=combo.id;
+     const pos=fullIds.indexOf(topCombo);
+     if(pos>=0)fullIds.splice(pos,1);
+     fullIds.splice(1,0,topCombo);
+   }
+   // At most three primary-specific full searches; on lower-powered mobile
+   // devices the expensive full solver remains bounded.
+   const fullBudget=3;
+   for(const id of fullIds.slice(0,fullBudget)){
+    const solved=run(id);recordRef(solved);
+    if(solved){const ref={eq:solved.result.eq,layout:solved.result.setLayout};
+      for(const candidateId of ids)inspect(candidateId,ref,'representative-cross-evaluation');}
+   }
+
+   const targetCrit=Math.max(0,Math.min(200,Number(args.minCrit||0)));
+   const targetCd=Math.max(0,Math.min(100,Number(args.minCooldown||0)));
+   // Re-rank AFTER the representative searches, so any overlooked artifact
+   // can rise into the locally refined pool. Include all damage channels.
+   const bestRanks=rankBest();
+   const refineIds=[];
+   const choose=id=>{if(id!=null&&!refineIds.includes(id))refineIds.push(id)};
+   bestRanks.slice(0,6).forEach(x=>choose(x.id));
+   fullIds.forEach(choose);
+   let refinements=0;
+   const optimizedRefs=references.slice(0,2);
+   for(const id of refineIds.slice(0,8)){
+    scoped(id,()=>{
+     const prev=window.__r56OptimizationSetOverride;
+     try{
+      for(const ref of optimizedRefs){
+       if(ref.layout)window.__r56OptimizationSetOverride=ref.layout;
+       else delete window.__r56OptimizationSetOverride;
+       const defs=betaAutoSlotDefs();
+       const assignment=betaAutoEqToAssignment(defs,ref.eq);
+       if(!assignment)continue;
+       const refined=betaAutoHillClimb(defs,assignment,targetCrit,targetCd);
+       if(!refined)continue;
+       refinements++;
+       const eq=betaAutoAssignmentToEq(defs,refined.assign);
+       const verified=betaEvaluateEquipmentEq(eq,args);
+       add(id,verified?{...verified,eq}:null,ref.layout,null,'spell-element-atk-multichannel-refinement');
       }
-     });
-     if(evaluated?.status==='dynamic' && Number.isFinite(Number(evaluated.critDamage))){
-      chosen.push({id:candidate.id,
-       result:{...baseline,...evaluated,eq:baseline.eq,
-        source:'r07-reused-legal-equipment'},
-       score:Number(evaluated.critDamage),overflow:baselineOverflow});
+     }catch(e){console.warn('Artifact R13 refinement skipped',e)}
+     finally{
+      if(prev===undefined)delete window.__r56OptimizationSetOverride;
+      else window.__r56OptimizationSetOverride=prev;
      }
-    }
+    });
    }
-   // Only the strongest alternative gets the full joint artifact/affix/set
-   // search. Unlike R06, never solve five to eight alternatives from scratch.
-   // A missing baseline has no equipment to rank: try a small deterministic
-   // owned fallback, rather than silently claiming there is no solution.
-   const ranked=scores.length?scores.slice(0,1):
-     (!chosen.length?options.filter(a=>String(a.id)!==String(originalPrimary)).slice(0,2).map(a=>({id:a.id})):[]);
-   for(const candidate of ranked){
-    const candidateResult=scoped(candidate.id,()=>previousOptimize(args));
-    if(!tested.includes(String(candidate.id)))tested.push(String(candidate.id));
-    if(candidateResult?.status==='dynamic'&&Number.isFinite(Number(candidateResult.critDamage))){
-     chosen.push({id:candidate.id,result:candidateResult,
-      score:Number(candidateResult.critDamage),overflow:window.TS_OVERFLOW_LAST});
-    }
+   // Cross-check every discovered legal loadout against ALL owned primaries.
+   // This preserves any improvement found during the bounded local refinements.
+   const distinct=new Map();
+   for(const candidate of candidates){
+    if(!candidate.result.eq)continue;
+    const ref={eq:candidate.result.eq,layout:candidate.result.setLayout};
+    const fingerprint=JSON.stringify(ref);
+    if(!distinct.has(fingerprint))distinct.set(fingerprint,ref);
    }
-   chosen.sort((a,b)=>b.score-a.score);
-   const winner=chosen[0];
-   const out=winner?{...winner.result,
-    autoArtifactPrimary:winner.id,
-    autoArtifactSearched:tested.length,
-    autoArtifactEligible:options.length,
-    autoArtifactMethod:'r07-reuse-equipment-top1-full-refine',
-    autoArtifactFullSearches:1+ranked.length,
-    autoArtifactUnchangedManual:true
-   }:{...baseline,autoArtifactPrimary:originalPrimary,
-    autoArtifactSearched:tested.length,autoArtifactEligible:options.length,
-    autoArtifactFullSearches:1+ranked.length};
+   for(const ref of distinct.values())for(const id of ids)inspect(id,ref,'final-cross-check');
+   const best=candidates.filter(x=>x.id!==null).sort((a,b)=>b.score-a.score||Number(a.id)-Number(b.id))[0]||baseline;
+   const out=best?{...best.result,
+    autoArtifactPrimary:best.id,autoArtifactSearched:ids.length,
+    autoArtifactEligible:ids.length,autoArtifactFullSearches:expensiveSearches,
+    autoArtifactRefinements:refinements,
+    autoArtifactMethod:'r14-rotating-affix-compound-search',
+    autoArtifactUnchangedManual:true,autoArtifactGlobalOptimal:false
+   }:{status:'infeasible',eq:null,critDamage:null,
+      autoArtifactPrimary:null,autoArtifactSearched:ids.length,
+      autoArtifactGlobalOptimal:false};
    cacheKey=key;cacheResult=out;
-   cachedOverflow=winner?.overflow??baselineOverflow??null;
+   cachedOverflow=best?.overflow??originalOverflow??null;
    if(cachedOverflow!==null)window.TS_OVERFLOW_LAST=cachedOverflow;
    return out;
   }catch(err){
-   console.error('Artifact optimizer fallback',err);
+   console.error('R14 artifact optimizer fallback',err);
    cacheKey='';cacheResult=null;
-   return previousOptimize(args);
+   return scoped(null,()=>previousOptimize(args));
   }finally{
    state.system.artifactPrimary=originalPrimary;
+   if(oldSetOverride===undefined)delete window.__r56OptimizationSetOverride;
+   else window.__r56OptimizationSetOverride=oldSetOverride;
    inSearch=false;
-   if(cacheResult===null&&originalOverflow!==undefined)window.TS_OVERFLOW_LAST=originalOverflow;
   }
  };
+
+
+ // R15: Optional, cooperative exploratory verification. The production R14
+ // optimizer remains the default; this routine never claims global optimality.
+ let auditRunning=false,auditCancel=false,auditSerial=0;
+ const auditMessages={
+  'zh-Hant':{start:'深度搜尋更高傷害',stop:'停止驗證',idle:'R14 是目前搜尋最高值，尚未證明全域最優。',running:'正在檢查',done:'深度驗證結束（仍非全域最優證明）',improved:'找到更高傷害',same:'尚未找到更高傷害',apply:'套用更高傷害結果',aborted:'已停止驗證'},
+  en:{start:'Explore higher damage',stop:'Stop exploration',idle:'R14 is the best found, not a certified global maximum.',running:'Checking',done:'Exploration finished (not a global optimum proof)',improved:'Higher damage found',same:'No higher damage found',apply:'Apply improved build',aborted:'Exploration stopped'},
+  ko:{start:'더 높은 피해 탐색',stop:'탐색 중지',idle:'R14 결과는 전역 최적이 증명되지 않았습니다.',running:'검사 중',done:'추가 탐색 완료 (전역 최적 보장 아님)',improved:'더 높은 피해 발견',same:'더 높은 피해 미발견',apply:'개선된 장비 적용',aborted:'탐색 중지됨'},
+  ja:{start:'より高いダメージを探索',stop:'探索停止',idle:'R14は探索最高値であり、全域最適は未証明です。',running:'検証中',done:'追加検証完了（全域最適の証明ではありません）',improved:'より高いダメージを発見',same:'改善なし',apply:'改善結果を適用',aborted:'探索を停止しました'}
+ };
+ const auditT=()=>auditMessages[locale()]||auditMessages['zh-Hant'];
+ const pause=()=>new Promise(resolve=>setTimeout(resolve,25));
+ function addAuditControls(box,result){
+  if(!result||result.status!=='dynamic'||!result.eq)return;
+  const wrapper=document.createElement('div');wrapper.style.cssText='flex-basis:100%;display:flex;gap:8px;align-items:center;flex-wrap:wrap';
+  const action=document.createElement('button');action.type='button';action.textContent=auditT().start;
+  action.style.cssText='padding:7px 12px;border-radius:8px;border:1px solid #bfa06e;background:#25343b;color:#f2dfb5;cursor:pointer';
+  const note=document.createElement('span');note.style.cssText='font-size:11px;color:#abc4cd';note.textContent=auditT().idle;
+  wrapper.append(action,note);box.append(wrapper);
+  action.addEventListener('click',async()=>{
+   if(auditRunning){auditCancel=true;action.disabled=true;return;}
+   auditRunning=true;auditCancel=false;const serial=++auditSerial;
+   action.textContent=auditT().stop;note.textContent=auditT().running+'…';
+   const keyAtStart=selectKey(state.auto);
+   const args={minCrit:Number(state.auto?.minCrit||0),minCooldown:Number(state.auto?.minCooldown||0)};
+   const ids=owned().map(a=>a.id).sort((a,b)=>Number(a)-Number(b));
+   let current={id:result.autoArtifactPrimary,score:Number(result.critDamage),result,overflow:window.TS_OVERFLOW_LAST};
+   let examined=0,full=0,refined=0;
+   const layouts=[];const savedBefore=state.system?.artifactPrimary;
+   const safeEval=(id,eq,layout)=>scoped(id,()=>{
+    const prev=window.__r56OptimizationSetOverride;
+    try{
+     if(layout)window.__r56OptimizationSetOverride=layout;
+     else delete window.__r56OptimizationSetOverride;
+     const r=betaEvaluateEquipmentEq(eq,args);
+     if(r?.status==='dynamic'&&Number.isFinite(Number(r.critDamage)))return {...r,eq,setLayout:layout};
+    }catch(e){console.warn('R15 audit evaluation skipped',e)}
+    finally{if(prev===undefined)delete window.__r56OptimizationSetOverride;else window.__r56OptimizationSetOverride=prev;}
+    return null;
+   });
+   const promote=(id,r,overflow)=>{
+    if(r&&Number(r.critDamage)>current.score){current={id,score:Number(r.critDamage),result:r,overflow};return true;}
+    return false;
+   };
+   const addRef=(r)=>{if(!r?.eq)return;let ref={eq:r.eq,layout:r.setLayout};let key=JSON.stringify(ref);if(!layouts.some(x=>x.key===key))layouts.push({...ref,key})};
+   addRef(result);
+   try{
+    // The first pass explores EVERY owned primary on the exact R14 legal
+    // loadout. This does not rank by an isolated stat such as elemental damage.
+    for(const id of ids){
+     if(auditCancel||keyAtStart!==selectKey(state.auto))break;
+     const r=safeEval(id,result.eq,result.setLayout);promote(id,r,null);examined++;
+     if(examined%12===0){note.textContent=auditT().running+' '+examined+'/'+ids.length;await pause()}
+    }
+    // Deep independent searches are optional, bounded and cooperative between
+    // calls. Each individual native solver may still block a browser briefly.
+    const stats0=scoped(null,()=>systemSelectionSummary()?.stats||{});
+    const k=skillElementKey(activeSkill());
+    const metrics=['atk','flatAtk','spell','critDamage','skillLv',k];
+    const rankByMetric=(metric)=>{
+     const arr=ids.map(id=>{
+      const v=scoped(id,()=>systemSelectionSummary()?.stats||{});
+      return {id,delta:Number(v[metric]||0)-Number(stats0[metric]||0)};
+     });
+     return arr.sort((a,b)=>b.delta-a.delta||Number(a.id)-Number(b.id));
+    };
+    const order=[];const add=id=>{if(id!=null&&!order.includes(id))order.push(id)};
+    add(current.id);add(result.autoArtifactPrimary);
+    for(const m of metrics)rankByMetric(m).slice(0,2).forEach(x=>{if(x.delta>0)add(x.id)});
+    // Cover all remaining candidates in decreasing actual damage on the shared
+    // base, not a hard-coded artifact ID or only one damage type.
+    const ranked=ids.map(id=>({id,score:safeEval(id,result.eq,result.setLayout)?.critDamage||0}))
+      .sort((a,b)=>b.score-a.score||Number(a.id)-Number(b.id));
+    ranked.slice(0,12).forEach(x=>add(x.id));
+    // R14 already performs up to 3 full searches. Extra verification adds at
+    // most 5 independent full searches, while the normal button stays fast.
+    for(const id of order.slice(0,5)){
+     if(auditCancel||keyAtStart!==selectKey(state.auto))break;
+     await pause();
+     const old=state.system.artifactPrimary;
+     try{
+      const r=scoped(id,()=>previousOptimize(args));full++;
+      if(r?.status==='dynamic'&&r.eq){
+       addRef(r);
+       promote(id,{...r,setLayout:r.setLayout},window.TS_OVERFLOW_LAST);
+      }
+     }catch(e){console.warn('R15 independent search skipped',e)}
+     finally{state.system.artifactPrimary=old}
+     note.textContent=auditT().running+' '+full+'/5';
+    }
+    // For candidate types not covered by full search, refine from at most two
+    // discovered loadouts. One candidate at a time yields UI control back.
+    for(const id of order.slice(0,15)){
+     if(auditCancel||keyAtStart!==selectKey(state.auto))break;
+     await pause();
+     for(const ref of layouts.slice(0,2)){
+      const r=scoped(id,()=>{
+       const prev=window.__r56OptimizationSetOverride;
+       try{
+        if(ref.layout)window.__r56OptimizationSetOverride=ref.layout;
+        else delete window.__r56OptimizationSetOverride;
+        const defs=betaAutoSlotDefs(),a=betaAutoEqToAssignment(defs,ref.eq);
+        if(!a)return null;
+        const hill=betaAutoHillClimb(defs,a,Number(args.minCrit),Number(args.minCooldown));
+        if(!hill)return null;
+        const eq=betaAutoAssignmentToEq(defs,hill.assign);
+        const verified=betaEvaluateEquipmentEq(eq,args);
+        return verified?.status==='dynamic'?{...verified,eq,setLayout:ref.layout}:null;
+       }catch(e){console.warn('R15 local search skipped',e);return null}
+       finally{if(prev===undefined)delete window.__r56OptimizationSetOverride;else window.__r56OptimizationSetOverride=prev;}
+      });
+      refined++;promote(id,r,null);
+     }
+     note.textContent=auditT().running+' '+refined+'…';
+    }
+    // Important: re-score all discovered configurations against ALL primaries.
+    for(const ref of layouts){
+     if(auditCancel||keyAtStart!==selectKey(state.auto))break;
+     for(const id of ids)promote(id,safeEval(id,ref.eq,ref.layout),null);
+     await pause();
+    }
+    if(auditCancel||keyAtStart!==selectKey(state.auto)){
+     note.textContent=auditT().aborted;return;
+    }
+    const delta=current.score-Number(result.critDamage);
+    note.textContent=auditT().done+'｜'+(delta>0?auditT().improved:auditT().same)+'｜'+(current.score/1e21).toFixed(3)+'V';
+    if(delta>0){
+     const apply=document.createElement('button');apply.type='button';apply.textContent=auditT().apply;
+     apply.style.cssText=action.style.cssText;
+     wrapper.append(apply);
+     apply.addEventListener('click',()=>{
+      if(selectKey(state.auto)!==keyAtStart){note.textContent=auditT().aborted;return}
+      const improved={...current.result,autoArtifactPrimary:current.id,autoArtifactGlobalOptimal:false,
+       autoArtifactMethod:'r15-optional-deep-exploration',autoArtifactSearched:ids.length,
+       autoArtifactFullSearches:(result.autoArtifactFullSearches||0)+full,
+       autoArtifactRefinements:(result.autoArtifactRefinements||0)+refined};
+      cacheKey=keyAtStart;cacheResult=improved;cachedOverflow=current.overflow;
+      window.__r33LastAutoResult=improved;
+      if(typeof refreshAuto==='function')refreshAuto(true);
+     });
+    }
+   }catch(e){console.error('R15 verification error',e);note.textContent=String(e.message||e)}
+   finally{state.system.artifactPrimary=savedBefore;auditRunning=false;action.disabled=false;action.textContent=auditT().start;}
+  });
+ }
+
+ // R16: fast, conservative *current-layout-only* upper envelope.
+ // Each affix channel is independently maximized, so the hypothetical
+ // combination may be impossible. The result is NOT a certified global bound
+ // over all set layouts, nor a claim of mathematical optimality.
+ const envelopeI18n={
+  'zh-Hant':{button:'檢查傷害上界',working:'正在檢查人工製品',unknown:'無法建立可信上界；目前仍是搜尋最高傷害',above:'目前套裝下，仍有未排除的理論傷害空間',below:'此近似上界不適用於完整搜尋；不能據此證明最優',scope:'僅涵蓋目前套裝與已取得人工製品；不是全域最大傷害證明'},
+  en:{button:'Check damage ceiling',working:'Checking artifacts',unknown:'No reliable upper ceiling computed; best found only',above:'Possible damage above the found result is not ruled out',below:'This limited bound cannot certify the global optimum',scope:'Current set layout and owned artifacts only; not a global optimum proof'},
+  ko:{button:'피해 상한 검사',working:'아티팩트 검사 중',unknown:'검증된 상한 없음; 탐색 최고값만 확인',above:'현재 세트에서 더 높은 피해 가능성은 배제되지 않음',below:'제한된 상한으로 전역 최적을 증명할 수 없음',scope:'현재 세트와 보유 아티팩트만 검토; 전역 최적 증명 아님'},
+  ja:{button:'ダメージ上界を確認',working:'アーティファクト確認中',unknown:'信頼できる上界なし。探索最高値のみ',above:'現在のセットでは上回る可能性を除外できません',below:'限定的な上界では全域最適を証明できません',scope:'現在のセットと所持品のみ。全域最適の証明ではありません'}
+ };
+ function addUpperEnvelopeControl(box,result){
+  if(!result||result.status!=='dynamic')return;
+  const i18n=envelopeI18n[locale()]||envelopeI18n['zh-Hant'];
+  const wrap=document.createElement('div');wrap.style.cssText='flex-basis:100%;display:flex;gap:8px;align-items:center;flex-wrap:wrap';
+  const btn=document.createElement('button');btn.type='button';btn.textContent=i18n.button;
+  btn.style.cssText='padding:6px 11px;border-radius:8px;border:1px solid #829ba8;background:#162a35;color:#d8eaf0;cursor:pointer';
+  const label=document.createElement('span');label.style.cssText='font-size:11px;color:#abc4cd';label.textContent=i18n.scope;
+  wrap.append(btn,label);box.append(wrap);
+  btn.addEventListener('click',async()=>{
+   btn.disabled=true;const original=state.system.artifactPrimary;
+   const savedLayout=window.__r56OptimizationSetOverride;
+   const key=selectKey(state.auto);
+   const layout=result.setLayout;
+   try{
+    const ids=owned().map(a=>a.id);
+    const opts={minCrit:Number(state.auto?.minCrit||0),minCooldown:Number(state.auto?.minCooldown||0)};
+    let largest=-Infinity,successful=0;
+    for(let n=0;n<ids.length;n++){
+     if(selectKey(state.auto)!==key){label.textContent=i18n.unknown;return}
+     const id=ids[n];
+     const bound=scoped(id,()=>{
+      try{
+       if(layout)window.__r56OptimizationSetOverride=layout;
+       else delete window.__r56OptimizationSetOverride;
+       const defs=betaAutoSlotDefs();
+       if(!defs?.length)return null;
+       // An optimistic, independently-maximized score for every damage
+       // attribute. No affix is silently excluded, including general spell.
+       const optimistic={atk:0,elem:0,spell:0,skillLv:0,crit:0,cd:0};
+       for(const d of defs){
+        for(const attr of Object.keys(optimistic)){
+         optimistic[attr]+=Math.max(0,...d.opts.map(o=>Number(o[attr]||0)));
+        }
+       }
+       const b=betaAutoEvalTotals(optimistic,opts.minCrit,opts.minCooldown);
+       return Number(b?.critDamage);
+      }catch(e){console.warn('R16 envelope unavailable',e);return null}
+     });
+     if(Number.isFinite(bound)&&bound>=0){largest=Math.max(largest,bound);successful++}
+     if(n%10===0){label.textContent=i18n.working+' '+(n+1)+'/'+ids.length;await new Promise(r=>setTimeout(r,0))}
+    }
+    // If any candidate could not be evaluated, do not claim an upper bound.
+    if(successful!==ids.length||!Number.isFinite(largest)){label.textContent=i18n.unknown;return}
+    const score=Number(result.critDamage);
+    const message=largest>=score?i18n.above:i18n.below;
+    label.textContent=message+'｜'+(largest/1e21).toFixed(3)+'V｜'+i18n.scope;
+   }finally{
+    state.system.artifactPrimary=original;
+    if(savedLayout===undefined)delete window.__r56OptimizationSetOverride;
+    else window.__r56OptimizationSetOverride=savedLayout;
+    btn.disabled=false;
+   }
+  });
+ }
  function recommendation(result){
   const id=result?.autoArtifactPrimary;
   if(result?.status!=='dynamic'||id==null)return null;
@@ -12793,6 +13075,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   const text=document.createElement('div');text.className='r06-muted';
   text.textContent=d.detail+' · '+d.tested+' '+(result.autoArtifactSearched||0)+' '+d.items+' · '+d.scope;
   body.append(title,text);box.append(body);
+  addAuditControls(box,result);
+  addUpperEnvelopeControl(box,result);
   return box;
  }
  if(typeof r33RefreshSkillLevelSummary==='function'){
