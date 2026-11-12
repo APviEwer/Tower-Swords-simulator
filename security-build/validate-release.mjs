@@ -26,4 +26,17 @@ for(const filename of expectedFiles){
   if(filename==='index.html' && !html.includes('TowerSwords_V2.3_Desktop_Release.html'))error('Desktop routing lost.');
   console.log('PASS',filename,entry.sourceBytes,'=>',entry.releaseBytes,'bytes, scripts',scripts);
 }
+if(!Array.isArray(manifest.assets)||manifest.assets.length<1)error('Public media assets missing.');
+const allow=new Set(['.png','.jpg','.jpeg','.webp','.gif','.svg','.ico','.avif','.woff','.woff2','.ttf','.otf']);
+let total=0;
+const seen=new Set();
+for(const asset of manifest.assets){
+  if(typeof asset.file!=='string'||!asset.file||asset.file.includes('..')||path.isAbsolute(asset.file))error('Bad asset path');
+  if(seen.has(asset.file))error('Duplicate asset');seen.add(asset.file);
+  if(!allow.has(path.extname(asset.file).toLowerCase()))error('Unexpected asset format: '+asset.file);
+  const bytes=await fs.readFile(path.join(sourceDir,'assets',asset.file));
+  if(bytes.length!==asset.bytes||crypto.createHash('sha256').update(bytes).digest('hex')!==asset.sha256)error('Asset checksum mismatch: '+asset.file);
+  total+=bytes.length;
+}
+console.log('MEDIA PASS',manifest.assets.length,'files',total,'bytes');
 console.log('CHECKSUM + STRUCTURE PASS. Browser and optimizer result testing are still required before official deployment.');
