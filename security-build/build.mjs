@@ -32,8 +32,8 @@ for(const filename of originals){
  for(const r of replacements.sort((a,b)=>b.start-a.start)){
    const output=await minify(r.code,{
      module:r.module,
-     compress:{defaults:true,passes:1},
-     mangle:{toplevel:false},
+     compress:false,
+     mangle:false,
      format:{comments:false,ascii_only:false},
      sourceMap:false
    });
