@@ -32,6 +32,10 @@ jobs:
         run: node security-build/test.mjs
       - name: Verify manifest and release structure
         run: node security-build/validate-release.mjs
+      - name: Install Chromium for browser regression
+        run: npx --prefix security-build playwright install --with-deps chromium
+      - name: Compare original and protected pages in Chromium
+        run: node security-build/browser-smoke.mjs
       - name: Save preview for owner review
         uses: actions/upload-artifact@v4
         with:
