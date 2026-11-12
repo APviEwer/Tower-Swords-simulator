@@ -51,14 +51,14 @@ async function inspect(filename,version){
   if(stepCount<4)throw new Error('Missing navigation tabs');
   for(const i of [1,2,3,0]){
    await steps.nth(i).click({timeout:10000});
-   await page.waitForTimeout(350);
+   await page.waitForTimeout(1400);
    reports.push(['tab-'+i,await digest(page)]);
   }
   const lang=page.locator('button.lang-btn');
   if(await lang.count()<4)throw new Error('Missing language buttons');
   for(const i of [1,2,3,0]){
    await lang.nth(i).click({timeout:10000});
-   await page.waitForTimeout(350);
+   await page.waitForTimeout(1400);
    reports.push(['language-'+i,await digest(page)]);
   }
   // Skill is selected programmatically only if enabled and option present.
@@ -67,7 +67,7 @@ async function inspect(filename,version){
    const options=await skill.locator('option').count();
    if(options>1 && await skill.isEnabled()){
     await skill.selectOption({index:1},{timeout:10000});
-    await page.waitForTimeout(350);
+    await page.waitForTimeout(1400);
     reports.push(['skill-1',await digest(page)]);
    }
   }
