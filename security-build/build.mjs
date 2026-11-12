@@ -10,6 +10,9 @@ const out=path.join(root,'security-build','protected-preview');
 const originals=['index.html','TowerSwords_V2.3_Desktop_Release.html','TowerSwords_V2.3_Mobile_Release.html'];
 const ensure=(v,m)=>{if(!v)throw new Error(m)};
 function walk(node,callback) {callback(node);for(const child of node.childNodes||[])walk(child,callback);}
+// Start from a clean generated directory so obsolete files never enter a new release.
+ensure(out===path.join(root,'security-build','protected-preview'),'Unsafe build output directory');
+await fs.rm(out,{recursive:true,force:true});
 await fs.mkdir(out,{recursive:true});
 const summary=[];
 for(const filename of originals){
