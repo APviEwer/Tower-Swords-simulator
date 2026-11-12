@@ -1,0 +1,4 @@
+node_modules/
+protected-preview/
+*.map
+*.log
