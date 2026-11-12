@@ -57,6 +57,7 @@ async function copyPublicAssets(relative=''){
   if(entry.isSymbolicLink())throw new Error('Symlink not allowed in public assets: '+rel);
   if(entry.isDirectory()){await copyPublicAssets(rel);continue;}
   if(!entry.isFile())throw new Error('Unsupported asset: '+rel);
+  if(entry.name==='.gitkeep')continue;
   const ext=path.extname(entry.name).toLowerCase();
   ensure(allowedAssetExtensions.has(ext),'Non-media asset may contain private source: '+rel);
   await fs.mkdir(path.dirname(dst),{recursive:true});
