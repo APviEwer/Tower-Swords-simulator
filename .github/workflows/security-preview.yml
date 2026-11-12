@@ -38,6 +38,8 @@ jobs:
         run: npx --prefix security-build playwright install --with-deps chromium
       - name: Compare original and protected pages in Chromium
         run: node security-build/browser-smoke.mjs
+      - name: Compare navigation, languages and skill interactions
+        run: node security-build/functional-parity.mjs
       - name: Save preview for owner review
         uses: actions/upload-artifact@v4
         with:
