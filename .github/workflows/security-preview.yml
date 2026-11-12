@@ -32,6 +32,8 @@ jobs:
         run: node security-build/test.mjs
       - name: Verify manifest and release structure
         run: node security-build/validate-release.mjs
+      - name: Audit generated public files for accidental source disclosure
+        run: node security-build/audit-public-bundle.mjs
       - name: Install Chromium for browser regression
         run: npx --prefix security-build playwright install --with-deps chromium
       - name: Compare original and protected pages in Chromium
