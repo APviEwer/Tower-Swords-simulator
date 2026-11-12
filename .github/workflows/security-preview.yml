@@ -30,6 +30,8 @@ jobs:
         run: node security-build/build.mjs
       - name: Structural smoke tests
         run: node security-build/test.mjs
+      - name: Verify manifest and release structure
+        run: node security-build/validate-release.mjs
       - name: Save preview for owner review
         uses: actions/upload-artifact@v4
         with:
