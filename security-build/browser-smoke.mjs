@@ -49,6 +49,13 @@ try {
        scripts:document.querySelectorAll('script').length,
        rootChildren:document.body?.children.length||0
      }));
+     if(version==='original') {
+       const inventory=await page.evaluate(()=>({
+         buttons:[...document.querySelectorAll('button')].filter(x=>x.offsetWidth||x.offsetHeight).map(x=>({text:(x.innerText||x.getAttribute('aria-label')||'').trim().slice(0,70),id:x.id,cls:typeof x.className==='string'?x.className.slice(0,90):''})).filter(x=>x.text).slice(0,65),
+         selects:[...document.querySelectorAll('select')].slice(0,15).map(x=>({id:x.id,options:[...x.options].slice(0,8).map(y=>y.textContent.trim().slice(0,25))}))
+       }));
+       console.log('CONTROL INVENTORY',filename,JSON.stringify(inventory));
+     }
      results.push({...data,errors,httpStatus:response.status()});
      await context.close();
    }
