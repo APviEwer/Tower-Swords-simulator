@@ -31,6 +31,7 @@ const digest=async page=>page.evaluate(()=>{
    language:[...document.querySelectorAll('button.lang-btn.active')].map(e=>normal(e.textContent)),
    heading:[...document.querySelectorAll('h1,h2,h3')].filter(visible).slice(0,14).map(e=>normal(e.textContent)),
    visibleActions:[...document.querySelectorAll('button')].filter(visible).slice(0,20).map(e=>normal(e.textContent)),
+   metricText:[...document.querySelectorAll('[id*="damage"],[id*="dmg"],[class*="damage"],[class*="dmg"],[id*="result"],[class*="result"]')].filter(visible).slice(0,30).map(e=>normal(e.textContent).slice(0,150)),
    skill:document.querySelector('select#skill')?.value??null
  };
 });
