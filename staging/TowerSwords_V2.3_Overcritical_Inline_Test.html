@@ -8308,7 +8308,7 @@ function install(){
   const used=Math.min(3,count), multi=[1,1.75,2.5,3.5][used];
   const raw=Number(record.rawCrit??record.crit??0);
   const extraChance=Math.max(0,Math.min(100,raw-100));
-  if(!Number.isFinite(raw)||raw<=100){block.hidden=true;return;}
+  if(!Number.isFinite(raw)||raw<101){block.hidden=true;return;}
   const out=Number(record.critDamage)*multi;
   if(!Number.isFinite(out)){block.hidden=true;return;}
   const words=I18N[LANG()]||I18N["zh-Hant"];
