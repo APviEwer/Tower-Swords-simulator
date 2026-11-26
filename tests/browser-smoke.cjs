@@ -58,6 +58,17 @@ const sleep = ms=>new Promise(r=>setTimeout(r,ms));
         await sleep(160);
         langCount++;
       }
+      // Select one valid skill so the production optimizer has a real damage target.
+      const selectedSkill=await page.evaluate(()=>{
+        const select=document.querySelector('#skill');
+        if(!select)throw Error('Missing skill selection');
+        const candidate=[...select.options].find(o=>o.value!=='' && !o.disabled);
+        if(!candidate)throw Error('No valid selectable skill');
+        select.value=candidate.value;
+        select.dispatchEvent(new Event('change',{bubbles:true}));
+        return candidate.value;
+      });
+      await page.waitForTimeout(200);
       // Navigate to equipment configuration and switch to optimizer mode.
       await page.evaluate(()=>{
         const button=document.querySelectorAll('nav.steps button.step')[2];
@@ -76,8 +87,24 @@ const sleep = ms=>new Promise(r=>setTimeout(r,ms));
       }));
       if(!mode.activePage.includes('03')||!mode.autoPaneVisible)
         throw Error('Unable to enter optimizer UI: '+JSON.stringify(mode));
-      console.log(JSON.stringify({platform,readyMs,launch,langCount,mode,pageErrors:errors.slice(0,8)}));
-      if(errors.length)throw Error('Browser uncaught exceptions: '+errors.slice(0,4).join('; '));
+      // Trigger the real app's Start Optimization button and wait for a calculated outcome.
+      const searchStart=Date.now();
+      await page.locator('#p10-r43-run').click({timeout:8000,force:true});
+      await page.waitForFunction(()=>{
+        const text=(document.querySelector('#autoStatus')?.textContent||'').trim();
+        const damage=(document.querySelector('#autoDamage')?.textContent||'').trim();
+        return (damage!=='' && damage!=='—') || /搜尋失敗|請先選擇|搜尋未執行/.test(text);
+      },null,{timeout:45000});
+      const searchMs=Date.now()-searchStart;
+      const result=await page.evaluate(()=>({
+        status:(document.querySelector('#autoStatus')?.textContent||'').trim(),
+        damage:(document.querySelector('#autoDamage')?.textContent||'').trim(),
+        equipmentCards:document.querySelector('#autoEquipmentGrid')?.children.length||0,
+        failureMessage:/(搜尋失敗|請先選擇|搜尋未執行)/.test(document.querySelector('#autoStatus')?.textContent||'')
+      }));
+      console.log(JSON.stringify({platform,readyMs,launch,langCount,selectedSkill,mode,searchMs,result,pageErrors:errors.slice(0,8)}));
+      if (result.failureMessage || result.damage==='—' || result.damage==='' || errors.length)
+        throw Error('Optimizer did not return valid damage: '+JSON.stringify({result,errors:errors.slice(0,4)}));
     }catch(error){
       failed=true;
       console.error(platform+' FAIL '+error.stack);
