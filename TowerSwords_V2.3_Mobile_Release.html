@@ -6654,6 +6654,10 @@ zhButton?.addEventListener("click",()=>setTimeout(()=>{
  const gearOrder=["主武","武2","武3","頭盔","盔甲","鞋子","戒1","戒2","項鍊","耳環"];
  const slots=["Basic1","Basic2","Basic3","Basic4","Plus1","Plus2","Plus3"];
  const traitNames=new Set(R9_TRAITS.flatMap(([name])=>[name,r57AffixText(name),...(R57_AFFIX_NAMES[name]||[]),...(R14_TRAIT_NAMES[name]||[])]));
+ const magicLevelNames=["所有魔法等級","元素魔法等級","火焰魔法等級","冰系魔法等級","閃電魔法等級","普通魔法等級"];
+ for(const name of magicLevelNames)for(const label of R57_AFFIX_NAMES[name]||[name])traitNames.add(label);
+ for(const label of ["Elemental Magic Level","Elemental Magic Levels","속성 마법 레벨","属性魔法レベル","All Magic Level","すべての魔法レベル"])traitNames.add(label);
+ const isTrait=value=>traitNames.has(value.replace(/\s*\+?\d+(?:\.\d+)?\s*(?:Lv\.?|レベル|레벨)?$/i,"").trim());
  const gear=gearRows.map((row,i)=>{
   const fallback=gearOrder[i];
   const name=q(".auto-eq-name,.auto-gear-name,strong",row)?.textContent.trim()||(fallback?r57GearText(fallback):`#${i+1}`);
@@ -6685,7 +6689,7 @@ zhButton?.addEventListener("click",()=>setTimeout(()=>{
    const cell=row.insertCell();
    const value=item.values.get(slot);
    cell.textContent=value||"—";
-   cell.className=!value?"affix-empty":traitNames.has(value)?"affix-trait":slot.startsWith("Plus")?"affix-plus":"affix-basic";
+   cell.className=!value?"affix-empty":isTrait(value)?"affix-trait":slot.startsWith("Plus")?"affix-plus":"affix-basic";
   }
  }
  host.append(table);
