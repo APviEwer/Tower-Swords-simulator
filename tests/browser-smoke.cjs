@@ -24,6 +24,7 @@ const sleep = ms=>new Promise(r=>setTimeout(r,ms));
   const base = 'http://127.0.0.1:' + server.address().port;
   const browser=await chromium.launch({channel:'chrome',headless:true,args:['--no-sandbox']});
   let failed=false;
+  const variantsByPlatform={};
   for (const platform of ['desktop','mobile']) {
     const context=await browser.newContext(platform==='mobile'
       ?{viewport:{width:393,height:852},deviceScaleFactor:2,isMobile:true,hasTouch:true}
@@ -105,6 +106,63 @@ const sleep = ms=>new Promise(r=>setTimeout(r,ms));
       console.log(JSON.stringify({platform,readyMs,launch,langCount,selectedSkill,mode,searchMs,result,pageErrors:errors.slice(0,8)}));
       if (result.failureMessage || result.damage==='—' || result.damage==='' || errors.length)
         throw Error('Optimizer did not return valid damage: '+JSON.stringify({result,errors:errors.slice(0,4)}));
+      // Regression scenarios: actual owned-artifact and minimum-stat settings.
+      // No production data or formula edits. Work only on the test browser context.
+      const scenarios=[];
+      async function runVariant(name, artifactCount, crit, cooldown) {
+        const setup=await page.evaluate(({artifactCount,crit,cooldown})=>{
+          if (typeof state==='undefined'||typeof systemData==='undefined')throw Error('Production state unavailable');
+          const available=(systemData.artifacts||[]).map(a=>{
+            const levels=Object.keys(systemData.artifactLevels?.[String(a.id)]||{})
+              .map(Number).filter(v=>Number.isFinite(v)&&v>0).sort((x,y)=>x-y);
+            return levels.length?{id:a.id,level:levels.at(-1)}:null;
+          }).filter(Boolean);
+          if(available.length<artifactCount)throw Error('Not enough valid artifacts: '+available.length);
+          state.system.artifacts={};
+          for(const a of available.slice(0,artifactCount))state.system.artifacts[a.id]=a.level;
+          state.system.artifactPrimary=null;
+          state.auto.minCrit=crit;
+          state.auto.minCooldown=cooldown;
+          document.querySelector('#critTarget').value=String(crit);
+          document.querySelector('#cdTarget').value=String(cooldown);
+          return {owned:artifactCount,available:available.length,crit,cooldown};
+        },{artifactCount,crit,cooldown});
+        const begin=Date.now();
+        await page.locator('#p10-r43-run').click({timeout:8000,force:true});
+        await page.waitForFunction(()=>{
+          const button=document.querySelector('#p10-r43-run');
+          const damage=(document.querySelector('#autoDamage')?.textContent||'').trim();
+          const status=(document.querySelector('#autoStatus')?.textContent||'').trim();
+          return button&&!button.disabled&&
+            ((damage!==''&&damage!=='—')||/搜尋失敗|無可行|請先選擇/.test(status));
+        },null,{timeout:60000});
+        const output=await page.evaluate(()=>{
+          const last=window.__r33LastAutoResult||null;
+          return {
+            status:(document.querySelector('#autoStatus')?.textContent||'').trim(),
+            damage:(document.querySelector('#autoDamage')?.textContent||'').trim(),
+            crit:(document.querySelector('#autoCrit')?.textContent||'').trim(),
+            cooldown:(document.querySelector('#autoCd')?.textContent||'').trim(),
+            cards:document.querySelector('#autoEquipmentGrid')?.children.length||0,
+            searched:last?.autoArtifactSearched,
+            eligible:last?.autoArtifactEligible,
+            score:last?.critDamage,
+            valid:last?.status==='dynamic'
+          };
+        });
+        const entry={name,setup,ms:Date.now()-begin,...output};
+        scenarios.push(entry);
+        if(!entry.valid||entry.damage==='—'||entry.damage===''||errors.length)
+          throw Error('Scenario failed: '+JSON.stringify({entry,errors:errors.slice(0,4)}));
+        if(entry.searched!==undefined&&entry.searched<artifactCount)
+          throw Error('Not all owned artifacts considered: '+JSON.stringify(entry));
+        return entry;
+      }
+      await runVariant('four-owned',4,0,0);
+      await runVariant('ten-owned-threshold',10,30,30);
+      variantsByPlatform[platform]=scenarios;
+      console.log('SCENARIOS '+JSON.stringify({platform,scenarios}));
+
     }catch(error){
       failed=true;
       console.error(platform+' FAIL '+error.stack);
@@ -112,6 +170,16 @@ const sleep = ms=>new Promise(r=>setTimeout(r,ms));
       try{await page.screenshot({path:path.join(dir,platform+'-failure.png'),fullPage:true,timeout:4000});}catch(_){}
       fs.writeFileSync(path.join(dir,platform+'-errors.json'),JSON.stringify({message:String(error),errors},null,2));
     }finally{await context.close();}
+  }
+  if (!failed && variantsByPlatform.desktop && variantsByPlatform.mobile) {
+    for(let i=0;i<variantsByPlatform.desktop.length;i++){
+      const d=variantsByPlatform.desktop[i], m=variantsByPlatform.mobile[i];
+      if (d.damage!==m.damage||d.crit!==m.crit||d.cooldown!==m.cooldown||d.cards!==m.cards) {
+        console.error('CROSS-PLATFORM MISMATCH '+JSON.stringify({desktop:d,mobile:m}));
+        failed=true;
+      }
+    }
+    if(!failed)console.log('PASS: desktop/mobile complex scenarios match');
   }
   await browser.close();
   server.close();
