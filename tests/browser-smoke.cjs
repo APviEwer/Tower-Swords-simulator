@@ -162,6 +162,25 @@ const sleep = ms=>new Promise(r=>setTimeout(r,ms));
       await runVariant('ten-owned-threshold',10,30,30);
       variantsByPlatform[platform]=scenarios;
       console.log('SCENARIOS '+JSON.stringify({platform,scenarios}));
+      // Verify the optional bound UI completes and never locks optimization controls.
+      const certificateButton=page.locator('[data-damage-certificate] button').first();
+      if(await certificateButton.count()){
+        const certificateStart=Date.now();
+        await certificateButton.click({timeout:5000,force:true});
+        await page.waitForFunction(()=>{
+          const b=document.querySelector('[data-damage-certificate] button');
+          return b&&!b.disabled;
+        },null,{timeout:20000});
+        const cert=await page.evaluate(()=>({
+          label:(document.querySelector('[data-damage-certificate] [aria-live]')?.textContent||'').trim(),
+          optimizerButtonEnabled:!document.querySelector('#p10-r43-run')?.disabled
+        }));
+        console.log('CERTIFICATE '+JSON.stringify({platform,elapsedMs:Date.now()-certificateStart,...cert}));
+        if(!cert.optimizerButtonEnabled||!cert.label||/驗證中|Verifying/.test(cert.label))
+          throw Error('Certificate left UI in unfinished state: '+JSON.stringify(cert));
+      }else{
+        throw Error('Damage certificate control missing after valid optimization');
+      }
 
     }catch(error){
       failed=true;
