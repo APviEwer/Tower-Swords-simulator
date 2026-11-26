@@ -1,0 +1,37 @@
+name: Simulator browser regression (test branch only)
+
+on:
+  push:
+    branches:
+      - test/optimizer-upper-envelope-20261126
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Static mathematical and source parity checks
+        run: |
+          node tests/optimizer-upper-envelope.test.cjs
+          node tests/optimizer-source-parity.test.cjs
+      - name: Install browser driver
+        run: npm install --no-save --no-package-lock playwright@1.56.1
+      - name: Check installed Chrome
+        run: google-chrome --version
+      - name: Run desktop and mobile Chromium smoke checks
+        run: node tests/browser-smoke.cjs
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: browser-smoke-failures
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7
