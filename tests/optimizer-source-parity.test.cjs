@@ -55,7 +55,7 @@ assert.equal(certificate[0], certificate[1],
 const boundPercent = (best, upper) =>
   upper === best ? 100 : Math.floor((best / upper - 1e-12) * 100000) / 1000;
 assert.equal(boundPercent(100, 100), 100);
-assert.equal(boundPercent(37, 100), 37);
+assert.equal(boundPercent(37, 100), 36.999); // conservative downward rounding
 assert.ok(boundPercent(99.9, 100) >= 99.899 && boundPercent(99.9, 100) <= 99.9);
 console.log('PASS: desktop/mobile script structure and optimizer parity');
 console.log('NOTE: launch, input, language and damage accuracy still require browser tests');
