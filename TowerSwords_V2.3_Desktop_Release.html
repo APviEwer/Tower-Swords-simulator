@@ -6634,7 +6634,73 @@ zhButton?.addEventListener("click",()=>setTimeout(()=>{
 @media(max-width:850px){#reportScreen.r63-p07a-active .r63-p07-builds{grid-template-columns:1fr!important}}
 @media print{#reportScreen.r63-p07a-active .r63-p07-actions{display:none!important}#reportScreen.r63-p07a-active .r63-p07-top{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 </style>
-<script id="p10-r63-p07a-real-integration-js">(()=>{"use strict";const q=(s,r=document)=>r.querySelector(s),qa=(s,r=document)=>[...r.querySelectorAll(s)];const langs={"zh-Hant":["最佳化總覽","完整裝備詞條","返回最佳化總覽","目前沒有可用的完整自動配裝結果。完成搜尋後即可查看十件裝備詞條。","依照目前自動最佳化結果顯示完整 Basic／Plus 詞條，僅供檢視，不修改手動配裝。"],en:["Optimizer overview","Full equipment affixes","Back to overview","No completed optimized equipment result yet.","Full Basic / Plus affixes from the current optimized build. Read-only."],ko:["최적화 요약","전체 장비 옵션","요약으로 돌아가기","완료된 최적화 결과가 없습니다.","현재 최적화된 장비의 Basic / Plus 옵션을 표시합니다."],ja:["最適化概要","装備オプション一覧","最適化概要に戻る","最適化結果がありません。","最適化された装備の Basic／Plus オプションを表示します。"]};const language=()=>langs[q(".lang-btn.active")?.dataset.lang]||langs["zh-Hant"];function equalPage(){const hub=q("#v2Page1VisibleHub");if(hub)hub.classList.add("r63-equal-height")}function autoUI(){const pane=q("#autoPane");const grid=q(".v2-p3-auto-grid",pane);if(!pane||!grid)return;let tabs=q(".r63-auto-tabs",pane),full=q(".r63-affix-view",pane);if(!tabs){tabs=document.createElement("div");tabs.className="r63-auto-tabs no-print";tabs.innerHTML='<button type="button" data-r63-tab="overview" class="active"></button><button type="button" data-r63-tab="affixes"></button>';grid.before(tabs)}if(!full){full=document.createElement("section");full.className="r63-affix-view";full.hidden=true;full.innerHTML='<h3></h3><p class="r63-desc"></p><div class="r63-affix-full-grid"></div><button type="button" class="r63-affix-back no-print"></button>';tabs.after(full);full.querySelector(".r63-affix-back").addEventListener("click",()=>show(false))}const d=language();qa("[data-r63-tab]",tabs).forEach((b,i)=>b.textContent=d[i]);q("h3",full).textContent=d[1];q(".r63-desc",full).textContent=d[4];q(".r63-affix-back",full).textContent=d[2];if(!tabs.dataset.bound){tabs.addEventListener("click",e=>{const btn=e.target.closest("[data-r63-tab]");if(btn)show(btn.dataset.r63Tab==="affixes")});tabs.dataset.bound="1"}window.__p10R63ShowAutoAffixes=()=>show(true);function show(isFull){if(isFull)renderFull(full);full.hidden=!isFull;grid.hidden=isFull;qa("[data-r63-tab]",tabs).forEach(b=>b.classList.toggle("active",b.dataset.r63Tab==="affixes"===isFull));if(isFull)tabs.scrollIntoView({block:"start"})}}function renderFull(panel){const host=q(".r63-affix-full-grid",panel);if(!host)return;const src=q("#autoEquipmentGrid"),report=q("#reportAutoGear");const rows=qa(".auto-eq-row,.r8-eq-row,.auto-eq-item",src||document);const fallback=qa(".auto-eq-row,.r8-eq-row",report||document);const gearRows=rows.length?rows:fallback;host.replaceChildren();if(!gearRows.length){const empty=document.createElement("div");empty.className="r63-empty";empty.textContent=language()[3];host.append(empty);return}const slots=["Basic1","Basic2","Basic3","Basic4","Plus1","Plus2","Plus3"];gearRows.forEach((row,i)=>{const card=document.createElement("article");card.className="r63-affix-card r69-fixed-gear";const heading=document.createElement("h4");heading.textContent=(row.querySelector(".auto-eq-name,.auto-gear-name,strong")?.textContent||["主武","武2","武3","頭盔","盔甲","鞋子","戒1","戒2","項鍊","耳環"][i]||`#${i+1}`).trim();const found=new Map;qa(".auto-slot",row).forEach(slot=>{const tag=slot.querySelector("b,strong")?.textContent?.trim().replace(/\s/g,"");const val=slot.querySelector("span")?.textContent?.trim()||"";if(tag)found.set(tag,val)});const table=document.createElement("div");table.className="r69-affix-matrix";slots.forEach((name,j)=>{const cell=document.createElement("div");cell.className="r69-affix-cell"+(j>=4?" is-plus":"");const label=document.createElement("span");label.className="r69-affix-index";label.textContent=name;const value=document.createElement("span");value.className="r69-affix-value";value.textContent=found.get(name)||"—";cell.append(label,value);table.append(cell)});card.append(heading,table);host.append(card)})}function report(){const root=q("#reportScreen");if(!root)return;if(q("#r63P07Top",root))return;const native=qa(".card.report-section",root);const condition=native.find(x=>q("#reportConditions",x));const total=native.find(x=>q("#reportTotals",x));const comparison=native.find(x=>q("#reportCompareBody",x));const builds=q(".report-builds",root);if(!(condition&&total&&comparison&&builds))return;const upper=document.createElement("div");upper.className="r63-p07-top";upper.id="r63P07Top";const source=document.createElement("section");source.className="r63-p07-panel r63-p07-source";const title=document.createElement("h3");title.textContent="系統效果來源摘要";source.append(title);const details=q(".report-detail",total);if(details){source.append(details);details.open=true}condition.classList.add("r63-p07-panel");total.classList.add("r63-p07-panel");upper.append(condition,total,source);comparison.classList.add("r63-p07-panel","r63-p07-compare");builds.classList.add("r63-p07-builds");qa(":scope > .report-section",builds).forEach(x=>x.classList.add("r63-p07-panel"));const toolbar=document.createElement("div");toolbar.className="r63-p07-actions no-print";toolbar.innerHTML='<span class="r63-p07-action-summary">角色條件、系統效果、手動與自動配裝皆使用目前模擬器實際資料。</span>';const hero=q(":scope > .hero",root);if(!hero)return;hero.after(toolbar,upper,comparison,builds);const nativeSet=new Set([hero,toolbar,upper,comparison,builds,q("#reportMeta",root)]);qa(":scope > *",root).forEach(x=>{if(!nativeSet.has(x)&&!x.hasAttribute("data-r63-keep"))x.classList.add("r63-old-preview")});root.classList.add("r63-p07a-active")}function boot(){equalPage();autoUI();report();document.addEventListener("click",e=>{if(e.target.closest("nav.steps .step,.mode-only-seg .mode,.lang-btn")){requestAnimationFrame(()=>{equalPage();autoUI();report()})}},{passive:true});window.addEventListener("tower-language-changed",autoUI)}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot()})();</script>
+<style id="auto-affix-table-style">
+#autoPane .r63-affix-full-grid{min-width:0;max-width:100%;display:block!important;overflow-x:auto}
+#autoPane .auto-affix-table{width:100%;min-width:1180px;border-spacing:0;table-layout:fixed;font-size:12px;text-align:left}
+#autoPane .auto-affix-table :is(th,td){padding:9px 8px;border-bottom:1px solid #2d4855;vertical-align:top;overflow-wrap:anywhere}
+#autoPane .auto-affix-table thead th{font-weight:800;color:#f0d8a3}
+#autoPane .auto-affix-table tr>th:first-child{position:sticky;left:0;z-index:1;background:#0c1b25;width:70px;color:#b5cdd6}
+#autoPane .auto-affix-table td{color:#fff}
+#autoPane .auto-affix-table td.affix-plus{color:#ff80bf}
+#autoPane .auto-affix-table td.affix-trait{color:#ffac62}
+#autoPane .auto-affix-table td.affix-empty{color:#9fb5c0}
+</style>
+<script id="p10-r63-p07a-real-integration-js">(()=>{"use strict";const q=(s,r=document)=>r.querySelector(s),qa=(s,r=document)=>[...r.querySelectorAll(s)];const langs={"zh-Hant":["最佳化總覽","完整裝備詞條","返回最佳化總覽","目前沒有可用的完整自動配裝結果。完成搜尋後即可查看十件裝備詞條。","依照目前自動最佳化結果顯示完整 Basic／Plus 詞條，僅供檢視，不修改手動配裝。"],en:["Optimizer overview","Full equipment affixes","Back to overview","No completed optimized equipment result yet.","Full Basic / Plus affixes from the current optimized build. Read-only."],ko:["최적화 요약","전체 장비 옵션","요약으로 돌아가기","완료된 최적화 결과가 없습니다.","현재 최적화된 장비의 Basic / Plus 옵션을 표시합니다."],ja:["最適化概要","装備オプション一覧","最適化概要に戻る","最適化結果がありません。","最適化された装備の Basic／Plus オプションを表示します。"]};const language=()=>langs[q(".lang-btn.active")?.dataset.lang]||langs["zh-Hant"];function equalPage(){const hub=q("#v2Page1VisibleHub");if(hub)hub.classList.add("r63-equal-height")}function autoUI(){const pane=q("#autoPane");const grid=q(".v2-p3-auto-grid",pane);if(!pane||!grid)return;let tabs=q(".r63-auto-tabs",pane),full=q(".r63-affix-view",pane);if(!tabs){tabs=document.createElement("div");tabs.className="r63-auto-tabs no-print";tabs.innerHTML='<button type="button" data-r63-tab="overview" class="active"></button><button type="button" data-r63-tab="affixes"></button>';grid.before(tabs)}if(!full){full=document.createElement("section");full.className="r63-affix-view";full.hidden=true;full.innerHTML='<h3></h3><p class="r63-desc"></p><div class="r63-affix-full-grid"></div><button type="button" class="r63-affix-back no-print"></button>';tabs.after(full);full.querySelector(".r63-affix-back").addEventListener("click",()=>show(false))}const d=language();qa("[data-r63-tab]",tabs).forEach((b,i)=>b.textContent=d[i]);q("h3",full).textContent=d[1];q(".r63-desc",full).textContent=d[4];q(".r63-affix-back",full).textContent=d[2];if(!tabs.dataset.bound){tabs.addEventListener("click",e=>{const btn=e.target.closest("[data-r63-tab]");if(btn)show(btn.dataset.r63Tab==="affixes")});tabs.dataset.bound="1"}window.__p10R63ShowAutoAffixes=()=>show(true);function show(isFull){if(isFull)renderFull(full);full.hidden=!isFull;grid.hidden=isFull;qa("[data-r63-tab]",tabs).forEach(b=>b.classList.toggle("active",b.dataset.r63Tab==="affixes"===isFull));if(isFull)tabs.scrollIntoView({block:"start"})}}function renderFull(panel){
+ const host=q(".r63-affix-full-grid",panel);
+ if(!host)return;
+ const src=q("#autoEquipmentGrid"),report=q("#reportAutoGear");
+ const rows=qa(".auto-eq-row,.r8-eq-row,.auto-eq-item",src||document);
+ const gearRows=rows.length?rows:qa(".auto-eq-row,.r8-eq-row",report||document);
+ const scrollLeft=host.scrollLeft;
+ host.replaceChildren();
+ if(!gearRows.length){
+  const empty=document.createElement("div");
+  empty.className="r63-empty";
+  empty.textContent=language()[3];
+  host.append(empty);
+  return;
+ }
+ const gearOrder=["主武","武2","武3","頭盔","盔甲","鞋子","戒1","戒2","項鍊","耳環"];
+ const slots=["Basic1","Basic2","Basic3","Basic4","Plus1","Plus2","Plus3"];
+ const traitNames=new Set(R9_TRAITS.flatMap(([name])=>[name,r57AffixText(name),...(R57_AFFIX_NAMES[name]||[]),...(R14_TRAIT_NAMES[name]||[])]));
+ const gear=gearRows.map((row,i)=>{
+  const fallback=gearOrder[i];
+  const name=q(".auto-eq-name,.auto-gear-name,strong",row)?.textContent.trim()||(fallback?r57GearText(fallback):`#${i+1}`);
+  const values=new Map;
+  for(const slot of qa(".auto-slot",row)){
+   const tag=q("b,strong",slot)?.textContent.trim().replace(/\s/g,"");
+   const value=q("span",slot)?.textContent.trim();
+   if(tag&&value)values.set(tag,value);
+  }
+  return {name,values};
+ });
+ const locale=q(".lang-btn.active")?.dataset.lang;
+ const table=document.createElement("table");
+ table.className="auto-affix-table";
+ const head=table.createTHead().insertRow();
+ function heading(row,text,scope){
+  const cell=document.createElement("th");
+  cell.scope=scope;
+  cell.textContent=text;
+  row.append(cell);
+ }
+ heading(head,({en:"Equipment",ko:"장비",ja:"装備"})[locale]||"裝備","col");
+ for(const item of gear)heading(head,item.name,"col");
+ const body=table.createTBody();
+ for(const slot of slots){
+  const row=body.insertRow();
+  heading(row,slot.replace(/(\d)$/," $1"),"row");
+  for(const item of gear){
+   const cell=row.insertCell();
+   const value=item.values.get(slot);
+   cell.textContent=value||"—";
+   cell.className=!value?"affix-empty":traitNames.has(value)?"affix-trait":slot.startsWith("Plus")?"affix-plus":"affix-basic";
+  }
+ }
+ host.append(table);
+ host.scrollLeft=scrollLeft;
+}
+function report(){const root=q("#reportScreen");if(!root)return;if(q("#r63P07Top",root))return;const native=qa(".card.report-section",root);const condition=native.find(x=>q("#reportConditions",x));const total=native.find(x=>q("#reportTotals",x));const comparison=native.find(x=>q("#reportCompareBody",x));const builds=q(".report-builds",root);if(!(condition&&total&&comparison&&builds))return;const upper=document.createElement("div");upper.className="r63-p07-top";upper.id="r63P07Top";const source=document.createElement("section");source.className="r63-p07-panel r63-p07-source";const title=document.createElement("h3");title.textContent="系統效果來源摘要";source.append(title);const details=q(".report-detail",total);if(details){source.append(details);details.open=true}condition.classList.add("r63-p07-panel");total.classList.add("r63-p07-panel");upper.append(condition,total,source);comparison.classList.add("r63-p07-panel","r63-p07-compare");builds.classList.add("r63-p07-builds");qa(":scope > .report-section",builds).forEach(x=>x.classList.add("r63-p07-panel"));const toolbar=document.createElement("div");toolbar.className="r63-p07-actions no-print";toolbar.innerHTML='<span class="r63-p07-action-summary">角色條件、系統效果、手動與自動配裝皆使用目前模擬器實際資料。</span>';const hero=q(":scope > .hero",root);if(!hero)return;hero.after(toolbar,upper,comparison,builds);const nativeSet=new Set([hero,toolbar,upper,comparison,builds,q("#reportMeta",root)]);qa(":scope > *",root).forEach(x=>{if(!nativeSet.has(x)&&!x.hasAttribute("data-r63-keep"))x.classList.add("r63-old-preview")});root.classList.add("r63-p07a-active")}function boot(){equalPage();autoUI();report();document.addEventListener("click",e=>{if(e.target.closest("nav.steps .step,.mode-only-seg .mode,.lang-btn")){requestAnimationFrame(()=>{equalPage();autoUI();report()})}},{passive:true});window.addEventListener("tower-language-changed",()=>{autoUI();requestAnimationFrame(()=>{const panel=q("#autoPane .r63-affix-view");if(panel&&!panel.hidden)renderFull(panel)})})}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot()})();</script>
 
 <style id="p10-r64-visible-compact-closeout">
 /* 01: no fixed/tall nested frames; the two main columns align, board content scrolls internally. */
