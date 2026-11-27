@@ -15,7 +15,7 @@ CHANNEL = "1340878365250424872"
 HAN = re.compile(r"[\u3400-\u9fff]")
 ZH = re.compile(r"^(?:[#>*\s-]*)?(?:繁體中文|繁中|中文|Chinese|TW|ZH(?:-TW)?)(?:\s*[：:|｜-]|$)", re.I)
 EN = re.compile(r"^(?:[#>*\s-]*)?(?:英文|English|EN(?:GLISH)?)(?:\s*[：:|｜-]|$)", re.I)
-VERSION = re.compile(r"(?:^|\s|[【\[（(])(?:版本|Version|Ver\\.?|V)?\s*[:：]?\s*v?(\d+\.\d+(?:\.\d+){0,3})\b", re.I)
+VERSION = re.compile(r"(?<![\d.])(?:版本\s*[:：]?\s*|v(?:ersion|er)?\.?\s*)?(2\.\d{3,6}(?:\.\d{1,3})?)(?![\d.])", re.I)
 
 def chinese_only(raw):
     if not HAN.search(raw or ""):
