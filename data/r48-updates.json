@@ -1,0 +1,1863 @@
+{
+  "schema": 48,
+  "source": "Discord + App Store",
+  "syncedAt": "2026-11-27T09:30:19.397639+00:00",
+  "discordChannelId": "1340878365250424872",
+  "appStoreId": "1660251779",
+  "releases": [
+    {
+      "id": "discord:1570352278572105739",
+      "version": "2.60280",
+      "date": "2026-11-12",
+      "title": "更新通知",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "神話難度下怪物生命值調整",
+            "與之前相比，怪物和首領的生命值有所降低：",
+            "神話 II：生命值降低約6%。",
+            "神話 III：生命值降低約12%",
+            "神話 IV：生命值降低約17%"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "# 更新通知",
+            "《塔與劍》Ver. 2.60280 /《塔與弓》Ver. 1.50280"
+          ]
+        }
+      ],
+      "details": "# 更新通知\n《塔與劍》Ver. 2.60280 /《塔與弓》Ver. 1.50280\n\n神話難度下怪物生命值調整\n與之前相比，怪物和首領的生命值有所降低：\n\n神話 II：生命值降低約6%。\n神話 III：生命值降低約12%\n神話 IV：生命值降低約17%",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1570352278572105739",
+      "discordMessageId": "1570352278572105739",
+      "verifiedSource": true
+    },
+    {
+      "id": "appstore:2.60280",
+      "version": "2.60280",
+      "date": "2026-11-11",
+      "title": "App Store 版本更新",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "降低了神話II～IV一般塔、史萊姆地牢及魔界中怪物與首領的生命值成長幅度，緩和戰鬥難度。"
+          ]
+        }
+      ],
+      "details": "降低了神話II～IV一般塔、史萊姆地牢及魔界中怪物與首領的生命值成長幅度，緩和戰鬥難度。",
+      "language": "zh-Hant",
+      "source": "App Store",
+      "sourceUrl": "https://apps.apple.com/tw/app/%E5%A1%94%E5%92%8C%E5%8A%8D/id1660251779?uo=4",
+      "storeCountry": "TW",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1567763854530842675",
+      "version": "2.60260",
+      "date": "2026-11-05",
+      "title": "錯誤修正更新公告",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "錯誤修正更新公告",
+            "修正與改善",
+            "掃蕩獎勵問題修正",
+            "修正領取掃蕩獎勵後，獎勵未立即顯示，有時必須重新啟動遊戲後才會反映的問題。",
+            "改善即使已成功存檔，警告訊息仍可能持續顯示，或因舊的狀態檢查結果而出現錯誤警告的問題。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "改善獎勵處理順序，確保已領取的掃蕩獎勵能正確寫入存檔資料。",
+            "雲端存檔警告改善"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "Tower And Swords 版本 2.60260／Tower And Bows 版本 1.50260 現已在 Android 與 iOS 雙平台發布。✨"
+          ]
+        }
+      ],
+      "details": "錯誤修正更新公告\nTower And Swords 版本 2.60260／Tower And Bows 版本 1.50260 現已在 Android 與 iOS 雙平台發布。✨\n修正與改善\n掃蕩獎勵問題修正\n修正領取掃蕩獎勵後，獎勵未立即顯示，有時必須重新啟動遊戲後才會反映的問題。\n改善獎勵處理順序，確保已領取的掃蕩獎勵能正確寫入存檔資料。\n雲端存檔警告改善\n改善即使已成功存檔，警告訊息仍可能持續顯示，或因舊的狀態檢查結果而出現錯誤警告的問題。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1567763854530842675",
+      "discordMessageId": "1567763854530842675",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1567446184090673245",
+      "version": "2.60250",
+      "date": "2026-11-04",
+      "title": "錯誤修正更新公告",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "# 錯誤修正更新公告",
+            "根據大家的回報，我已修正並改善以下問題。",
+            "## 修正與改善",
+            "Tower And Swords：修正在 Ancient Room 等部分區域中，Soul Blades 靠近天花板或牆壁時，可能無法正常生成或發射的問題。",
+            "Tower And Bows：修正部分箭矢與技能投射物在靠近地形時，射出後可能立刻消失的問題。",
+            "Tower And Bows：修正 Hwarang Costume 的持有效果說明，在部分語言中顯示錯誤的問題。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "Tower And Bows：改善 Large Ice Arrows 與 Multiple Fire Arrows 的發射與飛行表現。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "Tower And Swords 版本 2.60250／Tower And Bows 版本 1.50250 現已在 Android 與 iOS 雙平台發布。✨"
+          ]
+        }
+      ],
+      "details": "# 錯誤修正更新公告\n\nTower And Swords 版本 2.60250／Tower And Bows 版本 1.50250 現已在 Android 與 iOS 雙平台發布。✨\n根據大家的回報，我已修正並改善以下問題。\n\n## 修正與改善\n\nTower And Swords：修正在 Ancient Room 等部分區域中，Soul Blades 靠近天花板或牆壁時，可能無法正常生成或發射的問題。\n\nTower And Bows：修正部分箭矢與技能投射物在靠近地形時，射出後可能立刻消失的問題。\n\nTower And Bows：改善 Large Ice Arrows 與 Multiple Fire Arrows 的發射與飛行表現。\n\nTower And Bows：修正 Hwarang Costume 的持有效果說明，在部分語言中顯示錯誤的問題。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1567446184090673245",
+      "discordMessageId": "1567446184090673245",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1567076468641497140",
+      "version": "2.60240",
+      "date": "2026-11-03",
+      "title": "修正與改善",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "本次更新包含地圖切換延遲、技能觸發異常、Token Dungeon、稱號系統，以及其他近期回報問題的修正。",
+            "修正與改善",
+            "改善進入高塔或 Slime Dungeon、切換地圖、重新進入，或重試地牢時，遊戲可能長時間卡住的問題。",
+            "技能觸發修正",
+            "修正包括 Eclipse Slash 在內的部分技能，可能已消耗 MP 並進入 CD，卻沒有正常發動或命中敵人的問題。",
+            "弓箭手 Chain Lightning／Dragon Lightning 修正",
+            "修正後續攻擊可能被附近牆壁中斷，或無法繞過轉角連鎖到下一名敵人的問題。",
+            "同時修正技能結束動畫期間，攻擊可能再次被觸發的問題。",
+            "弓箭手受擊動畫修正",
+            "修正角色受傷時，弓的圖像可能顯示錯誤或破圖的問題。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "改善更換造型或武器後的圖像處理。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "Tower And Swords 版本 2.60240／Tower And Bows 版本 1.50240 現已在 Android 與 iOS 雙平台發布。✨",
+            "地圖切換與地牢重試",
+            "同一目標的最大命中次數維持不變：",
+            "Chain Lightning：2 次",
+            "True Chain Lightning：3 次",
+            "傷害、MP 消耗與 CD 數值維持不變。"
+          ]
+        }
+      ],
+      "details": "Tower And Swords 版本 2.60240／Tower And Bows 版本 1.50240 現已在 Android 與 iOS 雙平台發布。✨\n本次更新包含地圖切換延遲、技能觸發異常、Token Dungeon、稱號系統，以及其他近期回報問題的修正。\n\n修正與改善\n\n地圖切換與地牢重試\n\n改善進入高塔或 Slime Dungeon、切換地圖、重新進入，或重試地牢時，遊戲可能長時間卡住的問題。\n\n技能觸發修正\n\n修正包括 Eclipse Slash 在內的部分技能，可能已消耗 MP 並進入 CD，卻沒有正常發動或命中敵人的問題。\n\n弓箭手 Chain Lightning／Dragon Lightning 修正\n\n修正後續攻擊可能被附近牆壁中斷，或無法繞過轉角連鎖到下一名敵人的問題。\n\n同時修正技能結束動畫期間，攻擊可能再次被觸發的問題。\n\n同一目標的最大命中次數維持不變：\n\nChain Lightning：2 次\n\nTrue Chain Lightning：3 次\n\n傷害、MP 消耗與 CD 數值維持不變。\n\n弓箭手受擊動畫修正\n\n修正角色受傷時，弓的圖像可能顯示錯誤或破圖的問題。\n\n改善更換造型或武器後的圖像處理。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1567076468641497140",
+      "discordMessageId": "1567076468641497140",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1566737594853892127",
+      "version": "2.60220",
+      "date": "2026-11-02",
+      "title": "Tower And Swords：版本 2.60220**",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "本次更新新增 Myth IV 難度、全新的冰屬性內容、Token Dungeon 掃蕩功能，以及多項改善。",
+            "新增 Myth IV 難度。",
+            "新增一名 Demon Realm Boss。",
+            "新增冰屬性武器與技能。",
+            "新增全新的裝備套裝與文物。",
+            "新增可透過 Consumables 分頁存取倉庫的功能。",
+            "新增多重選取，以及依稀有度全選的功能。"
+          ]
+        },
+        {
+          "heading": "數值調整",
+          "items": [
+            "這能減少反覆刷地牢的負擔，讓獎勵收集更加方便。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "Tower And Swords：版本 2.60220**",
+            "Tower And Bows：版本 1.50220**",
+            "Token Dungeon 掃蕩",
+            "Sweep Ticket 只能用於至少曾經手動通關一次的 Token Dungeon。",
+            "完成 Token Dungeon 通關後，可以消耗 Token 與 Sweep Ticket 重複進行掃蕩。",
+            "Sweep Ticket 可以透過遊戲內商店購買，或從地牢中取得。",
+            "Sweep Ticket 儲存與物品管理",
+            "支援販售物品、買回已售物品，以及將物品移動至倉庫。"
+          ]
+        }
+      ],
+      "details": "**Tower And Swords：版本 2.60220**\n**Tower And Bows：版本 1.50220**\n\n本次更新新增 Myth IV 難度、全新的冰屬性內容、Token Dungeon 掃蕩功能，以及多項改善。\n\n新增 Myth IV 難度。\n新增一名 Demon Realm Boss。\n新增冰屬性武器與技能。\n新增全新的裝備套裝與文物。\nToken Dungeon 掃蕩\nSweep Ticket 只能用於至少曾經手動通關一次的 Token Dungeon。\n完成 Token Dungeon 通關後，可以消耗 Token 與 Sweep Ticket 重複進行掃蕩。\n這能減少反覆刷地牢的負擔，讓獎勵收集更加方便。\nSweep Ticket 可以透過遊戲內商店購買，或從地牢中取得。\nSweep Ticket 儲存與物品管理\n新增可透過 Consumables 分頁存取倉庫的功能。\n新增多重選取，以及依稀有度全選的功能。\n支援販售物品、買回已售物品，以及將物品移動至倉庫。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1566737594853892127",
+      "discordMessageId": "1566737594853892127",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1561351389945274430",
+      "version": "2.60130",
+      "date": "2026-10-18",
+      "title": "錯誤修正與便利性更新公告",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "降低 Myth II／III Slime Dungeon 中一般怪物與 Boss 的 HP，以減輕重複刷關的負擔。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "# 錯誤修正與便利性更新公告",
+            "共通修正",
+            "修正購買物品發放完成後，存檔資料可能未被正確儲存的問題。",
+            "修正出售裝備或重新整理背包後，可能殘留空白白色欄位或先前裝備圖示的問題。",
+            "Tower And Bows 額外修正",
+            "改善 Nebula Bow 技能連續射擊時可能發生延遲的問題。",
+            "修正傷害數值非常高時，「V」單位可能未正常顯示的問題。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "改善服裝等已購買物品的購買恢復流程，以及恢復結果的提示訊息。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "Tower And Swords 版本 2.60130／Tower And Bows 版本 1.50130 現已在 Android 與 iOS 雙平台發布。**",
+            "怪物的攻擊力與獎勵內容維持不變。"
+          ]
+        }
+      ],
+      "details": "# 錯誤修正與便利性更新公告\n**Tower And Swords 版本 2.60130／Tower And Bows 版本 1.50130 現已在 Android 與 iOS 雙平台發布。**\n共通修正\n\n修正購買物品發放完成後，存檔資料可能未被正確儲存的問題。\n\n改善服裝等已購買物品的購買恢復流程，以及恢復結果的提示訊息。\n\n修正出售裝備或重新整理背包後，可能殘留空白白色欄位或先前裝備圖示的問題。\n\n降低 Myth II／III Slime Dungeon 中一般怪物與 Boss 的 HP，以減輕重複刷關的負擔。\n\n怪物的攻擊力與獎勵內容維持不變。\n\nTower And Bows 額外修正\n\n改善 Nebula Bow 技能連續射擊時可能發生延遲的問題。\n\n修正傷害數值非常高時，「V」單位可能未正常顯示的問題。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1561351389945274430",
+      "discordMessageId": "1561351389945274430",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1560550753431453767",
+      "version": "2.60120",
+      "date": "2026-10-16",
+      "title": "裝備強化成本修正",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "裝備強化成本修正",
+            "修正部分 Demon Realm 套裝裝備的強化成本被錯誤固定為 1,000 個材料的問題。**",
+            "改善批量販售流程可能意外中止的問題。**",
+            "Demon Realm Boss 稱號進度修正",
+            "修正擊敗部分 Demon Realm Boss 時，未正確計入稱號進度的問題。**",
+            "### 掉落率顯示修正",
+            "修正資訊畫面，現在「Lucky One」特性的效果會正確反映在顯示的掉落率中。**"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "### 批量販售穩定性改善",
+            "同時也改善了選取狀態、圖示重新整理，以及販售價值計算。**"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "現有裝備的詞條與強化等級將維持不變。**",
+            "先前未被計入的進度，在更新後再次擊敗對應 Boss 時，將會正常計算。**",
+            "實際物品掉落率與套裝效果數值本身並未變更。**"
+          ]
+        }
+      ],
+      "details": "裝備強化成本修正\n**修正部分 Demon Realm 套裝裝備的強化成本被錯誤固定為 1,000 個材料的問題。**\n\n**現有裝備的詞條與強化等級將維持不變。**\n### 批量販售穩定性改善\n**改善批量販售流程可能意外中止的問題。**\n**同時也改善了選取狀態、圖示重新整理，以及販售價值計算。**\nDemon Realm Boss 稱號進度修正\n**修正擊敗部分 Demon Realm Boss 時，未正確計入稱號進度的問題。**\n\n**先前未被計入的進度，在更新後再次擊敗對應 Boss 時，將會正常計算。**\n### 掉落率顯示修正\n**修正資訊畫面，現在「Lucky One」特性的效果會正確反映在顯示的掉落率中。**\n\n**實際物品掉落率與套裝效果數值本身並未變更。**",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1560550753431453767",
+      "discordMessageId": "1560550753431453767",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1560197586239889489",
+      "version": "2.60110",
+      "date": "2026-10-15",
+      "title": "教學重新出現問題修正",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "教學重新出現問題修正",
+            "修正既有角色或從雲端存檔載入的角色，可能再次出現教學流程的問題。",
+            "寵物購買按鈕修正",
+            "修正商店連線尚未完成時，購買按鈕可能無法正常回應的問題。",
+            "修正購買過程發生錯誤後，購買按鈕可能持續維持停用狀態的問題。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "教學盔甲取得改善",
+            "同時也改善了因背包空間不足或物品生成失敗，導致教學流程無法繼續的情況。",
+            "同時也改善了商店連線狀態提示訊息與重新嘗試的處理機制。",
+            "購買按鈕恢復改善",
+            "商店重新連線穩定性改善",
+            "改善商店連線失敗或中斷後，重新檢查商品資訊與購買紀錄的處理流程。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "教學流程中提供的盔甲，現在不會受到物品篩選或自動販售設定影響。"
+          ]
+        }
+      ],
+      "details": "教學重新出現問題修正\n修正既有角色或從雲端存檔載入的角色，可能再次出現教學流程的問題。\n教學盔甲取得改善\n教學流程中提供的盔甲，現在不會受到物品篩選或自動販售設定影響。\n同時也改善了因背包空間不足或物品生成失敗，導致教學流程無法繼續的情況。\n寵物購買按鈕修正\n修正商店連線尚未完成時，購買按鈕可能無法正常回應的問題。\n同時也改善了商店連線狀態提示訊息與重新嘗試的處理機制。\n購買按鈕恢復改善\n修正購買過程發生錯誤後，購買按鈕可能持續維持停用狀態的問題。\n商店重新連線穩定性改善\n改善商店連線失敗或中斷後，重新檢查商品資訊與購買紀錄的處理流程。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1560197586239889489",
+      "discordMessageId": "1560197586239889489",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1559441176279650396",
+      "version": "2.60100",
+      "date": "2026-10-13",
+      "title": "配合這項調整，第一階段套裝效果的啟動條件已由 2 件 → 3 件。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "配合這項調整，第一階段套裝效果的啟動條件已由 2 件 → 3 件。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "修正部分有效存檔資料或空倉庫可能被錯誤判定，導致玩家無法登入或載入資料的問題。",
+            "修正部分商品資訊讀取失敗時，可能連帶導致正常的寶石商品無法購買的問題。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "存檔資料讀取改善",
+            "同時也改善了現有的資料保護機制，以及載入失敗後的重試處理。",
+            "商店購買穩定性改善",
+            "同時也改善了商品資訊重新讀取，以及購買紀錄檢查的重試機制。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "Tower And Swords 版本 2.60100／Tower And Bows 版本 1.50100 現已在 Android 與 iOS 雙平台發布。",
+            "套裝文物與啟動條件",
+            "製作完成的套裝文物現在只要持有，就會計算為對應套裝的 1 件，即使沒有被選為代表文物也同樣有效。"
+          ]
+        }
+      ],
+      "details": "Tower And Swords 版本 2.60100／Tower And Bows 版本 1.50100 現已在 Android 與 iOS 雙平台發布。\n存檔資料讀取改善\n修正部分有效存檔資料或空倉庫可能被錯誤判定，導致玩家無法登入或載入資料的問題。\n同時也改善了現有的資料保護機制，以及載入失敗後的重試處理。\n商店購買穩定性改善\n修正部分商品資訊讀取失敗時，可能連帶導致正常的寶石商品無法購買的問題。\n同時也改善了商品資訊重新讀取，以及購買紀錄檢查的重試機制。\n套裝文物與啟動條件\n製作完成的套裝文物現在只要持有，就會計算為對應套裝的 1 件，即使沒有被選為代表文物也同樣有效。\n配合這項調整，第一階段套裝效果的啟動條件已由 2 件 → 3 件。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1559441176279650396",
+      "discordMessageId": "1559441176279650396",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1558762078406316073",
+      "version": "2.60090",
+      "date": "2026-10-11",
+      "title": "本次更新修正了以下問題：**",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "本次更新修正了以下問題：**",
+            "修正玩家無法進入 Myth III Token Dungeon 的問題。**",
+            "修正即使傳送門建立失敗，信物仍可能被消耗的問題。**",
+            "修正背包／倉庫中符合條件的裝備，未被正確計入裝備收集類稱號進度的問題。**",
+            "修正增益藥水在無法使用的情況下，仍可能被消耗的問題。**"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "Tower And Bows 的 iOS 版本目前正在等待 Apple 審核。**"
+          ]
+        }
+      ],
+      "details": "**本次更新修正了以下問題：**\n\n**修正玩家無法進入 Myth III Token Dungeon 的問題。**\n\n**修正即使傳送門建立失敗，信物仍可能被消耗的問題。**\n\n**修正背包／倉庫中符合條件的裝備，未被正確計入裝備收集類稱號進度的問題。**\n\n**修正增益藥水在無法使用的情況下，仍可能被消耗的問題。**\n\n**Tower And Bows 的 iOS 版本目前正在等待 Apple 審核。**",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1558762078406316073",
+      "discordMessageId": "1558762078406316073",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1558033951153455166",
+      "version": "2.60080",
+      "date": "2026-10-09",
+      "title": "一旦審核完成，我會盡快發布更新。**",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "本次更新修正了遊戲在讀取存檔資料時可能卡住，或無法正常連線的問題，並改善雲端存檔／讀取流程，以更妥善地保護並保留現有的遊戲進度資料。**",
+            "如果更新至最新版本後仍持續遇到問題，請透過 DM 或私人 Ticket 聯絡我，並附上你的遊戲 UID。**",
+            "我會盡快檢查問題並提供協助。**"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "Tower And Swords 版本 2.60080／Tower And Bows 版本 1.50080 現已在 Google Play 上架。✨**",
+            "iOS 版本目前正在等待 App Store 審核，我也已申請加速審核。**",
+            "一旦審核完成，我會盡快發布更新。**",
+            "對於長時間造成的不便，我真的非常抱歉。**",
+            "感謝所有耐心等待並提供詳細回報的玩家。**"
+          ]
+        }
+      ],
+      "details": "**Tower And Swords 版本 2.60080／Tower And Bows 版本 1.50080 現已在 Google Play 上架。✨**\n\n**本次更新修正了遊戲在讀取存檔資料時可能卡住，或無法正常連線的問題，並改善雲端存檔／讀取流程，以更妥善地保護並保留現有的遊戲進度資料。**\n\n**iOS 版本目前正在等待 App Store 審核，我也已申請加速審核。**\n\n**一旦審核完成，我會盡快發布更新。**\n\n**對於長時間造成的不便，我真的非常抱歉。**\n\n**感謝所有耐心等待並提供詳細回報的玩家。**\n\n**如果更新至最新版本後仍持續遇到問題，請透過 DM 或私人 Ticket 聯絡我，並附上你的遊戲 UID。**\n\n**我會盡快檢查問題並提供協助。**",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1558033951153455166",
+      "discordMessageId": "1558033951153455166",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1557073533845250154",
+      "version": "2.60060",
+      "date": "2026-10-06",
+      "title": "最新版本現已在 Google Play 上架。**",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "本次更新包含以下調整：**",
+            "降低戰鬥過程中的卡頓，並改善觸控操作。",
+            "Lv. 201–599 所需的經驗值已調整為原本的 2 倍。**",
+            "Myth II／Myth III 的怪物經驗值降低 20%。**"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "修正 Slime Dungeon 怪物未生成、Slime 稱號進度未正確計算，以及地牢離開相關問題。**",
+            "修正背包數量顯示、裝備詞條篩選，以及在地化相關問題。**"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "改善雲端存檔讀取／帳號恢復／存檔資料保護機制。**"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "最新版本現已在 Google Play 上架。**",
+            "角色目前的等級與經驗值進度百分比將會保留。**",
+            "iOS 版本目前正在等待 App Store 審核。**",
+            "我已為兩款遊戲申請加速審核，並設定為一旦審核通過就自動發布。**",
+            "還請大家再耐心等待一下。",
+            "## 存檔資料恢復",
+            "如果更新至最新版本後，遊戲進度仍然遺失，請透過私人 Ticket 或 DM 聯絡我，並提供以下資訊：**",
+            "你的遊戲 UID**",
+            "你目前的遊戲版本**",
+            "我會檢查目前可用的備份資料，並在可行的範圍內協助恢復進度。"
+          ]
+        }
+      ],
+      "details": "**最新版本現已在 Google Play 上架。**\n\n**本次更新包含以下調整：**\n\n**改善雲端存檔讀取／帳號恢復／存檔資料保護機制。**\n\n**修正 Slime Dungeon 怪物未生成、Slime 稱號進度未正確計算，以及地牢離開相關問題。**\n\n**修正背包數量顯示、裝備詞條篩選，以及在地化相關問題。**\n\n**降低戰鬥過程中的卡頓，並改善觸控操作。\n\n**Lv. 201–599 所需的經驗值已調整為原本的 2 倍。**\n\n**Myth II／Myth III 的怪物經驗值降低 20%。**\n\n**角色目前的等級與經驗值進度百分比將會保留。**\n\n**iOS 版本目前正在等待 App Store 審核。**\n\n**我已為兩款遊戲申請加速審核，並設定為一旦審核通過就自動發布。**\n\n**還請大家再耐心等待一下。\n\n## 存檔資料恢復\n\n**如果更新至最新版本後，遊戲進度仍然遺失，請透過私人 Ticket 或 DM 聯絡我，並提供以下資訊：**\n\n**你的遊戲 UID**\n\n**你目前的遊戲版本**\n\n**我會檢查目前可用的備份資料，並在可行的範圍內協助恢復進度。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1557073533845250154",
+      "discordMessageId": "1557073533845250154",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1556488139562950699",
+      "version": "2.60030",
+      "date": "2026-10-05",
+      "title": "Tower And Swords：版本 2.60030",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "修正與改善內容",
+            "修正在某些情況下自動存檔可能無法啟動，以及出售物品／卸下裝備／將物品移至倉庫等正常操作，可能被錯誤判定為遊戲進度衝突的問題。",
+            "修正無法進入 Myth III Slime Dungeon 的問題。",
+            "修正部分背景與材料說明缺失的問題。",
+            "修正進入 Boss 區域，或從部分 Demon Realm 畫面關閉並返回後，操作可能失去反應的問題。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "同時也改善了多個存檔請求重疊發生時的處理方式。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "Tower And Swords：版本 2.60030",
+            "雲端存檔",
+            "地牢進入與場景切換"
+          ]
+        }
+      ],
+      "details": "Tower And Swords：版本 2.60030\n\n修正與改善內容\n\n• 雲端存檔\n\n修正在某些情況下自動存檔可能無法啟動，以及出售物品／卸下裝備／將物品移至倉庫等正常操作，可能被錯誤判定為遊戲進度衝突的問題。\n\n同時也改善了多個存檔請求重疊發生時的處理方式。\n\n• 地牢進入與場景切換\n\n修正無法進入 Myth III Slime Dungeon 的問題。\n\n修正部分背景與材料說明缺失的問題。\n\n修正進入 Boss 區域，或從部分 Demon Realm 畫面關閉並返回後，操作可能失去反應的問題。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1556488139562950699",
+      "discordMessageId": "1556488139562950699",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1556211022208049193",
+      "version": "2.60020",
+      "date": "2026-10-04",
+      "title": "包含多項錯誤修正的新版本已經發布。**",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "包含多項錯誤修正的新版本已經發布。**",
+            "對於本次更新後發生的各種問題，我深感抱歉。**",
+            "也非常感謝所有提供詳細錯誤回報的玩家。**",
+            "## 本版本包含的修正內容",
+            "修正 Demon Realm 傳送門可能會導向錯誤的進入畫面，以及關閉相關視窗後遊戲仍可能維持暫停狀態的問題。**",
+            "修正恢復購買內容後無法裝備寵物，以及與寵物欄位處理相關的問題。**",
+            "修正 Ancient Wings 製作材料圖示可能顯示為空白的問題。**",
+            "修正更換 Jewel 詞條時，變更有時可能套用到其他裝備，而不是目前所選裝備的問題。**",
+            "修正多個自動存檔操作重疊時，即使實際上存檔並未失敗，也可能錯誤顯示「存檔失敗」通知的問題。**",
+            "調整解析度處理方式，以改善部分行動裝置上畫面被裁切的問題。**"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "改善教學流程中的觸控／控制器輸入，以及解除暫停狀態的處理方式。**",
+            "改善商店價格顯示與購買內容所有權的判定。**"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "目前仍需要在更多不同裝置上進一步測試。**"
+          ]
+        }
+      ],
+      "details": "**包含多項錯誤修正的新版本已經發布。**\n\n**對於本次更新後發生的各種問題，我深感抱歉。**\n\n**也非常感謝所有提供詳細錯誤回報的玩家。**\n\n## 本版本包含的修正內容\n\n**修正 Demon Realm 傳送門可能會導向錯誤的進入畫面，以及關閉相關視窗後遊戲仍可能維持暫停狀態的問題。**\n\n**修正恢復購買內容後無法裝備寵物，以及與寵物欄位處理相關的問題。**\n\n**修正 Ancient Wings 製作材料圖示可能顯示為空白的問題。**\n\n**改善教學流程中的觸控／控制器輸入，以及解除暫停狀態的處理方式。**\n\n**修正更換 Jewel 詞條時，變更有時可能套用到其他裝備，而不是目前所選裝備的問題。**\n\n**改善商店價格顯示與購買內容所有權的判定。**\n\n**修正多個自動存檔操作重疊時，即使實際上存檔並未失敗，也可能錯誤顯示「存檔失敗」通知的問題。**\n\n**調整解析度處理方式，以改善部分行動裝置上畫面被裁切的問題。**\n\n**目前仍需要在更多不同裝置上進一步測試。**",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1556211022208049193",
+      "discordMessageId": "1556211022208049193",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1507526925013483631",
+      "version": "2.554",
+      "date": "2026-05-22",
+      "title": "Bug Fix Update Notice（錯誤修正）",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "設定分頁新增傷害顯示開關等多項選項變更"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "# Bug Fix Update Notice（錯誤修正）",
+            "## Fixes & Changes（修正與調整）",
+            "錯誤bug修正"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "設定分頁變更"
+          ]
+        }
+      ],
+      "details": "# Bug Fix Update Notice（錯誤修正）\n## Fixes & Changes（修正與調整）\n* 設定分頁變更\n* 設定分頁新增傷害顯示開關等多項選項變更\n* 錯誤bug修正",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1507526925013483631",
+      "discordMessageId": "1507526925013483631",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1506339294044880926",
+      "version": "2.554",
+      "date": "2026-05-19",
+      "title": "Bug Fix Update Notice（錯誤修正",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "設定頁面新增或調整了 傷害顯示（Damage Display）、對話顯示 ON/OFF、以及 按鈕透明度調整（Button Transparency Adjustment） 等功能。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "# Bug Fix Update Notice（錯誤修正",
+            "## Fixes & Changes（修正與調整）",
+            "部分已確認的錯誤已修復。",
+            "目前已套用於 Google Play 版本的額外修正，也將於近期同步更新至 iOS App Store 版本。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "已更新 設定頁面（Settings tab）。",
+            "## Steam Release（Steam 版本）",
+            "由於 Steam 發布需要經過最低等待審核時間，Steam 版本目前預計將於 6 月 2 日左右 上線。"
+          ]
+        }
+      ],
+      "details": "# Bug Fix Update Notice（錯誤修正\n## Fixes & Changes（修正與調整）\n已更新 設定頁面（Settings tab）。\n設定頁面新增或調整了 傷害顯示（Damage Display）、對話顯示 ON/OFF、以及 按鈕透明度調整（Button Transparency Adjustment） 等功能。\n部分已確認的錯誤已修復。\n目前已套用於 Google Play 版本的額外修正，也將於近期同步更新至 iOS App Store 版本。\n## Steam Release（Steam 版本）\n由於 Steam 發布需要經過最低等待審核時間，Steam 版本目前預計將於 6 月 2 日左右 上線。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1506339294044880926",
+      "discordMessageId": "1506339294044880926",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1501279706467668139",
+      "version": "2.552",
+      "date": "2026-05-05",
+      "title": "Fixes（問題修正）",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "新增「黑市 NPC（Black Market NPC）」對話內容。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "## Fixes（問題修正）",
+            "修正部分對話未正確套用的問題。",
+            "修正對話顯示語言偶爾與設定語言不一致的問題。",
+            "其他已確認的錯誤亦已修復。"
+          ]
+        }
+      ],
+      "details": "## Fixes（問題修正）\n新增「黑市 NPC（Black Market NPC）」對話內容。\n\n修正部分對話未正確套用的問題。\n\n修正對話顯示語言偶爾與設定語言不一致的問題。\n\n其他已確認的錯誤亦已修復。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1501279706467668139",
+      "discordMessageId": "1501279706467668139",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1500780750885224579",
+      "version": "2.551",
+      "date": "2026-05-04",
+      "title": "Fixes（問題修正）",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "## Fixes（問題修正）",
+            "修正商店分頁中部分 UI 元件無法正常運作的問題。",
+            "修正部分技能無法連續使用的問題。",
+            "修正多餘資料累積導致效能下降的問題。",
+            "修正對話顯示相關問題，並優化相關系統。",
+            "後續將修正對話語言可能與設定語言不一致的問題。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "## Upcoming Improvements（後續優化）"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "關於下一次更新計畫，將於近期另行公告。",
+            "## Developer Note（開發者說明）",
+            "未來將把更新內容拆分為較小項目，並盡可能提高更新頻率。"
+          ]
+        }
+      ],
+      "details": "## Fixes（問題修正）\n修正商店分頁中部分 UI 元件無法正常運作的問題。\n修正部分技能無法連續使用的問題。\n修正多餘資料累積導致效能下降的問題。\n修正對話顯示相關問題，並優化相關系統。\n## Upcoming Improvements（後續優化）\n後續將修正對話語言可能與設定語言不一致的問題。\n關於下一次更新計畫，將於近期另行公告。\n## Developer Note（開發者說明）\n未來將把更新內容拆分為較小項目，並盡可能提高更新頻率。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1500780750885224579",
+      "discordMessageId": "1500780750885224579",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1499924802012713091",
+      "version": "2.550",
+      "date": "2026-05-02",
+      "title": "遊戲版本更新",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "新增部分可使用寶石（Gems）購買的商品。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "部分商品套用問題已改善。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "## In-App Purchase Improvements（內購系統優化）",
+            "UI 結構已重新設計，相較於過去的無限滾動方式，商品顯示更加清晰。後續仍會持續優化。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "遊戲內商品列表已重新整理，並導入新的系統。",
+            "### Details（詳細內容）",
+            "部分商品將依期間動態隨機提供。",
+            "每日商品（Today’s Products）：每日可購買一次。",
+            "每週特別商品（Weekly Special Products）：每週可購買一次。",
+            "這些商品會依據玩家的最高通關難度與日期決定，並統一套用於所有玩家。"
+          ]
+        }
+      ],
+      "details": "## In-App Purchase Improvements（內購系統優化）\n\n遊戲內商品列表已重新整理，並導入新的系統。\n\nUI 結構已重新設計，相較於過去的無限滾動方式，商品顯示更加清晰。後續仍會持續優化。\n### Details（詳細內容）\n部分商品套用問題已改善。\n部分商品將依期間動態隨機提供。\n每日商品（Today’s Products）：每日可購買一次。\n每週特別商品（Weekly Special Products）：每週可購買一次。\n新增部分可使用寶石（Gems）購買的商品。\n這些商品會依據玩家的最高通關難度與日期決定，並統一套用於所有玩家。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1499924802012713091",
+      "discordMessageId": "1499924802012713091",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1485605168081801287",
+      "version": "2.502",
+      "date": "2026-03-23",
+      "title": "Fixes / 修正內容",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "靠近雕像時新增**「普通攻擊」提示文字**。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "# Fixes / 修正內容",
+            "修正增益藥水未自動使用的問題。",
+            "修正已通關關卡未套用1.2 倍移動速度加成的問題。",
+            "修正雕像變成怪物時仍會掉落道具的問題。",
+            "改善內購相關問題。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "守護者雕像現在僅會掉落遺物材料。",
+            "若守護者雕像並非一般雕像，則隱藏房間內的獎勵會提高。"
+          ]
+        }
+      ],
+      "details": "# Fixes / 修正內容\n修正增益藥水未自動使用的問題。\n修正已通關關卡未套用1.2 倍移動速度加成的問題。\n靠近雕像時新增**「普通攻擊」提示文字**。\n修正雕像變成怪物時仍會掉落道具的問題。\n守護者雕像現在僅會掉落遺物材料。\n若守護者雕像並非一般雕像，則隱藏房間內的獎勵會提高。\n改善內購相關問題。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1485605168081801287",
+      "discordMessageId": "1485605168081801287",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1485457725239595039",
+      "version": "2.501",
+      "date": "2026-03-23",
+      "title": "遊戲版本更新",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "## Hidden Room Mechanic Added to Towers / 塔內新增隱藏房間機制",
+            "未來將持續新增更多房間類型。"
+          ]
+        },
+        {
+          "heading": "數值調整",
+          "items": [
+            "（位置設計明顯，不會增加過多遊戲負擔）"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "Details below/詳細內容如下：",
+            "地牢中有機率出現隱藏房間。",
+            "入口處會有一座雕像，破壞後即可開啟隱藏房間。",
+            "在隱藏房間中，可能會遇到寶物房、黑市房、菁英怪房、寶石房與金幣房。",
+            "（黑市房原為通關後出現，並提供部分折扣商品）",
+            "即使持有眼鏡遺物，小地圖也無法顯示隱藏房間。"
+          ]
+        }
+      ],
+      "details": "Details below/詳細內容如下：\n## Hidden Room Mechanic Added to Towers / 塔內新增隱藏房間機制\n地牢中有機率出現隱藏房間。\n入口處會有一座雕像，破壞後即可開啟隱藏房間。\n（位置設計明顯，不會增加過多遊戲負擔）\n在隱藏房間中，可能會遇到寶物房、黑市房、菁英怪房、寶石房與金幣房。\n（黑市房原為通關後出現，並提供部分折扣商品）\n未來將持續新增更多房間類型。\n即使持有眼鏡遺物，小地圖也無法顯示隱藏房間。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1485457725239595039",
+      "discordMessageId": "1485457725239595039",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1475380214120058890",
+      "version": "2.413",
+      "date": "2026-02-23",
+      "title": "Updated Versions｜更新版本",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "# Fixes & Improvements｜修正與改善",
+            "修正史萊姆地牢遺物掉落資訊顯示異常問題。",
+            "修正裝備升級時發生的錯誤。",
+            "修正角色死亡後部分 UI 仍異常運作的問題。",
+            "其他已知問題修正。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "優化整體效能，包含物品載入性能改善。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "# Updated Versions｜更新版本",
+            "對部分技能套用內部系統最佳化。"
+          ]
+        }
+      ],
+      "details": "# Updated Versions｜更新版本\n# Fixes & Improvements｜修正與改善\n優化整體效能，包含物品載入性能改善。\n對部分技能套用內部系統最佳化。\n修正史萊姆地牢遺物掉落資訊顯示異常問題。\n修正裝備升級時發生的錯誤。\n修正角色死亡後部分 UI 仍異常運作的問題。\n其他已知問題修正。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1475380214120058890",
+      "discordMessageId": "1475380214120058890",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1475011626095874230",
+      "version": "2.412",
+      "date": "2026-02-22",
+      "title": "更新版本/Updated Versions",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "# 修正內容/Fixes",
+            "已實施第一階段優化，以降低 iOS 頻繁閃退問題。",
+            "修正史萊姆遺物「Lightning Slime’s Energy」名稱與說明顯示為「???」的問題。",
+            "修正部分遺物升級未正常運作的問題。",
+            "修正 Unverified Myth II Tokens 無法兌換為 Myth II Dungeon Tokens 的問題。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "# 更新版本/Updated Versions",
+            "將史萊姆遺物的最低掉落率由 20% 提升至 30%。"
+          ]
+        }
+      ],
+      "details": "# 更新版本/Updated Versions\n\n# 修正內容/Fixes\n* 已實施第一階段優化，以降低 iOS 頻繁閃退問題。\n* 修正史萊姆遺物「Lightning Slime’s Energy」名稱與說明顯示為「???」的問題。\n* 將史萊姆遺物的最低掉落率由 20% 提升至 30%。\n* 修正部分遺物升級未正常運作的問題。\n* 修正 Unverified Myth II Tokens 無法兌換為 Myth II Dungeon Tokens 的問題。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1475011626095874230",
+      "discordMessageId": "1475011626095874230",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1474660009156546601",
+      "version": "2.410",
+      "date": "2026-02-21",
+      "title": "更新版本/ Updated Versions",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "新增可調整手把移動輸入方式的選項："
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "優化手把按鍵自訂功能，並修正相關問題。",
+            "修正 Myth II 代幣 無法於 女神處兌換的問題。",
+            "其他小型錯誤修正。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "增益藥水計時優化",
+            "自動增益使用優化",
+            "強化 / 效能 / 操作優化",
+            "部分視覺效果簡化，以提升效能表現。",
+            "改善鍵盤與手把同時使用時的操作行為。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "# 更新版本/ Updated Versions",
+            "Changes/更新內容",
+            ">> 史萊姆地牢屬性規則更新",
+            "史萊姆地牢的屬性，現在會受到生成該地牢的塔屬性影響：",
+            "史萊姆草原： 無屬性（隨機）",
+            "烈焰區域： 於火屬性主題背景的塔出現",
+            "冰凍區域： 於冰屬性主題背景的塔出現",
+            "史萊姆工廠： 於雷屬性 Boss（塔主）地圖出現（第 5 與第 6 塔）",
+            "剩餘增益時間 現可即時更新。",
+            "重新連線後，計時仍會保留。",
+            "此功能僅在保持網路連線狀態下生效。",
+            "自動使用功能現在可消耗存放於倉庫中的藥水。",
+            "使用自動增益時，可將增益藥水存放於倉庫，身上僅需攜帶復活藥水。",
+            "即使強化石存放於倉庫中，現在也可直接進行裝備強化。",
+            "## Left stick / D-pad / Right stick左搖桿 / 方向鍵 / 右搖桿"
+          ]
+        }
+      ],
+      "details": "# 更新版本/ Updated Versions\nChanges/更新內容\n\n>> 史萊姆地牢屬性規則更新\n史萊姆地牢的屬性，現在會受到生成該地牢的塔屬性影響：\n史萊姆草原： 無屬性（隨機）\n烈焰區域： 於火屬性主題背景的塔出現\n冰凍區域： 於冰屬性主題背景的塔出現\n史萊姆工廠： 於雷屬性 Boss（塔主）地圖出現（第 5 與第 6 塔）\n\n增益藥水計時優化\n剩餘增益時間 現可即時更新。\n重新連線後，計時仍會保留。\n此功能僅在保持網路連線狀態下生效。\n\n自動增益使用優化\n自動使用功能現在可消耗存放於倉庫中的藥水。\n使用自動增益時，可將增益藥水存放於倉庫，身上僅需攜帶復活藥水。\n\n強化 / 效能 / 操作優化\n即使強化石存放於倉庫中，現在也可直接進行裝備強化。\n部分視覺效果簡化，以提升效能表現。\n新增可調整手把移動輸入方式的選項：\n\n## Left stick / D-pad / Right stick左搖桿 / 方向鍵 / 右搖桿\n優化手把按鍵自訂功能，並修正相關問題。\n改善鍵盤與手把同時使用時的操作行為。\n修正 Myth II 代幣 無法於 女神處兌換的問題。\n\n其他小型錯誤修正。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1474660009156546601",
+      "discordMessageId": "1474660009156546601",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1472024007954923580",
+      "version": "2.404",
+      "date": "2026-02-14",
+      "title": "更新版本/ Updated Versions",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "調整 Lv.210 以上玩家的 EXP 獲得量（等級越高，調整幅度越大）"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "# 修正與調整/Fixes & Changes",
+            "修正 史萊姆地牢文字問題",
+            "修正死亡後從史萊姆地牢返回時，計數分頁仍持續顯示的問題",
+            "修正 寶石相關異常問題",
+            "修正 Gold Coin 遺物在強化 +25 以上時使用錯誤材料的問題"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "改善小地圖辨識度，Boss 怪物現以專屬圖示顯示",
+            "優化寵物自動販售功能：即使背包已滿，符合條件的物品仍可自動拾取並立即販售（需 Merchant Fairy 效果）"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "# 更新版本/ Updated Versions"
+          ]
+        }
+      ],
+      "details": "# 更新版本/ Updated Versions\n\n# 修正與調整/Fixes & Changes\n* 調整 Lv.210 以上玩家的 EXP 獲得量（等級越高，調整幅度越大）\n* 修正 史萊姆地牢文字問題\n* 修正死亡後從史萊姆地牢返回時，計數分頁仍持續顯示的問題\n* 改善小地圖辨識度，Boss 怪物現以專屬圖示顯示\n* 優化寵物自動販售功能：即使背包已滿，符合條件的物品仍可自動拾取並立即販售（需 Merchant Fairy 效果）\n* 修正 寶石相關異常問題\n* 修正 Gold Coin 遺物在強化 +25 以上時使用錯誤材料的問題",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1472024007954923580",
+      "discordMessageId": "1472024007954923580",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1471664440159109274",
+      "version": "2.403",
+      "date": "2026-02-13",
+      "title": "更新版本/ Updated Versions",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "# 修正內容/ Fixes",
+            "修正 裝備稀有度標籤顯示錯誤",
+            "修正 新遺物資訊未正確顯示的問題",
+            "（Bows）修正 衝刺位置變更未儲存的問題",
+            "（Bows）修正 任務獎勵武器未正確發放或顯示的問題"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "# 更新版本/ Updated Versions"
+          ]
+        }
+      ],
+      "details": "# 更新版本/ Updated Versions\n\n# 修正內容/ Fixes\n\n* 修正 裝備稀有度標籤顯示錯誤\n* 修正 新遺物資訊未正確顯示的問題\n* （Bows）修正 衝刺位置變更未儲存的問題\n* （Bows）修正 任務獎勵武器未正確發放或顯示的問題",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1471664440159109274",
+      "discordMessageId": "1471664440159109274",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1471277069592821781",
+      "version": "2.402",
+      "date": "2026-02-11",
+      "title": "修正內容/Fixes",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "# 修正內容/Fixes",
+            "（Swords）修正透過女神傳送離開地城後，遊戲仍維持暫停狀態的問題。",
+            "（Bows）修正於無存檔資料下使用 Load 時，「啟動副武器 2」效果未正確套用的問題。",
+            "修正 史萊姆地牢文字未正確在地化或顯示異常的問題。"
+          ]
+        }
+      ],
+      "details": "# 修正內容/Fixes\n* （Swords）修正透過女神傳送離開地城後，遊戲仍維持暫停狀態的問題。\n* （Bows）修正於無存檔資料下使用 Load 時，「啟動副武器 2」效果未正確套用的問題。\n* 修正 史萊姆地牢文字未正確在地化或顯示異常的問題。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1471277069592821781",
+      "discordMessageId": "1471277069592821781",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1471083300939501619",
+      "version": "2.400",
+      "date": "2026-02-11",
+      "title": "Details below/ 更新內容如下：",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "▸ 新增多種史萊姆果凍，提供 EXP／Gold／Gems／掉落率／時間加成"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "# Update Notes (EN / 中文對照)",
+            "Details below/ 更新內容如下：",
+            "▸ 基礎 30 秒地城（可透過道具延長時間）",
+            "▸通關塔樓後有機率出現；若未出現機率將累積",
+            "▸ 短時間大量重生怪物 → 高額 EXP",
+            "▸ 進入前可設置最多 4 種材料（可直接使用倉庫物品）",
+            "▸ 採用大型單一地圖設計（非小房間制）",
+            "▸ Boss 隨機位置生成；升級眼鏡遺物後可於小地圖顯示",
+            "▸ Boss 掉落史萊姆果凍與遺物製作材料",
+            "▸ 日／夜版本共 4 張地圖，依難度解鎖並隨機選擇"
+          ]
+        }
+      ],
+      "details": "# Update Notes (EN / 中文對照)\n\nDetails below/ 更新內容如下：\n▸ 基礎 30 秒地城（可透過道具延長時間）\n▸通關塔樓後有機率出現；若未出現機率將累積\n▸ 短時間大量重生怪物 → 高額 EXP\n▸ 進入前可設置最多 4 種材料（可直接使用倉庫物品）\n▸ 新增多種史萊姆果凍，提供 EXP／Gold／Gems／掉落率／時間加成\n▸ 採用大型單一地圖設計（非小房間制）\n▸ Boss 隨機位置生成；升級眼鏡遺物後可於小地圖顯示\n▸ Boss 掉落史萊姆果凍與遺物製作材料\n▸ 日／夜版本共 4 張地圖，依難度解鎖並隨機選擇",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1471083300939501619",
+      "discordMessageId": "1471083300939501619",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1460992545113899010",
+      "version": "2.322",
+      "date": "2026-01-14",
+      "title": "更新內容",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "### 活動武器平衡調整",
+            "投射物飛行速度略為降低，且 AoE 範圍縮小",
+            "施放後延遲降低、冷卻時間縮短（提升操作手感）",
+            "施放後延遲降低"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "修正已知 Bug。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "## 更新內容",
+            "### 鍵盤／手把支援",
+            "可選擇使用 方向鍵 或 WASD 進行移動。",
+            "變更移動方式時，會套用預設鍵位配置。",
+            "連接手把後會自動偵測。",
+            "聖誕劍**",
+            "（此為前一版更新的內容，現已正確套用）",
+            "聖誕弓**",
+            "AoE 範圍微調",
+            "### 其他",
+            "塔和弓中，部分技能的冷卻時間縮短。"
+          ]
+        }
+      ],
+      "details": "## 更新內容\n### 鍵盤／手把支援\n\n* 可選擇使用 方向鍵 或 WASD 進行移動。\n* 變更移動方式時，會套用預設鍵位配置。\n* 連接手把後會自動偵測。\n\n### 活動武器平衡調整\n\n**聖誕劍**\n* 投射物飛行速度略為降低，且 AoE 範圍縮小\n（此為前一版更新的內容，現已正確套用）\n* 施放後延遲降低、冷卻時間縮短（提升操作手感）\n\n**聖誕弓**\n* AoE 範圍微調\n* 施放後延遲降低\n\n### 其他\n\n* 塔和弓中，部分技能的冷卻時間縮短。\n* 修正已知 Bug。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1460992545113899010",
+      "discordMessageId": "1460992545113899010",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1459403370887516394",
+      "version": "2.321",
+      "date": "2026-01-10",
+      "title": "更新內容",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "新增 ON / OFF 開關，可自行選擇是否啟用生成靈魂之劍。"
+          ]
+        },
+        {
+          "heading": "數值調整",
+          "items": [
+            "活動武器平衡調整",
+            "聖誕劍：投射物飛行速度略為降低"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "## 更新內容",
+            "商店分頁圖示尺寸略微縮小，讓螢幕比例較高的裝置能在同一畫面中顯示更多商品。",
+            "聖誕弓：傷害百分比提高",
+            "劍聖服裝（塔和劍）",
+            "「生成靈魂之劍（Create Soul Sword）」改為持有即生效（自動啟動）的效果。"
+          ]
+        }
+      ],
+      "details": "## 更新內容\n* 商店分頁圖示尺寸略微縮小，讓螢幕比例較高的裝置能在同一畫面中顯示更多商品。\n* 活動武器平衡調整\n* 聖誕劍：投射物飛行速度略為降低\n* 聖誕弓：傷害百分比提高\n\n* 劍聖服裝（塔和劍）\n* 「生成靈魂之劍（Create Soul Sword）」改為持有即生效（自動啟動）的效果。\n* 新增 ON / OFF 開關，可自行選擇是否啟用生成靈魂之劍。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1459403370887516394",
+      "discordMessageId": "1459403370887516394",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1459089370861670482",
+      "version": "2.320",
+      "date": "2026-01-09",
+      "title": "全新更新已上線，包含多項改善內容與聖誕活動（2）：雪晶商店！🎄✨",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "僅在連線狀態下開放。"
+          ]
+        },
+        {
+          "heading": "數值調整",
+          "items": [
+            "主動技能的魔力消耗降低。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "平衡調整與修正",
+            "修正已知 Bug。",
+            "下一次更新：更多 Bug 修正，以及各商店分頁圖示大小調整。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "全新更新已上線，包含多項改善內容與聖誕活動（2）：雪晶商店！🎄✨",
+            "商店相關系統改善。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "活動商店：",
+            "點擊畫面上方的聖誕圖示即可進入商店。",
+            "使用雪晶購買：",
+            "活動武器（聖誕劍／聖誕弓）",
+            "增益／復活藥水",
+            "寶石（例如：潛能寶石）",
+            "強化石（需挑戰難度或以上）",
+            "活動武器的價格會隨武器等級略為提高。",
+            "活動商店為僅可購買，不支援販售。",
+            "活動武器",
+            "活動期間可取得，並使用冰屬性技能 ❄️",
+            "塔和弓：使用蓄力型技能後的延遲時間略為縮短。",
+            "即將推出",
+            "在《塔和劍》中，劍聖服裝的「靈劍」生成效果將改為持有型（被動）效果。",
+            "聖誕活動將持續至 1 月 20 日。",
+            "史萊姆地城與難度擴充內容準備完成後將另行公告。"
+          ]
+        }
+      ],
+      "details": "全新更新已上線，包含多項改善內容與聖誕活動（2）：雪晶商店！🎄✨\n\n活動商店：\n僅在連線狀態下開放。\n點擊畫面上方的聖誕圖示即可進入商店。\n使用雪晶購買：\n活動武器（聖誕劍／聖誕弓）\n增益／復活藥水\n寶石（例如：潛能寶石）\n強化石（需挑戰難度或以上）\n活動武器的價格會隨武器等級略為提高。\n活動商店為僅可購買，不支援販售。\n\n活動武器\n活動期間可取得，並使用冰屬性技能 ❄️\n\n平衡調整與修正\n主動技能的魔力消耗降低。\n商店相關系統改善。\n修正已知 Bug。\n塔和弓：使用蓄力型技能後的延遲時間略為縮短。\n\n即將推出\n下一次更新：更多 Bug 修正，以及各商店分頁圖示大小調整。\n在《塔和劍》中，劍聖服裝的「靈劍」生成效果將改為持有型（被動）效果。\n聖誕活動將持續至 1 月 20 日。\n史萊姆地城與難度擴充內容準備完成後將另行公告。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1459089370861670482",
+      "discordMessageId": "1459089370861670482",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1455046409437974528",
+      "version": "2.312",
+      "date": "2025-12-29",
+      "title": "修正了小魯道夫與龍捲風寵物的移動速度增益無法正確疊加的問題。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "在《塔與劍》中，調整了聖物（Relic）道具資訊頁籤大小，避免與其他資訊重疊。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "修正了小魯道夫與龍捲風寵物的移動速度增益無法正確疊加的問題。"
+          ]
+        }
+      ],
+      "details": "修正了小魯道夫與龍捲風寵物的移動速度增益無法正確疊加的問題。\n在《塔與劍》中，調整了聖物（Relic）道具資訊頁籤大小，避免與其他資訊重疊。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1455046409437974528",
+      "discordMessageId": "1455046409437974528",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1454678432519553045",
+      "version": "2.311",
+      "date": "2025-12-28",
+      "title": "更新說明  繁體中文",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "雪晶專屬商店 將於 數日內的追加更新中實裝 🧊🛍️"
+          ]
+        },
+        {
+          "heading": "數值調整",
+          "items": [
+            "已調整整體平衡，一般遊玩即可合理取得活動造型與寵物，無需強制課金。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "我們發現造型與寵物效果未正確套用的問題，經過額外修正與審查後，導致版本稍有延遲。",
+            "若在遊戲中遇到任何 Bug，歡迎回報，我會盡快修正。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "效果：道具吸附（磁吸）＋移動速度 +20%"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "# 更新說明  繁體中文",
+            "## 🎄 聖誕活動版本已正式上線！✨",
+            "Google Play 與 App Store 現已更新完成！",
+            "劍系版本：Ver. 2.311",
+            "弓系版本：Ver. 1.211",
+            "感謝各位玩家的耐心與體諒 🙏",
+            "## 🎁 活動內容說明",
+            "普通塔地下城（第 1 層至最終塔） 中，將會出現 聖誕怪物。",
+            "地圖上會以高機率刷新一小群 聖誕怪物，並有較低機率出現活動 Boss「聖誕哥布林（Santa Goblin）」。",
+            "擊敗活動怪物可獲得 雪晶（Snow Crystals）。",
+            "當達成條件時，也可透過 暫停選單 → 商店，以購買型獎勵方式取得雪晶。",
+            "## 🐾 活動寵物與造型",
+            "樹靈（Tree Spirit）",
+            "活動期間登入即可獲得",
+            "效果：小範圍道具吸附（磁吸）",
+            "小魯道夫（Little Rudolph）",
+            "使用 雪晶兌換",
+            "## 🔜 後續更新預告",
+            "活動期間：即日起至 1 月 20 日 🎁🐾",
+            "後續將依序推出：",
+            "活動商店",
+            "難度擴充",
+            "史萊姆地下城",
+            "高強度 Boss 內容",
+            "## 🙏 結語",
+            "再次為版本延遲致歉，感謝各位的支持與等待。"
+          ]
+        }
+      ],
+      "details": "# 更新說明  繁體中文\n## 🎄 聖誕活動版本已正式上線！✨\nGoogle Play 與 App Store 現已更新完成！\n劍系版本：Ver. 2.311\n弓系版本：Ver. 1.211\n我們發現造型與寵物效果未正確套用的問題，經過額外修正與審查後，導致版本稍有延遲。\n感謝各位玩家的耐心與體諒 🙏\n## 🎁 活動內容說明\n普通塔地下城（第 1 層至最終塔） 中，將會出現 聖誕怪物。\n地圖上會以高機率刷新一小群 聖誕怪物，並有較低機率出現活動 Boss「聖誕哥布林（Santa Goblin）」。\n擊敗活動怪物可獲得 雪晶（Snow Crystals）。\n當達成條件時，也可透過 暫停選單 → 商店，以購買型獎勵方式取得雪晶。\n## 🐾 活動寵物與造型\n樹靈（Tree Spirit）\n活動期間登入即可獲得\n效果：小範圍道具吸附（磁吸）\n小魯道夫（Little Rudolph）\n使用 雪晶兌換\n效果：道具吸附（磁吸）＋移動速度 +20%\n已調整整體平衡，一般遊玩即可合理取得活動造型與寵物，無需強制課金。\n## 🔜 後續更新預告\n雪晶專屬商店 將於 數日內的追加更新中實裝 🧊🛍️\n活動期間：即日起至 1 月 20 日 🎁🐾\n後續將依序推出：\n活動商店\n難度擴充\n史萊姆地下城\n高強度 Boss 內容\n## 🙏 結語\n再次為版本延遲致歉，感謝各位的支持與等待。\n若在遊戲中遇到任何 Bug，歡迎回報，我會盡快修正。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1454678432519553045",
+      "discordMessageId": "1454678432519553045",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1425641613249478707",
+      "version": "2.308",
+      "date": "2025-10-09",
+      "title": "其他已確認的錯誤也已修正。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "下一次大型更新將新增 全新地牢與更多內容，預計在 10 月底 推出。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "修復了數個與圖像相關的問題。",
+            "其他已確認的錯誤也已修正。"
+          ]
+        },
+        {
+          "heading": "系統優化",
+          "items": [
+            "物品拾取範圍與速度將依照裝備的寵物數量（1–4 隻）提升。",
+            "改善了搖桿操作手感。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "目前團隊正優先處理 Steam（PC 版），目前正在進行版本驗證與平台審核。",
+            "我們的目標是於 10 月中至下旬 推出 PC 搶先體驗版，",
+            "並在 10 月底 推出 主要地牢擴充更新。",
+            "推出後，玩家將可透過 Steam 在 PC 與行動裝置 間無縫遊玩。",
+            "再次感謝大家的耐心與支持——這對我們意義重大！✨"
+          ]
+        }
+      ],
+      "details": "物品拾取範圍與速度將依照裝備的寵物數量（1–4 隻）提升。\n改善了搖桿操作手感。\n修復了數個與圖像相關的問題。\n其他已確認的錯誤也已修正。\n\n下一次大型更新將新增 全新地牢與更多內容，預計在 10 月底 推出。\n目前團隊正優先處理 Steam（PC 版），目前正在進行版本驗證與平台審核。\n\n我們的目標是於 10 月中至下旬 推出 PC 搶先體驗版，\n並在 10 月底 推出 主要地牢擴充更新。\n\n推出後，玩家將可透過 Steam 在 PC 與行動裝置 間無縫遊玩。\n再次感謝大家的耐心與支持——這對我們意義重大！✨",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1425641613249478707",
+      "discordMessageId": "1425641613249478707",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1422450208960417812",
+      "version": "2.307",
+      "date": "2025-09-30",
+      "title": "將技能 「衝刺攻擊」 更名為 「強力波」，並更新了技能描述",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "修復了被動魔法點數可用卻無法分配的問題",
+            "改善了部分情況下，被動魔法預設會被重置的問題",
+            "修復了在特殊地牢資訊中，耳環掉落率未顯示的錯誤",
+            "部分搖桿問題已改善，但仍需要進一步測試與調整，後續將推出更完整的更新"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "強化了牆體碰撞系統",
+            "將技能 「衝刺攻擊」 更名為 「強力波」，並更新了技能描述",
+            "更多便利性功能也將在近期更新"
+          ]
+        }
+      ],
+      "details": "修復了被動魔法點數可用卻無法分配的問題\n改善了部分情況下，被動魔法預設會被重置的問題\n修復了在特殊地牢資訊中，耳環掉落率未顯示的錯誤\n強化了牆體碰撞系統\n將技能 「衝刺攻擊」 更名為 「強力波」，並更新了技能描述\n\n部分搖桿問題已改善，但仍需要進一步測試與調整，後續將推出更完整的更新\n更多便利性功能也將在近期更新",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1422450208960417812",
+      "discordMessageId": "1422450208960417812",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1421403129777487904",
+      "version": "2.306",
+      "date": "2025-09-27",
+      "title": "遊戲版本更新",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "修復了狂戰士被動魔法在某些情況下未正確生效的問題",
+            "修復了狂戰士被動魔法效果未正確顯示的錯誤",
+            "修復了靈魂注入弓手服裝效果未正確生效的問題"
+          ]
+        }
+      ],
+      "details": "修復了狂戰士被動魔法在某些情況下未正確生效的問題\n修復了狂戰士被動魔法效果未正確顯示的錯誤\n修復了靈魂注入弓手服裝效果未正確生效的問題",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1421403129777487904",
+      "discordMessageId": "1421403129777487904",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1421191856129052776",
+      "version": "2.305",
+      "date": "2025-09-26",
+      "title": "App Store 的更新也會在審核通過後盡快上架。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "修復了與搖桿相關的錯誤（解析度與位置問題）",
+            "修復了靈魂注入弓手服裝傷害未能正確套用的錯誤",
+            "修復了狂戰士服裝的倍率，即使不在狂戰士狀態下仍被錯誤套用的問題",
+            "修復了防禦數值未能正確套用的錯誤",
+            "修復了進入「苦難試煉」地城（神話難度）時，介面無法正常運作的問題",
+            "此次修正更新已先在 Google Play 商店 發佈，因為審核較早完成。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "App Store 的更新也會在審核通過後盡快上架。"
+          ]
+        }
+      ],
+      "details": "修復了與搖桿相關的錯誤（解析度與位置問題）\n修復了靈魂注入弓手服裝傷害未能正確套用的錯誤\n修復了狂戰士服裝的倍率，即使不在狂戰士狀態下仍被錯誤套用的問題\n修復了防禦數值未能正確套用的錯誤\n修復了進入「苦難試煉」地城（神話難度）時，介面無法正常運作的問題\n此次修正更新已先在 Google Play 商店 發佈，因為審核較早完成。\nApp Store 的更新也會在審核通過後盡快上架。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1421191856129052776",
+      "discordMessageId": "1421191856129052776",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1356468631709679738",
+      "version": "2.231",
+      "date": "2025-04-01",
+      "title": "資訊標籤已更新，以顯示增加魔法等級和減少 MP 消耗等選項。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "現有珠寶的掉落率已增加。**",
+            "資訊標籤已更新，以顯示增加魔法等級和減少 MP 消耗等選項。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "已修復一些字體錯誤。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "👏   **2025年3月30日  V2.231~232**",
+            "基本遊戲亮度略為提高。",
+            "添加了機遇之珠和深淵之珠。當使用這些寶石變更選項時，您可以在現有選項和變更的選項之間進行選擇。",
+            "添加了進化寶石。您可以將特殊等級的物品升級為傳奇等級。",
+            "寶石使用UI已改進，更加方便。",
+            "300 級以上的物品也已修改為掉落。"
+          ]
+        }
+      ],
+      "details": "👏   **2025年3月30日  V2.231~232**\n\n- 已修復一些字體錯誤。\n- 基本遊戲亮度略為提高。\n- 添加了機遇之珠和深淵之珠。當使用這些寶石變更選項時，您可以在現有選項和變更的選項之間進行選擇。\n- 添加了進化寶石。您可以將特殊等級的物品升級為傳奇等級。\n- **現有珠寶的掉落率已增加。**\n- 寶石使用UI已改進，更加方便。\n- 300 級以上的物品也已修改為掉落。\n- 資訊標籤已更新，以顯示增加魔法等級和減少 MP 消耗等選項。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1356468631709679738",
+      "discordMessageId": "1356468631709679738",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1354724412603236413",
+      "version": "2.230",
+      "date": "2025-03-27",
+      "title": "資訊標籤已更新，其中包含增加魔法等級和減少法力消耗等選項。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "資訊標籤已更新，其中包含增加魔法等級和減少法力消耗等選項。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "已修復一些錯誤。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "👏   **2025年3月27日 V2.230**",
+            "基本遊戲亮度略為提高。",
+            "添加了機遇之珠和深淵之珠。當使用這些寶石變更選項時，您可以在現有選項和變更的選項之間進行選擇。",
+            "添加了進化寶石。您可以將獨特等級的物品升級為傳奇等級。",
+            "寶石使用UI已改進，更加方便。",
+            "已修改，以便300級以上的物品也可以掉落。"
+          ]
+        }
+      ],
+      "details": "👏   **2025年3月27日 V2.230**\n\n- 基本遊戲亮度略為提高。\n- 添加了機遇之珠和深淵之珠。當使用這些寶石變更選項時，您可以在現有選項和變更的選項之間進行選擇。\n- 添加了進化寶石。您可以將獨特等級的物品升級為傳奇等級。\n- 寶石使用UI已改進，更加方便。\n- 已修改，以便300級以上的物品也可以掉落。\n- 資訊標籤已更新，其中包含增加魔法等級和減少法力消耗等選項。\n- 已修復一些錯誤。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1354724412603236413",
+      "discordMessageId": "1354724412603236413",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1348465687815000144",
+      "version": "2.221",
+      "date": "2025-03-10",
+      "title": "武器魔法平衡進行了整體調整。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "武器魔法平衡進行了整體調整。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "已確認錯誤已修復。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "👏  ** 2025年3月8日 V2.221**",
+            "暗黑商人出售的強化石的數量已變更。"
+          ]
+        }
+      ],
+      "details": "👏  ** 2025年3月8日 V2.221**\n\n- 已確認錯誤已修復。\n- 暗黑商人出售的強化石的數量已變更。\n- 武器魔法平衡進行了整體調整。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1348465687815000144",
+      "discordMessageId": "1348465687815000144",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1344464074439790629",
+      "version": "2.212",
+      "date": "2025-02-27",
+      "title": "修正技能等級提升選項總和為80以上時發生的錯誤。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "問題修正",
+          "items": [
+            "修正技能等級提升選項總和為80以上時發生的錯誤。",
+            "已修復一些錯誤，例如符號錯誤。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "👏     **2025年2月26日 V2.212**",
+            "最高裝備等級從420級提升至440級。",
+            "快將會提供額外的更新內容。"
+          ]
+        }
+      ],
+      "details": "👏     **2025年2月26日 V2.212**\n\n- 最高裝備等級從420級提升至440級。\n- 修正技能等級提升選項總和為80以上時發生的錯誤。\n- 已修復一些錯誤，例如符號錯誤。\n- 快將會提供額外的更新內容。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1344464074439790629",
+      "discordMessageId": "1344464074439790629",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1344210284855824405",
+      "version": "2.210",
+      "date": "2025-02-26",
+      "title": "調整了倉庫基本最大儲存容量，並增加了可購買的額外倉庫。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "數值調整",
+          "items": [
+            "調整了倉庫基本最大儲存容量，並增加了可購買的額外倉庫。",
+            "調整了隨著等級提升而增加的法力值和數值。",
+            "用法力藥水可以恢復的法力已經增加了。",
+            "增加了可應用於盔甲的特徵。",
+            "設定 - 增加了手動儲存在雲端的功能。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "改善部分特質問題，提升紅色反擊的數值。",
+            "已確認錯誤已修復。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "👏    **2025年2月25日  V2.210**",
+            "謝謝。"
+          ]
+        }
+      ],
+      "details": "👏    **2025年2月25日  V2.210**\n\n- 調整了倉庫基本最大儲存容量，並增加了可購買的額外倉庫。\n- 調整了隨著等級提升而增加的法力值和數值。\n- 用法力藥水可以恢復的法力已經增加了。\n- 增加了可應用於盔甲的特徵。\n- 改善部分特質問題，提升紅色反擊的數值。\n- 設定 - 增加了手動儲存在雲端的功能。\n- 已確認錯誤已修復。\n\n謝謝。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1344210284855824405",
+      "discordMessageId": "1344210284855824405",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1341569400360272034",
+      "version": "2.206",
+      "date": "2025-02-19",
+      "title": "裝備道具選項的平衡性已進行了上下調整。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "每個項目都新增了新選項。"
+          ]
+        },
+        {
+          "heading": "數值調整",
+          "items": [
+            "裝備道具選項的平衡性已進行了上下調整。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "已確認錯誤已修復。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "👏  ** 2025 年 2 月 18 日  v.2.206**",
+            "為了與雲端同步時保持資料的一致性，被動技能儲存方式已改變，並進行一次初始化。",
+            "裝備最低等級與最高等級之間的數值範圍發生變更。",
+            "改為每件裝備都有特性選項。",
+            "很快將提供新的更新。",
+            "謝謝。"
+          ]
+        }
+      ],
+      "details": "👏  ** 2025 年 2 月 18 日  v.2.206**\n\n- 為了與雲端同步時保持資料的一致性，被動技能儲存方式已改變，並進行一次初始化。\n- 已確認錯誤已修復。\n- 裝備道具選項的平衡性已進行了上下調整。\n- 裝備最低等級與最高等級之間的數值範圍發生變更。\n- 每個項目都新增了新選項。\n- 改為每件裝備都有特性選項。\n- 很快將提供新的更新。\n\n謝謝。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1341569400360272034",
+      "discordMessageId": "1341569400360272034",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1340971656751091764",
+      "version": "2.205",
+      "date": "2025-02-17",
+      "title": "裝備道具選項的平衡性已進行了上下調整。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "每個項目都新增了新選項。"
+          ]
+        },
+        {
+          "heading": "數值調整",
+          "items": [
+            "裝備道具選項的平衡性已進行了上下調整。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "已確認錯誤已修復。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "👏   **2025 年 2 月 17 日    V2.205**",
+            "裝備最低等級與最高等級之間的數值範圍發生變更。",
+            "改為每件裝備都有特性選項。",
+            "很快將提供新的更新。"
+          ]
+        }
+      ],
+      "details": "👏   **2025 年 2 月 17 日    V2.205**\n\n- 已確認錯誤已修復。\n- 裝備道具選項的平衡性已進行了上下調整。\n- 裝備最低等級與最高等級之間的數值範圍發生變更。\n- 每個項目都新增了新選項。\n- 改為每件裝備都有特性選項。\n- 很快將提供新的更新。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1340971656751091764",
+      "discordMessageId": "1340971656751091764",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1340879091913461760",
+      "version": "2.204",
+      "date": "2025-02-17",
+      "title": "裝備道具選項的平衡性已進行了上下調整。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "每個項目都新增了新選項。"
+          ]
+        },
+        {
+          "heading": "數值調整",
+          "items": [
+            "裝備道具選項的平衡性已進行了上下調整。"
+          ]
+        },
+        {
+          "heading": "問題修正",
+          "items": [
+            "修復錯誤。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "👏   **2025 年 2 月 16 日    V2.204**",
+            "裝備最低等級與最高等級之間的數值範圍發生變更。",
+            "改為每件裝備都有特性選項。",
+            "很快將提供新的更新。",
+            "謝謝。"
+          ]
+        }
+      ],
+      "details": "👏   **2025 年 2 月 16 日    V2.204**\n\n- 修復錯誤。\n- 裝備道具選項的平衡性已進行了上下調整。\n- 裝備最低等級與最高等級之間的數值範圍發生變更。\n- 每個項目都新增了新選項。\n- 改為每件裝備都有特性選項。\n- 很快將提供新的更新。\n\n謝謝。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1340879091913461760",
+      "discordMessageId": "1340879091913461760",
+      "verifiedSource": true
+    },
+    {
+      "id": "discord:1340878859536568341",
+      "version": "2.202",
+      "date": "2025-02-17",
+      "title": "裝備道具選項的平衡性已進行了上下調整。",
+      "category": "官方更新",
+      "sections": [
+        {
+          "heading": "新增內容",
+          "items": [
+            "每個項目都新增了新選項。"
+          ]
+        },
+        {
+          "heading": "數值調整",
+          "items": [
+            "裝備道具選項的平衡性已進行了上下調整。",
+            "增加了新的選項，例如魔法等級增加選項。",
+            "最大庫存空間增加至250。",
+            "要求、掉落和能力的整體平衡已調整。",
+            "增加了英雄難度和遺物。一些文物的最高等級已經提高。"
+          ]
+        },
+        {
+          "heading": "其他更新",
+          "items": [
+            "👏  **2025 年 2 月 16 日     V2.202**",
+            "裝備最低等級與最高等級之間的數值範圍發生變更。",
+            "改為每件裝備都有特性選項。",
+            "添加了可以授予和更改的物品。",
+            "裝備最高等級提升至420級。",
+            "玩家最高等級已提高至 400 級。",
+            "系統已改進，以便將來順利更新。",
+            "很快將提供新的更新。"
+          ]
+        }
+      ],
+      "details": "👏  **2025 年 2 月 16 日     V2.202**\n\n- 裝備道具選項的平衡性已進行了上下調整。\n- 裝備最低等級與最高等級之間的數值範圍發生變更。\n- 每個項目都新增了新選項。\n- 改為每件裝備都有特性選項。\n- 增加了新的選項，例如魔法等級增加選項。\n- 添加了可以授予和更改的物品。\n- 裝備最高等級提升至420級。\n- 玩家最高等級已提高至 400 級。\n- 最大庫存空間增加至250。\n- 要求、掉落和能力的整體平衡已調整。\n- 增加了英雄難度和遺物。一些文物的最高等級已經提高。\n- 系統已改進，以便將來順利更新。\n- 很快將提供新的更新。",
+      "language": "zh-Hant",
+      "source": "Discord",
+      "sourceUrl": "https://discord.com/channels/1340878099771822193/1340878365250424872/1340878859536568341",
+      "discordMessageId": "1340878859536568341",
+      "verifiedSource": true
+    }
+  ]
+}
