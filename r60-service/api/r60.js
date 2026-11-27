@@ -78,7 +78,7 @@ module.exports = async function(req,res){
     if(requestOrigin && requestOrigin!==allowed){json(res,403,{error:"Origin denied"});return;}
     allow(res);
     if(req.method==="OPTIONS"){res.statusCode=204;res.end();return;}
-    const u=new URL(req.url,"https://service.invalid"),action=u.pathname.split("/").pop();
+    const u=new URL(req.url,"https://service.invalid"),action=u.searchParams.get("action")||u.pathname.split("/").pop();
     if(action==="start" && req.method==="GET"){
       const nonce=u.searchParams.get("nonce");
       if(!/^[a-f0-9]{32}$/i.test(nonce||""))throw Error("Invalid login nonce");
@@ -94,7 +94,7 @@ module.exports = async function(req,res){
       if(Date.now()-s.ts>300000||s.ts>Date.now()+30000||!/^[a-f0-9]{32}$/i.test(s.nonce))throw Error("OAuth state expired");
       const code=u.searchParams.get("code");if(!code)throw Error("Missing GitHub code");
       const exchange=await github("https://github.com/login/oauth/access_token",null,{
-        method:"POST",headers:{"Content-Type":"application/json"},
+        method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
         body:JSON.stringify({client_id:process.env.R60_GITHUB_APP_CLIENT_ID,client_secret:process.env.R60_GITHUB_APP_CLIENT_SECRET,code,redirect_uri:process.env.R60_CALLBACK_URL})
       });
       if(!exchange.access_token)throw Error("GitHub OAuth token unavailable");
