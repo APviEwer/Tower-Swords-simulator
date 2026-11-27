@@ -19,6 +19,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check serverless JavaScript
         run: node --check r60-service/api/r60.js
+      - name: Test authorization service guards
+        run: node r60-service/test-r60.js
       - name: Validate live test-branch data
         run: python scripts/validate_r60_traits.py
       - name: Verify malformed edits are refused
