@@ -1,0 +1,44 @@
+name: R60 security bridge checks (test only)
+on:
+  push:
+    branches:
+      - test/r60-one-click-authorized-save-20261127
+    paths:
+      - data/traits.json
+      - scripts/validate_r60_traits.py
+      - r60-service/**
+      - .github/workflows/r60-bridge-check.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check serverless JavaScript
+        run: node --check r60-service/api/r60.js
+      - name: Validate live test-branch data
+        run: python scripts/validate_r60_traits.py
+      - name: Verify malformed edits are refused
+        run: |
+          python - <<'PY'
+          import json,sys
+          from pathlib import Path
+          sys.path.insert(0,"scripts")
+          from validate_r60_traits import validate
+          original=json.loads(Path("data/traits.json").read_text("utf-8"))
+          assert validate(original,original) is original
+          attacks=[
+            {**original,"schema":2},
+            {**original,"kind":"other"},
+            {**original,"data":{}},
+            {**original,"data":{**original["data"],"max":{**original["data"]["max"],"rows":[]}}},
+          ]
+          for x in attacks:
+              try:validate(x,original)
+              except ValueError:continue
+              raise AssertionError("Invalid submission accepted")
+          print("R60 validator rejects malformed documents")
+          PY
