@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/r60/:action",
+      "destination": "/api/r60?action=:action"
+    }
+  ]
+}
