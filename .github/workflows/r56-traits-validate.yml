@@ -1,0 +1,37 @@
+name: R56 validate edited trait tables (test branch)
+on:
+  push:
+    branches:
+      - test/r56-github-publish-20261127
+    paths:
+      - data/traits.json
+      - .github/workflows/r56-traits-validate.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-tables:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate R56 proposed data
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          doc=json.loads(Path("data/traits.json").read_text("utf-8"))
+          assert doc.get("schema")==1 and doc.get("kind")=="traits", "Invalid schema/kind"
+          if doc.get("status")=="awaiting-first-approved-test-commit":
+              print("Submission target exists. Waiting for first validated edit.")
+              raise SystemExit(0)
+          tables=doc.get("data",{})
+          for key,nrows,ncols in (("max",20,12),("trait",19,14)):
+              group=tables.get(key,{})
+              cols=group.get("cols",[])
+              rows=group.get("rows",[])
+              assert len(cols)==ncols, f"{key}: column count changed"
+              assert len(rows)==nrows, f"{key}: expected {nrows} rows"
+              assert all(isinstance(c,str) and c for c in cols), f"{key}: bad column"
+              assert all(isinstance(r,list) and len(r)==ncols+2 and all(isinstance(v,str) and len(v)<=250 for v in r) for r in rows), f"{key}: invalid row"
+          print("R56 validated: 20 maximum-value rows, 19 trait rows. No production publication.")
+          PY
