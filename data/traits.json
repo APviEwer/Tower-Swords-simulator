@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "kind": "traits",
+  "status": "awaiting-first-approved-test-commit",
+  "data": {
+    "max": {
+      "cols": [],
+      "rows": []
+    },
+    "trait": {
+      "cols": [],
+      "rows": []
+    }
+  }
+}
