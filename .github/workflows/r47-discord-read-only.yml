@@ -1,0 +1,23 @@
+name: R47 Discord channel read-only verification
+on:
+  push:
+    branches:
+      - test/discord-r47-sync-20261127
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-discord:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify script syntax
+        run: python -m py_compile scripts/test_discord_r47_read.py
+      - name: Read Discord announcements (no publishing)
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+        run: python scripts/test_discord_r47_read.py
